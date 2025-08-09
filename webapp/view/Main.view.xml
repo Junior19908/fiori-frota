@@ -1,0 +1,16 @@
+<mvc:View controllerName="com.skysinc.frota.frota.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <List id="idList" items="{/Frota}">
+                <StandardListItem
+                    title="{veiculo}"
+                    description="{descricao}"
+                    info="{categoria}"
+                    infoState="Success"
+                />
+            </List>
+        </content>
+    </Page>
+</mvc:View>
