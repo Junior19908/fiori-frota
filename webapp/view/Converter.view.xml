@@ -1,0 +1,120 @@
+<mvc:View
+  controllerName="com.skysinc.frota.frota.controller.Converter"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  displayBlock="true">
+
+  <Page title="Excel → JSON (Mocks de Frota)">
+    <content>
+      <!-- Seção de upload -->
+      <VBox class="sapUiSmallMargin">
+
+        <MessageStrip text="Envie as 3 planilhas (veículos, materiais, abastecimentos). A saída seguirá o formato esperado pela sua app."
+                      type="Information" showIcon="true" />
+
+        <SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanL="3" labelSpanM="3"
+                    emptySpanL="1" emptySpanM="1" columnsL="2" columnsM="1" class="sapUiMediumMarginTop">
+
+          <Label text="tbveiculos.xlsx"/>
+          <FileUploader id="fuVeic" fileType="xlsx" sameFilenameAllowed="true"
+                        placeholder="Selecionar arquivo" change=".onFileChange" />
+
+          <Label text="tbmateriais.xlsx"/>
+          <FileUploader id="fuMat" fileType="xlsx" sameFilenameAllowed="true"
+                        placeholder="Selecionar arquivo" change=".onFileChange" />
+
+          <Label text="tbabastec.xlsx"/>
+          <FileUploader id="fuAbast" fileType="xlsx" sameFilenameAllowed="true"
+                        placeholder="Selecionar arquivo" change=".onFileChange" />
+        </SimpleForm>
+
+        <Toolbar class="sapUiTinyMarginTop">
+          <Button id="btnProcess" text="Processar" type="Emphasized" icon="sap-icon://generate-shortcut" press=".onProcess" />
+          <ToolbarSpacer/>
+          <Button id="btnDownVeic"  text="Baixar veiculos.json"       icon="sap-icon://download" press=".onDownloadVeiculos"  enabled="false"/>
+          <Button id="btnDownMat"   text="Baixar materiais.json"      icon="sap-icon://download" press=".onDownloadMateriais" enabled="false"/>
+          <Button id="btnDownAbast" text="Baixar abastecimentos.json" icon="sap-icon://download" press=".onDownloadAbastec"   enabled="false"/>
+        </Toolbar>
+      </VBox>
+
+      <!-- Pré-visualização (opcional) -->
+      <IconTabBar class="sapUiSmallMarginTop">
+        <items>
+          <IconTabFilter text="Veículos (preview)" icon="sap-icon://car-rental">
+            <Table items="{pv>/veiculos}">
+              <columns>
+                <Column><Text text="ID"/></Column>
+                <Column><Text text="Categoria"/></Column>
+                <Column><Text text="Descrição"/></Column>
+                <Column hAlign="End"><Text text="Km"/></Column>
+                <Column hAlign="End"><Text text="Hr"/></Column>
+                <Column hAlign="End"><Text text="Comb. (L)"/></Column>
+                <Column hAlign="End"><Text text="Comb. (R$)"/></Column>
+                <Column hAlign="End"><Text text="Custo Mat."/></Column>
+                <Column><Text text="Data"/></Column>
+              </columns>
+              <items>
+                <ColumnListItem>
+                  <cells>
+                    <Text text="{pv>veiculo}"/>
+                    <Text text="{pv>categoria}"/>
+                    <Text text="{pv>descricao}"/>
+                    <ObjectNumber number="{pv>kmRodados}"/>
+                    <ObjectNumber number="{pv>hrRodados}"/>
+                    <ObjectNumber number="{pv>combustivelLitros}"/>
+                    <ObjectNumber number="{pv>combustivelValor}"/>
+                    <ObjectNumber number="{pv>custoMaterial}"/>
+                    <Text text="{pv>data}"/>
+                  </cells>
+                </ColumnListItem>
+              </items>
+            </Table>
+          </IconTabFilter>
+
+          <IconTabFilter text="Materiais (preview)" icon="sap-icon://wrench">
+            <List items="{pv>/materiaisPreview}">
+              <items>
+                <ObjectListItem
+                  title="{pv>nome}"
+                  number="{pv>qtde}"
+                  numberUnit="{pv>unid}"
+                  firstStatus="{path:'pv>custoUnit', formatter:'._fmtBrl'}"
+                  secondStatus="{path:'pv>veiculoId', formatter:'.__asStatus'}">
+                  <attributes>
+                    <ObjectAttribute text="{pv>tipo}"/>
+                    <ObjectAttribute text="Cód. {pv>codMaterial} • Dep. {pv>deposito} • Ordem {pv>nOrdem} • Reserva {pv>nReserva}/{pv>nItem}"/>
+                    <ObjectAttribute text="Recebedor: {pv>recebedor} • Usuário: {pv>usuario} • Hora: {pv>horaEntrada}"/>
+                  </attributes>
+                </ObjectListItem>
+              </items>
+            </List>
+          </IconTabFilter>
+
+          <IconTabFilter text="Abastecimentos (preview)" icon="sap-icon://gas-station">
+            <Table items="{pv>/abastecPreview}">
+              <columns>
+                <Column><Text text="Veículo"/></Column>
+                <Column><Text text="Data"/></Column>
+                <Column><Text text="Hora"/></Column>
+                <Column hAlign="End"><Text text="KM"/></Column>
+                <Column hAlign="End"><Text text="Litros"/></Column>
+              </columns>
+              <items>
+                <ColumnListItem>
+                  <cells>
+                    <Text text="{pv>veiculoId}"/>
+                    <Text text="{pv>data}"/>
+                    <Text text="{pv>hora}"/>
+                    <ObjectNumber number="{pv>km}"/>
+                    <ObjectNumber number="{pv>litros}"/>
+                  </cells>
+                </ColumnListItem>
+              </items>
+            </Table>
+          </IconTabFilter>
+        </items>
+      </IconTabBar>
+    </content>
+  </Page>
+</mvc:View>

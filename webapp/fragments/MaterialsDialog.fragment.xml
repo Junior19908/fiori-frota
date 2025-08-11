@@ -1,0 +1,82 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+  <Dialog id="dlgMateriais" title="{dlg>/titulo}" icon="sap-icon://wrench" contentWidth="100%" horizontalScrolling="false">
+    <content>
+      <!-- Colocamos a tabela e, ABAIXO DELA, a barra de totais -->
+      <VBox renderType="Bare">
+        <Table id="tblMat" items="{dlg>/materiais}">
+          <columns>
+            <Column><Label text="Item"/></Column>
+            <Column><Label text="Tipo"/></Column>
+            <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true"><Label text="Qtde"/></Column>
+            <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true"><Label text="Custo Unit."/></Column>
+            <Column hAlign="End"><Label text="Total (R$)"/></Column>
+
+            <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Cód. Material"/></Column>
+            <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Depósito"/></Column>
+            <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Hora Entrada"/></Column>
+            <Column minScreenWidth="Desktop" demandPopin="true"><Label text="N. Ordem"/></Column>
+            <Column minScreenWidth="Desktop" demandPopin="true"><Label text="N. Reserva"/></Column>
+            <Column minScreenWidth="Desktop" demandPopin="true"><Label text="N. Item"/></Column>
+            <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Recebedor"/></Column>
+            <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Unid"/></Column>
+            <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Usuário"/></Column>
+          </columns>
+
+          <items>
+            <ColumnListItem>
+              <cells>
+                <Text text="{dlg>nome}"/>
+                <ObjectStatus text="{dlg>tipo}"
+                  state="{= ${dlg>tipo} === 'Serviço' ? 'Information' : 'Success' }"/>
+
+                <ObjectNumber number="{dlg>qtde}"/>
+                <ObjectNumber number="{path:'dlg>custoUnit', formatter:'.formatter.fmtBrl'}"/>
+
+                <ObjectNumber number="{
+                  parts:['dlg>qtde','dlg>custoUnit'],
+                  formatter:'.formatter.fmtTotalItemBrl'
+                }"/>
+
+                <Text text="{dlg>codMaterial}"/>
+                <Text text="{dlg>deposito}"/>
+                <Text text="{path:'dlg>horaEntrada', formatter:'.formatter.fmtHora'}"/>
+                <Text text="{dlg>nOrdem}"/>
+                <Text text="{dlg>nReserva}"/>
+                <Text text="{dlg>nItem}"/>
+                <Text text="{dlg>recebedor}"/>
+                <Text text="{dlg>unid}"/>
+                <Text text="{dlg>usuario}"/>
+              </cells>
+            </ColumnListItem>
+          </items>
+        </Table>
+
+
+        <!-- TOTAIS NO RODAPÉ DO CONTEÚDO -->
+        <Toolbar>
+          <ToolbarSpacer/>
+          <ObjectStatus text="Total itens:"/>
+          <ObjectNumber number="{dlg>/totalItens}"/>
+          <ToolbarSeparator/>
+          <ObjectStatus text="Total materiais/serviços:"/>
+          <ObjectNumber number="{path:'dlg>/totalValor', formatter:'.formatter.fmtBrl'}"/>
+        </Toolbar>
+
+        <!-- Mensagem de vazio -->
+        <Text text="Sem materiais para este veículo"
+              visible="{= ${dlg>/materiais}.length === 0 }"/>
+      </VBox>
+    </content>
+
+    <!-- Todos os botões aqui: aparecem sempre -->
+    <buttons>
+      <Button text="Exportar CSV" type="Emphasized"
+              press=".onExportMateriais"
+              enabled="{= ${dlg>/materiais}.length > 0 }"/>
+      <Button text="Imprimir"
+              press=".onPrintMateriais"
+              enabled="{= ${dlg>/materiais}.length > 0 }"/>
+      <Button text="Fechar" type="Transparent" press=".onCloseMateriais"/>
+    </buttons>
+  </Dialog>
+</core:FragmentDefinition>

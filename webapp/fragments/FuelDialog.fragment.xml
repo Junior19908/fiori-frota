@@ -1,0 +1,31 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+  <Dialog id="dlgFuel" title="{fuel>/titulo}" icon="sap-icon://gas-station" contentWidth="720px">
+    <content>
+      <Table items="{fuel>/eventos}">
+        <columns>
+          <Column><Label text="Data"/></Column>
+          <Column><Label text="Hora"/></Column>
+          <Column hAlign="End"><Label text="Quilometragem"/></Column>
+          <Column hAlign="End"><Label text="Abastecimento (L)"/></Column>
+        </columns>
+        <items>
+          <ColumnListItem>
+            <cells>
+              <Text text="{path:'fuel>data', formatter:'.formatter.fmtDate'}"/>
+              <Text text="{fuel>hora}"/>
+              <ObjectNumber number="{path:'fuel>km', formatter:'.formatter.fmtKm'}"/>
+              <ObjectNumber number="{path:'fuel>litros', formatter:'.formatter.fmtLitros'}"/>
+            </cells>
+          </ColumnListItem>
+        </items>
+      </Table>
+
+      <Text text="Sem abastecimentos para este veículo"
+            visible="{= ${fuel>/eventos}.length === 0 }"/>
+    </content>
+
+    <buttons>
+      <Button text="Fechar" press=".onCloseFuel"/>
+    </buttons>
+  </Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,140 @@
+<mvc:View
+  controllerName="com.skysinc.frota.frota.controller.ObjectPageDynamicSideContentBtn"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  xmlns:uxap="sap.uxap"
+  xmlns:l="sap.ui.layout"
+  xmlns:table="sap.ui.table"
+  displayBlock="true">
+
+  <uxap:ObjectPageLayout id="op"
+                         useIconTabBar="false"
+                         showTitleInHeaderContent="true">
+
+    <uxap:headerTitle>
+      <uxap:ObjectPageDynamicHeaderTitle>
+        <uxap:expandedHeading>
+          <HBox alignItems="Center" renderType="Bare">
+            <core:Icon src="sap-icon://insurance-car" size="1.5rem"/>
+            <Title text="Histórico do Veículo" level="H3" class="sapUiTinyMarginBegin"/>
+          </HBox>
+        </uxap:expandedHeading>
+        <uxap:snappedHeading>
+          <Title text="Histórico do Veículo" level="H4"/>
+        </uxap:snappedHeading>
+      </uxap:ObjectPageDynamicHeaderTitle>
+    </uxap:headerTitle>
+
+    <uxap:headerContent>
+      <HBox alignItems="Center" renderType="Bare">
+        <ObjectStatus text="Veículo" state="None"/>
+        <Text text="{detail>veiculo}" class="sapUiTinyMarginBegin"/>
+        <ToolbarSeparator/>
+        <ObjectStatus text="Categoria" state="None"/>
+        <Text text="{detail>categoria}" class="sapUiTinyMarginBegin"/>
+        <ToolbarSeparator/>
+        <ObjectStatus text="Descrição" state="None"/>
+        <Text text="{detail>descricao}" class="sapUiTinyMarginBegin"/>
+      </HBox>
+    </uxap:headerContent>
+
+    <uxap:sections>
+      <uxap:ObjectPageSection title="Histórico Completo">
+        <uxap:subSections>
+          <uxap:ObjectPageSubSection title="Linha do tempo de custos">
+            <uxap:blocks>
+              <l:DynamicSideContent id="dsc"
+                                    showSideContent="true"
+                                    sideContentVisibility="AlwaysShow"
+                                    containerQuery="true"
+                                    equalSplit="false">
+
+                <l:mainContent>
+                  <VBox class="sapUiSmallMargin sapUiResponsiveContentPadding">
+                    <table:Table id="tblHistorico"
+                                 rows="{path:'detail>/historico'}"
+                                 visibleRowCount="15"
+                                 selectionMode="None"
+                                 width="100%"
+                                 alternateRowColors="true">
+                      <table:columns>
+
+                        <table:Column width="9rem">
+                          <Label text="Data"/>
+                          <table:template>
+                            <Text text="{path:'data', formatter:'.formatter.fmtDate'}"/>
+                          </table:template>
+                        </table:Column>
+
+                        <table:Column width="12rem">
+                          <Label text="Tipo"/>
+                          <table:template>
+                            <Text text="{tipo}"/>
+                          </table:template>
+                        </table:Column>
+
+                        <table:Column width="22rem">
+                          <Label text="Descrição"/>
+                          <table:template>
+                            <Text text="{descricao}" wrapping="true" maxLines="2" tooltip="{descricao}"/>
+                          </table:template>
+                        </table:Column>
+
+                        <table:Column width="8rem" hAlign="End">
+                          <Label text="Qtde/Litros"/>
+                          <table:template>
+                            <Text text="{path:'qtde', formatter:'.formatter.fmtNum'}"/>
+                          </table:template>
+                        </table:Column>
+
+                        <table:Column width="10rem" hAlign="End">
+                          <Label text="Custo Unit."/>
+                          <table:template>
+                            <Text text="{path:'custoUnit', formatter:'.formatter.fmtBrl'}"/>
+                          </table:template>
+                        </table:Column>
+
+                        <table:Column width="10rem" hAlign="End">
+                          <Label text="Total (R$)"/>
+                          <table:template>
+                            <Text text="{path:'valor', formatter:'.formatter.fmtBrl'}"/>
+                          </table:template>
+                        </table:Column>
+
+                      </table:columns>
+                    </table:Table>
+                  </VBox>
+                </l:mainContent>
+
+                <l:sideContent>
+                  <VBox class="sapUiSmallMargin sapUiResponsiveContentPadding">
+                    <Title text="KPIs do período" level="H5" />
+                    <Toolbar class="sapUiTinyMarginBottom">
+                      <ObjectStatus text="Preço médio R$/L" state="None"/>
+                      <ObjectNumber number="{detail>precoMedioFmt}" unit="R$/L" class="sapUiTinyMarginBegin"/>
+                    </Toolbar>
+                    <Toolbar>
+                      <ObjectStatus text="Total Combustível" state="Information"/>
+                      <ObjectNumber number="{detail>totalCombustivelFmt}" class="sapUiTinyMarginBegin"/>
+                    </Toolbar>
+                    <Toolbar>
+                      <ObjectStatus text="Total Materiais/Serviços" state="Success"/>
+                      <ObjectNumber number="{detail>totalMateriaisFmt}" class="sapUiTinyMarginBegin"/>
+                    </Toolbar>
+                    <Toolbar>
+                      <ObjectStatus text="Total Geral" state="None"/>
+                      <ObjectNumber number="{detail>totalGeralFmt}" class="sapUiTinyMarginBegin"/>
+                    </Toolbar>
+                  </VBox>
+                </l:sideContent>
+
+              </l:DynamicSideContent>
+            </uxap:blocks>
+          </uxap:ObjectPageSubSection>
+        </uxap:subSections>
+      </uxap:ObjectPageSection>
+    </uxap:sections>
+
+  </uxap:ObjectPageLayout>
+</mvc:View>

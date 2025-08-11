@@ -38,7 +38,10 @@
       "minUI5Version": "1.139.0",
       "libs": {
         "sap.m": {},
-        "sap.ui.core": {}
+        "sap.ui.core": {},
+        "sap.ui.table": {},
+        "sap.uxap": {},
+        "sap.ui.layout": {}
       }
     },
     "contentDensities": {
@@ -46,10 +49,17 @@
       "cozy": true
     },
     "models": {
-      "":{
+      "": {
         "type": "sap.ui.model.json.JSONModel",
-        "settings": {},
-        "uri": "model/mockData.json"
+        "uri": "model/mockdata/veiculos.json"
+      },
+      "materiais": {
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "model/mockdata/materiais.json"
+      },
+      "abast": {
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "model/mockdata/abastecimentos.json"
       },
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
@@ -84,19 +94,41 @@
           "target": [
             "TargetMain"
           ]
+        },
+        {
+          "name": "RouteConverter",
+          "pattern": "converter",
+          "target": [
+            "TargetConverter"
+          ]
+        },
+        {
+          "name": "RouteHistorico",
+          "pattern": "historico/{id}",
+          "target": [
+            "TargetHistorico"
+          ]
         }
       ],
       "targets": {
         "TargetMain": {
           "id": "Main",
           "name": "Main"
+        },
+        "TargetConverter": {
+          "id": "Converter",
+          "name": "Converter"
+        },
+        "TargetHistorico": {
+          "id": "Historico",
+          "name": "ObjectPageDynamicSideContentBtn"
         }
       }
     },
     "rootView": {
       "viewName": "com.skysinc.frota.frota.view.App",
       "type": "XML",
-      "id": "App",
+      "id": "app",
       "async": true
     }
   }

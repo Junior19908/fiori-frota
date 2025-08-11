@@ -1,16 +1,206 @@
-<mvc:View controllerName="com.skysinc.frota.frota.controller.Main"
-    xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
-    <Page id="page" title="{i18n>title}">
-        <content>
-            <List id="idList" items="{/Frota}">
-                <StandardListItem
-                    title="{veiculo}"
-                    description="{descricao}"
-                    info="{categoria}"
-                    infoState="Success"
-                />
-            </List>
-        </content>
-    </Page>
+<mvc:View
+  controllerName="com.skysinc.frota.frota.controller.Main"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  xmlns:table="sap.ui.table"
+  displayBlock="true">
+
+  <Page id="page">
+    <content>
+
+      <!-- Barra superior: título + filtro período + limpar -->
+      <OverflowToolbar>
+        <core:Icon src="sap-icon://car-rental" size="1.5rem"/>
+        <Title text="Gestão de Frota" level="H3"/>
+        <ToolbarSpacer/>
+
+        <!-- label do período: nunca ir para overflow -->
+        <Label text="Período:">
+          <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow"/>
+          </layoutData>
+        </Label>
+
+        <!-- seletor de período: largura fixa + nunca ir para overflow -->
+        <DateRangeSelection id="drs"
+                            displayFormat="long"
+                            width="80%"
+                            change=".onFilterChange">
+          <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow"/>
+          </layoutData>
+        </DateRangeSelection>
+
+        <!-- este pode ir para o overflow, então deixamos sem NeverOverflow -->
+        <Button text="Limpar" type="Transparent" press=".onClearFilters"/>
+      </OverflowToolbar>
+
+      <!-- KPIs -->
+      <OverflowToolbar width="100%">
+        <ObjectStatus text="Gasto em combustível" icon="sap-icon://expense-report" state="Information"/>
+        <ObjectNumber number="{kpi>/gastoCombustivelFmt}" state="Information"/>
+        <ToolbarSeparator/>
+        <ObjectStatus text="Litros totais" icon="sap-icon://measure" state="Warning"/>
+        <ObjectNumber number="{kpi>/totalLitrosFmt}" state="Warning"/>
+        <ToolbarSeparator/>
+        <ObjectStatus text="Custo material/serviço" icon="sap-icon://wrench" state="Success"/>
+        <ObjectNumber number="{kpi>/custoMateriaisFmt}" state="Success"/>
+        <ToolbarSeparator/>
+        <ObjectStatus text="Preço médio" icon="sap-icon://expense-report" state="None"/>
+        <ObjectNumber number="{kpi>/precoMedioFmt}" unit="R$/L" state="None"/>
+      </OverflowToolbar>
+
+      <!-- Tags + filtro de categoria -->
+      <OverflowToolbar>
+        <!-- label da categoria: nunca ir para overflow -->
+        <Text text="Filtro por Categorias:">
+          <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow"/>
+          </layoutData>
+        </Text>
+          <!-- filtro de categoria: nunca ir para overflow -->
+          <ComboBox id="segCat" selectionChange=".onFilterChange" width="20rem" selectedKey="__ALL__">
+            <items>
+              <core:Item key="__ALL__" text="Todas"/>
+              <!-- as opções serão injetadas no onInit (com base nos dados) -->
+            </items>
+          </ComboBox>
+          <Text text="Filtro por Veículo:">
+          <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow"/>
+          </layoutData>
+        </Text>
+          <!-- filtro de categoria: nunca ir para overflow -->
+          <ComboBox id="inpVeiculo" selectionChange=".onFilterChange" width="10%" selectedKey="__ALL__">
+            <items>
+              <core:Item key="__ALL__" text="Todos"/>
+              <!-- as opções serão injetadas no onInit (com base nos dados) -->
+            </items>
+          </ComboBox>
+        <ToolbarSpacer/>
+        <!-- tags agregadas (renderizadas via binding de texto) 
+        <ObjectStatus text="Resumo:"/>
+        <ObjectStatus text="{kpi>/resumoCombFmt}" state="Information"/>
+        <ObjectStatus text="{kpi>/resumoLitrosFmt}" state="Warning"/>
+        <ObjectStatus text="{kpi>/resumoMatFmt}" state="Success"/>
+        <ObjectStatus text="{kpi>/resumoPrecoFmt}" state="None"/>-->
+      </OverflowToolbar>
+      <OverflowToolbar >
+        <Text text="Frota">
+          <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow"/>
+          </layoutData>
+        </Text>
+        <ScrollContainer width="100%" height="auto" horizontal="true" vertical="false">
+          <SegmentedButton id="segFrota" selectionChange=".onFilterChange">
+            <layoutData>
+              <OverflowToolbarLayoutData priority="NeverOverflow"/>
+            </layoutData>
+            <items>
+              <SegmentedButtonItem key="__ALL__" text="Todos"/>
+            </items>
+          </SegmentedButton>
+        </ScrollContainer>
+      </OverflowToolbar>
+
+      <!-- Tabela principal: sap.ui.table.Table -->
+      <table:Table id="tbl"
+                   selectionMode="None"
+                   visibleRowCount="20"
+                   alternateRowColors="true"
+                   width="auto"
+                   rows="{path:'/veiculos', sorter:{path:'data', descending:true}}">
+        <table:columns>
+
+          <table:Column width="10rem">
+            <Label text="Veículo"/>
+            <table:template><Text text="{veiculo}"/></table:template>
+          </table:Column>
+
+          <table:Column width="16rem">
+            <Label text="Categoria"/>
+            <table:template><Text text="{categoria}"/></table:template>
+          </table:Column>
+
+          <table:Column width="16rem">
+            <Label text="Descrição do veículo"/>
+            <table:template><Text text="{descricao}"/></table:template>
+          </table:Column>
+
+          <table:Column width="12rem" hAlign="Center">
+            <Label text="Ações"/>
+            <table:template>
+              <HBox alignItems="Center" justifyContent="Center">
+                <Button icon="sap-icon://detail-view" type="Transparent" tooltip="Materiais/Serviços" press=".onOpenMateriais"/>
+                <Button icon="sap-icon://mileage" type="Transparent" tooltip="Abastecimentos" press=".onOpenAbastecimentos"/>
+                <Button icon="sap-icon://insurance-car" type="Transparent" tooltip="Histórico" press=".onOpenHistorico"/>
+              </HBox>
+            </table:template>
+          </table:Column>
+
+          <table:Column width="12rem" hAlign="End">
+            <Label text="Custo material/serviço (R$)"/>
+            <table:template><Text text="{path:'custoMaterial', formatter:'.formatter.fmtBrl'}"/></table:template>
+          </table:Column>
+
+          <table:Column width="9rem" hAlign="End">
+            <Label text="Combustível (L)"/>
+            <table:template><Text text="{path:'combustivelLitros', formatter:'.formatter.fmtLitros'}"/></table:template>
+          </table:Column>
+
+          <table:Column width="9rem" hAlign="End">
+            <Label text="Combustível (R$)"/>
+            <table:template><Text text="{path:'combustivelValor', formatter:'.formatter.fmtBrl'}"/></table:template>
+          </table:Column>
+
+          <table:Column width="10rem" hAlign="End">
+            <Label text="Custo total (R$)"/>
+            <table:template>
+              <Text text="{
+                parts:['custoMaterial','combustivelValor'],
+                formatter: '.formatter.fmtSomaBrl'
+              }"/>
+            </table:template>
+          </table:Column>
+
+          <table:Column width="9rem" hAlign="End">
+            <Label text="Km rodados"/>
+            <table:template><Text text="{path:'kmRodados', formatter:'.formatter.fmtKm'}"/></table:template>
+          </table:Column>
+
+          <table:Column width="9rem" hAlign="End">
+            <Label text="Hr rodados"/>
+            <table:template><Text text="{path:'hrRodados', formatter:'.formatter.fmtNum'}"/></table:template>
+          </table:Column>
+
+          <table:Column width="8rem" hAlign="End">
+            <Label text="Km/L"/>
+            <table:template>
+              <Text text="{
+                parts:['kmRodados','combustivelLitros'],
+                formatter: '.formatter.fmtFuncaoKmComb'
+              }"/>
+            </table:template>
+          </table:Column>
+
+          <table:Column width="8rem" hAlign="End">
+            <Label text="L/Hr"/>
+            <table:template>
+              <Text text="{
+                parts:['combustivelLitros','hrRodados'],
+                formatter: '.formatter.fmtFuncaoHoraComb'
+              }"/>
+            </table:template>
+          </table:Column>
+
+          <table:Column width="8rem" hAlign="Center">
+            <Label text="Data"/>
+            <table:template><Text text="{path:'data', formatter:'.formatter.fmtDate'}"/></table:template>
+          </table:Column>
+
+        </table:columns>
+      </table:Table>
+    </content>
+  </Page>
 </mvc:View>

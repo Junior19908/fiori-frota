@@ -1,7 +1,7 @@
-<mvc:View controllerName="com.skysinc.frota.frota.controller.App"
-    displayBlock="true"
-    xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
-    <App id="app">
-    </App>
+<mvc:View
+  controllerName="com.skysinc.frota.frota.controller.App"
+  xmlns:mvc="sap.ui.core.mvc"
+  displayBlock="true"
+  xmlns="sap.m">
+  <App id="app"/>
 </mvc:View>

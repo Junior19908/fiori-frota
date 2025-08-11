@@ -1,10 +1,4 @@
-sap.ui.define([
-  "sap/ui/core/mvc/Controller"
-], (BaseController) => {
+sap.ui.define(["sap/ui/core/mvc/Controller"], function (Controller) {
   "use strict";
-
-  return BaseController.extend("com.skysinc.frota.frota.controller.App", {
-      onInit() {
-      }
-  });
+  return Controller.extend("com.skysinc.frota.frota.controller.App", {});
 });
