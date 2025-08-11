@@ -35,6 +35,7 @@
         <!-- este pode ir para o overflow, então deixamos sem NeverOverflow -->
         <Button text="Limpar" type="Transparent" press=".onClearFilters"/>
       </OverflowToolbar>
+      <Button text="Converter Excel → JSON" press=".goConverter"/>
 
       <!-- KPIs -->
       <OverflowToolbar width="100%">

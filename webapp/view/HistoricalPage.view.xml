@@ -1,5 +1,5 @@
 <mvc:View
-  controllerName="com.skysinc.frota.frota.controller.ObjectPageDynamicSideContentBtn"
+  controllerName="com.skysinc.frota.frota.controller.HistoricalPage"
   xmlns:mvc="sap.ui.core.mvc"
   xmlns="sap.m"
   xmlns:core="sap.ui.core"

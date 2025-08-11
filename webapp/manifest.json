@@ -104,10 +104,8 @@
         },
         {
           "name": "RouteHistorico",
-          "pattern": "historico/{id}",
-          "target": [
-            "TargetHistorico"
-          ]
+          "pattern": "historico/:id:",
+          "target": "historico"
         }
       ],
       "targets": {
@@ -119,9 +117,11 @@
           "id": "Converter",
           "name": "Converter"
         },
-        "TargetHistorico": {
+        "historico": {
+          "viewName": "HistoricalPage",
           "id": "Historico",
-          "name": "ObjectPageDynamicSideContentBtn"
+          "name": "HistoricalPage",
+          "viewId": "historico"
         }
       }
     },

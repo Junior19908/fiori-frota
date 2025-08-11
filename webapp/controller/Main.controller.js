@@ -96,6 +96,12 @@ sap.ui.define([
       this._recalcKpis();
     },
 
+    // Main.controller.js
+    goConverter: function () {
+      this.getOwnerComponent().getRouter().navTo("RouteConverter");
+    },
+
+
     onOpenHistorico: function (oEvent) {
       var obj = oEvent.getSource().getBindingContext().getObject();
       var id = String(obj.id || obj.veiculo);
