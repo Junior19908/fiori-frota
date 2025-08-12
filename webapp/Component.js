@@ -28,9 +28,29 @@ sap.ui.define([
 
       // 3) Carrega os arquivos JSON (ajuste os caminhos se necessário)
       var base = "com/skysinc/frota/frota/model/mockdata/";
-      oVeiculos.loadData(sap.ui.require.toUrl(base + "veiculos.json"));
-      oMateriais.loadData(sap.ui.require.toUrl(base + "materiais.json"));
-      oAbast.loadData(sap.ui.require.toUrl(base + "abastecimentos.json"));
+      
+      // ===== Mocks SOMENTE por ano/mês (sem fallback) =====
+      var now = new Date();
+      var yyyy = String(now.getFullYear());
+      var mm   = String(now.getMonth() + 1).padStart(2, "0");
+
+      function toUrl(p){ return sap.ui.require.toUrl(p); }
+
+      function loadYearMonthOnly(oModel, fileName){
+        var url = base + yyyy + "/" + mm + "/" + fileName; // caminho obrigatório /YYYY/MM/file.json
+        oModel.loadData(toUrl(url));
+        // Loga erro explícito se não existir
+        oModel.attachRequestCompleted(function(e){
+          if (e.getParameter("success") === false){
+            sap.base.Log.error("[Component] Mock não encontrado em " + url + ". Crie o arquivo nesse caminho.");
+          }
+        });
+      }
+      // =====================================================
+
+      loadYearMonthOnly(oVeiculos, "veiculos.json");
+      loadYearMonthOnly(oMateriais, "materiais.json");
+      loadYearMonthOnly(oAbast, "abastecimentos.json");
 
       // 4) Log básico de erro (opcional, mas ajuda)
       [ ["veiculos", oVeiculos], ["materiais", oMateriais], ["abastecimentos", oAbast] ]

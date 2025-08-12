@@ -50,21 +50,22 @@
     },
     "models": {
       "": {
-        "type": "sap.ui.model.json.JSONModel",
-        "uri": "model/mockdata/veiculos.json"
-      },
-      "materiais": {
-        "type": "sap.ui.model.json.JSONModel",
-        "uri": "model/mockdata/materiais.json"
-      },
-      "abast": {
-        "type": "sap.ui.model.json.JSONModel",
-        "uri": "model/mockdata/abastecimentos.json"
+        "type": "sap.ui.model.json.JSONModel"
       },
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
           "bundleName": "com.skysinc.frota.frota.i18n.i18n"
+        }
+      }
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/sap/opu/odata/sap/ZC_EQ_MOVTO_CDS/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "2.0",
+          "localUri": "model/metadata/metadata.xml"
         }
       }
     },

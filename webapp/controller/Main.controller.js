@@ -96,12 +96,6 @@ sap.ui.define([
       this._recalcKpis();
     },
 
-    // Main.controller.js
-    goConverter: function () {
-      this.getOwnerComponent().getRouter().navTo("RouteConverter");
-    },
-
-
     onOpenHistorico: function (oEvent) {
       var obj = oEvent.getSource().getBindingContext().getObject();
       var id = String(obj.id || obj.veiculo);
@@ -256,15 +250,34 @@ sap.ui.define([
     _ctx: function (oEvent) {
       return oEvent.getSource().getBindingContext().getObject();
     },
-    _openFragment: function (sName, sId) {
-      var v = this.getView();
-      if (!this.byId(sId)) {
-        sap.ui.core.Fragment.load({ name: sName, controller: this, id: v.getId() })
-          .then(function (oFrag) { v.addDependent(oFrag); oFrag.open(); });
-      } else {
-        this.byId(sId).open();
-      }
-    },
+    _openFragment: function (sName, sId, mModels) {
+  var v = this.getView();
+  var p;
+
+  if (!this.byId(sId)) {
+    p = sap.ui.core.Fragment.load({
+      name: sName,
+      controller: this,
+      id: v.getId()
+    }).then(function (oFrag) {
+      v.addDependent(oFrag);
+      return oFrag;
+    });
+  } else {
+    p = Promise.resolve(this.byId(sId));
+  }
+
+  // aplica modelos nomeados diretamente no root do fragment (ex.: { dlg: this._dlgModel })
+  return p.then(function (oFrag) {
+    if (mModels) {
+      Object.keys(mModels).forEach(function (name) {
+        oFrag.setModel(mModels[name], name);
+      });
+    }
+    return oFrag;
+  });
+},
+
 
     _ensureCategories: function () {
       // segCat é ComboBox -> use Items, não SegmentedButtonItem
