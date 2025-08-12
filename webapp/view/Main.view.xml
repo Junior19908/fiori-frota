@@ -86,23 +86,7 @@
         <ObjectStatus text="{kpi>/resumoMatFmt}" state="Success"/>
         <ObjectStatus text="{kpi>/resumoPrecoFmt}" state="None"/>-->
       </OverflowToolbar>
-      <OverflowToolbar >
-        <Text text="Frota">
-          <layoutData>
-            <OverflowToolbarLayoutData priority="NeverOverflow"/>
-          </layoutData>
-        </Text>
-        <ScrollContainer width="100%" height="auto" horizontal="true" vertical="false">
-          <SegmentedButton id="segFrota" selectionChange=".onFilterChange">
-            <layoutData>
-              <OverflowToolbarLayoutData priority="NeverOverflow"/>
-            </layoutData>
-            <items>
-              <SegmentedButtonItem key="__ALL__" text="Todos"/>
-            </items>
-          </SegmentedButton>
-        </ScrollContainer>
-      </OverflowToolbar>
+      
 
       <!-- Tabela principal: sap.ui.table.Table -->
       <table:Table id="tbl"
