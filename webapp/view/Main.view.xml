@@ -15,24 +15,21 @@
         <Title text="Gestão de Frota" level="H3"/>
         <ToolbarSpacer/>
 
-        <!-- label do período: nunca ir para overflow -->
+        <!-- Período -->
         <Label text="Período:">
           <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow"/>
           </layoutData>
         </Label>
-
-        <!-- seletor de período: largura fixa + nunca ir para overflow -->
         <DateRangeSelection id="drs"
                             displayFormat="long"
-                            width="80%"
+                            width="18rem"
                             change=".onFilterChange">
           <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow"/>
           </layoutData>
         </DateRangeSelection>
 
-        <!-- este pode ir para o overflow, então deixamos sem NeverOverflow -->
         <Button text="Limpar" type="Transparent" press=".onClearFilters"/>
       </OverflowToolbar>
 
@@ -51,50 +48,44 @@
         <ObjectNumber number="{kpi>/precoMedioFmt}" unit="R$/L" state="None"/>
       </OverflowToolbar>
 
-      <!-- Tags + filtro de categoria -->
+      <!-- Tags + filtros -->
       <OverflowToolbar>
-        <!-- label da categoria: nunca ir para overflow -->
         <Text text="Filtro por Categorias:">
           <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow"/>
           </layoutData>
         </Text>
-          <!-- filtro de categoria: nunca ir para overflow -->
-          <ComboBox id="segCat" selectionChange=".onFilterChange" width="20rem" selectedKey="__ALL__">
-            <items>
-              <core:Item key="__ALL__" text="Todas"/>
-              <!-- as opções serão injetadas no onInit (com base nos dados) -->
-            </items>
-          </ComboBox>
-          <Text text="Filtro por Veículo:">
+
+        <ComboBox id="segCat" selectionChange=".onFilterChange" width="20rem" selectedKey="__ALL__">
+          <items>
+            <core:Item key="__ALL__" text="Todas"/>
+            <!-- opções adicionadas no onInit -->
+          </items>
+        </ComboBox>
+
+        <Text text="Filtro por Veículo:">
           <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow"/>
           </layoutData>
         </Text>
-          <!-- filtro de categoria: nunca ir para overflow -->
-          <ComboBox id="inpVeiculo" selectionChange=".onFilterChange" width="10%" selectedKey="__ALL__">
-            <items>
-              <core:Item key="__ALL__" text="Todos"/>
-              <!-- as opções serão injetadas no onInit (com base nos dados) -->
-            </items>
-          </ComboBox>
-        <ToolbarSpacer/>
-        <!-- tags agregadas (renderizadas via binding de texto) 
-        <ObjectStatus text="Resumo:"/>
-        <ObjectStatus text="{kpi>/resumoCombFmt}" state="Information"/>
-        <ObjectStatus text="{kpi>/resumoLitrosFmt}" state="Warning"/>
-        <ObjectStatus text="{kpi>/resumoMatFmt}" state="Success"/>
-        <ObjectStatus text="{kpi>/resumoPrecoFmt}" state="None"/>-->
-      </OverflowToolbar>
-      
 
-      <!-- Tabela principal: sap.ui.table.Table -->
+        <ComboBox id="inpVeiculo" selectionChange=".onFilterChange" width="12rem" selectedKey="__ALL__">
+          <items>
+            <core:Item key="__ALL__" text="Todos"/>
+            <!-- opções adicionadas no onInit -->
+          </items>
+        </ComboBox>
+
+        <ToolbarSpacer/>
+      </OverflowToolbar>
+
+      <!-- Tabela principal -->
       <table:Table id="tbl"
                    selectionMode="None"
-                   visibleRowCount="20"
+                   visibleRowCount="22"
                    alternateRowColors="true"
                    width="auto"
-                   rows="{path:'/veiculos', sorter:{path:'data', formatter:'.formatter.fmtDate', descending:true}}">
+                   rows="{ path:'/veiculos', sorter:{ path:'data', descending:true } }">
         <table:columns>
 
           <table:Column width="10rem">
@@ -176,11 +167,6 @@
                 formatter: '.formatter.fmtFuncaoHoraComb'
               }"/>
             </table:template>
-          </table:Column>
-
-          <table:Column width="8rem" hAlign="Center">
-            <Label text="Data"/>
-            <table:template><Text text="{path:'data', formatter:'.formatter.fmtDate'}"/></table:template>
           </table:Column>
 
         </table:columns>

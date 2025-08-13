@@ -32,12 +32,14 @@ sap.ui.define([
         oMainModel.attachRequestCompleted(function () {
           this._ensureCategories();
           this._ensureCategoriesForVehicle();
+          this._recalcFuelAggByRowDate(); // agrega combustível (abastecimentos) por veículo+data
           this._recalcKpis();
         }, this);
       } else {
         setTimeout(function () {
           this._ensureCategories();
           this._ensureCategoriesForVehicle();
+          this._recalcFuelAggByRowDate();
           this._recalcKpis();
         }.bind(this), 0);
       }
@@ -48,36 +50,32 @@ sap.ui.define([
 
       var aFilters = [];
 
-
       // Período (comparação por data pura yyyy-MM-dd)
-        var drs = this.byId("drs");
-        if (drs) {
-          var d1 = drs.getDateValue(), d2 = drs.getSecondDateValue();
-          if (d1 && d2) {
-            // limites do dia no fuso local
-            var start = new Date(d1.getFullYear(), d1.getMonth(), d1.getDate(), 0, 0, 0, 0);
-            var end   = new Date(d2.getFullYear(), d2.getMonth(), d2.getDate(), 23, 59, 59, 999);
+      var drs = this.byId("drs");
+      if (drs) {
+        var d1 = drs.getDateValue(), d2 = drs.getSecondDateValue();
+        if (d1 && d2) {
+          // limites do dia no fuso local
+          var start = new Date(d1.getFullYear(), d1.getMonth(), d1.getDate(), 0, 0, 0, 0);
+          var end   = new Date(d2.getFullYear(), d2.getMonth(), d2.getDate(), 23, 59, 59, 999);
 
-            // parser yyyy-MM-dd -> Date local (sem UTC/Z)
-            var toLocalDate = function (s) {
-              if (!s) return null;
-              var m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);
-              if (!m) return null;
-              return new Date(+m[1], +m[2]-1, +m[3], 0, 0, 0, 0);
-            };
+          // parser yyyy-MM-dd -> Date local (sem UTC/Z)
+          var toLocalDate = function (s) {
+            if (!s) return null;
+            var m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);
+            if (!m) return null;
+            return new Date(+m[1], +m[2]-1, +m[3], 0, 0, 0, 0);
+          };
 
-            aFilters.push(new Filter({
-              path: "data",
-              test: function (val) {
-                var x = toLocalDate(val);         // NÃO usar new Date(val) aqui
-                return x && x >= start && x <= end;
-              }
-            }));
-          }
+          aFilters.push(new Filter({
+            path: "data",
+            test: function (val) {
+              var x = toLocalDate(val); // NÃO usar new Date(val) aqui
+              return x && x >= start && x <= end;
+            }
+          }));
         }
-
-
-      
+      }
 
       // Categoria (ComboBox)
       var seg = this.byId("segCat");
@@ -98,7 +96,12 @@ sap.ui.define([
       }
 
       this.oTbl.getBinding("rows").filter(aFilters);
-      setTimeout(this._recalcKpis.bind(this), 0);
+
+      // Se o usuário escolheu outro mês no DRS, recarrega mocks desse mês, re-agrega combustível e recalcula KPIs
+      this._maybeReloadByFilterMonth().then(function () {
+        this._recalcFuelAggByRowDate();
+        this._recalcKpis();
+      }.bind(this));
     },
 
     onClearFilters: function () {
@@ -108,6 +111,7 @@ sap.ui.define([
       this.byId("inpVeiculo")?.setSelectedKey("__ALL__");
       this.byId("inpVeiculo")?.setValue("");
       this.oTbl?.getBinding("rows")?.filter([]);
+      this._recalcFuelAggByRowDate();
       this._recalcKpis();
     },
 
@@ -116,7 +120,6 @@ sap.ui.define([
       var id = String(obj.id || obj.veiculo);
       this.getOwnerComponent().getRouter().navTo("RouteHistorico", { id: id });
     },
-
 
     onOpenMateriais: function (oEvent) {
       var item = this._ctx(oEvent);
@@ -143,7 +146,7 @@ sap.ui.define([
         totalValor: totalValor
       });
 
-      this._openFragment("com.skysinc.frota.frota.fragments.MaterialsDialog", "dlgMateriais");
+      this._openFragment("com/skysinc.frota.frota.fragments.MaterialsDialog", "dlgMateriais");
     },
     onCloseMateriais: function () { this.byId("dlgMateriais")?.close(); },
 
@@ -265,34 +268,34 @@ sap.ui.define([
     _ctx: function (oEvent) {
       return oEvent.getSource().getBindingContext().getObject();
     },
+
     _openFragment: function (sName, sId, mModels) {
-  var v = this.getView();
-  var p;
+      var v = this.getView();
+      var p;
 
-  if (!this.byId(sId)) {
-    p = sap.ui.core.Fragment.load({
-      name: sName,
-      controller: this,
-      id: v.getId()
-    }).then(function (oFrag) {
-      v.addDependent(oFrag);
-      return oFrag;
-    });
-  } else {
-    p = Promise.resolve(this.byId(sId));
-  }
+      if (!this.byId(sId)) {
+        p = sap.ui.core.Fragment.load({
+          name: sName,
+          controller: this,
+          id: v.getId()
+        }).then(function (oFrag) {
+          v.addDependent(oFrag);
+          return oFrag;
+        });
+      } else {
+        p = Promise.resolve(this.byId(sId));
+      }
 
-  // aplica modelos nomeados diretamente no root do fragment (ex.: { dlg: this._dlgModel })
-  return p.then(function (oFrag) {
-    if (mModels) {
-      Object.keys(mModels).forEach(function (name) {
-        oFrag.setModel(mModels[name], name);
+      // aplica modelos nomeados diretamente no root do fragment (ex.: { dlg: this._dlgModel })
+      return p.then(function (oFrag) {
+        if (mModels) {
+          Object.keys(mModels).forEach(function (name) {
+            oFrag.setModel(mModels[name], name);
+          });
+        }
+        return oFrag;
       });
-    }
-    return oFrag;
-  });
-},
-
+    },
 
     _ensureCategories: function () {
       // segCat é ComboBox -> use Items, não SegmentedButtonItem
@@ -327,13 +330,85 @@ sap.ui.define([
       inp.setSelectedKey("__ALL__");
     },
 
+    // ====== AJUSTES NOVOS (agregar combustível e mês dinâmico) ======
+    _parseYMD: function (s) {
+      if (!s) return null;
+      var m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);
+      if (!m) return null;
+      return new Date(+m[1], +m[2] - 1, +m[3], 0, 0, 0, 0);
+    },
+
+    _currentRange: function () {
+      var drs = this.byId("drs");
+      if (!drs) return null;
+      var d1 = drs.getDateValue(), d2 = drs.getSecondDateValue();
+      if (!d1 || !d2) return null;
+      var start = new Date(d1.getFullYear(), d1.getMonth(), d1.getDate(), 0, 0, 0, 0);
+      var end   = new Date(d2.getFullYear(), d2.getMonth(), d2.getDate(), 23, 59, 59, 999);
+      return [start, end];
+    },
+
+    _maybeReloadByFilterMonth: function () {
+      var drs = this.byId("drs");
+      if (!drs) return Promise.resolve();
+      var d1 = drs.getDateValue();
+      if (!d1) return Promise.resolve();
+      var yyyy = d1.getFullYear();
+      var mm   = String(d1.getMonth() + 1).padStart(2, "0");
+      var comp = this.getOwnerComponent();
+      var ym = yyyy + "-" + mm;
+
+      if (comp && comp.setMockYM && comp.__currentYM !== ym) {
+        return comp.setMockYM(yyyy, mm).then(function () {
+          // após recarregar os modelos, re-agregar
+          this._recalcFuelAggByRowDate();
+        }.bind(this));
+      }
+      return Promise.resolve();
+    },
+
+    // Agrega combustível REAL por linha (usa "abast" → /abastecimentosPorVeiculo/<id> com mesma data)
+    _recalcFuelAggByRowDate: function () {
+      var baseModel = this.getView().getModel();        // "/veiculos"
+      var abModel   = this.getView().getModel("abast"); // "/abastecimentosPorVeiculo"
+      if (!baseModel || !abModel) return;
+
+      var data = baseModel.getProperty("/veiculos") || [];
+      var self = this;
+
+      data.forEach(function (v) {
+        var key = v.id || v.veiculo;
+        var rowDate = self._parseYMD(v.data);
+        var eventos = abModel.getProperty("/abastecimentosPorVeiculo/" + key) || [];
+        var litros = 0, valor = 0;
+
+        eventos.forEach(function (ev) {
+          var d = self._parseYMD(ev.data);
+          if (rowDate && d && d.getTime() === rowDate.getTime()) {
+            litros += Number(ev.litros || 0);
+            // valor direto se existir, senão preco*litros se existir
+            if (ev.valor != null) {
+              valor += Number(ev.valor || 0);
+            } else if (ev.preco != null) {
+              valor += Number(ev.preco || ev.precoLitro || 0) * Number(ev.litros || 0);
+            }
+          }
+        });
+
+        v.combustivelLitrosAgg = litros;
+        v.combustivelValorAgg  = valor;
+      });
+
+      baseModel.setProperty("/veiculos", data);
+    },
+
     _recalcKpis: function () {
       if (!this.oTbl || !this.oTbl.getBinding("rows")) return;
 
       var arr = this.oTbl.getBinding("rows").getCurrentContexts().map(c => c.getObject());
-      var totalLitros = arr.reduce((s, i) => s + (Number(i.combustivelLitros) || 0), 0);
-      var totalValor  = arr.reduce((s, i) => s + (Number(i.combustivelValor) || 0), 0);
-      var totalMat    = arr.reduce((s, i) => s + (Number(i.custoMaterial)   || 0), 0);
+      var totalLitros = arr.reduce((s, i) => s + (Number(i.combustivelLitrosAgg) || 0), 0);
+      var totalValor  = arr.reduce((s, i) => s + (Number(i.combustivelValorAgg)  || 0), 0);
+      var totalMat    = arr.reduce((s, i) => s + (Number(i.custoMaterial)       || 0), 0);
       var precoMedio  = totalLitros ? (totalValor / totalLitros) : 0;
 
       this.oKpi.setData({

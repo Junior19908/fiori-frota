@@ -28,19 +28,15 @@
 
     <uxap:headerContent>
       <HBox alignItems="Center" renderType="Bare">
-        
         <GenericTag text="Veículo: "  design="StatusIconHidden" status="Error" class="sapUiTinyMarginEnd">
-					<ObjectNumber state="Error" emphasized="false" number="{detail>/veiculo}"/>
-				</GenericTag>
+          <ObjectNumber state="Error" emphasized="false" number="{detail>/veiculo}"/>
+        </GenericTag>
         <GenericTag text="Categoria: "  design="StatusIconHidden" status="Success" class="sapUiTinyMarginEnd">
-					<ObjectNumber state="Success" emphasized="false" number="{detail>/categoria}"/>
-				</GenericTag>
-       <GenericTag text="Descrição: "  design="StatusIconHidden" status="Warning" class="sapUiTinyMarginEnd">
-					<ObjectNumber state="Warning" emphasized="false" number="{detail>/descricao}"/>
-				</GenericTag>
-
-
-
+          <ObjectNumber state="Success" emphasized="false" number="{detail>/categoria}"/>
+        </GenericTag>
+        <GenericTag text="Descrição: "  design="StatusIconHidden" status="Warning" class="sapUiTinyMarginEnd">
+          <ObjectNumber state="Warning" emphasized="false" number="{detail>/descricao}"/>
+        </GenericTag>
       </HBox>
     </uxap:headerContent>
 
@@ -55,9 +51,42 @@
                                     containerQuery="true"
                                     equalSplit="false">
 
-                <!-- CONTEÚDO PRINCIPAL: abas com 3 tabelas -->
+                <!-- CONTEÚDO PRINCIPAL -->
                 <l:mainContent>
                   <VBox class="sapUiSmallMargin sapUiResponsiveContentPadding">
+
+                    <!-- ===== Filtros do histórico ===== -->
+                    <OverflowToolbar>
+                      <Text text="Período:"/>
+                      <DateRangeSelection id="drsHist"
+                                          displayFormat="long"
+                                          width="18rem"
+                                          dateValue="{hfilter>/d1}"
+                                          secondDateValue="{hfilter>/d2}"
+                                          change=".onFilterChangeHist"/>
+                      <ToolbarSeparator/>
+                      <Text text="Tipo:"/>
+                      <ComboBox id="tipoHist"
+                                width="12rem"
+                                selectedKey="{hfilter>/tipo}"
+                                selectionChange=".onFilterChangeHist">
+                        <items>
+                          <core:Item key="__ALL__" text="Todos"/>
+                          <core:Item key="Combustível" text="Combustível"/>
+                          <core:Item key="Material" text="Material"/>
+                          <core:Item key="Serviço" text="Serviço"/>
+                        </items>
+                      </ComboBox>
+                      <ToolbarSeparator/>
+                      <SearchField id="qHist"
+                                   width="20rem"
+                                   placeholder="Buscar descrição…"
+                                   value="{hfilter>/q}"
+                                   liveChange=".onFilterChangeHist"/>
+                      <ToolbarSpacer/>
+                      <Button text="Limpar" type="Transparent" press=".onClearHistFilters"/>
+                    </OverflowToolbar>
+                    <!-- ================================ -->
 
                     <IconTabBar expandable="false" class="sapUiResponsiveContentPadding">
 
@@ -152,6 +181,14 @@
                                   <Text text="{path:'detail>valor', formatter:'.formatter.fmtBrl'}"/>
                                 </table:template>
                               </table:Column>
+
+                              <table:Column width="10rem" hAlign="End">
+                                <Label text="Reserva"/>
+                                <table:template>
+                                  <Text text="{path:'detail>usuario'}"/>
+                                </table:template>
+                              </table:Column>
+
                             </table:columns>
                           </table:Table>
                         </IconTabFilter>
@@ -232,9 +269,6 @@
                       <ObjectStatus text="Total Geral" state="None"/>
                       <ObjectNumber number="{detail>/totalGeralFmt}" class="sapUiTinyMarginBegin"/>
                     </Toolbar>
-
-
-
                   </VBox>
                 </l:sideContent>
 

@@ -27,6 +27,14 @@ sap.ui.define([
 
   const sum = (arr, pick) => arr.reduce((s, x) => s + toNum(pick(x)), 0);
 
+  // Data pura YYYY-MM-DD -> Date local 00:00
+  function parseYMDLocal(s) {
+    if (!s) return null;
+    const m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (!m) return null;
+    return new Date(+m[1], +m[2] - 1, +m[3], 0, 0, 0, 0);
+  }
+
   // Busca “elástica” por veículo
   function getListsByVehicle(oComp, sId, oVeiculo) {
     const aMatById = toArray(oComp.getModel("materiais")?.getProperty("/materiaisPorVeiculo/" + sId));
@@ -44,13 +52,22 @@ sap.ui.define([
     return { aMat, aAb };
   }
 
-  return Controller.extend("com/skysinc.frota.frota.controller.HistoricalPage", {
+  return Controller.extend("com.skysinc.frota.frota.controller.HistoricalPage", {
     formatter: formatter,
 
     onInit: function () {
       this.getOwnerComponent().getRouter()
         .getRoute("RouteHistorico")
         .attachPatternMatched(this._onRouteMatched, this);
+
+      // Modelo de filtro do histórico
+      this._histFilter = new JSONModel({
+        tipo: "__ALL__",      // __ALL__ | Combustível | Material | Serviço
+        q: "",                // busca por descrição
+        d1: null,             // Date (JS) início
+        d2: null              // Date (JS) fim
+      });
+      this.getView().setModel(this._histFilter, "hfilter");
     },
 
     _onRouteMatched: function (oEvent) {
@@ -74,8 +91,8 @@ sap.ui.define([
       const valorMes   = toNum(oVeiculo.combustivelValor);
       const precoMedioVeic = litrosMes ? (valorMes / litrosMes) : 0;
 
-      // 4) Histórico unificado
-      const historico = [];
+      // 4) Histórico unificado (BASE — não filtrar aqui)
+      const base = [];
 
       // Materiais/Serviços
       aMat.forEach((m) => {
@@ -83,7 +100,7 @@ sap.ui.define([
         const cu  = toNum(m.custoUnit);
         const tp  = classifyTipo(m.tipo);
         const desc = m.nome || m.descricao || "Item";
-        historico.push({
+        base.push({
           data: m.data || null,
           tipo: tp === "servico" ? "Serviço" : "Material", // padroniza label
           descricao: desc,
@@ -96,9 +113,9 @@ sap.ui.define([
       // Combustível
       aAb.forEach((a) => {
         const litros = toNum(a.litros);
-        const precoLinha = toNum(a.precoLitro);
+        const precoLinha = toNum(a.precoLitro ?? a.preco); // aceita precoLitro ou preco
         const pL = precoLinha || precoMedioVeic || 0;
-        historico.push({
+        base.push({
           data: a.data || null,
           tipo: "Combustível",
           descricao: a.descricao || "Abastecimento",
@@ -108,38 +125,38 @@ sap.ui.define([
         });
       });
 
-      // Ordenação (data desc; nulos por último)
-      historico.sort((x, y) => {
+      // Ordenação inicial (data desc; nulos por último)
+      base.sort((x, y) => {
         const dx = x.data ? new Date(x.data).getTime() : -Infinity;
         const dy = y.data ? new Date(y.data).getTime() : -Infinity;
         return dy - dx;
       });
 
-      // 5) Quebras por categoria (usando os rótulos padronizados acima)
-      const historicoComb       = historico.filter(h => h.tipo === "Combustível");
-      const historicoMateriais  = historico.filter(h => h.tipo === "Material");
-      const historicoServicos   = historico.filter(h => h.tipo === "Serviço");
+      // Quebras iniciais (sem filtro)
+      const historicoComb       = base.filter(h => h.tipo === "Combustível");
+      const historicoMateriais  = base.filter(h => h.tipo === "Material");
+      const historicoServicos   = base.filter(h => h.tipo === "Serviço");
 
-      // 6) Totais
+      // Totais iniciais
       const totalComb = sum(historicoComb,      h => h.valor);
       const totalMat  = sum(historicoMateriais, h => h.valor);
       const totalServ = sum(historicoServicos,  h => h.valor);
       const totalGeral = totalComb + totalMat + totalServ;
 
-      // 7) Preço médio efetivo
+      // Preço médio efetivo (base)
       const totLitros = sum(historicoComb, h => h.qtde);
       const precoMedioCalc = totLitros ? (totalComb / totLitros) : 0;
       const precoMedio = precoMedioVeic || precoMedioCalc;
 
-      // 8) JSONModel "detail"
+      // Model "detail" + preserva base para filtros
       const oDetail = new JSONModel(Object.assign({}, oVeiculo, {
-        // listas
-        historico,
+        // listas exibidas (começam com base)
+        historico: base,
         historicoComb,
         historicoMateriais,
         historicoServicos,
 
-        // contagens (útil pra debug/abas)
+        // contagens
         countComb: historicoComb.length,
         countMateriais: historicoMateriais.length,
         countServicos: historicoServicos.length,
@@ -156,10 +173,92 @@ sap.ui.define([
         totalMateriaisFmt:   fmtBrl(totalMat),
         totalServicosFmt:    fmtBrl(totalServ),
         totalGeralFmt:       fmtBrl(totalGeral),
-        precoMedioFmt:       fmtNum(precoMedio)
+        precoMedioFmt:       fmtNum(precoMedio),
+
+        // --- fonte base para filtros ---
+        _src: {
+          base
+        }
       }));
 
       this.getView().setModel(oDetail, "detail");
+
+      // limpa filtros ao entrar
+      this._histFilter.setData({ tipo: "__ALL__", q: "", d1: null, d2: null });
+    },
+
+    // ============== Filtros do Histórico ==============
+    onFilterChangeHist: function () {
+      const m = this._histFilter.getData();
+      const d1 = m.d1, d2 = m.d2;
+      const tipo = m.tipo || "__ALL__";
+      const q = (m.q || "").toLowerCase();
+
+      const oDetail = this.getView().getModel("detail");
+      if (!oDetail) return;
+
+      const base = oDetail.getProperty("/_src/base") || [];
+
+      // 1) aplica filtros na base
+      const start = d1 ? new Date(d1.getFullYear(), d1.getMonth(), d1.getDate(), 0,0,0,0) : null;
+      const end   = d2 ? new Date(d2.getFullYear(), d2.getMonth(), d2.getDate(), 23,59,59,999) : null;
+
+      const filt = base.filter((h) => {
+        // tipo
+        if (tipo !== "__ALL__" && h.tipo !== tipo) return false;
+        // data
+        if (start && end) {
+          const dh = h.data ? parseYMDLocal(h.data) : null;
+          if (!dh || dh < start || dh > end) return false;
+        }
+        // busca por descrição
+        if (q) {
+          const desc = (h.descricao || "").toLowerCase();
+          if (!desc.includes(q)) return false;
+        }
+        return true;
+      });
+
+      // 2) requebras
+      const historicoComb       = filt.filter(h => h.tipo === "Combustível");
+      const historicoMateriais  = filt.filter(h => h.tipo === "Material");
+      const historicoServicos   = filt.filter(h => h.tipo === "Serviço");
+
+      // 3) totals + preço médio efetivo (no resultado filtrado)
+      const totalComb = sum(historicoComb,      h => h.valor);
+      const totalMat  = sum(historicoMateriais, h => h.valor);
+      const totalServ = sum(historicoServicos,  h => h.valor);
+      const totalGeral = totalComb + totalMat + totalServ;
+      const totLitros = sum(historicoComb, h => h.qtde);
+      const precoMedio = totLitros ? (totalComb / totLitros) : 0;
+
+      // 4) aplica no model detail
+      oDetail.setProperty("/historico", filt);
+      oDetail.setProperty("/historicoComb", historicoComb);
+      oDetail.setProperty("/historicoMateriais", historicoMateriais);
+      oDetail.setProperty("/historicoServicos", historicoServicos);
+
+      oDetail.setProperty("/countComb", historicoComb.length);
+      oDetail.setProperty("/countMateriais", historicoMateriais.length);
+      oDetail.setProperty("/countServicos", historicoServicos.length);
+
+      oDetail.setProperty("/totalCombustivel", totalComb);
+      oDetail.setProperty("/totalMateriais", totalMat);
+      oDetail.setProperty("/totalServicos", totalServ);
+      oDetail.setProperty("/totalGeral", totalGeral);
+      oDetail.setProperty("/precoMedio", precoMedio);
+
+      oDetail.setProperty("/totalCombustivelFmt", fmtBrl(totalComb));
+      oDetail.setProperty("/totalMateriaisFmt",   fmtBrl(totalMat));
+      oDetail.setProperty("/totalServicosFmt",    fmtBrl(totalServ));
+      oDetail.setProperty("/totalGeralFmt",       fmtBrl(totalGeral));
+      oDetail.setProperty("/precoMedioFmt",       fmtNum(precoMedio));
+    },
+
+    onClearHistFilters: function(){
+      this._histFilter.setData({ tipo: "__ALL__", q: "", d1: null, d2: null });
+      // reaplica sem filtros
+      this.onFilterChangeHist();
     }
   });
 });

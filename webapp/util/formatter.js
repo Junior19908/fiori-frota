@@ -7,8 +7,8 @@ sap.ui.define([], function () {
       catch(e){ return v; }
     },
     fmtNum: function(v){
-      var n = toNum(v);
-      return n.toLocaleString('pt-BR',{minimumFractionDigits:2, maximumFractionDigits:2});
+      //var n = toNum(v);
+      return v.toLocaleString('pt-BR',{minimumFractionDigits:2, maximumFractionDigits:2});
     },
     fmtDate: function(v) {
       if (!v) return "";
