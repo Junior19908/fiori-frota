@@ -48,21 +48,36 @@ sap.ui.define([
 
       var aFilters = [];
 
-      // Período
-      var drs = this.byId("drs");
-      if (drs) {
-        var d1 = drs.getDateValue(), d2 = drs.getSecondDateValue();
-        if (d1 && d2) {
-          aFilters.push(new Filter({
-            path: "data",
-            test: function (val) {
-              var x = new Date(val);
-              var end = new Date(d2.getFullYear(), d2.getMonth(), d2.getDate(), 23, 59, 59);
-              return x >= d1 && x <= end;
-            }
-          }));
+
+      // Período (comparação por data pura yyyy-MM-dd)
+        var drs = this.byId("drs");
+        if (drs) {
+          var d1 = drs.getDateValue(), d2 = drs.getSecondDateValue();
+          if (d1 && d2) {
+            // limites do dia no fuso local
+            var start = new Date(d1.getFullYear(), d1.getMonth(), d1.getDate(), 0, 0, 0, 0);
+            var end   = new Date(d2.getFullYear(), d2.getMonth(), d2.getDate(), 23, 59, 59, 999);
+
+            // parser yyyy-MM-dd -> Date local (sem UTC/Z)
+            var toLocalDate = function (s) {
+              if (!s) return null;
+              var m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);
+              if (!m) return null;
+              return new Date(+m[1], +m[2]-1, +m[3], 0, 0, 0, 0);
+            };
+
+            aFilters.push(new Filter({
+              path: "data",
+              test: function (val) {
+                var x = toLocalDate(val);         // NÃO usar new Date(val) aqui
+                return x && x >= start && x <= end;
+              }
+            }));
+          }
         }
-      }
+
+
+      
 
       // Categoria (ComboBox)
       var seg = this.byId("segCat");

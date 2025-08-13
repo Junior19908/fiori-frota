@@ -10,9 +10,24 @@ sap.ui.define([], function () {
       var n = toNum(v);
       return n.toLocaleString('pt-BR',{minimumFractionDigits:2, maximumFractionDigits:2});
     },
-    fmtDate: function(v){
-      var d = v ? new Date(v) : null;
-      return d && !isNaN(d) ? d.toLocaleDateString('pt-BR') : "";
+    fmtDate: function(v) {
+      if (!v) return "";
+      const s = String(v).trim();
+
+      // já vem no formato dd/MM/yyyy?
+      const mBR = s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+      if (mBR) return s;
+
+      // yyyy-MM-dd -> dd/MM/yyyy (sem criar Date!)
+      const mISO = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+      if (mISO) return `${mISO[3]}/${mISO[2]}/${mISO[1]}`;
+
+      try {
+        const d = new Date(s);
+        return isNaN(d) ? s : d.toLocaleDateString("pt-BR");
+      } catch {
+        return s;
+      }
     },
     fmtFuncaoKmComb: function(a,b){
       var x = toNum(a), y = toNum(b)||0;

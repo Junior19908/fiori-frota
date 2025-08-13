@@ -94,7 +94,7 @@
                    visibleRowCount="20"
                    alternateRowColors="true"
                    width="auto"
-                   rows="{path:'/veiculos', sorter:{path:'data', descending:true}}">
+                   rows="{path:'/veiculos', sorter:{path:'data', formatter:'.formatter.fmtDate', descending:true}}">
         <table:columns>
 
           <table:Column width="10rem">
