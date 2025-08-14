@@ -81,11 +81,11 @@
 
       <!-- Tabela principal -->
       <table:Table id="tbl"
-                   selectionMode="None"
-                   visibleRowCount="22"
-                   alternateRowColors="true"
-                   width="auto"
-                   rows="{ path:'/veiculos', sorter:{ path:'data', descending:true } }">
+                  selectionMode="None"
+                  visibleRowCount="22"
+                  alternateRowColors="true"
+                  width="auto"
+                  rows="{ path:'/veiculos', sorter:{ path:'dataMatRef', descending:true } }">
         <table:columns>
 
           <table:Column width="10rem">
@@ -114,26 +114,30 @@
             </table:template>
           </table:Column>
 
+          <!-- custo materiais (R$) do PERÍODO -->
           <table:Column width="12rem" hAlign="End">
             <Label text="Custo material/serviço (R$)"/>
-            <table:template><Text text="{path:'custoMaterial', formatter:'.formatter.fmtBrl'}"/></table:template>
+            <table:template><Text text="{path:'custoMaterialAgg', formatter:'.formatter.fmtBrl'}"/></table:template>
           </table:Column>
 
+          <!-- combustível (L) do PERÍODO, vindo de abastecimentos -->
           <table:Column width="9rem" hAlign="End">
             <Label text="Combustível (L)"/>
-            <table:template><Text text="{path:'combustivelLitros', formatter:'.formatter.fmtLitros'}"/></table:template>
+            <table:template><Text text="{path:'combustivelLitrosAgg', formatter:'.formatter.fmtLitros'}"/></table:template>
           </table:Column>
 
+          <!-- combustível (R$) do PERÍODO, vindo de abastecimentos -->
           <table:Column width="9rem" hAlign="End">
             <Label text="Combustível (R$)"/>
-            <table:template><Text text="{path:'combustivelValor', formatter:'.formatter.fmtBrl'}"/></table:template>
+            <table:template><Text text="{path:'combustivelValorAgg', formatter:'.formatter.fmtBrl'}"/></table:template>
           </table:Column>
 
+          <!-- Custo total do período = materiaisAgg + combustívelAgg -->
           <table:Column width="10rem" hAlign="End">
             <Label text="Custo total (R$)"/>
             <table:template>
               <Text text="{
-                parts:['custoMaterial','combustivelValor'],
+                parts:['custoMaterialAgg','combustivelValorAgg'],
                 formatter: '.formatter.fmtSomaBrl'
               }"/>
             </table:template>
@@ -153,7 +157,7 @@
             <Label text="Km/L"/>
             <table:template>
               <Text text="{
-                parts:['kmRodados','combustivelLitros'],
+                parts:['kmRodados','combustivelLitrosAgg'],
                 formatter: '.formatter.fmtFuncaoKmComb'
               }"/>
             </table:template>
@@ -163,19 +167,21 @@
             <Label text="L/Hr"/>
             <table:template>
               <Text text="{
-                parts:['combustivelLitros','hrRodados'],
+                parts:['combustivelLitrosAgg','hrRodados'],
                 formatter: '.formatter.fmtFuncaoHoraComb'
               }"/>
             </table:template>
           </table:Column>
 
+          <!-- Data agora vem dos MATERIAIS do período (mais recente) -->
           <table:Column width="9rem" hAlign="End">
             <Label text="Data"/>
-            <table:template><Text text="{path:'data', formatter:'.formatter.fmtDate'}"/></table:template>
+            <table:template><Text text="{path:'dataMatRef', formatter:'.formatter.fmtDate'}"/></table:template>
           </table:Column>
 
         </table:columns>
       </table:Table>
+
     </content>
   </Page>
 </mvc:View>

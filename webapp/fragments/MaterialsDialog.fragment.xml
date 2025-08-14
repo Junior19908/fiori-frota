@@ -4,8 +4,6 @@
       <!-- Colocamos a tabela e, ABAIXO DELA, a barra de totais -->
       <VBox renderType="Bare">
 
-        <Title text="{dlg>/titulo}"/>
-
         <Table id="tblMat" items="{dlg>/materiais}">
           <columns>
             <Column><Label text="Item"/></Column>

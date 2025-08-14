@@ -185,13 +185,6 @@
                                 </table:template>
                               </table:Column>
 
-                              <table:Column width="10rem" hAlign="End">
-                                <Label text="Reserva"/>
-                                <table:template>
-                                  <Text text="{path:'detail>usuario'}"/>
-                                </table:template>
-                              </table:Column>
-
                             </table:columns>
                           </table:Table>
                         </IconTabFilter>

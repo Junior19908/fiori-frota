@@ -1,13 +1,24 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-  <Dialog id="dlgFuel" title="{fuel>/titulo}" icon="sap-icon://gas-station" contentWidth="720px">
+  <Dialog id="dlgFuel" title="{fuel>/titulo}" icon="sap-icon://gas-station" contentWidth="auto" horizontalScrolling="false">
     <content>
-      <Table items="{fuel>/eventos}">
+      <Table id="tblFuel" items="{fuel>/eventos}">
         <columns>
           <Column><Label text="Data"/></Column>
           <Column><Label text="Hora"/></Column>
           <Column hAlign="End"><Label text="Quilometragem"/></Column>
           <Column hAlign="End"><Label text="Abastecimento (L)"/></Column>
+
+          <!-- NOVA: Km/L -->
+          <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true">
+            <Label text="Km/L"/>
+          </Column>
+
+          <!-- (Opcional) NOVA: L/Km -->
+          <Column hAlign="End" minScreenWidth="Desktop" demandPopin="true">
+            <Label text="L/Km"/>
+          </Column>
         </columns>
+
         <items>
           <ColumnListItem>
             <cells>
@@ -15,17 +26,20 @@
               <Text text="{fuel>hora}"/>
               <ObjectNumber number="{path:'fuel>km', formatter:'.formatter.fmtKm'}"/>
               <ObjectNumber number="{path:'fuel>litros', formatter:'.formatter.fmtLitros'}"/>
+
+              <!-- Km/L calculado -->
+              <ObjectNumber number="{path:'fuel>_kmPorL', formatter:'.formatter.fmtNum'}"/>
+
+              <!-- (Opcional) L/Km calculado -->
+              <ObjectNumber number="{path:'fuel>_lPorKm', formatter:'.formatter.fmtNum'}"/>
             </cells>
           </ColumnListItem>
         </items>
       </Table>
-
-      <Text text="Sem abastecimentos para este veículo"
-            visible="{= ${fuel>/eventos}.length === 0 }"/>
     </content>
 
     <buttons>
-      <Button text="Fechar" press=".onCloseFuel"/>
+      <Button text="Fechar" type="Transparent" press=".onCloseFuel"/>
     </buttons>
   </Dialog>
 </core:FragmentDefinition>
