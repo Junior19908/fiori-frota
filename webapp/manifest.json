@@ -41,7 +41,8 @@
         "sap.ui.core": {},
         "sap.ui.table": {},
         "sap.uxap": {},
-        "sap.ui.layout": {}
+        "sap.ui.layout": {},
+        "sap.viz": {}
       }
     },
     "contentDensities": {
@@ -56,16 +57,6 @@
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
           "bundleName": "com.skysinc.frota.frota.i18n.i18n"
-        }
-      }
-    },
-    "dataSources": {
-      "mainService": {
-        "uri": "/sap/opu/odata/sap/ZC_EQ_MOVTO_CDS/",
-        "type": "OData",
-        "settings": {
-          "odataVersion": "2.0",
-          "localUri": "model/metadata/metadata.xml"
         }
       }
     },

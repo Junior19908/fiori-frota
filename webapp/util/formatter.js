@@ -6,9 +6,10 @@ sap.ui.define([], function () {
       try { return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(v||0)); }
       catch(e){ return v; }
     },
-    fmtNum: function(v){
-      //var n = toNum(v);
-      return v.toLocaleString('pt-BR',{minimumFractionDigits:2, maximumFractionDigits:2});
+    fmtNum: function (v) {
+      return Number(v || 0).toLocaleString('pt-BR', {
+        minimumFractionDigits: 2, maximumFractionDigits: 2
+      });
     },
     fmtDate: function(v) {
       if (!v) return "";

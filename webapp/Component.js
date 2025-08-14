@@ -25,7 +25,7 @@ sap.ui.define([
       this.setModel(oAbast,     "abast");      // "/abastecimentosPorVeiculo"
 
       // 2) Base dos mocks
-      var base = "com/skysinc/frota/frota/model/mockdata/";
+      var base = "com/skysinc/frota/frota/model/localdata/";
       this.__currentYM = this.__currentYM || (function () {
         var n = new Date();
         return n.getFullYear() + "-" + String(n.getMonth() + 1).padStart(2, "0");

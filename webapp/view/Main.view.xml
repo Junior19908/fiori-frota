@@ -169,6 +169,11 @@
             </table:template>
           </table:Column>
 
+          <table:Column width="9rem" hAlign="End">
+            <Label text="Data"/>
+            <table:template><Text text="{path:'data', formatter:'.formatter.fmtDate'}"/></table:template>
+          </table:Column>
+
         </table:columns>
       </table:Table>
     </content>

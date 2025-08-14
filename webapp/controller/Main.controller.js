@@ -121,32 +121,35 @@ sap.ui.define([
       this.getOwnerComponent().getRouter().navTo("RouteHistorico", { id: id });
     },
 
+    // Materiais
     onOpenMateriais: function (oEvent) {
       var item = this._ctx(oEvent);
-      var key = item.id || item.veiculo;
+      var key  = item.id || item.veiculo;
 
-      var matModel = this.getView().getModel("materiais"); // {materiaisPorVeiculo:{ <key>: [] }}
-      var arr = (matModel && matModel.getProperty("/materiaisPorVeiculo/" + key))
-                || item.materiais || [];
+      var matModel = this.getView().getModel("materiais");
+      var arr = (matModel && matModel.getProperty("/materiaisPorVeiculo/" + key)) || item.materiais || [];
 
-      var totalItens = arr.length; // nº de linhas
+      var totalItens = arr.length;
       var totalQtd   = arr.reduce((s, m) => s + (Number(m.qtde) || 0), 0);
       var totalValor = arr.reduce((s, m) => s + ((Number(m.qtde) || 0) * (Number(m.custoUnit) || 0)), 0);
 
       if (!this._dlgModel) {
         this._dlgModel = new sap.ui.model.json.JSONModel();
-        this.getView().setModel(this._dlgModel, "dlg");
       }
-
       this._dlgModel.setData({
         titulo: `Materiais — ${item.veiculo} — ${item.descricao || ""}`,
         materiais: arr,
-        totalItens: totalItens,
-        totalQtd: totalQtd,
-        totalValor: totalValor
+        totalItens,
+        totalQtd,
+        totalValor
       });
 
-      this._openFragment("com/skysinc.frota.frota.fragments.MaterialsDialog", "dlgMateriais");
+      // Agora abre de verdade:
+      this._openFragment(
+        "com.skysinc.frota.frota.fragments.MaterialsDialog",
+        "dlgMateriais",
+        { dlg: this._dlgModel }
+      );
     },
     onCloseMateriais: function () { this.byId("dlgMateriais")?.close(); },
 
@@ -243,24 +246,28 @@ sap.ui.define([
       var w = window.open('', '_blank'); w.document.write(html); w.document.close();
     },
 
+    // Abastecimentos
     onOpenAbastecimentos: function (oEvent) {
       var item = this._ctx(oEvent);
-      var key = item.id || item.veiculo;
+      var key  = item.id || item.veiculo;
 
-      var abModel = this.getView().getModel("abast"); // {abastecimentosPorVeiculo:{ <key>: [] }}
-      var arr = (abModel && abModel.getProperty("/abastecimentosPorVeiculo/" + key))
-                || item.abastecimentos || [];
+      var abModel = this.getView().getModel("abast");
+      var arr = (abModel && abModel.getProperty("/abastecimentosPorVeiculo/" + key)) || item.abastecimentos || [];
 
       if (!this._fuelModel) {
         this._fuelModel = new sap.ui.model.json.JSONModel();
-        this.getView().setModel(this._fuelModel, "fuel");
       }
       this._fuelModel.setData({
         titulo: `Abastecimentos — ${item.veiculo} — ${item.descricao || ""}`,
         eventos: arr
       });
 
-      this._openFragment("com.skysinc.frota.frota.fragments.FuelDialog", "dlgFuel");
+      // Agora abre de verdade:
+      this._openFragment(
+        "com.skysinc.frota.frota.fragments.FuelDialog",
+        "dlgFuel",
+        { fuel: this._fuelModel }
+      );
     },
     onCloseFuel: function () { this.byId("dlgFuel")?.close(); },
 
@@ -269,6 +276,7 @@ sap.ui.define([
       return oEvent.getSource().getBindingContext().getObject();
     },
 
+    // Substitua sua função atual por esta versão:
     _openFragment: function (sName, sId, mModels) {
       var v = this.getView();
       var p;
@@ -277,21 +285,25 @@ sap.ui.define([
         p = sap.ui.core.Fragment.load({
           name: sName,
           controller: this,
-          id: v.getId()
+          id: v.getId() // escopo do View
         }).then(function (oFrag) {
-          v.addDependent(oFrag);
+          v.addDependent(oFrag);      // herda modelos do View
           return oFrag;
         });
       } else {
         p = Promise.resolve(this.byId(sId));
       }
 
-      // aplica modelos nomeados diretamente no root do fragment (ex.: { dlg: this._dlgModel })
+      // Anexa modelos nomeados explicitamente (opcional, mas robusto)
       return p.then(function (oFrag) {
         if (mModels) {
           Object.keys(mModels).forEach(function (name) {
             oFrag.setModel(mModels[name], name);
           });
+        }
+        // 🚀 Abra o dialog, se suportado
+        if (oFrag.open) {
+          oFrag.open();
         }
         return oFrag;
       });
