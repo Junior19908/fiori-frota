@@ -159,7 +159,7 @@ sap.ui.define([
       var header = [
         'Veículo','Descrição',
         'Item','Tipo','Qtde','Unid','Custo Unit. (BRL)','Total (BRL)',
-        'Cód. Material','Depósito','Hora Entrada','N. Ordem','N. Reserva','N. Item',
+        'Cód. Material','Depósito','Hora','Data','N. Ordem','N. Reserva','N. Item',
         'Recebedor','Usuário'
       ];
 

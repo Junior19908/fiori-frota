@@ -16,7 +16,8 @@
 
             <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Cód. Material"/></Column>
             <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Depósito"/></Column>
-            <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Hora Entrada"/></Column>
+            <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Hora"/></Column>
+            <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Data"/></Column>
             <Column minScreenWidth="Desktop" demandPopin="true"><Label text="N. Ordem"/></Column>
             <Column minScreenWidth="Desktop" demandPopin="true"><Label text="N. Reserva"/></Column>
             <Column minScreenWidth="Desktop" demandPopin="true"><Label text="N. Item"/></Column>
@@ -43,6 +44,7 @@
                 <Text text="{dlg>codMaterial}"/>
                 <Text text="{dlg>deposito}"/>
                 <Text text="{path:'dlg>horaEntrada', formatter:'.formatter.fmtHora'}"/>
+                <Text text="{path:'dlg>data', formatter:'.formatter.fmtDate'}"/>
                 <Text text="{dlg>nOrdem}"/>
                 <Text text="{dlg>nReserva}"/>
                 <Text text="{dlg>nItem}"/>
