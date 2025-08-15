@@ -59,7 +59,7 @@
         <ComboBox id="segCat" selectionChange=".onFilterChange" width="20rem" selectedKey="__ALL__">
           <items>
             <core:Item key="__ALL__" text="Todas"/>
-            <!-- opções adicionadas no onInit -->
+            <!-- preenchido no onInit -->
           </items>
         </ComboBox>
 
@@ -72,7 +72,7 @@
         <ComboBox id="inpVeiculo" selectionChange=".onFilterChange" width="12rem" selectedKey="__ALL__">
           <items>
             <core:Item key="__ALL__" text="Todos"/>
-            <!-- opções adicionadas no onInit -->
+            <!-- preenchido no onInit -->
           </items>
         </ComboBox>
 
@@ -81,24 +81,25 @@
 
       <!-- Tabela principal -->
       <table:Table id="tbl"
-                  selectionMode="None"
-                  visibleRowCount="22"
-                  alternateRowColors="true"
-                  width="auto"
-                  rows="{ path:'/veiculos', sorter:{ path:'dataMatRef', descending:true } }">
+                   selectionMode="None"
+                   visibleRowCount="22"
+                   alternateRowColors="true"
+                   width="auto"
+                   rows="{ path:'/veiculos', sorter:{ path:'dataRef', descending:true } }">
+
         <table:columns>
 
-          <table:Column width="10rem">
+          <table:Column sortProperty="veiculo" width="10rem">
             <Label text="Veículo"/>
             <table:template><Text text="{veiculo}"/></table:template>
           </table:Column>
 
-          <table:Column width="16rem">
+          <table:Column sortProperty="categoria" width="16rem">
             <Label text="Categoria"/>
             <table:template><Text text="{categoria}"/></table:template>
           </table:Column>
 
-          <table:Column width="16rem">
+          <table:Column sortProperty="descricao" width="16rem">
             <Label text="Descrição do veículo"/>
             <table:template><Text text="{descricao}"/></table:template>
           </table:Column>
@@ -114,74 +115,70 @@
             </table:template>
           </table:Column>
 
-          <!-- custo materiais (R$) do PERÍODO -->
-          <table:Column width="12rem" hAlign="End">
+          <!-- Agregados do período -->
+          <table:Column sortProperty="custoMaterialAgg" width="12rem" hAlign="End">
             <Label text="Custo material/serviço (R$)"/>
             <table:template><Text text="{path:'custoMaterialAgg', formatter:'.formatter.fmtBrl'}"/></table:template>
           </table:Column>
 
-          <!-- combustível (L) do PERÍODO, vindo de abastecimentos -->
-          <table:Column width="9rem" hAlign="End">
+          <table:Column sortProperty="combustivelLitrosAgg" width="9rem" hAlign="End">
             <Label text="Combustível (L)"/>
             <table:template><Text text="{path:'combustivelLitrosAgg', formatter:'.formatter.fmtLitros'}"/></table:template>
           </table:Column>
 
-          <!-- combustível (R$) do PERÍODO, vindo de abastecimentos -->
-          <table:Column width="9rem" hAlign="End">
+          <table:Column sortProperty="combustivelValorAgg" width="9rem" hAlign="End">
             <Label text="Combustível (R$)"/>
             <table:template><Text text="{path:'combustivelValorAgg', formatter:'.formatter.fmtBrl'}"/></table:template>
           </table:Column>
 
-          <!-- Custo total do período = materiaisAgg + combustívelAgg -->
-          <table:Column width="10rem" hAlign="End">
+          <table:Column sortProperty="custoTotalAgg" width="10rem" hAlign="End">
             <Label text="Custo total (R$)"/>
             <table:template>
-              <Text text="{
-                parts:['custoMaterialAgg','combustivelValorAgg'],
-                formatter: '.formatter.fmtSomaBrl'
-              }"/>
+                <Text text="{
+                    path: 'custoTotalAgg',
+                    formatter: '.formatter.fmtBrl'
+                }"/>
             </table:template>
-          </table:Column>
+        </table:Column>
 
-          <table:Column width="9rem" hAlign="End">
+
+          <table:Column sortProperty="kmRodadosAgg" width="9rem" hAlign="End">
             <Label text="Km rodados"/>
-            <table:template><Text text="{path:'kmRodados', formatter:'.formatter.fmtKm'}"/></table:template>
+            <table:template><Text text="{path:'kmRodadosAgg', formatter:'.formatter.fmtKm'}"/></table:template>
           </table:Column>
 
-          <table:Column width="9rem" hAlign="End">
+          <table:Column sortProperty="hrRodadosAgg" width="9rem" hAlign="End">
             <Label text="Hr rodados"/>
-            <table:template><Text text="{path:'hrRodados', formatter:'.formatter.fmtNum'}"/></table:template>
+            <table:template><Text text="{path:'hrRodadosAgg', formatter:'.formatter.fmtNum'}"/></table:template>
           </table:Column>
 
-          <table:Column width="8rem" hAlign="End">
+          <table:Column sortProperty="funcaokmcomb" width="8rem" hAlign="End">
             <Label text="Km/L"/>
             <table:template>
               <Text text="{
-                parts:['kmRodados','combustivelLitrosAgg'],
+                parts:['kmRodadosAgg','combustivelLitrosAgg'],
                 formatter: '.formatter.fmtFuncaoKmComb'
-              }"/>
+              }" visible="{= ${kmRodadosAgg} > 0 }"/>
             </table:template>
           </table:Column>
 
-          <table:Column width="8rem" hAlign="End">
+          <table:Column sortProperty="funcaohrRodados" width="8rem" hAlign="End">
             <Label text="L/Hr"/>
             <table:template>
               <Text text="{
-                parts:['combustivelLitrosAgg','hrRodados'],
+                parts:['combustivelLitrosAgg','hrRodadosAgg'],
                 formatter: '.formatter.fmtFuncaoHoraComb'
-              }"/>
+              }" visible="{= ${hrRodadosAgg} > 0 }"/>
             </table:template>
           </table:Column>
 
-          <!-- Data agora vem dos MATERIAIS do período (mais recente) -->
           <table:Column width="9rem" hAlign="End">
             <Label text="Data"/>
-            <table:template><Text text="{path:'dataMatRef', formatter:'.formatter.fmtDate'}"/></table:template>
+            <table:template><Text text="{path:'dataRef', formatter:'.formatter.fmtDate'}"/></table:template>
           </table:Column>
 
         </table:columns>
       </table:Table>
-
     </content>
   </Page>
 </mvc:View>

@@ -1,41 +1,91 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-  <Dialog id="dlgFuel" title="{fuel>/titulo}" icon="sap-icon://gas-station" contentWidth="auto" horizontalScrolling="false">
+  <Dialog id="dlgFuel"
+          title="{fuel>/titulo}"
+          icon="sap-icon://gas-station"
+          contentWidth="auto"
+          horizontalScrolling="false">
+
     <content>
-      <Table id="tblFuel" items="{fuel>/eventos}">
-        <columns>
-          <Column><Label text="Data"/></Column>
-          <Column><Label text="Hora"/></Column>
-          <Column hAlign="End"><Label text="Quilometragem"/></Column>
-          <Column hAlign="End"><Label text="Abastecimento (L)"/></Column>
+      <VBox renderType="Bare">
+        <Table id="tblFuel"
+               items="{fuel>/eventos}"
+               growing="true"
+               growingScrollToLoad="true"
+               noDataText="Sem abastecimentos no período selecionado">
+          <columns>
+            <Column><Label text="Data"/></Column>
+            <Column minScreenWidth="Phone" demandPopin="true"><Label text="Hora"/></Column>
 
-          <!-- NOVA: Km/L -->
-          <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true">
-            <Label text="Km/L"/>
-          </Column>
+            <!-- KM: só quando showKm -->
+            <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true" visible="{fuel>/showKm}">
+              <Label text="Km"/>
+            </Column>
 
-          <!-- (Opcional) NOVA: L/Km -->
-          <Column hAlign="End" minScreenWidth="Desktop" demandPopin="true">
-            <Label text="L/Km"/>
-          </Column>
-        </columns>
+            <!-- HR: só quando showHr -->
+            <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true" visible="{fuel>/showHr}">
+              <Label text="Hr"/>
+            </Column>
 
-        <items>
-          <ColumnListItem>
-            <cells>
-              <Text text="{path:'fuel>data', formatter:'.formatter.fmtDate'}"/>
-              <Text text="{fuel>hora}"/>
-              <ObjectNumber number="{path:'fuel>km', formatter:'.formatter.fmtKm'}"/>
-              <ObjectNumber number="{path:'fuel>litros', formatter:'.formatter.fmtLitros'}"/>
+            <Column hAlign="End"><Label text="Litros"/></Column>
 
-              <!-- Km/L calculado -->
-              <ObjectNumber number="{path:'fuel>_kmPorL', formatter:'.formatter.fmtNum'}"/>
+            <!-- Km/L: só quando showKm -->
+            <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true" visible="{fuel>/showKm}">
+              <Label text="Km/L"/>
+            </Column>
 
-              <!-- (Opcional) L/Km calculado -->
-              <ObjectNumber number="{path:'fuel>_lPorKm', formatter:'.formatter.fmtNum'}"/>
-            </cells>
-          </ColumnListItem>
-        </items>
-      </Table>
+            <!-- L/Hr: só quando showHr -->
+            <Column hAlign="End" minScreenWidth="Desktop" demandPopin="true" visible="{fuel>/showHr}">
+              <Label text="L/Hr"/>
+            </Column>
+          </columns>
+
+          <items>
+            <ColumnListItem>
+              <cells>
+                <Text text="{path:'fuel>data', formatter:'.formatter.fmtDate'}"/>
+                <Text text="{path:'fuel>hora', formatter:'.formatter.fmtHora'}"/>
+
+                <!-- KM -->
+                <ObjectNumber number="{path:'fuel>km', formatter:'.formatter.fmtKm'}" visible="{fuel>/showKm}"/>
+
+                <!-- HR -->
+                <ObjectNumber number="{path:'fuel>hr', formatter:'.formatter.fmtNum'}" visible="{fuel>/showHr}"/>
+
+                <!-- LITROS -->
+                <ObjectNumber number="{path:'fuel>litros', formatter:'.formatter.fmtLitros'}"/>
+
+                <!-- Km/L -->
+                <ObjectNumber number="{path:'fuel>_kmPorL', formatter:'.formatter.fmtNum'}"
+                              visible="{= ${fuel>/showKm} && ${fuel>_kmPorL} > 0 }"/>
+
+                <!-- L/Hr -->
+                <ObjectNumber number="{path:'fuel>_lPorHr', formatter:'.formatter.fmtNum'}"
+                              visible="{= ${fuel>/showHr} && ${fuel>_lPorHr} > 0 }"/>
+              </cells>
+            </ColumnListItem>
+          </items>
+        </Table>
+
+        <!-- Rodapé: condiciona as métricas conforme o modo -->
+        <Toolbar class="sapUiTinyMarginTop">
+          <ToolbarSpacer/>
+          <ObjectStatus text="Total Litros:"/>
+          <ObjectNumber number="{path:'fuel>/totalLitros', formatter:'.formatter.fmtLitros'}"/>
+
+          <ToolbarSeparator/>
+
+          <ObjectStatus text="Média Km/L:" visible="{fuel>/showKm}"/>
+          <ObjectNumber number="{path:'fuel>/mediaKmPorL', formatter:'.formatter.fmtNum'}" visible="{fuel>/showKm}"/>
+
+          <ToolbarSeparator visible="{fuel>/showHr}"/>
+
+          <ObjectStatus text="Média L/Hr:" visible="{fuel>/showHr}"/>
+          <ObjectNumber number="{path:'fuel>/mediaLPorHr', formatter:'.formatter.fmtNum'}" visible="{fuel>/showHr}"/>
+        </Toolbar>
+
+        <Text text="Sem abastecimentos para este veículo no período"
+              visible="{= ${fuel>/eventos}.length === 0 }"/>
+      </VBox>
     </content>
 
     <buttons>

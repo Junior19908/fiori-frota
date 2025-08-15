@@ -1,10 +1,17 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-  <Dialog id="dlgMateriais" title="{dlg>/titulo}" icon="sap-icon://wrench" contentWidth="auto" horizontalScrolling="false">
+  <Dialog id="dlgMateriais"
+          title="{dlg>/titulo}"
+          icon="sap-icon://wrench"
+          contentWidth="auto"
+          horizontalScrolling="false">
     <content>
-      <!-- Colocamos a tabela e, ABAIXO DELA, a barra de totais -->
       <VBox renderType="Bare">
 
-        <Table id="tblMat" items="{dlg>/materiais}">
+        <Table id="tblMat"
+               items="{dlg>/materiais}"
+               growing="true"
+               growingScrollToLoad="true"
+               noDataText="Sem materiais/serviços no período selecionado">
           <columns>
             <Column><Label text="Item"/></Column>
             <Column><Label text="Tipo"/></Column>
@@ -54,9 +61,8 @@
           </items>
         </Table>
 
-
         <!-- TOTAIS NO RODAPÉ DO CONTEÚDO -->
-        <Toolbar>
+        <Toolbar class="sapUiTinyMarginTop">
           <ToolbarSpacer/>
           <ObjectStatus text="Total itens:"/>
           <ObjectNumber number="{dlg>/totalItens}"/>
@@ -66,12 +72,12 @@
         </Toolbar>
 
         <!-- Mensagem de vazio -->
-        <Text text="Sem materiais para este veículo"
+        <Text text="Sem materiais para este veículo no período"
               visible="{= ${dlg>/materiais}.length === 0 }"/>
       </VBox>
     </content>
 
-    <!-- Todos os botões aqui: aparecem sempre -->
+    <!-- Botões -->
     <buttons>
       <Button text="Exportar CSV" type="Emphasized"
               press=".onExportMateriais"
