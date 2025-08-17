@@ -63,7 +63,7 @@
                       <Text text="Período:"/>
                       <DateRangeSelection id="drsHist"
                                           displayFormat="long"
-                                          width="18rem"
+                                          width="17rem"
                                           dateValue="{hfilter>/d1}"
                                           secondDateValue="{hfilter>/d2}"
                                           change=".onFilterChangeHist"/>
@@ -90,11 +90,9 @@
                       <Button text="Limpar" type="Transparent" press=".onClearHistFilters"/>
                     </OverflowToolbar>
                     <!-- ================================ -->
-
-                    <IconTabBar expandable="false" class="sapUiResponsiveContentPadding">
-
-                      <!-- ABA: COMBUSTÍVEIS -->
+                    <IconTabBar expandable="false" class="sapUiResponsiveContentPadding sapUiMediumMarginTop">
                       <items>
+                        <!-- ABA: COMBUSTÍVEIS -->
                         <IconTabFilter text="Combustíveis" icon="sap-icon://mileage">
                           <table:Table id="tblCombustiveis"
                                        rows="{path:'detail>/historicoComb'}"
@@ -103,35 +101,31 @@
                                        width="100%"
                                        alternateRowColors="true">
                             <table:columns>
-                              <table:Column width="9rem">
+                              <table:Column sortProperty="data" width="6rem">
                                 <Label text="Data"/>
                                 <table:template>
                                   <Text text="{path:'detail>data', formatter:'.formatter.fmtDate'}"/>
                                 </table:template>
                               </table:Column>
-
-                              <table:Column width="22rem">
+                              <table:Column sortProperty="descricao" width="7rem">
                                 <Label text="Descrição"/>
                                 <table:template>
                                   <Text text="{detail>descricao}" wrapping="true" tooltip="{detail>descricao}"/>
                                 </table:template>
                               </table:Column>
-
-                              <table:Column width="8rem" hAlign="End">
+                              <table:Column sortProperty="qtde" width="7rem" hAlign="End">
                                 <Label text="Litros"/>
                                 <table:template>
                                   <Text text="{path:'detail>qtde', formatter:'.formatter.fmtNum'}"/>
                                 </table:template>
                               </table:Column>
-
-                              <table:Column width="10rem" hAlign="End">
+                              <table:Column sortProperty="custoUnit" width="7rem" hAlign="End">
                                 <Label text="Preço Médio"/>
                                 <table:template>
                                   <Text text="{path:'detail>custoUnit', formatter:'.formatter.fmtBrl'}"/>
                                 </table:template>
                               </table:Column>
-
-                              <table:Column width="10rem" hAlign="End">
+                              <table:Column sortProperty="valor" width="10rem" hAlign="End">
                                 <Label text="Total (R$)"/>
                                 <table:template>
                                   <Text text="{path:'detail>valor', formatter:'.formatter.fmtBrl'}"/>
@@ -150,41 +144,36 @@
                                        width="100%"
                                        alternateRowColors="true">
                             <table:columns>
-                              <table:Column width="9rem">
+                              <table:Column sortProperty="data" width="6rem">
                                 <Label text="Data"/>
                                 <table:template>
                                   <Text text="{path:'detail>data', formatter:'.formatter.fmtDate'}"/>
                                 </table:template>
                               </table:Column>
-
-                              <table:Column width="22rem">
+                              <table:Column sortProperty="descricao" width="22rem">
                                 <Label text="Descrição"/>
                                 <table:template>
                                   <Text text="{detail>descricao}" wrapping="true" tooltip="{detail>descricao}"/>
                                 </table:template>
                               </table:Column>
-
-                              <table:Column width="8rem" hAlign="End">
+                              <table:Column sortProperty="qtde" width="7rem" hAlign="End">
                                 <Label text="Qtde"/>
                                 <table:template>
                                   <Text text="{path:'detail>qtde', formatter:'.formatter.fmtNum'}"/>
                                 </table:template>
                               </table:Column>
-
-                              <table:Column width="10rem" hAlign="End">
+                              <table:Column sortProperty="custoUnit" width="10rem" hAlign="End">
                                 <Label text="Custo Unit."/>
                                 <table:template>
                                   <Text text="{path:'detail>custoUnit', formatter:'.formatter.fmtBrl'}"/>
                                 </table:template>
                               </table:Column>
-
-                              <table:Column width="10rem" hAlign="End">
+                              <table:Column sortProperty="valor" width="10rem" hAlign="End">
                                 <Label text="Total (R$)"/>
                                 <table:template>
                                   <Text text="{path:'detail>valor', formatter:'.formatter.fmtBrl'}"/>
                                 </table:template>
                               </table:Column>
-
                             </table:columns>
                           </table:Table>
                         </IconTabFilter>
@@ -198,35 +187,31 @@
                                        width="100%"
                                        alternateRowColors="true">
                             <table:columns>
-                              <table:Column width="9rem">
+                              <table:Column sortProperty="data" width="6rem">
                                 <Label text="Data"/>
                                 <table:template>
                                   <Text text="{path:'detail>data', formatter:'.formatter.fmtDate'}"/>
                                 </table:template>
                               </table:Column>
-
-                              <table:Column width="22rem">
+                              <table:Column sortProperty="descricao" width="22rem">
                                 <Label text="Descrição"/>
                                 <table:template>
                                   <Text text="{detail>descricao}" wrapping="true" tooltip="{detail>descricao}"/>
                                 </table:template>
                               </table:Column>
-
-                              <table:Column width="8rem" hAlign="End">
+                              <table:Column sortProperty="qtde" width="5rem" hAlign="End">
                                 <Label text="Qtde"/>
                                 <table:template>
                                   <Text text="{path:'detail>qtde', formatter:'.formatter.fmtNum'}"/>
                                 </table:template>
                               </table:Column>
-
-                              <table:Column width="10rem" hAlign="End">
+                              <table:Column sortProperty="custoUnit" width="7rem" hAlign="End">
                                 <Label text="Custo Unit."/>
                                 <table:template>
                                   <Text text="{path:'detail>custoUnit', formatter:'.formatter.fmtBrl'}"/>
                                 </table:template>
                               </table:Column>
-
-                              <table:Column width="10rem" hAlign="End">
+                              <table:Column sortProperty="valor" width="7rem" hAlign="End">
                                 <Label text="Total (R$)"/>
                                 <table:template>
                                   <Text text="{path:'detail>valor', formatter:'.formatter.fmtBrl'}"/>
@@ -241,7 +226,7 @@
                   </VBox>
                 </l:mainContent>
 
-                <!-- KPI LATERAL -->
+                <!-- KPI LATERAL + GRÁFICO COMPARATIVO COMPACTO -->
                 <l:sideContent>
                   <VBox class="sapUiSmallMargin sapUiResponsiveContentPadding">
                     <Toolbar class="sapUiTinyMarginBottom">
@@ -264,41 +249,50 @@
                       <ObjectStatus text="Total Geral" state="None"/>
                       <ObjectNumber number="{detail>/totalGeralFmt}" class="sapUiTinyMarginBegin"/>
                     </Toolbar>
-                  </VBox>
-                  <!-- ===== Gráfico comparativo (ABAIXO DOS KPIs) ===== -->
-                  <Panel headerText="Comparativo nos 2024 × 2025" class="sapUiMediumMarginTop">
-                    <content>
-                      <viz:VizFrame id="barCompare"
-                                    xmlns:viz="sap.viz.ui5.controls"
-                                    vizType="column"
+
+                    <!-- Gráfico principal (tipo alternável) -->
+                    <VBox class="sapUiSmallMarginTop">
+                      <Toolbar>
+                        <Title text="Comparativo (Ano Atual x Ano Anterior)" level="H5"/>
+                        <ToolbarSpacer/>
+                        <SegmentedButton selectionChange=".onChartTypeChange" selectedKey="{history>/chartType}">
+                          <items>
+                            <SegmentedButtonItem key="column" text="Colunas"/>
+                            <SegmentedButtonItem key="line" text="Linhas"/>
+                          </items>
+                        </SegmentedButton>
+                        <Button icon="sap-icon://refresh" tooltip="Recalcular" press=".onRefresh"/>
+                      </Toolbar>
+
+                      <viz:VizFrame id="vf"
+                                    uiConfig="{applicationSet:'fiori'}"
+                                    vizType="{history>/chartType}"
                                     width="100%"
-                                    height="260px">
+                                    height="420px">
                         <viz:dataset>
-                          <viz.data:FlattenedDataset xmlns:viz.data="sap.viz.ui5.data"
-                                                    data="{chart>/rows}">
+                          <viz.data:FlattenedDataset data="{history>/points}">
                             <viz.data:dimensions>
-                              <viz.data:DimensionDefinition name="Mês" value="{chart>mes}"/>
+                              <viz.data:DimensionDefinition name="Mês" value="{history>label}"/>
                             </viz.data:dimensions>
                             <viz.data:measures>
-                              <viz.data:MeasureDefinition name="2024" value="{chart>y2024}"/>
-                              <viz.data:MeasureDefinition name="2025" value="{chart>y2025}"/>
+                              <viz.data:MeasureDefinition name="Ano Atual" value="{history>current}"/>
+                              <viz.data:MeasureDefinition name="Ano Anterior" value="{history>previous}"/>
                             </viz.data:measures>
                           </viz.data:FlattenedDataset>
                         </viz:dataset>
+
                         <viz:feeds>
-                          <viz.feeds:FeedItem xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
-                                              uid="categoryAxis"
-                                              type="Dimension"
-                                              values="Mês"/>
-                          <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="2024, 2025"/>
+                          <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Ano Atual,Ano Anterior"/>
+                          <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Mês"/>
                         </viz:feeds>
                       </viz:VizFrame>
 
-                      <!-- PopOver para tooltip do gráfico -->
-                      <viz:Popover id="barComparePopover" connect="barCompare" xmlns:viz="sap.viz.ui5.controls"/>
-                    </content>
-                  </Panel>
-                  <!-- ================================================ -->
+                      <viz:Popover id="vfPopover" connect="vf"/>
+                      <HBox class="sapUiSmallMarginTop">
+                        <ObjectStatus text="{history>/subtitle}" state="Information"/>
+                      </HBox>
+                    </VBox>
+                  </VBox>
                 </l:sideContent>
 
               </l:DynamicSideContent>

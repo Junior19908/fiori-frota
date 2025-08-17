@@ -16,25 +16,23 @@
             <Column><Label text="Data"/></Column>
             <Column minScreenWidth="Phone" demandPopin="true"><Label text="Hora"/></Column>
 
-            <!-- KM: só quando showKm -->
-            <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true" visible="{fuel>/showKm}">
+            <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true">
               <Label text="Km"/>
             </Column>
 
-            <!-- HR: só quando showHr -->
-            <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true" visible="{fuel>/showHr}">
+            <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true">
               <Label text="Hr"/>
             </Column>
 
-            <Column hAlign="End"><Label text="Litros"/></Column>
+            <Column hAlign="End">
+              <Label text="Litros"/>
+            </Column>
 
-            <!-- Km/L: só quando showKm -->
-            <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true" visible="{fuel>/showKm}">
+            <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true">
               <Label text="Km/L"/>
             </Column>
 
-            <!-- L/Hr: só quando showHr -->
-            <Column hAlign="End" minScreenWidth="Desktop" demandPopin="true" visible="{fuel>/showHr}">
+            <Column hAlign="End" minScreenWidth="Desktop" demandPopin="true">
               <Label text="L/Hr"/>
             </Column>
           </columns>
@@ -45,28 +43,28 @@
                 <Text text="{path:'fuel>data', formatter:'.formatter.fmtDate'}"/>
                 <Text text="{path:'fuel>hora', formatter:'.formatter.fmtHora'}"/>
 
-                <!-- KM -->
-                <ObjectNumber number="{path:'fuel>km', formatter:'.formatter.fmtKm'}" visible="{fuel>/showKm}"/>
+                <!-- Km: se o seu JSON usa outro campo (quilometragem/hodometro), mantenha o cálculo no controller como já está -->
+                <ObjectNumber number="{path:'fuel>km', formatter:'.formatter.fmtKm'}"/>
 
-                <!-- HR -->
-                <ObjectNumber number="{path:'fuel>hr', formatter:'.formatter.fmtNum'}" visible="{fuel>/showHr}"/>
+                <!-- Horas -->
+                <ObjectNumber number="{path:'fuel>hr', formatter:'.formatter.fmtNum'}"/>
 
-                <!-- LITROS -->
+                <!-- Litros -->
                 <ObjectNumber number="{path:'fuel>litros', formatter:'.formatter.fmtLitros'}"/>
 
-                <!-- Km/L -->
+                <!-- Km/L (já calculado no controller em _kmPorL) -->
                 <ObjectNumber number="{path:'fuel>_kmPorL', formatter:'.formatter.fmtNum'}"
-                              visible="{= ${fuel>/showKm} && ${fuel>_kmPorL} > 0 }"/>
+                              visible="{= ${fuel>_kmPorL} > 0 }"/>
 
-                <!-- L/Hr -->
+                <!-- L/Hr (vamos calcular média global no rodapé; por linha pode vir vazio se não houver delta de horas entre eventos) -->
                 <ObjectNumber number="{path:'fuel>_lPorHr', formatter:'.formatter.fmtNum'}"
-                              visible="{= ${fuel>/showHr} && ${fuel>_lPorHr} > 0 }"/>
+                              visible="{= ${fuel>_lPorHr} > 0 }"/>
               </cells>
             </ColumnListItem>
           </items>
         </Table>
 
-        <!-- Rodapé: condiciona as métricas conforme o modo -->
+        <!-- Rodapé com totais/médias do período -->
         <Toolbar class="sapUiTinyMarginTop">
           <ToolbarSpacer/>
           <ObjectStatus text="Total Litros:"/>
@@ -74,15 +72,16 @@
 
           <ToolbarSeparator/>
 
-          <ObjectStatus text="Média Km/L:" visible="{fuel>/showKm}"/>
-          <ObjectNumber number="{path:'fuel>/mediaKmPorL', formatter:'.formatter.fmtNum'}" visible="{fuel>/showKm}"/>
+          <ObjectStatus text="Média Km/L:"/>
+          <ObjectNumber number="{path:'fuel>/mediaKmPorL', formatter:'.formatter.fmtNum'}"/>
 
-          <ToolbarSeparator visible="{fuel>/showHr}"/>
+          <ToolbarSeparator/>
 
-          <ObjectStatus text="Média L/Hr:" visible="{fuel>/showHr}"/>
-          <ObjectNumber number="{path:'fuel>/mediaLPorHr', formatter:'.formatter.fmtNum'}" visible="{fuel>/showHr}"/>
+          <ObjectStatus text="Média L/Hr:"/>
+          <ObjectNumber number="{path:'fuel>/mediaLPorHr', formatter:'.formatter.fmtNum'}"/>
         </Toolbar>
 
+        <!-- Mensagem vazio alternativa (opcional) -->
         <Text text="Sem abastecimentos para este veículo no período"
               visible="{= ${fuel>/eventos}.length === 0 }"/>
       </VBox>

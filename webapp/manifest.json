@@ -49,6 +49,7 @@
         "sap.ui.table": {},
         "sap.uxap": {},
         "sap.ui.layout": {},
+        "sap.ui.table": {},
         "sap.viz": {}
       }
     },
