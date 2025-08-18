@@ -124,127 +124,127 @@ sap.ui.define([
     onCloseMateriais: function () { this.byId("dlgMateriais")?.close(); },
 
     // -------- Dialog Abastecimentos (mantém cálculo Km/L/L/Km)
-          onOpenAbastecimentos: function (oEvent) {
-          var item = this._ctx(oEvent);
-          var key  = item.id || item.veiculo;
+    onOpenAbastecimentos: function (oEvent) {
+      var item = this._ctx(oEvent);
+      var key  = item.id || item.veiculo;
 
-          var abModel = this.getView().getModel("abast");
-          var arr = (abModel && abModel.getProperty("/abastecimentosPorVeiculo/" + key)) || item.abastecimentos || [];
+      var abModel = this.getView().getModel("abast");
+      var arr = (abModel && abModel.getProperty("/abastecimentosPorVeiculo/" + key)) || item.abastecimentos || [];
 
-          // --- FILTRO POR PERÍODO DO DRS ---
-          var rng = this._currentRange(); // [start,end] ou null
-          var list = arr;
-          if (rng) {
-            var start = rng[0], end = rng[1];
-            list = arr.filter(function (a) {
-              var d = this._parseAnyDate(a.data);
-              return d && d >= start && d <= end;
-            }.bind(this));
-          }
+      // --- FILTRO POR PERÍODO DO DRS ---
+      var rng = this._currentRange(); // [start,end] ou null
+      var list = arr;
+      if (rng) {
+        var start = rng[0], end = rng[1];
+        list = arr.filter(function (a) {
+          var d = this._parseAnyDate(a.data);
+          return d && d >= start && d <= end;
+        }.bind(this));
+      }
 
-          // --- ORDENAÇÃO POR DATA/HORA CRESCENTE ---
-          var toTime = function (ev) {
-            var d = this._parseAnyDate(ev.data) || new Date(0,0,1);
-            if (ev.hora && /^\d{2}:\d{2}:\d{2}$/.test(String(ev.hora))) {
-              var parts = ev.hora.split(":").map(Number);
-              d.setHours(parts[0]||0, parts[1]||0, parts[2]||0, 0);
-            }
-            return d.getTime();
-          }.bind(this);
-          list = list.slice().sort(function (a,b){ return toTime(a) - toTime(b); });
+      // --- ORDENAÇÃO POR DATA/HORA CRESCENTE ---
+      var toTime = function (ev) {
+        var d = this._parseAnyDate(ev.data) || new Date(0,0,1);
+        if (ev.hora && /^\d{2}:\d{2}:\d{2}$/.test(String(ev.hora))) {
+          var parts = ev.hora.split(":").map(Number);
+          d.setHours(parts[0]||0, parts[1]||0, parts[2]||0, 0);
+        }
+        return d.getTime();
+      }.bind(this);
+      list = list.slice().sort(function (a,b){ return toTime(a) - toTime(b); });
 
-          // --- HELPERS DE PARSE ---
-          var parseNum = function (v) {
-            if (v == null) return NaN;
-            if (typeof v === "number") return v;
-            var s = String(v).replace(/\s|Km/gi, "").replace(/\./g, "").replace(",", ".");
-            var n = Number(s);
-            return isNaN(n) ? NaN : n;
-          };
-          var readKm = function (ev) { return parseNum(ev.quilometragem ?? ev.km ?? ev.hodometro ?? ev.quilometragemKm); };
-          var readHr = function (ev) { return parseNum(ev.hr); };
+      // --- HELPERS DE PARSE ---
+      var parseNum = function (v) {
+        if (v == null) return NaN;
+        if (typeof v === "number") return v;
+        var s = String(v).replace(/\s|Km/gi, "").replace(/\./g, "").replace(",", ".");
+        var n = Number(s);
+        return isNaN(n) ? NaN : n;
+      };
+      var readKm = function (ev) { return parseNum(ev.quilometragem ?? ev.km ?? ev.hodometro ?? ev.quilometragemKm); };
+      var readHr = function (ev) { return parseNum(ev.hr); };
 
-          // --- LIMIARES PARA EVITAR “ERROS” (ajuste se quiser) ---
-          var MAX_KM_DELTA = 2000; // km entre dois abastecimentos
-          var MAX_HR_DELTA = 200;  // horas entre dois abastecimentos
+      // --- LIMIARES PARA EVITAR “ERROS” (ajuste se quiser) ---
+      var MAX_KM_DELTA = 2000; // km entre dois abastecimentos
+      var MAX_HR_DELTA = 200;  // horas entre dois abastecimentos
 
-          // --- CÁLCULO POR LINHA + TOTAIS/MÉDIAS ---
-          var totalLitros = 0;
-          var somaKmDelta = 0;
-          var somaHrDelta = 0;
-          var hasKmDelta  = false;
-          var hasHrDelta  = false;
+      // --- CÁLCULO POR LINHA + TOTAIS/MÉDIAS ---
+      var totalLitros = 0;
+      var somaKmDelta = 0;
+      var somaHrDelta = 0;
+      var hasKmDelta  = false;
+      var hasHrDelta  = false;
 
-          for (var j = 0; j < list.length; j++) {
-            var ev = list[j];
-            var litros = Number(ev.litros || 0);
-            totalLitros += litros;
+      for (var j = 0; j < list.length; j++) {
+        var ev = list[j];
+        var litros = Number(ev.litros || 0);
+        totalLitros += litros;
 
-            ev._kmPerc = ev._kmPorL = ev._lPorKm = ev._lPorHr = null; // zera
+        ev._kmPerc = ev._kmPorL = ev._lPorKm = ev._lPorHr = null; // zera
 
-            if (j === 0) continue;
-            var prev = list[j-1];
+        if (j === 0) continue;
+        var prev = list[j-1];
 
-            var kmCur = readKm(ev),   kmAnt = readKm(prev);
-            var hrCur = readHr(ev),   hrAnt = readHr(prev);
+        var kmCur = readKm(ev),   kmAnt = readKm(prev);
+        var hrCur = readHr(ev),   hrAnt = readHr(prev);
 
-            var dKm = (isFinite(kmCur) && isFinite(kmAnt)) ? (kmCur - kmAnt) : NaN;
-            var dHr = (isFinite(hrCur) && isFinite(hrAnt)) ? (hrCur - hrAnt) : NaN;
+        var dKm = (isFinite(kmCur) && isFinite(kmAnt)) ? (kmCur - kmAnt) : NaN;
+        var dHr = (isFinite(hrCur) && isFinite(hrAnt)) ? (hrCur - hrAnt) : NaN;
 
-            // valida delta de KM
-            var kmValido = isFinite(dKm) && dKm > 0 && dKm <= MAX_KM_DELTA;
-            // valida delta de HORAS
-            var hrValido = isFinite(dHr) && dHr > 0 && dHr <= MAX_HR_DELTA;
+        // valida delta de KM
+        var kmValido = isFinite(dKm) && dKm > 0 && dKm <= MAX_KM_DELTA;
+        // valida delta de HORAS
+        var hrValido = isFinite(dHr) && dHr > 0 && dHr <= MAX_HR_DELTA;
 
-            if (kmValido && litros > 0) {
-              ev._kmPerc = dKm;
-              ev._kmPorL = dKm / litros;
-              ev._lPorKm = litros / dKm;
-              somaKmDelta += dKm;
-              hasKmDelta = true;
-            }
-            if (hrValido && litros > 0) {
-              ev._lPorHr = litros / dHr;
-              somaHrDelta += dHr;
-              hasHrDelta = true;
-            }
-          }
+        if (kmValido && litros > 0) {
+          ev._kmPerc = dKm;
+          ev._kmPorL = dKm / litros;
+          ev._lPorKm = litros / dKm;
+          somaKmDelta += dKm;
+          hasKmDelta = true;
+        }
+        if (hrValido && litros > 0) {
+          ev._lPorHr = litros / dHr;
+          somaHrDelta += dHr;
+          hasHrDelta = true;
+        }
+      }
 
-          // --- MÉDIAS PARA O RODAPÉ DO DIALOG ---
-          var mediaKmPorL = (totalLitros > 0 && somaKmDelta > 0) ? (somaKmDelta / totalLitros) : 0;
-          var mediaLPorHr = (somaHrDelta > 0) ? (totalLitros / somaHrDelta) : 0;
+      // --- MÉDIAS PARA O RODAPÉ DO DIALOG ---
+      var mediaKmPorL = (totalLitros > 0 && somaKmDelta > 0) ? (somaKmDelta / totalLitros) : 0;
+      var mediaLPorHr = (somaHrDelta > 0) ? (totalLitros / somaHrDelta) : 0;
 
-          // --- REGRAS DE VISIBILIDADE (KM x HR) ---
-          // Se houver QUALQUER delta de KM válido => mostramos só KM; senão, se houver HR => mostramos só HR.
-          var showKm = false, showHr = false;
-          if (hasKmDelta) {
-            showKm = true;  showHr = false;
-          } else if (hasHrDelta) {
-            showKm = false; showHr = true;
-          } else {
-            // Sem deltas válidos: mostra ambos para o usuário ver os dados crus
-            showKm = true;  showHr = true;
-          }
+      // --- REGRAS DE VISIBILIDADE (KM x HR) ---
+      // Se houver QUALQUER delta de KM válido => mostramos só KM; senão, se houver HR => mostramos só HR.
+      var showKm = false, showHr = false;
+      if (hasKmDelta) {
+        showKm = true;  showHr = false;
+      } else if (hasHrDelta) {
+        showKm = false; showHr = true;
+      } else {
+        // Sem deltas válidos: mostra ambos para o usuário ver os dados crus
+        showKm = true;  showHr = true;
+      }
 
-          // --- MODEL DO DIALOG ---
-          if (!this._fuelModel) this._fuelModel = new sap.ui.model.json.JSONModel();
-          this._fuelModel.setData({
-            titulo: `Abastecimentos — ${item.veiculo} — ${item.descricao || ""}`,
-            eventos: list,
-            totalLitros: totalLitros,
-            mediaKmPorL: mediaKmPorL,
-            mediaLPorHr: mediaLPorHr,
-            showKm: showKm,
-            showHr: showHr
-          });
+      // --- MODEL DO DIALOG ---
+      if (!this._fuelModel) this._fuelModel = new sap.ui.model.json.JSONModel();
+      this._fuelModel.setData({
+        titulo: `Abastecimentos — ${item.veiculo} — ${item.descricao || ""}`,
+        eventos: list,
+        totalLitros: totalLitros,
+        mediaKmPorL: mediaKmPorL,
+        mediaLPorHr: mediaLPorHr,
+        showKm: showKm,
+        showHr: showHr
+      });
 
-          // --- ABRE O FRAGMENT ---
-          this._openFragment(
-            "com.skysinc.frota.frota.fragments.FuelDialog",
-            "dlgFuel",
-            { fuel: this._fuelModel }
-          );
-          },
+      // --- ABRE O FRAGMENT ---
+      this._openFragment(
+        "com.skysinc.frota.frota.fragments.FuelDialog",
+        "dlgFuel",
+        { fuel: this._fuelModel }
+      );
+    },
     onCloseFuel: function () { this.byId("dlgFuel")?.close(); },
 
     // =========================
@@ -326,7 +326,7 @@ sap.ui.define([
     _parseAnyDate: function (v) {
       if (!v) return null;
       if (v instanceof Date) return new Date(v.getFullYear(), v.getMonth(), v.getDate(), 0,0,0,0);
-      var s = String(v);
+      var s = String(v).trim();
 
       var mIso = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
       if (mIso) return new Date(+mIso[1], +mIso[2]-1, +mIso[3], 0,0,0,0);
@@ -347,6 +347,18 @@ sap.ui.define([
       return [start, end];
     },
 
+    // ---- Parser numérico robusto para valores em pt-BR ----
+    _numBR: function (v) {
+      if (v == null || v === "") return 0;
+      if (typeof v === "number" && isFinite(v)) return v;
+      var s = String(v).trim()
+        .replace(/[R$\s]/g, "") // remove R$ e espaços
+        .replace(/\./g, "")     // remove separador de milhar
+        .replace(",", ".");     // vírgula -> ponto
+      var n = Number(s);
+      return isFinite(n) ? n : 0;
+    },
+
     // Carrega TODOS os meses do intervalo (quando existir API), senão cai para setMockYM
     _maybeReloadByFilterMonth: function () {
       var drs = this.byId("drs");
@@ -359,14 +371,16 @@ sap.ui.define([
       var comp = this.getOwnerComponent();
 
       if (comp && typeof comp.setMockRange === "function") {
-        // carrega do 1º dia do mês de d1 ao fim do mês de d2
+        // calcula último dia do mês de d2
+        var lastDay = new Date(d2.getFullYear(), d2.getMonth() + 1, 0); // último dia do mês
         return comp.setMockRange(
           new Date(d1.getFullYear(), d1.getMonth(), 1),
-          new Date(d2.getFullYear(), d2.getMonth(), 28)
+          lastDay
         ).then(function () {
           this._recalcAggByRange();
         }.bind(this));
       }
+
 
       // fallback: ao menos mês de d1
       var yyyy = d1.getFullYear();
@@ -457,18 +471,26 @@ sap.ui.define([
         // ---- agregações ----
         // (1) Materiais (R$)
         var custoMatAgg = matsInRange.reduce(function (s, m) {
+          // manter Number aqui, pois dados de materiais costumam já vir numéricos
           return s + (Number(m.qtde || 0) * Number(m.custoUnit || 0));
         }, 0);
 
-        // (2) Combustível (L e R$)
+        // (2) Combustível (L e R$) — usando parser BR
         var litrosAgg = 0, valorAgg = 0;
         abInRange.forEach(function (ev) {
-          var litros = Number(ev.litros || 0);
-          var temValorDireto = ev.valor != null;
-          var preco = (ev.preco != null ? Number(ev.preco) : (ev.precoLitro != null ? Number(ev.precoLitro) : 0));
+          var litros = this._numBR(ev.litros);
           litrosAgg += litros;
-          valorAgg  += temValorDireto ? Number(ev.valor || 0) : (preco * litros);
-        });
+
+          // valor total do abastecimento, quando existir
+          var valorTotal = this._numBR(ev.valor);
+          if (valorTotal > 0) {
+            valorAgg += valorTotal;
+          } else {
+            // preço por litro em possíveis chaves
+            var preco = this._numBR(ev.preco ?? ev.precoLitro ?? ev.preco_litro ?? ev.precoUnit ?? ev.preco_unit ?? ev.precoUnitario);
+            valorAgg += preco * litros;
+          }
+        }.bind(this));
 
         // (3) DELTAS de km e hr a partir dos abastecimentos do período
         var deltas = this._sumDeltasFromAbastecimentos(abInRange);
@@ -491,22 +513,19 @@ sap.ui.define([
         }
 
         // ---- aplica nos campos somas/divisões/multiplicações e etc usados na TABELA ----
-        v.custoMaterialAgg       = custoMatAgg;
-        v.combustivelLitrosAgg   = litrosAgg;
-        v.combustivelValorAgg    = valorAgg;
-        v.kmRodadosAgg           = deltas.km;
-        v.hrRodadosAgg           = deltas.hr;
+        v.custoMaterialAgg       = custoMatAgg || 0;
+        v.combustivelLitrosAgg   = litrosAgg   || 0;
+        v.combustivelValorAgg    = valorAgg    || 0;
+        v.kmRodadosAgg           = deltas.km   || 0;
+        v.hrRodadosAgg           = deltas.hr   || 0;
         v.dataRef                = dataRef;
         v.rangeHasMateriais      = matsInRange.length > 0;
         v.rangeHasAbastec        = abInRange.length > 0;
         v.rangeHasActivity       = v.rangeHasMateriais || v.rangeHasAbastec;
 
-        v.custoTotalAgg = (v.custoMaterialAgg || 0) + (v.combustivelValorAgg || 0);
-        v.funcaokmcomb = (v.kmRodadosAgg || 0)  / (v.combustivelLitrosAgg || 0);
-        v.funcaohrRodados = (v.combustivelLitrosAgg || 0) / (v.hrRodadosAgg || 0);
-        
-
-
+        v.custoTotalAgg   = (v.custoMaterialAgg || 0) + (v.combustivelValorAgg || 0);
+        v.funcaokmcomb    = (v.combustivelLitrosAgg ? (v.kmRodadosAgg / v.combustivelLitrosAgg) : 0);
+        v.funcaohrRodados = (v.hrRodadosAgg ? (v.combustivelLitrosAgg / v.hrRodadosAgg) : 0);
       }, this);
 
       baseModel.setProperty("/veiculos", vlist);
@@ -542,6 +561,7 @@ sap.ui.define([
 
       this.oTbl.getBinding("rows").filter(aFilters);
     },
+
     // KPIs a partir das linhas visíveis
     _recalcKpis: function () {
       if (!this.oTbl || !this.oTbl.getBinding("rows")) return;

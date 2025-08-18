@@ -18,6 +18,10 @@
             <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true"><Label text="Qtde"/></Column>
             <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true"><Label text="Custo Unit."/></Column>
             <Column hAlign="End"><Label text="Total (R$)"/></Column>
+          
+            <Column hAlign="Center" minScreenWidth="Desktop" demandPopin="true">
+              <Label text="Status"/>
+            </Column>
 
             <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Cód. Material"/></Column>
             <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Depósito"/></Column>
@@ -45,6 +49,10 @@
                   parts:['dlg>qtde','dlg>custoUnit'],
                   formatter:'.formatter.fmtTotalItemBrl'
                 }"/>
+
+                <Text text="DEVOLUÇÃO"
+                      visible="{path:'dlg>qtde', formatter:'.formatter.isDevolucao'}"
+                      class="blinkingText"/>
 
                 <Text text="{dlg>codMaterial}"/>
                 <Text text="{dlg>deposito}"/>

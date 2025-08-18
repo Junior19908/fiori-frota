@@ -6,6 +6,9 @@ sap.ui.define([], function () {
       try { return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(v||0)); }
       catch(e){ return v; }
     },
+    isDevolucao: function(qtde) {
+      return Number(qtde) < 0;
+    },
     fmtNum: function (v) {
       return Number(v || 0).toLocaleString('pt-BR', {
         minimumFractionDigits: 2, maximumFractionDigits: 2

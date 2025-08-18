@@ -24,6 +24,7 @@
         <DateRangeSelection id="drs"
                             displayFormat="long"
                             width="18rem"
+                            value="July 1, 2025 - July 31, 2025"
                             change=".onFilterChange">
           <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow"/>
@@ -172,7 +173,7 @@
             </table:template>
           </table:Column>
 
-          <table:Column width="9rem" hAlign="End">
+          <table:Column sortProperty="dataRef" width="9rem" hAlign="End">
             <Label text="Data"/>
             <table:template><Text text="{path:'dataRef', formatter:'.formatter.fmtDate'}"/></table:template>
           </table:Column>
