@@ -148,6 +148,8 @@ sap.ui.define([
 
       const { aMat, aAb } = getListsByVehicle(oComp, sId, oVeiculo);
 
+
+      //Valor individual do veículo
       const litrosMes  = toNum(oVeiculo.combustivelLitros);
       const valorMes   = toNum(oVeiculo.combustivelValor);
       const precoMedioVeic = litrosMes ? (valorMes / litrosMes) : 0;
