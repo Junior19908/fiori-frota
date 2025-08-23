@@ -17,7 +17,7 @@ sap.ui.define([
     onInit: function () {
       this.oTbl = this.byId("tbl");
 
-      // Modelo de KPIs
+      // KPI
       this.oKpi = new JSONModel({
         totalLitrosFmt: "0,00",
         gastoCombustivelFmt: "R$ 0,00",
@@ -35,9 +35,9 @@ sap.ui.define([
         oMainModel.attachRequestCompleted(function () {
           this._ensureCategories();
           this._ensureCategoriesForVehicle();
-          this._recalcAggByRange();     // agrega por período
-          this._applyTableFilters();     // filtra por atividade
-          this._recalcKpis();            // KPIs a partir das linhas visíveis
+          this._recalcAggByRange();
+          this._applyTableFilters();
+          this._recalcKpis();
         }, this);
       } else {
         setTimeout(function () {
@@ -55,7 +55,6 @@ sap.ui.define([
     // =========================
     onFilterChange: function () {
       if (!this.oTbl) return;
-
       this._maybeReloadByFilterMonth().then(function () {
         this._recalcAggByRange();
         this._applyTableFilters();
@@ -69,7 +68,6 @@ sap.ui.define([
       this.byId("segCat")?.setSelectedKey("__ALL__");
       this.byId("inpVeiculo")?.setSelectedKey("__ALL__");
       this.byId("inpVeiculo")?.setValue("");
-
       this._recalcAggByRange();
       this._applyTableFilters();
       this._recalcKpis();
@@ -84,46 +82,164 @@ sap.ui.define([
       this.getOwnerComponent().getRouter().navTo("RouteHistorico", { id: id });
     },
 
-    // -------- Dialog Materiais
+    // -------- Dialog Materiais (com correção de DATA + HORA)
     onOpenMateriais: function (oEvent) {
-      var item = this._ctx(oEvent);
-      var key  = item.id || item.veiculo;
+  var item = this._ctx(oEvent);
+  var key  = item.id || item.veiculo;
 
-      var matModel = this.getView().getModel("materiais");
-      var arr = (matModel && matModel.getProperty("/materiaisPorVeiculo/" + key)) || item.materiais || [];
+  // 1) fontes
+  var matModel  = this.getView().getModel("materiais");
+  var fromModel = (matModel && matModel.getProperty("/materiaisPorVeiculo/" + key)) || [];
+  var fromItem  = Array.isArray(item.materiais) ? item.materiais : [];
 
-      var rng = this._currentRange(); // [start,end] ou null
-      var arrFiltrada = arr;
-      if (rng) {
-        var start = rng[0], end = rng[1];
-        arrFiltrada = arr.filter(function (m) {
-          var d = this._parseAnyDate(m.data);
-          return d && d >= start && d <= end;
-        }.bind(this));
+  // 2) união deduplicada por assinatura robusta
+  var mergeBySig = function (A, B) {
+    var sig = m => [
+      m.data || "",
+      m.horaEntrada || "",
+      String(m.nReserva ?? ""),
+      String(m.nOrdem ?? ""),
+      String(m.nItem ?? ""),
+      String(m.codMaterial ?? "")
+    ].join("|");
+    var map = new Map();
+    (A || []).forEach(m => map.set(sig(m), m));
+    (B || []).forEach(m => map.set(sig(m), m));
+    return Array.from(map.values());
+  };
+  var arr = mergeBySig(fromModel, fromItem);
+
+  // 3) logs de origem
+  console.groupCollapsed("[Materiais] Fonte e contagem para veículo", key);
+  console.log("fromModel:", fromModel.length);
+  console.table(fromModel.map((m,i)=>({idx:i,Data:m.data,Hora:m.horaEntrada,nItem:m.nItem,Cod:m.codMaterial,Item:m.nome||m.material||m.descricao,Qtde:m.qtde,Custo:m.custoUnit})));
+  console.log("fromItem :", fromItem.length);
+  console.table(fromItem.map((m,i)=>({idx:i,Data:m.data,Hora:m.horaEntrada,nItem:m.nItem,Cod:m.codMaterial,Item:m.nome||m.material||m.descricao,Qtde:m.qtde,Custo:m.custoUnit})));
+  console.log("arr(merge):", arr.length);
+  console.table(arr.map((m,i)=>({idx:i,Data:m.data,Hora:m.horaEntrada,nItem:m.nItem,Cod:m.codMaterial,Item:m.nome||m.material||m.descricao,Qtde:m.qtde,Custo:m.custoUnit})));
+  console.groupEnd();
+
+  // 4) filtro por período (data + hora)
+  var rng = this._currentRange();
+  var arrFiltrada = arr, start, end;
+  if (rng) {
+    start = rng[0]; end = rng[1];
+    var parseDateTime = function (m) {
+      var d = this._parseAnyDate(m.data); if (!d) return null;
+      if (m.horaEntrada && /^\d{2}:\d{2}:\d{2}$/.test(String(m.horaEntrada))) {
+        var p = m.horaEntrada.split(":").map(Number);
+        d.setHours(p[0]||0, p[1]||0, p[2]||0, 0);
+      } else {
+        d.setHours(23,59,59,999);
       }
+      return d;
+    }.bind(this);
+    arrFiltrada = arr.filter(m => {
+      var dt = parseDateTime(m);
+      return dt && dt >= start && dt <= end;
+    });
+  }
 
-      var totalItens = arrFiltrada.length;
-      var totalQtd   = arrFiltrada.reduce((s, m) => s + (Number(m.qtde) || 0), 0);
-      var totalValor = arrFiltrada.reduce((s, m) => s + ((Number(m.qtde) || 0) * (Number(m.custoUnit) || 0)), 0);
+  // 5) logs pós-filtro
+  console.groupCollapsed("[Materiais] Pós-filtro DRS", key);
+  if (start && end) console.log("Período:", start, "→", end);
+  console.log("Filtrados:", arrFiltrada.length);
+  console.table(arrFiltrada.map((m,i)=>({idx:i,Data:m.data,Hora:m.horaEntrada,nItem:m.nItem,Cod:m.codMaterial,Item:m.nome||m.material||m.descricao,Qtde:m.qtde,Custo:m.custoUnit})));
+  console.groupEnd();
 
-      if (!this._dlgModel) this._dlgModel = new sap.ui.model.json.JSONModel();
-      this._dlgModel.setData({
-        titulo: `Materiais — ${item.veiculo} — ${item.descricao || ""}`,
-        materiais: arrFiltrada,
-        totalItens,
-        totalQtd,
-        totalValor
-      });
+  // 6) totals + abrir diálogo
+  var totalItens = arrFiltrada.length;
+  var totalQtd   = arrFiltrada.reduce((s,m)=>s+(+m.qtde||0),0);
+  var totalValor = arrFiltrada.reduce((s,m)=>s+((+m.qtde||0)*(+m.custoUnit||0)),0);
 
-      this._openFragment(
-        "com.skysinc.frota.frota.fragments.MaterialsDialog",
-        "dlgMateriais",
-        { dlg: this._dlgModel }
-      );
-    },
+  this._dlgModel = this._dlgModel || new sap.ui.model.json.JSONModel();
+  this._dlgModel.setData({
+    titulo: `Materiais — ${item.veiculo} — ${item.descricao || ""}`,
+    veiculo: item.veiculo || "",
+    descricaoVeiculo: item.descricao || "",
+    materiais: arrFiltrada,
+    totalItens, totalQtd, totalValor
+  });
+  this._openFragment("com.skysinc.frota.frota.fragments.MaterialsDialog", "dlgMateriais", { dlg: this._dlgModel });
+}
+,
+
     onCloseMateriais: function () { this.byId("dlgMateriais")?.close(); },
 
-    // -------- Dialog Abastecimentos (mantém cálculo Km/L/L/Km)
+    // -------- Exportar / Imprimir (botões do fragment)
+    onExportMateriais: function () {
+      var dlgModel = this._dlgModel;
+      if (!dlgModel) { sap.m.MessageToast.show("Abra o diálogo de materiais primeiro."); return; }
+
+      var data = dlgModel.getData() || {};
+      var rows = (data.materiais || []).map(function (m) {
+        var qtde  = Number(m.qtde || 0);
+        var custo = Number(m.custoUnit || 0);
+        var total = qtde * custo;
+        return {
+          Veiculo: data.veiculo || "",
+          DescricaoVeiculo: data.descricaoVeiculo || "",
+          Item: m.nome || m.material || m.descricao || "",
+          Tipo: m.tipo || "",
+          Quantidade: qtde,
+          CustoUnitario: custo,
+          TotalItem: total,
+          CodMaterial: m.codMaterial || "",
+          Deposito: m.deposito || "",
+          Hora: this.formatter.fmtHora(m.horaEntrada || ""),
+          Data: this.formatter.fmtDate(m.data || ""),
+          N_Ordem: m.nOrdem || "",
+          N_Reserva: m.nReserva || "",
+          N_Item: m.nItem || "",
+          Recebedor: m.recebedor || "",
+          Unid: m.unid || "",
+          Usuario: m.usuario || "",
+          Status: (this.formatter.isDevolucao && this.formatter.isDevolucao(m.qtde)) ? "DEVOLUÇÃO" : ""
+        };
+      }.bind(this));
+
+      if (!rows.length) {
+        sap.m.MessageToast.show("Sem materiais no período selecionado.");
+        return;
+      }
+
+      var drs = this.byId("drs");
+      var d1 = drs?.getDateValue(), d2 = drs?.getSecondDateValue();
+      var nome = "materiais_" +
+        (data.veiculo || "veiculo") + "_" +
+        (d1 ? this._ymd(d1) : "inicio") + "_" +
+        (d2 ? this._ymd(d2) : "fim") + ".csv";
+
+      var csv = this._buildCsv(rows);
+      this._downloadCsv(csv, nome);
+    },
+
+    onPrintMateriais: function () {
+      var dlg = this.byId("dlgMateriais");
+      if (!dlg) { sap.m.MessageToast.show("Abra o diálogo de materiais primeiro."); return; }
+
+      var win = window.open("", "_blank", "noopener,noreferrer");
+      if (!win) { sap.m.MessageBox.warning("Bloqueador de pop-up? Permita para imprimir."); return; }
+
+      var title = (this._dlgModel?.getProperty("/titulo")) || "Materiais";
+      var contentDom = dlg.getAggregation("content")[0].getDomRef()?.cloneNode(true);
+
+      win.document.write("<html><head><meta charset='utf-8'><title>"+ title +"</title>");
+      win.document.write("<style>body{font-family:Arial,Helvetica,sans-serif;padding:16px} table{width:100%;border-collapse:collapse} th,td{border:1px solid #ddd;padding:6px;font-size:12px} th{background:#f5f5f5} h1{font-size:18px;margin:0 0 12px}</style>");
+      win.document.write("</head><body><h1>"+ title +"</h1>");
+      if (contentDom) {
+        var toolbars = contentDom.querySelectorAll(".sapMTB");
+        toolbars.forEach(function(tb){ tb.parentNode && tb.parentNode.removeChild(tb); });
+        win.document.body.appendChild(contentDom);
+      }
+      win.document.write("</body></html>");
+      win.document.close();
+      win.focus();
+      win.print();
+      win.close();
+    },
+
+    // -------- Abastecimentos (sem alterações funcionais)
     onOpenAbastecimentos: function (oEvent) {
       var item = this._ctx(oEvent);
       var key  = item.id || item.veiculo;
@@ -131,8 +247,7 @@ sap.ui.define([
       var abModel = this.getView().getModel("abast");
       var arr = (abModel && abModel.getProperty("/abastecimentosPorVeiculo/" + key)) || item.abastecimentos || [];
 
-      // --- FILTRO POR PERÍODO DO DRS ---
-      var rng = this._currentRange(); // [start,end] ou null
+      var rng = this._currentRange();
       var list = arr;
       if (rng) {
         var start = rng[0], end = rng[1];
@@ -142,7 +257,6 @@ sap.ui.define([
         }.bind(this));
       }
 
-      // --- ORDENAÇÃO POR DATA/HORA CRESCENTE ---
       var toTime = function (ev) {
         var d = this._parseAnyDate(ev.data) || new Date(0,0,1);
         if (ev.hora && /^\d{2}:\d{2}:\d{2}$/.test(String(ev.hora))) {
@@ -153,7 +267,6 @@ sap.ui.define([
       }.bind(this);
       list = list.slice().sort(function (a,b){ return toTime(a) - toTime(b); });
 
-      // --- HELPERS DE PARSE ---
       var parseNum = function (v) {
         if (v == null) return NaN;
         if (typeof v === "number") return v;
@@ -164,11 +277,9 @@ sap.ui.define([
       var readKm = function (ev) { return parseNum(ev.quilometragem ?? ev.km ?? ev.hodometro ?? ev.quilometragemKm); };
       var readHr = function (ev) { return parseNum(ev.hr); };
 
-      // --- LIMIARES PARA EVITAR “ERROS” (ajuste se quiser) ---
-      var MAX_KM_DELTA = 2000; // km entre dois abastecimentos
-      var MAX_HR_DELTA = 200;  // horas entre dois abastecimentos
+      var MAX_KM_DELTA = 2000;
+      var MAX_HR_DELTA = 200;
 
-      // --- CÁLCULO POR LINHA + TOTAIS/MÉDIAS ---
       var totalLitros = 0;
       var somaKmDelta = 0;
       var somaHrDelta = 0;
@@ -180,7 +291,7 @@ sap.ui.define([
         var litros = Number(ev.litros || 0);
         totalLitros += litros;
 
-        ev._kmPerc = ev._kmPorL = ev._lPorKm = ev._lPorHr = null; // zera
+        ev._kmPerc = ev._kmPorL = ev._lPorKm = ev._lPorHr = null;
 
         if (j === 0) continue;
         var prev = list[j-1];
@@ -191,9 +302,7 @@ sap.ui.define([
         var dKm = (isFinite(kmCur) && isFinite(kmAnt)) ? (kmCur - kmAnt) : NaN;
         var dHr = (isFinite(hrCur) && isFinite(hrAnt)) ? (hrCur - hrAnt) : NaN;
 
-        // valida delta de KM
         var kmValido = isFinite(dKm) && dKm > 0 && dKm <= MAX_KM_DELTA;
-        // valida delta de HORAS
         var hrValido = isFinite(dHr) && dHr > 0 && dHr <= MAX_HR_DELTA;
 
         if (kmValido && litros > 0) {
@@ -210,23 +319,18 @@ sap.ui.define([
         }
       }
 
-      // --- MÉDIAS PARA O RODAPÉ DO DIALOG ---
       var mediaKmPorL = (totalLitros > 0 && somaKmDelta > 0) ? (somaKmDelta / totalLitros) : 0;
       var mediaLPorHr = (somaHrDelta > 0) ? (totalLitros / somaHrDelta) : 0;
 
-      // --- REGRAS DE VISIBILIDADE (KM x HR) ---
-      // Se houver QUALQUER delta de KM válido => mostramos só KM; senão, se houver HR => mostramos só HR.
       var showKm = false, showHr = false;
       if (hasKmDelta) {
         showKm = true;  showHr = false;
       } else if (hasHrDelta) {
         showKm = false; showHr = true;
       } else {
-        // Sem deltas válidos: mostra ambos para o usuário ver os dados crus
         showKm = true;  showHr = true;
       }
 
-      // --- MODEL DO DIALOG ---
       if (!this._fuelModel) this._fuelModel = new sap.ui.model.json.JSONModel();
       this._fuelModel.setData({
         titulo: `Abastecimentos — ${item.veiculo} — ${item.descricao || ""}`,
@@ -238,7 +342,6 @@ sap.ui.define([
         showHr: showHr
       });
 
-      // --- ABRE O FRAGMENT ---
       this._openFragment(
         "com.skysinc.frota.frota.fragments.FuelDialog",
         "dlgFuel",
@@ -248,7 +351,61 @@ sap.ui.define([
     onCloseFuel: function () { this.byId("dlgFuel")?.close(); },
 
     // =========================
-    // HELPERS
+    // HELPERS CSV / UTIL
+    // =========================
+    _buildCsv: function (rows) {
+      if (!Array.isArray(rows) || rows.length === 0) return "";
+      var headers = Object.keys(rows[0]);
+
+      var esc = function (v) {
+        if (v == null) return "";
+        if (typeof v === "number") {
+          return v.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+        var s = String(v);
+        if (/[;"\n\r]/.test(s)) {
+          s = '"' + s.replace(/"/g, '""') + '"';
+        }
+        return s;
+      };
+
+      var lines = [];
+      lines.push(headers.join(";"));
+      rows.forEach(function (r) {
+        var line = headers.map(function (h) { return esc(r[h]); }).join(";");
+        lines.push(line);
+      });
+
+      return "\uFEFF" + lines.join("\n"); // BOM para Excel
+    },
+
+    _downloadCsv: function (csvString, filename) {
+      try {
+        var blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = filename || "dados.csv";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+        sap.m.MessageToast.show("CSV gerado com sucesso.");
+      } catch (e) {
+        console.error("Falha ao baixar CSV:", e);
+        sap.m.MessageBox.error("Não foi possível gerar o CSV. Verifique o console.");
+      }
+    },
+
+    _ymd: function (d) {
+      var yyyy = d.getFullYear();
+      var mm = String(d.getMonth() + 1).padStart(2, "0");
+      var dd = String(d.getDate()).padStart(2, "0");
+      return yyyy + "-" + mm + "-" + dd;
+    },
+
+    // =========================
+    // HELPERS GERAIS
     // =========================
     _ctx: function (oEvent) {
       return oEvent.getSource().getBindingContext().getObject();
@@ -314,7 +471,6 @@ sap.ui.define([
       inp.setSelectedKey("__ALL__");
     },
 
-    // ===== Datas =====
     _parseYMD: function (s) {
       if (!s) return null;
       var m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);
@@ -347,19 +503,17 @@ sap.ui.define([
       return [start, end];
     },
 
-    // ---- Parser numérico robusto para valores em pt-BR ----
     _numBR: function (v) {
       if (v == null || v === "") return 0;
       if (typeof v === "number" && isFinite(v)) return v;
       var s = String(v).trim()
-        .replace(/[R$\s]/g, "") // remove R$ e espaços
-        .replace(/\./g, "")     // remove separador de milhar
-        .replace(",", ".");     // vírgula -> ponto
+        .replace(/[R$\s]/g, "")
+        .replace(/\./g, "")
+        .replace(",", ".");
       var n = Number(s);
       return isFinite(n) ? n : 0;
     },
 
-    // Carrega TODOS os meses do intervalo (quando existir API), senão cai para setMockYM
     _maybeReloadByFilterMonth: function () {
       var drs = this.byId("drs");
       if (!drs) return Promise.resolve();
@@ -371,8 +525,7 @@ sap.ui.define([
       var comp = this.getOwnerComponent();
 
       if (comp && typeof comp.setMockRange === "function") {
-        // calcula último dia do mês de d2
-        var lastDay = new Date(d2.getFullYear(), d2.getMonth() + 1, 0); // último dia do mês
+        var lastDay = new Date(d2.getFullYear(), d2.getMonth() + 1, 0);
         return comp.setMockRange(
           new Date(d1.getFullYear(), d1.getMonth(), 1),
           lastDay
@@ -381,8 +534,6 @@ sap.ui.define([
         }.bind(this));
       }
 
-
-      // fallback: ao menos mês de d1
       var yyyy = d1.getFullYear();
       var mm   = String(d1.getMonth() + 1).padStart(2, "0");
       var ym = yyyy + "-" + mm;
@@ -395,11 +546,9 @@ sap.ui.define([
       return Promise.resolve();
     },
 
-    // ====== DELTAS de KM/HR a partir dos abastecimentos ======
     _sumDeltasFromAbastecimentos: function (abastecList) {
       if (!Array.isArray(abastecList) || abastecList.length < 2) return { km: 0, hr: 0 };
 
-      // ordena por data/hora
       var toTime = function (ev) {
         var d = this._parseAnyDate(ev.data) || new Date(0,0,1);
         if (ev.hora && /^\d{2}:\d{2}:\d{2}$/.test(String(ev.hora))) {
@@ -433,9 +582,6 @@ sap.ui.define([
       return { km: totalKm, hr: totalHr };
     },
 
-    // ======================================================
-    // AGREGAÇÃO POR PERÍODO (MATERIAIS + ABASTECIMENTOS + DELTAS)
-    // ======================================================
     _recalcAggByRange: function () {
       var baseModel = this.getView().getModel();
       var matModel  = this.getView().getModel("materiais");
@@ -443,7 +589,7 @@ sap.ui.define([
       if (!baseModel) return;
 
       var vlist = baseModel.getProperty("/veiculos") || [];
-      var rng = this._currentRange(); // [start, end] ou null
+      var rng = this._currentRange();
 
       vlist.forEach(function (v) {
         var key = v.id || v.veiculo;
@@ -451,16 +597,27 @@ sap.ui.define([
         var materiais = (matModel && matModel.getProperty("/materiaisPorVeiculo/" + key)) || v.materiais || [];
         var abastec   = (abModel  && abModel.getProperty("/abastecimentosPorVeiculo/" + key)) || v.abastecimentos || [];
 
-        // --- filtra por período ---
         var matsInRange = materiais;
         var abInRange   = abastec;
 
         if (rng) {
           var start = rng[0], end = rng[1];
+          var parseDateTime = function (obj) {
+            var d = this._parseAnyDate(obj.data);
+            if (!d) return null;
+            if (obj.horaEntrada && /^\d{2}:\d{2}:\d{2}$/.test(String(obj.horaEntrada))) {
+              var p = obj.horaEntrada.split(":").map(Number);
+              d.setHours(p[0] || 0, p[1] || 0, p[2] || 0, 0);
+            } else {
+              d.setHours(23, 59, 59, 999);
+            }
+            return d;
+          }.bind(this);
+
           matsInRange = materiais.filter(function (m) {
-            var d = this._parseAnyDate(m.data);
-            return d && d >= start && d <= end;
-          }.bind(this));
+            var dt = parseDateTime(m);
+            return dt && dt >= start && dt <= end;
+          });
 
           abInRange = abastec.filter(function (a) {
             var d = this._parseAnyDate(a.data);
@@ -468,34 +625,26 @@ sap.ui.define([
           }.bind(this));
         }
 
-        // ---- agregações ----
-        // (1) Materiais (R$)
         var custoMatAgg = matsInRange.reduce(function (s, m) {
-          // manter Number aqui, pois dados de materiais costumam já vir numéricos
           return s + (Number(m.qtde || 0) * Number(m.custoUnit || 0));
         }, 0);
 
-        // (2) Combustível (L e R$) — usando parser BR
         var litrosAgg = 0, valorAgg = 0;
         abInRange.forEach(function (ev) {
           var litros = this._numBR(ev.litros);
           litrosAgg += litros;
 
-          // valor total do abastecimento, quando existir
           var valorTotal = this._numBR(ev.valor);
           if (valorTotal > 0) {
             valorAgg += valorTotal;
           } else {
-            // preço por litro em possíveis chaves
             var preco = this._numBR(ev.preco ?? ev.precoLitro ?? ev.preco_litro ?? ev.precoUnit ?? ev.preco_unit ?? ev.precoUnitario);
             valorAgg += preco * litros;
           }
         }.bind(this));
 
-        // (3) DELTAS de km e hr a partir dos abastecimentos do período
         var deltas = this._sumDeltasFromAbastecimentos(abInRange);
 
-        // (4) Data mais recente entre MATERIAIS e ABASTECIMENTOS
         function maxDate(ts, v) {
           var d = this._parseAnyDate(v && v.data);
           return d ? Math.max(ts, d.getTime()) : ts;
@@ -512,7 +661,6 @@ sap.ui.define([
           dataRef = dref.getFullYear() + "-" + mm + "-" + dd;
         }
 
-        // ---- aplica nos campos somas/divisões/multiplicações e etc usados na TABELA ----
         v.custoMaterialAgg       = custoMatAgg || 0;
         v.combustivelLitrosAgg   = litrosAgg   || 0;
         v.combustivelValorAgg    = valorAgg    || 0;
@@ -531,13 +679,10 @@ sap.ui.define([
       baseModel.setProperty("/veiculos", vlist);
     },
 
-    // Aplica filtros na TABELA (categoria, veículo e "tem atividade no período")
     _applyTableFilters: function () {
       if (!this.oTbl || !this.oTbl.getBinding("rows")) return;
 
       var aFilters = [];
-
-      // Mostra linhas que tenham QUALQUER atividade no período
       aFilters.push(new Filter({
         path: "",
         test: function (oObj) { return !!oObj.rangeHasActivity; }
@@ -562,7 +707,6 @@ sap.ui.define([
       this.oTbl.getBinding("rows").filter(aFilters);
     },
 
-    // KPIs a partir das linhas visíveis
     _recalcKpis: function () {
       if (!this.oTbl || !this.oTbl.getBinding("rows")) return;
 
