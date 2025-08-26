@@ -82,87 +82,53 @@ sap.ui.define([
       this.getOwnerComponent().getRouter().navTo("RouteHistorico", { id: id });
     },
 
-    // -------- Dialog Materiais (com correção de DATA + HORA)
-    onOpenMateriais: function (oEvent) {
+    // -------- Dialog Materiais (sem merge/deduplicação e sem logs)
+    // -------- Dialog Materiais (SEM concatenação)
+onOpenMateriais: function (oEvent) {
   var item = this._ctx(oEvent);
   var key  = item.id || item.veiculo;
 
-  // 1) fontes
-  var matModel  = this.getView().getModel("materiais");
-  var fromModel = (matModel && matModel.getProperty("/materiaisPorVeiculo/" + key)) || [];
-  var fromItem  = Array.isArray(item.materiais) ? item.materiais : [];
+  // Usa apenas o model "materiais" -> /materiaisPorVeiculo/<key>
+  var matModel = this.getView().getModel("materiais");
+  var arr = (matModel && matModel.getProperty("/materiaisPorVeiculo/" + key)) || [];
 
-  // 2) união deduplicada por assinatura robusta
-  var mergeBySig = function (A, B) {
-    var sig = m => [
-      m.data || "",
-      m.horaEntrada || "",
-      String(m.nReserva ?? ""),
-      String(m.nOrdem ?? ""),
-      String(m.nItem ?? ""),
-      String(m.codMaterial ?? "")
-    ].join("|");
-    var map = new Map();
-    (A || []).forEach(m => map.set(sig(m), m));
-    (B || []).forEach(m => map.set(sig(m), m));
-    return Array.from(map.values());
-  };
-  var arr = mergeBySig(fromModel, fromItem);
-
-  // 3) logs de origem
-  console.groupCollapsed("[Materiais] Fonte e contagem para veículo", key);
-  console.log("fromModel:", fromModel.length);
-  console.table(fromModel.map((m,i)=>({idx:i,Data:m.data,Hora:m.horaEntrada,nItem:m.nItem,Cod:m.codMaterial,Item:m.nome||m.material||m.descricao,Qtde:m.qtde,Custo:m.custoUnit})));
-  console.log("fromItem :", fromItem.length);
-  console.table(fromItem.map((m,i)=>({idx:i,Data:m.data,Hora:m.horaEntrada,nItem:m.nItem,Cod:m.codMaterial,Item:m.nome||m.material||m.descricao,Qtde:m.qtde,Custo:m.custoUnit})));
-  console.log("arr(merge):", arr.length);
-  console.table(arr.map((m,i)=>({idx:i,Data:m.data,Hora:m.horaEntrada,nItem:m.nItem,Cod:m.codMaterial,Item:m.nome||m.material||m.descricao,Qtde:m.qtde,Custo:m.custoUnit})));
-  console.groupEnd();
-
-  // 4) filtro por período (data + hora)
-  var rng = this._currentRange();
-  var arrFiltrada = arr, start, end;
+  // Filtro por período (data inicial/final do DateRangeSelection)
+  var rng = this._currentRange(); // [start,end] ou null
+  var arrFiltrada = arr;
   if (rng) {
-    start = rng[0]; end = rng[1];
-    var parseDateTime = function (m) {
-      var d = this._parseAnyDate(m.data); if (!d) return null;
-      if (m.horaEntrada && /^\d{2}:\d{2}:\d{2}$/.test(String(m.horaEntrada))) {
-        var p = m.horaEntrada.split(":").map(Number);
-        d.setHours(p[0]||0, p[1]||0, p[2]||0, 0);
-      } else {
-        d.setHours(23,59,59,999);
-      }
-      return d;
-    }.bind(this);
-    arrFiltrada = arr.filter(m => {
-      var dt = parseDateTime(m);
-      return dt && dt >= start && dt <= end;
-    });
+    var start = rng[0], end = rng[1];
+    arrFiltrada = arr.filter(function (m) {
+      var d = this._parseAnyDate(m.data);
+      return d && d >= start && d <= end;
+    }.bind(this));
   }
 
-  // 5) logs pós-filtro
-  console.groupCollapsed("[Materiais] Pós-filtro DRS", key);
-  if (start && end) console.log("Período:", start, "→", end);
-  console.log("Filtrados:", arrFiltrada.length);
-  console.table(arrFiltrada.map((m,i)=>({idx:i,Data:m.data,Hora:m.horaEntrada,nItem:m.nItem,Cod:m.codMaterial,Item:m.nome||m.material||m.descricao,Qtde:m.qtde,Custo:m.custoUnit})));
-  console.groupEnd();
-
-  // 6) totals + abrir diálogo
+  // Totais
   var totalItens = arrFiltrada.length;
-  var totalQtd   = arrFiltrada.reduce((s,m)=>s+(+m.qtde||0),0);
-  var totalValor = arrFiltrada.reduce((s,m)=>s+((+m.qtde||0)*(+m.custoUnit||0)),0);
+  var totalQtd   = arrFiltrada.reduce(function (s, m) { return s + (Number(m.qtde) || 0); }, 0);
+  var totalValor = arrFiltrada.reduce(function (s, m) {
+    return s + ((Number(m.qtde) || 0) * (Number(m.custoUnit) || 0));
+  }, 0);
 
-  this._dlgModel = this._dlgModel || new sap.ui.model.json.JSONModel();
+  // Model do diálogo
+  if (!this._dlgModel) this._dlgModel = new sap.ui.model.json.JSONModel();
   this._dlgModel.setData({
-    titulo: `Materiais — ${item.veiculo} — ${item.descricao || ""}`,
+    titulo: "Materiais — " + (item.veiculo || "") + " — " + (item.descricao || ""),
     veiculo: item.veiculo || "",
     descricaoVeiculo: item.descricao || "",
     materiais: arrFiltrada,
-    totalItens, totalQtd, totalValor
+    totalItens: totalItens,
+    totalQtd: totalQtd,
+    totalValor: totalValor
   });
-  this._openFragment("com.skysinc.frota.frota.fragments.MaterialsDialog", "dlgMateriais", { dlg: this._dlgModel });
-}
-,
+
+  // Abre fragment
+  this._openFragment(
+    "com.skysinc.frota.frota.fragments.MaterialsDialog",
+    "dlgMateriais",
+    { dlg: this._dlgModel }
+  );
+},
 
     onCloseMateriais: function () { this.byId("dlgMateriais")?.close(); },
 
@@ -239,7 +205,7 @@ sap.ui.define([
       win.close();
     },
 
-    // -------- Abastecimentos (sem alterações funcionais)
+    // -------- Abastecimentos
     onOpenAbastecimentos: function (oEvent) {
       var item = this._ctx(oEvent);
       var key  = item.id || item.veiculo;
@@ -333,7 +299,7 @@ sap.ui.define([
 
       if (!this._fuelModel) this._fuelModel = new sap.ui.model.json.JSONModel();
       this._fuelModel.setData({
-        titulo: `Abastecimentos — ${item.veiculo} — ${item.descricao || ""}`,
+        titulo: "Abastecimentos — " + (item.veiculo || "") + " — " + (item.descricao || ""),
         eventos: list,
         totalLitros: totalLitros,
         mediaKmPorL: mediaKmPorL,
@@ -392,8 +358,8 @@ sap.ui.define([
         setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
         sap.m.MessageToast.show("CSV gerado com sucesso.");
       } catch (e) {
-        console.error("Falha ao baixar CSV:", e);
-        sap.m.MessageBox.error("Não foi possível gerar o CSV. Verifique o console.");
+        // Removido console.error a pedido; mantém feedback ao usuário
+        sap.m.MessageBox.error("Não foi possível gerar o CSV. Verifique se o navegador permite downloads.");
       }
     },
 
@@ -448,8 +414,8 @@ sap.ui.define([
 
       var data = (this.getView().getModel()?.getProperty("/veiculos") || []);
       var set = new Set();
-      data.forEach(i => { if (i.categoria) set.add(String(i.categoria)); });
-      Array.from(set).sort().forEach(c => {
+      data.forEach(function(i){ if (i.categoria) set.add(String(i.categoria)); });
+      Array.from(set).sort().forEach(function(c){
         cb.addItem(new sap.ui.core.Item({ key: c, text: c }));
       });
       cb.setSelectedKey("__ALL__");
@@ -464,8 +430,8 @@ sap.ui.define([
 
       var data = (this.getView().getModel()?.getProperty("/veiculos") || []);
       var set = new Set();
-      data.forEach(i => { if (i.veiculo) set.add(String(i.veiculo)); });
-      Array.from(set).sort().forEach(c => {
+      data.forEach(function(i){ if (i.veiculo) set.add(String(i.veiculo)); });
+      Array.from(set).sort().forEach(function(c){
         inp.addItem(new sap.ui.core.Item({ key: c, text: c }));
       });
       inp.setSelectedKey("__ALL__");
@@ -552,8 +518,10 @@ sap.ui.define([
       var toTime = function (ev) {
         var d = this._parseAnyDate(ev.data) || new Date(0,0,1);
         if (ev.hora && /^\d{2}:\d{2}:\d{2}$/.test(String(ev.hora))) {
-          var [H, M, S] = ev.hora.split(":").map(Number);
-          d.setHours(H||0, M||0, S||0, 0);
+          var H = Number(ev.hora.split(":")[0])||0;
+          var M = Number(ev.hora.split(":")[1])||0;
+          var S = Number(ev.hora.split(":")[2])||0;
+          d.setHours(H, M, S, 0);
         }
         return d.getTime();
       }.bind(this);
@@ -710,11 +678,11 @@ sap.ui.define([
     _recalcKpis: function () {
       if (!this.oTbl || !this.oTbl.getBinding("rows")) return;
 
-      var arr = this.oTbl.getBinding("rows").getCurrentContexts().map(c => c.getObject());
+      var arr = this.oTbl.getBinding("rows").getCurrentContexts().map(function(c){ return c.getObject(); });
 
-      var totalLitros = arr.reduce((s, i) => s + (Number(i.combustivelLitrosAgg) || 0), 0);
-      var totalValor  = arr.reduce((s, i) => s + (Number(i.combustivelValorAgg)  || 0), 0);
-      var totalMat    = arr.reduce((s, i) => s + (Number(i.custoMaterialAgg)     || 0), 0);
+      var totalLitros = arr.reduce(function(s, i){ return s + (Number(i.combustivelLitrosAgg) || 0); }, 0);
+      var totalValor  = arr.reduce(function(s, i){ return s + (Number(i.combustivelValorAgg)  || 0); }, 0);
+      var totalMat    = arr.reduce(function(s, i){ return s + (Number(i.custoMaterialAgg)     || 0); }, 0);
       var precoMedio  = totalLitros ? (totalValor / totalLitros) : 0;
 
       this.oKpi.setData({
@@ -722,10 +690,10 @@ sap.ui.define([
         gastoCombustivelFmt: formatter.fmtBrl(totalValor),
         custoMateriaisFmt: formatter.fmtBrl(totalMat),
         precoMedioFmt: formatter.fmtNum(precoMedio),
-        resumoCombFmt: `Comb: ${formatter.fmtBrl(totalValor)}`,
-        resumoLitrosFmt: `Litros: ${formatter.fmtNum(totalLitros)} L`,
-        resumoMatFmt: `Mat/Serv: ${formatter.fmtBrl(totalMat)}`,
-        resumoPrecoFmt: `Preço Médio: ${formatter.fmtNum(precoMedio)} R$/L`
+        resumoCombFmt: "Comb: " + formatter.fmtBrl(totalValor),
+        resumoLitrosFmt: "Litros: " + formatter.fmtNum(totalLitros) + " L",
+        resumoMatFmt: "Mat/Serv: " + formatter.fmtBrl(totalMat),
+        resumoPrecoFmt: "Preço Médio: " + formatter.fmtNum(precoMedio) + " R$/L"
       });
     }
   });

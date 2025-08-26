@@ -29,7 +29,6 @@
             <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Data"/></Column>
             <Column minScreenWidth="Desktop" demandPopin="true"><Label text="N. Ordem"/></Column>
             <Column minScreenWidth="Desktop" demandPopin="true"><Label text="N. Reserva"/></Column>
-            <Column minScreenWidth="Desktop" demandPopin="true"><Label text="N. Item"/></Column>
             <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Recebedor"/></Column>
             <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Unid"/></Column>
             <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Usuário"/></Column>
@@ -60,7 +59,6 @@
                 <Text text="{path:'dlg>data', formatter:'.formatter.fmtDate'}"/>
                 <Text text="{dlg>nOrdem}"/>
                 <Text text="{dlg>nReserva}"/>
-                <Text text="{dlg>nItem}"/>
                 <Text text="{dlg>recebedor}"/>
                 <Text text="{dlg>unid}"/>
                 <Text text="{dlg>usuario}"/>
