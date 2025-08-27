@@ -6,9 +6,28 @@ sap.ui.define([], function () {
       try { return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(v||0)); }
       catch(e){ return v; }
     },
+
+    // DEVOLUÇÃO: qtde < 0
     isDevolucao: function(qtde) {
       return Number(qtde) < 0;
     },
+
+    // NOVO: texto exibido no status ("PEÇA" | "SERVIÇO")
+    getTipoText: function(tipo) {
+      if (!tipo) return "";
+      return String(tipo).toUpperCase();
+    },
+
+    
+
+    // NOVO: classe CSS para piscar conforme o tipo
+    getTipoClass: function(tipo) {
+      var t = (tipo || "").toString().toLowerCase();
+      if (t === "serviço" || t === "servico") return "blinkingTextServico";
+      if (t === "peça" || t === "peca")       return "blinkingTextPeca";
+      return "";
+    },
+
     fmtNum: function (v) {
       return Number(v || 0).toLocaleString('pt-BR', {
         minimumFractionDigits: 2, maximumFractionDigits: 2
@@ -17,21 +36,12 @@ sap.ui.define([], function () {
     fmtDate: function(v) {
       if (!v) return "";
       const s = String(v).trim();
-
-      // já vem no formato dd/MM/yyyy?
       const mBR = s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
       if (mBR) return s;
-
-      // yyyy-MM-dd -> dd/MM/yyyy (sem criar Date!)
       const mISO = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
       if (mISO) return `${mISO[3]}/${mISO[2]}/${mISO[1]}`;
-
-      try {
-        const d = new Date(s);
-        return isNaN(d) ? s : d.toLocaleDateString("pt-BR");
-      } catch {
-        return s;
-      }
+      try { const d = new Date(s); return isNaN(d) ? s : d.toLocaleDateString("pt-BR"); }
+      catch { return s; }
     },
     fmtFuncaoKmComb: function(a,b){
       var x = toNum(a), y = toNum(b)||0;
@@ -56,21 +66,14 @@ sap.ui.define([], function () {
       return n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
     },
     fmtLitros: function(v) {
-      try {
-        return `${Number(v || 0).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} L`;
-      } catch (e) {
-        return v;
-      }
+      try { return `${Number(v || 0).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} L`; }
+      catch (e) { return v; }
     },
     fmtKm: function(v) {
-      try {
-        return `${Number(v || 0).toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} Km`;
-      } catch (e) {
-        return v;
-      }
+      try { return `${Number(v || 0).toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} Km`; }
+      catch (e) { return v; }
     },
     fmtHora: function (v) {
-      // aceita "08:15" ou "08:15:00" e deixa como HH:mm
       if (!v) return "";
       var s = String(v);
       var m = s.match(/^(\d{1,2}):(\d{2})(?::\d{2})?$/);

@@ -20,7 +20,20 @@ html, body, body > div, #container, #container-uiarea {
 .sapUiTheme-sap_bluecrystal .sapUiDSC {
 	background-color: rgb(242, 248, 252);
 }
+
+/* === BLINK === */
 .blinkingText {
+    color: red;
+    font-weight: bold;
+    animation: blink 1s infinite;
+}
+.blinkingTextServico {
+    color: greenyellow;
+    font-weight: bold;
+    animation: blink 1s infinite;
+}
+/* NOVO: piscar para PEÇA */
+.blinkingTextPeca {
     color: red;
     font-weight: bold;
     animation: blink 1s infinite;
@@ -31,4 +44,21 @@ html, body, body > div, #container, #container-uiarea {
     50% { opacity: 1; }
     75% { opacity: 0; }
     100% { opacity: 1; }
+}
+
+/* === WRAP / QUEBRA E HIFENAÇÃO === */
+.wrapText {
+    white-space: normal !important;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+}
+.nowrap {
+    white-space: nowrap;
+}
+.center {
+    text-align: center;
+}
+.end {
+    text-align: end;
 }

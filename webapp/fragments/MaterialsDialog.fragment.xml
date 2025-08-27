@@ -9,39 +9,47 @@
 
         <Table id="tblMat"
                items="{dlg>/materiais}"
+               sticky="ColumnHeaders"
+               autoPopinMode="true"
                growing="true"
                growingScrollToLoad="true"
                noDataText="Sem materiais/serviços no período selecionado">
           <columns>
-            <Column><Label text="Item"/></Column>
-            <Column><Label text="Tipo"/></Column>
-            <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true"><Label text="Qtde"/></Column>
-            <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true"><Label text="Custo Unit."/></Column>
-            <Column hAlign="End"><Label text="Total (R$)"/></Column>
-          
-            <Column hAlign="Center" minScreenWidth="Desktop" demandPopin="true">
+            <Column width="22rem"><Label text="Item"/></Column>
+            <Column width="7rem"><Label text="Tipo"/></Column>
+            <Column width="5rem" hAlign="End" minScreenWidth="Tablet" demandPopin="true"><Label text="Qtde"/></Column>
+            <Column width="5rem" minScreenWidth="Desktop" demandPopin="true"><Label text="Unid"/></Column>
+            <Column width="8rem" hAlign="End" minScreenWidth="Tablet" demandPopin="true"><Label text="Custo Unit."/></Column>
+            <Column width="9rem" hAlign="End"><Label text="Total (R$)"/></Column>
+
+            <Column width="9rem" hAlign="Center" minScreenWidth="Desktop" demandPopin="true">
               <Label text="Status"/>
             </Column>
 
-            <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Cód. Material"/></Column>
-            <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Depósito"/></Column>
-            <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Hora"/></Column>
-            <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Data"/></Column>
-            <Column minScreenWidth="Desktop" demandPopin="true"><Label text="N. Ordem"/></Column>
-            <Column minScreenWidth="Desktop" demandPopin="true"><Label text="N. Reserva"/></Column>
-            <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Recebedor"/></Column>
-            <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Unid"/></Column>
-            <Column minScreenWidth="Desktop" demandPopin="true"><Label text="Usuário"/></Column>
+            <Column width="8rem" minScreenWidth="Desktop" demandPopin="true"><Label text="Cód. Material"/></Column>
+            <Column width="7rem" minScreenWidth="Desktop" demandPopin="true"><Label text="Depósito"/></Column>
+            <Column width="6rem" minScreenWidth="Desktop" demandPopin="true"><Label text="Hora"/></Column>
+            <Column width="8rem" minScreenWidth="Desktop" demandPopin="true"><Label text="Data"/></Column>
+            <Column width="8rem" minScreenWidth="Desktop" demandPopin="true"><Label text="N. Ordem"/></Column>
+            <Column width="8rem" minScreenWidth="Desktop" demandPopin="true"><Label text="N. Reserva"/></Column>
+            <Column width="10rem" minScreenWidth="Desktop" demandPopin="true"><Label text="Recebedor"/></Column>
+            <Column width="10rem" minScreenWidth="Desktop" demandPopin="true"><Label text="Usuário"/></Column>
           </columns>
 
           <items>
-            <ColumnListItem>
+            <ColumnListItem vAlign="Middle">
               <cells>
-                <Text text="{dlg>nome}"/>
-                <ObjectStatus text="{dlg>tipo}"
-                  state="{= ${dlg>tipo} === 'Serviço' ? 'Information' : 'Success' }"/>
+                <!-- Item: com wrap + tooltip -->
+                <Text class="wrapText" maxLines="3" text="{dlg>nome}" tooltip="{dlg>nome}"/>
 
-                <ObjectNumber number="{dlg>qtde}"/>
+                <!-- Tipo com blinking: verde (Serviço) / vermelho (Peça) -->
+                <ObjectStatus
+                  text="{path:'dlg>tipo', formatter:'.formatter.getTipoText'}"
+                  class="{path:'dlg>tipo', formatter:'.formatter.getTipoClass'}"
+                  tooltip="{dlg>tipo}"/>
+
+                <ObjectNumber number="{dlg>qtde}" class="end"/>
+                <Text text="{dlg>unid}" class="center"/>
                 <ObjectNumber number="{path:'dlg>custoUnit', formatter:'.formatter.fmtBrl'}"/>
 
                 <ObjectNumber number="{
@@ -49,19 +57,19 @@
                   formatter:'.formatter.fmtTotalItemBrl'
                 }"/>
 
+                <!-- DEVOLUÇÃO piscando em vermelho -->
                 <Text text="DEVOLUÇÃO"
                       visible="{path:'dlg>qtde', formatter:'.formatter.isDevolucao'}"
                       class="blinkingText"/>
 
-                <Text text="{dlg>codMaterial}"/>
+                <Text text="{dlg>codMaterial}" class="nowrap" tooltip="{dlg>codMaterial}"/>
                 <Text text="{dlg>deposito}"/>
-                <Text text="{path:'dlg>horaEntrada', formatter:'.formatter.fmtHora'}"/>
-                <Text text="{path:'dlg>data', formatter:'.formatter.fmtDate'}"/>
-                <Text text="{dlg>nOrdem}"/>
-                <Text text="{dlg>nReserva}"/>
-                <Text text="{dlg>recebedor}"/>
-                <Text text="{dlg>unid}"/>
-                <Text text="{dlg>usuario}"/>
+                <Text text="{path:'dlg>horaEntrada', formatter:'.formatter.fmtHora'}" class="center"/>
+                <Text text="{path:'dlg>data', formatter:'.formatter.fmtDate'}" class="center"/>
+                <Text text="{dlg>nOrdem}" class="nowrap" tooltip="{dlg>nOrdem}"/>
+                <Text text="{dlg>nReserva}" class="nowrap" tooltip="{dlg>nReserva}"/>
+                <Text text="{dlg>recebedor}" class="wrapText" maxLines="2" tooltip="{dlg>recebedor}"/>
+                <Text text="{dlg>usuario}" class="nowrap" tooltip="{dlg>usuario}"/>
               </cells>
             </ColumnListItem>
           </items>

@@ -76,59 +76,336 @@ sap.ui.define([
     // =========================
     // AÇÕES DA TABELA
     // =========================
-    onOpenHistorico: function (oEvent) {
-      var obj = oEvent.getSource().getBindingContext().getObject();
-      var id = String(obj.id || obj.veiculo);
-      this.getOwnerComponent().getRouter().navTo("RouteHistorico", { id: id });
-    },
+      onOpenMateriais: function () {
+      // Modelo estático para demonstração
+      if (!this._dlgModel) this._dlgModel = new sap.ui.model.json.JSONModel();
 
-    // -------- Dialog Materiais (sem merge/deduplicação e sem logs)
-    // -------- Dialog Materiais (SEM concatenação)
-onOpenMateriais: function (oEvent) {
-  var item = this._ctx(oEvent);
-  var key  = item.id || item.veiculo;
+      this._dlgModel.setData({
+      titulo: "Materiais — Veículo Demo — Caminhão Basculante",
+      veiculo: "20010036",
+      descricaoVeiculo: "Caminhão Basculante",
+      materiais: [
+      {
+        "nome": "FILTRO COMBUSTIVEL 23390-0L010 TOYOTA HI",
+        "tipo": "Peça",
+        "qtde": 1.0,
+        "custoUnit": 21.66,
+        "codMaterial": "608257",
+        "deposito": "UG01",
+        "horaEntrada": "18:06:14",
+        "nOrdem": "4689274",
+        "nReserva": "1468926",
+        "nItem": null,
+        "recebedor": null,
+        "unid": "PC",
+        "usuario": "ALMOXUSGA1",
+        "data": "2024-01-09"
+      },
+      {
+        "nome": "FILTRO LUB.90915-20003 TOYOTA HILUX TURB",
+        "tipo": "Peça",
+        "qtde": 1.0,
+        "custoUnit": 10.78,
+        "codMaterial": "608256",
+        "deposito": "UG01",
+        "horaEntrada": "18:06:14",
+        "nOrdem": "4689274",
+        "nReserva": "1468926",
+        "nItem": null,
+        "recebedor": null,
+        "unid": "PC",
+        "usuario": "ALMOXUSGA1",
+        "data": "2024-01-09"
+      },
+      {
+        "nome": "FILTRO COMBUSTIVEL 23390-0L010 TOYOTA HI",
+        "tipo": "Peça",
+        "qtde": -1.0,
+        "custoUnit": 21.66,
+        "codMaterial": "608257",
+        "deposito": "UG01",
+        "horaEntrada": "08:24:31",
+        "nOrdem": "4689274",
+        "nReserva": "1468926",
+        "nItem": null,
+        "recebedor": null,
+        "unid": "PC",
+        "usuario": "GALMOXUSGA",
+        "data": "2024-01-09"
+      },
+      {
+        "nome": "ITEM BLOQUEADO",
+        "tipo": "Peça",
+        "qtde": 1.0,
+        "custoUnit": 42.0,
+        "codMaterial": "829311",
+        "deposito": "UG01",
+        "horaEntrada": "07:50:54",
+        "nOrdem": "4689274",
+        "nReserva": "1468926",
+        "nItem": null,
+        "recebedor": null,
+        "unid": "PC",
+        "usuario": "ALMOXUSGA",
+        "data": "2024-01-13"
+      },
+      {
+        "nome": "ITEM BLOQUEADO",
+        "tipo": "Peça",
+        "qtde": -1.0,
+        "custoUnit": 42.0,
+        "codMaterial": "829311",
+        "deposito": "UG01",
+        "horaEntrada": "10:43:51",
+        "nOrdem": "4689274",
+        "nReserva": "1468926",
+        "nItem": null,
+        "recebedor": null,
+        "unid": "PC",
+        "usuario": "ALMOXUSGA",
+        "data": "2024-01-13"
+      },
+      {
+        "nome": "GRAXA LUBRAX LITH EP 2",
+        "tipo": "Peça",
+        "qtde": 0.2,
+        "custoUnit": 22.45,
+        "codMaterial": "604270",
+        "deposito": "DEGA",
+        "horaEntrada": "08:15:20",
+        "nOrdem": "4712003",
+        "nReserva": "1500058",
+        "nItem": null,
+        "recebedor": null,
+        "unid": "KG",
+        "usuario": "OVM_SG_02",
+        "data": "2024-01-04"
+      },
+      {
+        "nome": "GRAXA LUBRAX LITH EP 2",
+        "tipo": "Peça",
+        "qtde": 0.2,
+        "custoUnit": 22.45,
+        "codMaterial": "604270",
+        "deposito": "DEGA",
+        "horaEntrada": "14:19:36",
+        "nOrdem": "4714530",
+        "nReserva": "1503485",
+        "nItem": null,
+        "recebedor": null,
+        "unid": "KG",
+        "usuario": "OVM_SG_02",
+        "data": "2024-01-09"
+      },
+      {
+        "nome": "PALHETA LIMP PARA-BRISA 22\" DYNA S522",
+        "tipo": "Peça",
+        "qtde": 1.0,
+        "custoUnit": 23.46,
+        "codMaterial": "734512",
+        "deposito": "UG01",
+        "horaEntrada": "09:33:05",
+        "nOrdem": "4715739",
+        "nReserva": "1505286",
+        "nItem": null,
+        "recebedor": "ROZENILDO",
+        "unid": "PC",
+        "usuario": "ALMOXUSGA1",
+        "data": "2024-01-09"
+      },
+      {
+        "nome": "PALHETA LIMPADOR PARA-BRISA VALEO VF16",
+        "tipo": "Peça",
+        "qtde": 1.0,
+        "custoUnit": 27.0,
+        "codMaterial": "734525",
+        "deposito": "UG01",
+        "horaEntrada": "09:33:05",
+        "nOrdem": "4715739",
+        "nReserva": "1505286",
+        "nItem": null,
+        "recebedor": null,
+        "unid": "PC",
+        "usuario": "ALMOXUSGA1",
+        "data": "2024-01-09"
+      },
+      {
+        "nome": "FILTRO COMBUSTIVEL TOYOTA 23390-0L070",
+        "tipo": "Peça",
+        "qtde": 1.0,
+        "custoUnit": 200.94,
+        "codMaterial": "732552",
+        "deposito": "UG01",
+        "horaEntrada": "16:45:11",
+        "nOrdem": "4715739",
+        "nReserva": "1505286",
+        "nItem": null,
+        "recebedor": "JEFERSON",
+        "unid": "PC",
+        "usuario": "ALMOXUSGA",
+        "data": "2024-01-16"
+      },
+      {
+        "nome": "AMORTECEDOR 48510-09K00 DIANT.TOYOTA HIL",
+        "tipo": "Peça",
+        "qtde": 2.0,
+        "custoUnit": 126.535,
+        "codMaterial": "607801",
+        "deposito": "UG01",
+        "horaEntrada": "15:49:30",
+        "nOrdem": "4717908",
+        "nReserva": "1508293",
+        "nItem": null,
+        "recebedor": "SILVIO",
+        "unid": "PC",
+        "usuario": "ALMOXUSGA1",
+        "data": "2024-01-15"
+      },
+      {
+        "nome": "GRAXA LUBRAX LITH EP 2",
+        "tipo": "Peça",
+        "qtde": 0.2,
+        "custoUnit": 22.45,
+        "codMaterial": "604270",
+        "deposito": "DEGA",
+        "horaEntrada": "15:53:21",
+        "nOrdem": "4717942",
+        "nReserva": "1508347",
+        "nItem": null,
+        "recebedor": null,
+        "unid": "KG",
+        "usuario": "OVM_SG_02",
+        "data": "2024-01-15"
+      },
+      {
+        "nome": "OLEO LUBRIF SAE 15W-40 LUBRAX TOP TURBO",
+        "tipo": "Peça",
+        "qtde": 8.0,
+        "custoUnit": 15.71125,
+        "codMaterial": "604290",
+        "deposito": "DEGA",
+        "horaEntrada": "15:53:21",
+        "nOrdem": "4717942",
+        "nReserva": "1508347",
+        "nItem": null,
+        "recebedor": null,
+        "unid": "L",
+        "usuario": "OVM_SG_02",
+        "data": "2024-01-15"
+      },
+      {
+        "nome": "OLEO LUBRIF SAE 85W-90 LUBRAX TRM 5-90",
+        "tipo": "Peça",
+        "qtde": 2.5,
+        "custoUnit": 15.924,
+        "codMaterial": "604315",
+        "deposito": "DEGA",
+        "horaEntrada": "15:53:21",
+        "nOrdem": "4717942",
+        "nReserva": "1508347",
+        "nItem": 1,
+        "recebedor": null,
+        "unid": "L",
+        "usuario": "OVM_SG_02",
+        "data": "2024-01-15"
+      },
+      {
+        "nome": "OLEO LUBRIF SAE 85W-90 LUBRAX TRM 5-90",
+        "tipo": "Peça",
+        "qtde": 2.5,
+        "custoUnit": 15.924,
+        "codMaterial": "604315",
+        "deposito": "DEGA",
+        "horaEntrada": "15:53:21",
+        "nOrdem": "4717942",
+        "nReserva": "1508347",
+        "nItem": 2,
+        "recebedor": null,
+        "unid": "L",
+        "usuario": "OVM_SG_02",
+        "data": "2024-01-15"
+      },
+      {
+        "nome": "OLEO LUBRIF SAE 85W-90 LUBRAX TRM 5-90",
+        "tipo": "Peça",
+        "qtde": 4.0,
+        "custoUnit": 15.925,
+        "codMaterial": "604315",
+        "deposito": "DEGA",
+        "horaEntrada": "15:53:21",
+        "nOrdem": "4717942",
+        "nReserva": "1508347",
+        "nItem": 3,
+        "recebedor": null,
+        "unid": "L",
+        "usuario": "OVM_SG_02",
+        "data": "2024-01-15"
+      },
+      {
+        "nome": "OLEO LUBRIF SAE 85W-90 LUBRAX TRM 5-90",
+        "tipo": "Peça",
+        "qtde": 2.0,
+        "custoUnit": 15.925,
+        "codMaterial": "604315",
+        "deposito": "DEGA",
+        "horaEntrada": "15:53:21",
+        "nOrdem": "4717942",
+        "nReserva": "1508347",
+        "nItem": 4,
+        "recebedor": null,
+        "unid": "L",
+        "usuario": "OVM_SG_02",
+        "data": "2024-01-15"
+      },
+      {
+        "nome": "GRAXA LUBRAX LITH EP 2",
+        "tipo": "Peça",
+        "qtde": 0.2,
+        "custoUnit": 22.45,
+        "codMaterial": "604270",
+        "deposito": "DEGA",
+        "horaEntrada": "10:40:34",
+        "nOrdem": "4722238",
+        "nReserva": "1514462",
+        "nItem": null,
+        "recebedor": null,
+        "unid": "KG",
+        "usuario": "OVM_SG_02",
+        "data": "2024-01-26"
+      },
+      {
+        "nome": "GRAXA LUBRAX LITH EP 2",
+        "tipo": "Peça",
+        "qtde": 0.2,
+        "custoUnit": 22.45,
+        "codMaterial": "604270",
+        "deposito": "DEGA",
+        "horaEntrada": "09:17:50",
+        "nOrdem": "4723847",
+        "nReserva": "1516574",
+        "nItem": null,
+        "recebedor": null,
+        "unid": "KG",
+        "usuario": "OVM_SG_02",
+        "data": "2024-01-31"
+      }
+    ],
+      totalItens: 3,
+      totalQtd: 7,
+      totalValor: 3950
+      });
 
-  // Usa apenas o model "materiais" -> /materiaisPorVeiculo/<key>
-  var matModel = this.getView().getModel("materiais");
-  var arr = (matModel && matModel.getProperty("/materiaisPorVeiculo/" + key)) || [];
+      // Abre o fragment
+      this._openFragment(
+      "com.skysinc.frota.frota.fragments.MaterialsDialog",
+      "dlgMateriais",
+      { dlg: this._dlgModel }
+      );
+      },
+      onCloseMateriais: function () {
+      this.byId("dlgMateriais")?.close();
+      },
 
-  // Filtro por período (data inicial/final do DateRangeSelection)
-  var rng = this._currentRange(); // [start,end] ou null
-  var arrFiltrada = arr;
-  if (rng) {
-    var start = rng[0], end = rng[1];
-    arrFiltrada = arr.filter(function (m) {
-      var d = this._parseAnyDate(m.data);
-      return d && d >= start && d <= end;
-    }.bind(this));
-  }
-
-  // Totais
-  var totalItens = arrFiltrada.length;
-  var totalQtd   = arrFiltrada.reduce(function (s, m) { return s + (Number(m.qtde) || 0); }, 0);
-  var totalValor = arrFiltrada.reduce(function (s, m) {
-    return s + ((Number(m.qtde) || 0) * (Number(m.custoUnit) || 0));
-  }, 0);
-
-  // Model do diálogo
-  if (!this._dlgModel) this._dlgModel = new sap.ui.model.json.JSONModel();
-  this._dlgModel.setData({
-    titulo: "Materiais — " + (item.veiculo || "") + " — " + (item.descricao || ""),
-    veiculo: item.veiculo || "",
-    descricaoVeiculo: item.descricao || "",
-    materiais: arrFiltrada,
-    totalItens: totalItens,
-    totalQtd: totalQtd,
-    totalValor: totalValor
-  });
-
-  // Abre fragment
-  this._openFragment(
-    "com.skysinc.frota.frota.fragments.MaterialsDialog",
-    "dlgMateriais",
-    { dlg: this._dlgModel }
-  );
-},
 
     onCloseMateriais: function () { this.byId("dlgMateriais")?.close(); },
 
@@ -358,7 +635,6 @@ onOpenMateriais: function (oEvent) {
         setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
         sap.m.MessageToast.show("CSV gerado com sucesso.");
       } catch (e) {
-        // Removido console.error a pedido; mantém feedback ao usuário
         sap.m.MessageBox.error("Não foi possível gerar o CSV. Verifique se o navegador permite downloads.");
       }
     },
@@ -550,6 +826,9 @@ onOpenMateriais: function (oEvent) {
       return { km: totalKm, hr: totalHr };
     },
 
+    // ======================================================
+    // AGREGAÇÃO POR PERÍODO
+    // ======================================================
     _recalcAggByRange: function () {
       var baseModel = this.getView().getModel();
       var matModel  = this.getView().getModel("materiais");
@@ -647,6 +926,9 @@ onOpenMateriais: function (oEvent) {
       baseModel.setProperty("/veiculos", vlist);
     },
 
+    // =========================
+    // FILTRO NA TABELA
+    // =========================
     _applyTableFilters: function () {
       if (!this.oTbl || !this.oTbl.getBinding("rows")) return;
 
@@ -675,25 +957,56 @@ onOpenMateriais: function (oEvent) {
       this.oTbl.getBinding("rows").filter(aFilters);
     },
 
+    // =========================
+    // KPI (agora calcula sobre o MODELO filtrado)
+    // =========================
+    _getFilteredVehicles: function () {
+      var baseModel = this.getView().getModel();
+      if (!baseModel) return [];
+
+      var list = baseModel.getProperty("/veiculos") || [];
+
+      // Filtros da UI (iguais aos da tabela)
+      var seg = this.byId("segCat");
+      var catKey = seg ? seg.getSelectedKey() : "__ALL__";
+
+      var cbVeh = this.byId("inpVeiculo");
+      var vehKey = cbVeh ? cbVeh.getSelectedKey() : "__ALL__";
+
+      return list.filter(function (v) {
+        if (!v.rangeHasActivity) return false;
+        if (catKey && catKey !== "__ALL__" && String(v.categoria) !== String(catKey)) return false;
+        if (vehKey && vehKey !== "__ALL__" && String(v.veiculo)   !== String(vehKey)) return false;
+        return true;
+      });
+    },
+
     _recalcKpis: function () {
-      if (!this.oTbl || !this.oTbl.getBinding("rows")) return;
+      var arr = this._getFilteredVehicles();
 
-      var arr = this.oTbl.getBinding("rows").getCurrentContexts().map(function(c){ return c.getObject(); });
+      var totalLitros = arr.reduce(function (s, i) {
+        return s + (Number(i.combustivelLitrosAgg) || 0);
+      }, 0);
 
-      var totalLitros = arr.reduce(function(s, i){ return s + (Number(i.combustivelLitrosAgg) || 0); }, 0);
-      var totalValor  = arr.reduce(function(s, i){ return s + (Number(i.combustivelValorAgg)  || 0); }, 0);
-      var totalMat    = arr.reduce(function(s, i){ return s + (Number(i.custoMaterialAgg)     || 0); }, 0);
-      var precoMedio  = totalLitros ? (totalValor / totalLitros) : 0;
+      var totalValorComb = arr.reduce(function (s, i) {
+        return s + (Number(i.combustivelValorAgg) || 0);
+      }, 0);
+
+      var totalMatServ = arr.reduce(function (s, i) {
+        return s + (Number(i.custoMaterialAgg) || 0);
+      }, 0);
+
+      var precoMedio = totalLitros ? (totalValorComb / totalLitros) : 0;
 
       this.oKpi.setData({
-        totalLitrosFmt: formatter.fmtNum(totalLitros),
-        gastoCombustivelFmt: formatter.fmtBrl(totalValor),
-        custoMateriaisFmt: formatter.fmtBrl(totalMat),
-        precoMedioFmt: formatter.fmtNum(precoMedio),
-        resumoCombFmt: "Comb: " + formatter.fmtBrl(totalValor),
-        resumoLitrosFmt: "Litros: " + formatter.fmtNum(totalLitros) + " L",
-        resumoMatFmt: "Mat/Serv: " + formatter.fmtBrl(totalMat),
-        resumoPrecoFmt: "Preço Médio: " + formatter.fmtNum(precoMedio) + " R$/L"
+        totalLitrosFmt: this.formatter.fmtNum(totalLitros),
+        gastoCombustivelFmt: this.formatter.fmtBrl(totalValorComb),
+        custoMateriaisFmt: this.formatter.fmtBrl(totalMatServ),
+        precoMedioFmt: this.formatter.fmtNum(precoMedio),
+        resumoCombFmt: `Comb: ${this.formatter.fmtBrl(totalValorComb)}`,
+        resumoLitrosFmt: `Litros: ${this.formatter.fmtNum(totalLitros)} L`,
+        resumoMatFmt: `Mat/Serv: ${this.formatter.fmtBrl(totalMatServ)}`,
+        resumoPrecoFmt: `Preço Médio: ${this.formatter.fmtNum(precoMedio)} R$/L`
       });
     }
   });

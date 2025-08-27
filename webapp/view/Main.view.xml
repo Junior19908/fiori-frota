@@ -24,7 +24,6 @@
         <DateRangeSelection id="drs"
                             displayFormat="long"
                             width="18rem"
-                            value="March 12, 2025 - March 12, 2025"
                             change=".onFilterChange">
           <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow"/>
