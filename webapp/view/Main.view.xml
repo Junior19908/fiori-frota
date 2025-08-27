@@ -6,7 +6,7 @@
   xmlns:table="sap.ui.table"
   displayBlock="true">
 
-  <Page id="page">
+  <Page id="page" showHeader="false">
     <content>
 
       <!-- Barra superior: título + filtro período + limpar -->

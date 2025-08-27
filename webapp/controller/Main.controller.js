@@ -4,8 +4,9 @@ sap.ui.define([
   "sap/ui/model/Filter",
   "sap/ui/model/FilterOperator",
   "sap/ui/core/Fragment",
-  "com/skysinc/frota/frota/util/formatter"
-], function (Controller, JSONModel, Filter, FilterOperator, Fragment, formatter) {
+  "com/skysinc/frota/frota/util/formatter",
+  "com/skysinc/frota/frota/controller/Materials"
+], function (Controller, JSONModel, Filter, FilterOperator, Fragment, formatter, MaterialsCtl) {
   "use strict";
 
   return Controller.extend("com.skysinc.frota.frota.controller.Main", {
@@ -76,335 +77,34 @@ sap.ui.define([
     // =========================
     // AÇÕES DA TABELA
     // =========================
-      onOpenMateriais: function () {
-      // Modelo estático para demonstração
-      if (!this._dlgModel) this._dlgModel = new sap.ui.model.json.JSONModel();
+      onOpenMateriais: function (oEvent) {
+      // objeto do veículo da linha
+      var item = oEvent.getSource().getBindingContext().getObject();
+      var key  = item.id || item.veiculo;
 
-      this._dlgModel.setData({
-      titulo: "Materiais — Veículo Demo — Caminhão Basculante",
-      veiculo: "20010036",
-      descricaoVeiculo: "Caminhão Basculante",
-      materiais: [
-      {
-        "nome": "FILTRO COMBUSTIVEL 23390-0L010 TOYOTA HI",
-        "tipo": "Peça",
-        "qtde": 1.0,
-        "custoUnit": 21.66,
-        "codMaterial": "608257",
-        "deposito": "UG01",
-        "horaEntrada": "18:06:14",
-        "nOrdem": "4689274",
-        "nReserva": "1468926",
-        "nItem": null,
-        "recebedor": null,
-        "unid": "PC",
-        "usuario": "ALMOXUSGA1",
-        "data": "2024-01-09"
-      },
-      {
-        "nome": "FILTRO LUB.90915-20003 TOYOTA HILUX TURB",
-        "tipo": "Peça",
-        "qtde": 1.0,
-        "custoUnit": 10.78,
-        "codMaterial": "608256",
-        "deposito": "UG01",
-        "horaEntrada": "18:06:14",
-        "nOrdem": "4689274",
-        "nReserva": "1468926",
-        "nItem": null,
-        "recebedor": null,
-        "unid": "PC",
-        "usuario": "ALMOXUSGA1",
-        "data": "2024-01-09"
-      },
-      {
-        "nome": "FILTRO COMBUSTIVEL 23390-0L010 TOYOTA HI",
-        "tipo": "Peça",
-        "qtde": -1.0,
-        "custoUnit": 21.66,
-        "codMaterial": "608257",
-        "deposito": "UG01",
-        "horaEntrada": "08:24:31",
-        "nOrdem": "4689274",
-        "nReserva": "1468926",
-        "nItem": null,
-        "recebedor": null,
-        "unid": "PC",
-        "usuario": "GALMOXUSGA",
-        "data": "2024-01-09"
-      },
-      {
-        "nome": "ITEM BLOQUEADO",
-        "tipo": "Peça",
-        "qtde": 1.0,
-        "custoUnit": 42.0,
-        "codMaterial": "829311",
-        "deposito": "UG01",
-        "horaEntrada": "07:50:54",
-        "nOrdem": "4689274",
-        "nReserva": "1468926",
-        "nItem": null,
-        "recebedor": null,
-        "unid": "PC",
-        "usuario": "ALMOXUSGA",
-        "data": "2024-01-13"
-      },
-      {
-        "nome": "ITEM BLOQUEADO",
-        "tipo": "Peça",
-        "qtde": -1.0,
-        "custoUnit": 42.0,
-        "codMaterial": "829311",
-        "deposito": "UG01",
-        "horaEntrada": "10:43:51",
-        "nOrdem": "4689274",
-        "nReserva": "1468926",
-        "nItem": null,
-        "recebedor": null,
-        "unid": "PC",
-        "usuario": "ALMOXUSGA",
-        "data": "2024-01-13"
-      },
-      {
-        "nome": "GRAXA LUBRAX LITH EP 2",
-        "tipo": "Peça",
-        "qtde": 0.2,
-        "custoUnit": 22.45,
-        "codMaterial": "604270",
-        "deposito": "DEGA",
-        "horaEntrada": "08:15:20",
-        "nOrdem": "4712003",
-        "nReserva": "1500058",
-        "nItem": null,
-        "recebedor": null,
-        "unid": "KG",
-        "usuario": "OVM_SG_02",
-        "data": "2024-01-04"
-      },
-      {
-        "nome": "GRAXA LUBRAX LITH EP 2",
-        "tipo": "Peça",
-        "qtde": 0.2,
-        "custoUnit": 22.45,
-        "codMaterial": "604270",
-        "deposito": "DEGA",
-        "horaEntrada": "14:19:36",
-        "nOrdem": "4714530",
-        "nReserva": "1503485",
-        "nItem": null,
-        "recebedor": null,
-        "unid": "KG",
-        "usuario": "OVM_SG_02",
-        "data": "2024-01-09"
-      },
-      {
-        "nome": "PALHETA LIMP PARA-BRISA 22\" DYNA S522",
-        "tipo": "Peça",
-        "qtde": 1.0,
-        "custoUnit": 23.46,
-        "codMaterial": "734512",
-        "deposito": "UG01",
-        "horaEntrada": "09:33:05",
-        "nOrdem": "4715739",
-        "nReserva": "1505286",
-        "nItem": null,
-        "recebedor": "ROZENILDO",
-        "unid": "PC",
-        "usuario": "ALMOXUSGA1",
-        "data": "2024-01-09"
-      },
-      {
-        "nome": "PALHETA LIMPADOR PARA-BRISA VALEO VF16",
-        "tipo": "Peça",
-        "qtde": 1.0,
-        "custoUnit": 27.0,
-        "codMaterial": "734525",
-        "deposito": "UG01",
-        "horaEntrada": "09:33:05",
-        "nOrdem": "4715739",
-        "nReserva": "1505286",
-        "nItem": null,
-        "recebedor": null,
-        "unid": "PC",
-        "usuario": "ALMOXUSGA1",
-        "data": "2024-01-09"
-      },
-      {
-        "nome": "FILTRO COMBUSTIVEL TOYOTA 23390-0L070",
-        "tipo": "Peça",
-        "qtde": 1.0,
-        "custoUnit": 200.94,
-        "codMaterial": "732552",
-        "deposito": "UG01",
-        "horaEntrada": "16:45:11",
-        "nOrdem": "4715739",
-        "nReserva": "1505286",
-        "nItem": null,
-        "recebedor": "JEFERSON",
-        "unid": "PC",
-        "usuario": "ALMOXUSGA",
-        "data": "2024-01-16"
-      },
-      {
-        "nome": "AMORTECEDOR 48510-09K00 DIANT.TOYOTA HIL",
-        "tipo": "Peça",
-        "qtde": 2.0,
-        "custoUnit": 126.535,
-        "codMaterial": "607801",
-        "deposito": "UG01",
-        "horaEntrada": "15:49:30",
-        "nOrdem": "4717908",
-        "nReserva": "1508293",
-        "nItem": null,
-        "recebedor": "SILVIO",
-        "unid": "PC",
-        "usuario": "ALMOXUSGA1",
-        "data": "2024-01-15"
-      },
-      {
-        "nome": "GRAXA LUBRAX LITH EP 2",
-        "tipo": "Peça",
-        "qtde": 0.2,
-        "custoUnit": 22.45,
-        "codMaterial": "604270",
-        "deposito": "DEGA",
-        "horaEntrada": "15:53:21",
-        "nOrdem": "4717942",
-        "nReserva": "1508347",
-        "nItem": null,
-        "recebedor": null,
-        "unid": "KG",
-        "usuario": "OVM_SG_02",
-        "data": "2024-01-15"
-      },
-      {
-        "nome": "OLEO LUBRIF SAE 15W-40 LUBRAX TOP TURBO",
-        "tipo": "Peça",
-        "qtde": 8.0,
-        "custoUnit": 15.71125,
-        "codMaterial": "604290",
-        "deposito": "DEGA",
-        "horaEntrada": "15:53:21",
-        "nOrdem": "4717942",
-        "nReserva": "1508347",
-        "nItem": null,
-        "recebedor": null,
-        "unid": "L",
-        "usuario": "OVM_SG_02",
-        "data": "2024-01-15"
-      },
-      {
-        "nome": "OLEO LUBRIF SAE 85W-90 LUBRAX TRM 5-90",
-        "tipo": "Peça",
-        "qtde": 2.5,
-        "custoUnit": 15.924,
-        "codMaterial": "604315",
-        "deposito": "DEGA",
-        "horaEntrada": "15:53:21",
-        "nOrdem": "4717942",
-        "nReserva": "1508347",
-        "nItem": 1,
-        "recebedor": null,
-        "unid": "L",
-        "usuario": "OVM_SG_02",
-        "data": "2024-01-15"
-      },
-      {
-        "nome": "OLEO LUBRIF SAE 85W-90 LUBRAX TRM 5-90",
-        "tipo": "Peça",
-        "qtde": 2.5,
-        "custoUnit": 15.924,
-        "codMaterial": "604315",
-        "deposito": "DEGA",
-        "horaEntrada": "15:53:21",
-        "nOrdem": "4717942",
-        "nReserva": "1508347",
-        "nItem": 2,
-        "recebedor": null,
-        "unid": "L",
-        "usuario": "OVM_SG_02",
-        "data": "2024-01-15"
-      },
-      {
-        "nome": "OLEO LUBRIF SAE 85W-90 LUBRAX TRM 5-90",
-        "tipo": "Peça",
-        "qtde": 4.0,
-        "custoUnit": 15.925,
-        "codMaterial": "604315",
-        "deposito": "DEGA",
-        "horaEntrada": "15:53:21",
-        "nOrdem": "4717942",
-        "nReserva": "1508347",
-        "nItem": 3,
-        "recebedor": null,
-        "unid": "L",
-        "usuario": "OVM_SG_02",
-        "data": "2024-01-15"
-      },
-      {
-        "nome": "OLEO LUBRIF SAE 85W-90 LUBRAX TRM 5-90",
-        "tipo": "Peça",
-        "qtde": 2.0,
-        "custoUnit": 15.925,
-        "codMaterial": "604315",
-        "deposito": "DEGA",
-        "horaEntrada": "15:53:21",
-        "nOrdem": "4717942",
-        "nReserva": "1508347",
-        "nItem": 4,
-        "recebedor": null,
-        "unid": "L",
-        "usuario": "OVM_SG_02",
-        "data": "2024-01-15"
-      },
-      {
-        "nome": "GRAXA LUBRAX LITH EP 2",
-        "tipo": "Peça",
-        "qtde": 0.2,
-        "custoUnit": 22.45,
-        "codMaterial": "604270",
-        "deposito": "DEGA",
-        "horaEntrada": "10:40:34",
-        "nOrdem": "4722238",
-        "nReserva": "1514462",
-        "nItem": null,
-        "recebedor": null,
-        "unid": "KG",
-        "usuario": "OVM_SG_02",
-        "data": "2024-01-26"
-      },
-      {
-        "nome": "GRAXA LUBRAX LITH EP 2",
-        "tipo": "Peça",
-        "qtde": 0.2,
-        "custoUnit": 22.45,
-        "codMaterial": "604270",
-        "deposito": "DEGA",
-        "horaEntrada": "09:17:50",
-        "nOrdem": "4723847",
-        "nReserva": "1516574",
-        "nItem": null,
-        "recebedor": null,
-        "unid": "KG",
-        "usuario": "OVM_SG_02",
-        "data": "2024-01-31"
+      // pega os materiais do modelo "materiais" OU do próprio item
+      var matModel = this.getView().getModel("materiais");
+      var arr = (matModel && matModel.getProperty("/materiaisPorVeiculo/" + key)) || item.materiais || [];
+
+      // aplica filtro por período (se houver seleção no DRS)
+      var rng = (typeof this._currentRange === "function") ? this._currentRange() : null;
+      var arrFiltrada = arr;
+      if (rng) {
+        var start = rng[0], end = rng[1];
+        arrFiltrada = arr.filter(function (m) {
+          var d = (typeof this._parseAnyDate === "function") ? this._parseAnyDate(m.data) : null;
+          return d && d >= start && d <= end;
+        }.bind(this));
       }
-    ],
-      totalItens: 3,
-      totalQtd: 7,
-      totalValor: 3950
-      });
 
-      // Abre o fragment
-      this._openFragment(
-      "com.skysinc.frota.frota.fragments.MaterialsDialog",
-      "dlgMateriais",
-      { dlg: this._dlgModel }
-      );
-      },
-      onCloseMateriais: function () {
-      this.byId("dlgMateriais")?.close();
-      },
+      // chama o controle dedicado (cuida do fragment, exportar/print etc.)
+      MaterialsCtl.open(this.getView(), {
+        titulo: "Materiais — " + (item.veiculo || "") + " — " + (item.descricao || ""),
+        veiculo: item.veiculo || "",
+        descricaoVeiculo: item.descricao || "",
+        materiais: arrFiltrada
+      });
+    },
 
 
     onCloseMateriais: function () { this.byId("dlgMateriais")?.close(); },

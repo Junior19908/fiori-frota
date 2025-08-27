@@ -3,15 +3,8 @@
 .sapMTB{
     justify-content: center;
 }
-.sapMBar{
-    display: none;
-}
 html, body, body > div, #container, #container-uiarea {
     height: 100%;
-}
-.sapMPage.sapUiContentPadding > section{
-    padding: 0;
-    height: auto;
 }
 .sapMPage>section{
     position: fixed;

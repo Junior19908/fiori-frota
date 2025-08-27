@@ -1,9 +1,22 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
   <Dialog id="dlgMateriais"
-          title="{dlg>/titulo}"
           icon="sap-icon://wrench"
           contentWidth="auto"
           horizontalScrolling="false">
+
+    <!-- Barra de título customizada -->
+    <customHeader>
+      <Bar>
+        <contentLeft>
+          <core:Icon src="sap-icon://wrench" size="1.5rem"/>
+          <Title text="{dlg>/titulo}" level="H2"/>
+        </contentLeft>
+        <contentRight>
+          <Button icon="sap-icon://decline" type="Transparent" press=".onCloseMateriais"/>
+        </contentRight>
+      </Bar>
+    </customHeader>
+
     <content>
       <VBox renderType="Bare">
 
@@ -14,6 +27,7 @@
                growing="true"
                growingScrollToLoad="true"
                noDataText="Sem materiais/serviços no período selecionado">
+
           <columns>
             <Column width="22rem"><Label text="Item"/></Column>
             <Column width="7rem"><Label text="Tipo"/></Column>
@@ -39,10 +53,10 @@
           <items>
             <ColumnListItem vAlign="Middle">
               <cells>
-                <!-- Item: com wrap + tooltip -->
+                <!-- Item -->
                 <Text class="wrapText" maxLines="3" text="{dlg>nome}" tooltip="{dlg>nome}"/>
 
-                <!-- Tipo com blinking: verde (Serviço) / vermelho (Peça) -->
+                <!-- Tipo com estilo -->
                 <ObjectStatus
                   text="{path:'dlg>tipo', formatter:'.formatter.getTipoText'}"
                   class="{path:'dlg>tipo', formatter:'.formatter.getTipoClass'}"
@@ -75,7 +89,7 @@
           </items>
         </Table>
 
-        <!-- TOTAIS NO RODAPÉ DO CONTEÚDO -->
+        <!-- TOTAIS -->
         <Toolbar class="sapUiTinyMarginTop">
           <ToolbarSpacer/>
           <ObjectStatus text="Total itens:"/>
@@ -85,7 +99,6 @@
           <ObjectNumber number="{path:'dlg>/totalValor', formatter:'.formatter.fmtBrl'}"/>
         </Toolbar>
 
-        <!-- Mensagem de vazio -->
         <Text text="Sem materiais para este veículo no período"
               visible="{= ${dlg>/materiais}.length === 0 }"/>
       </VBox>
