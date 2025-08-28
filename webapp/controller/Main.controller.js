@@ -77,6 +77,11 @@ sap.ui.define([
     // =========================
     // AÇÕES DA TABELA
     // =========================
+      onOpenHistorico: function (oEvent) {
+        var obj = oEvent.getSource().getBindingContext().getObject();
+        var id = String(obj.id || obj.veiculo);
+        this.getOwnerComponent().getRouter().navTo("RouteHistorico", { id: id });
+      },
       onOpenMateriais: function (oEvent) {
       // objeto do veículo da linha
       var item = oEvent.getSource().getBindingContext().getObject();
@@ -133,7 +138,7 @@ sap.ui.define([
           Data: this.formatter.fmtDate(m.data || ""),
           N_Ordem: m.nOrdem || "",
           N_Reserva: m.nReserva || "",
-          N_Item: m.nItem || "",
+          Id_Evento: m.idEvento || "",
           Recebedor: m.recebedor || "",
           Unid: m.unid || "",
           Usuario: m.usuario || "",
