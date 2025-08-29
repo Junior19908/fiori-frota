@@ -77,21 +77,19 @@ sap.ui.define([
     // =========================
     // AÇÕES DA TABELA
     // =========================
-      onOpenHistorico: function (oEvent) {
-        var obj = oEvent.getSource().getBindingContext().getObject();
-        var id = String(obj.id || obj.veiculo);
-        this.getOwnerComponent().getRouter().navTo("RouteHistorico", { id: id });
-      },
-      onOpenMateriais: function (oEvent) {
-      // objeto do veículo da linha
+    onOpenHistorico: function (oEvent) {
+      var obj = oEvent.getSource().getBindingContext().getObject();
+      var id = String(obj.id || obj.veiculo);
+      this.getOwnerComponent().getRouter().navTo("RouteHistorico", { id: id });
+    },
+
+    onOpenMateriais: function (oEvent) {
       var item = oEvent.getSource().getBindingContext().getObject();
       var key  = item.id || item.veiculo;
 
-      // pega os materiais do modelo "materiais" OU do próprio item
       var matModel = this.getView().getModel("materiais");
       var arr = (matModel && matModel.getProperty("/materiaisPorVeiculo/" + key)) || item.materiais || [];
 
-      // aplica filtro por período (se houver seleção no DRS)
       var rng = (typeof this._currentRange === "function") ? this._currentRange() : null;
       var arrFiltrada = arr;
       if (rng) {
@@ -102,7 +100,6 @@ sap.ui.define([
         }.bind(this));
       }
 
-      // chama o controle dedicado (cuida do fragment, exportar/print etc.)
       MaterialsCtl.open(this.getView(), {
         titulo: "Materiais — " + (item.veiculo || "") + " — " + (item.descricao || ""),
         veiculo: item.veiculo || "",
@@ -110,7 +107,6 @@ sap.ui.define([
         materiais: arrFiltrada
       });
     },
-
 
     onCloseMateriais: function () { this.byId("dlgMateriais")?.close(); },
 
@@ -138,7 +134,7 @@ sap.ui.define([
           Data: this.formatter.fmtDate(m.data || ""),
           N_Ordem: m.nOrdem || "",
           N_Reserva: m.nReserva || "",
-          Id_Evento: m.idEvento || "",
+          Id_Evento: m.idEvento || "",   // <--- aqui substitui nItem por idEvento
           Recebedor: m.recebedor || "",
           Unid: m.unid || "",
           Usuario: m.usuario || "",

@@ -5,7 +5,6 @@ sap.ui.define([
 ], function (JSONModel, Fragment, baseFormatter) {
   "use strict";
 
-  // Formatters específicos do diálogo (complementam o formatter base)
   const formatter = Object.assign({}, baseFormatter, {
     getTipoText: function (tipo) {
       const t = String(tipo || "").toUpperCase();
@@ -24,7 +23,6 @@ sap.ui.define([
     }
   });
 
-  // Estado por View (reuso do fragment/model)
   const _byViewId = new Map();
 
   function _ensure(view) {
@@ -34,7 +32,6 @@ sap.ui.define([
     const dlgModel = new JSONModel();
     let dialogRef = null;
 
-    // Controller do fragment (handlers)
     const fragController = {
       formatter: formatter,
 
@@ -44,11 +41,24 @@ sap.ui.define([
 
       onExportMateriais: function () {
         const data = dlgModel.getData() || {};
-        const rows = (data.materiais || []).map(function (m) {
+        const mats = Array.isArray(data.materiais) ? data.materiais.slice() : [];
+
+        // (opcional) ordena por data e idEvento para saída consistente
+        mats.sort((a,b) => {
+          const da = new Date(a.data || 0).getTime();
+          const db = new Date(b.data || 0).getTime();
+          if (da !== db) return da - db;
+          return String(a.idEvento||"").localeCompare(String(b.idEvento||""));
+        });
+
+        const rows = mats.map(function (m) {
           const qtde  = Number(m.qtde || 0);
           const custo = Number(m.custoUnit || 0);
           const total = qtde * custo;
           return {
+            // ===== Id primeiro para destacar no Excel =====
+            Id_Evento: m.idEvento || "",
+
             Veiculo: data.veiculo || "",
             DescricaoVeiculo: data.descricaoVeiculo || "",
             Item: m.nome || m.material || m.descricao || "",
@@ -62,7 +72,6 @@ sap.ui.define([
             Data: formatter.fmtDate(m.data || ""),
             N_Ordem: m.nOrdem || "",
             N_Reserva: m.nReserva || "",
-            Id_Evento: m.idEvento || "",
             Recebedor: m.recebedor || "",
             Unid: m.unid || "",
             Usuario: m.usuario || "",
@@ -144,11 +153,6 @@ sap.ui.define([
   return {
     formatter: formatter,
 
-    /**
-     * Abre o diálogo de materiais.
-     * @param {sap.ui.core.mvc.View} view - view chamadora
-     * @param {object} payload - { titulo, veiculo, descricaoVeiculo, materiais[] }
-     */
     open: function (view, payload) {
       const st = _ensure(view);
 
@@ -180,7 +184,7 @@ sap.ui.define([
           });
 
       return load.then(function (dlg) {
-        dlg.setModel(st.dlgModel, "dlg"); // refresh
+        dlg.setModel(st.dlgModel, "dlg");
         dlg.open();
         return dlg;
       });

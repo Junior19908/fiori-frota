@@ -4,7 +4,6 @@
           contentWidth="auto"
           horizontalScrolling="false">
 
-    <!-- Barra de título customizada -->
     <customHeader>
       <Bar>
         <contentLeft>
@@ -19,7 +18,6 @@
 
     <content>
       <VBox renderType="Bare">
-
         <Table id="tblMat"
                items="{dlg>/materiais}"
                sticky="ColumnHeaders"
@@ -30,6 +28,12 @@
 
           <columns>
             <Column width="22rem"><Label text="Item"/></Column>
+
+            <!-- ID do Evento agora vem logo após o Item -->
+            <Column width="12rem" minScreenWidth="Tablet" demandPopin="true">
+              <Label text="Id Evento"/>
+            </Column>
+
             <Column width="7rem"><Label text="Tipo"/></Column>
             <Column width="5rem" hAlign="End" minScreenWidth="Tablet" demandPopin="true"><Label text="Qtde"/></Column>
             <Column width="5rem" minScreenWidth="Desktop" demandPopin="true"><Label text="Unid"/></Column>
@@ -55,6 +59,9 @@
               <cells>
                 <!-- Item -->
                 <Text class="wrapText" maxLines="3" text="{dlg>nome}" tooltip="{dlg>nome}"/>
+
+                <!-- Id Evento em destaque e com tooltip -->
+                <Text text="{dlg>idEvento}" class="nowrap" tooltip="{dlg>idEvento}"/>
 
                 <!-- Tipo com estilo -->
                 <ObjectStatus
@@ -104,7 +111,6 @@
       </VBox>
     </content>
 
-    <!-- Botões -->
     <buttons>
       <Button text="Exportar CSV" type="Emphasized"
               press=".onExportMateriais"
