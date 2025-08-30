@@ -1,17 +1,13 @@
 /* Enter your custom styles here */
 
-.sapMTB{
+.sapMTB {
     justify-content: center;
 }
 html, body, body > div, #container, #container-uiarea {
     height: 100%;
 }
-.sapMPage>section{
-    position: fixed;
-    top: 0;
-}
 .sapUiTheme-sap_bluecrystal .sapUiDSC {
-	background-color: rgb(242, 248, 252);
+    background-color: rgb(242, 248, 252);
 }
 
 /* === BLINK === */
@@ -37,21 +33,4 @@ html, body, body > div, #container, #container-uiarea {
     50% { opacity: 1; }
     75% { opacity: 0; }
     100% { opacity: 1; }
-}
-
-/* === WRAP / QUEBRA E HIFENAÇÃO === */
-.wrapText {
-    white-space: normal !important;
-    word-break: break-word;
-    overflow-wrap: anywhere;
-    hyphens: auto;
-}
-.nowrap {
-    white-space: nowrap;
-}
-.center {
-    text-align: center;
-}
-.end {
-    text-align: end;
 }
