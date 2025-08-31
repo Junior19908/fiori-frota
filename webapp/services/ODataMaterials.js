@@ -12,12 +12,6 @@ sap.ui.define([
     return `${y}-${m}-${d}T${t}`;
   }
 
-  /**
-   * Lê materiais (movimentos) via EntitySet ZC_EQ_MOVTO aplicando:
-   * - Range obrigatório de budat_mkpf (SingleRange)
-   * - Filtro por equipamento (equnr)
-   * Retorna array já mapeado para o dialog de materiais (nome, qtde, custoUnit, etc.)
-   */
   function loadMaterials(oComponent, { equnr, startDate, endDate }) {
     const oSvc = oComponent.getModel("svc");
     if (!oSvc || !(oSvc instanceof ODataModel)) {
@@ -29,14 +23,12 @@ sap.ui.define([
     const sFrom = toABAPDateTimeString(startDate || new Date(), false);
     const sTo   = toABAPDateTimeString(endDate   || new Date(), true);
 
-    // Filtro obrigatório por intervalo de budat_mkpf; adiciona equnr se informado
     const aFilterParts = [
       `budat_mkpf ge datetime'${sFrom}' and budat_mkpf le datetime'${sTo}'`
     ];
     if (equnr) aFilterParts.push(`equnr eq '${String(equnr).trim()}'`);
     const sFilter = aFilterParts.join(" and ");
 
-    // Seleção enxuta
     const sSelect = [
       "ID","equnr","eqktx",
       "matnr","maktx",
@@ -58,12 +50,15 @@ sap.ui.define([
     };
 
     /* eslint-disable no-console */
+    console.group("[ODataMaterials.loadMaterials]");
+    console.info("Filtros:", { equnr, sFrom, sTo });
     const sTestUrl = "https://fiori.usga.com.br:8001/sap/opu/odata/sap/ZC_EQ_MOVTO_CDS/ZC_EQ_MOVTO"
       + "?$filter=" + encodeURIComponent(sFilter)
       + "&$select=" + encodeURIComponent(sSelect)
       + "&$orderby=" + encodeURIComponent(urlParams["$orderby"])
       + "&$format=json";
-    console.log("[OData][Materiais] URL de teste:", sTestUrl);
+    console.log("[OData][Materiais] URL de teste (copie e cole no navegador autenticado):");
+    console.log(sTestUrl);
 
     sap.ui.core.BusyIndicator.show(0);
     return new Promise((resolve) => {
@@ -71,25 +66,18 @@ sap.ui.define([
         urlParameters: urlParams,
         success: (oData) => {
           sap.ui.core.BusyIndicator.hide();
-          const results = (oData && oData.results) || [];
-          console.table(results);
 
-          // Mapeia para a estrutura do seu MaterialsDialog
+          const results = (oData && oData.results) || [];
+          console.info("Registros brutos recebidos:", results.length);
+          if (results.length) {
+            console.table(results.slice(0, 5)); // preview rápido
+          }
+
+          // Mapeamento para o dialog
           const mapped = results.map((r) => {
             const qtde  = Number(r.menge || 0);
             const valor = Number(r.dmbtr || 0);
             const custoUnit = qtde ? (valor / qtde) : 0;
-
-            // Data (string) e horaEntrada (HH:mm:ss)
-            const toDateStr = (dt) => {
-              if (dt && dt.getTime) {
-                const y = dt.getFullYear();
-                const m = String(dt.getMonth()+1).padStart(2,"0");
-                const d = String(dt.getDate()).padStart(2,"0");
-                return `${y}-${m}-${d}`;
-              }
-              return r.budat_mkpf || "";
-            };
 
             let horaEntrada = "";
             if (r.cputm_mkpf && r.cputm_mkpf.ms !== undefined) {
@@ -101,38 +89,42 @@ sap.ui.define([
               horaEntrada = `${H}:${M}:${S}`;
             }
 
-            return {
-              // chaves / identificação
-              idEvento: r.ID || `${r.equnr || ""}-${r.rsnum || ""}-${r.rspos || ""}-${r.matnr || ""}-${r.budat_mkpf || ""}`,
+            // budat_mkpf pode vir como string ISO ou Date do V2; preservamos string se existir
+            const toDateStr = () => {
+              if (r.budat_mkpf && r.budat_mkpf.getTime) {
+                const d = r.budat_mkpf;
+                const y = d.getFullYear();
+                const m = String(d.getMonth()+1).padStart(2,"0");
+                const x = String(d.getDate()).padStart(2,"0");
+                return `${y}-${m}-${x}`;
+              }
+              return r.budat_mkpf || "";
+            };
 
-              // infos veiculo/equipamento
+            return {
+              idEvento: r.ID || `${r.equnr || ""}-${r.rsnum || ""}-${r.rspos || ""}-${r.matnr || ""}-${r.budat_mkpf || ""}`,
               veiculo: r.equnr || "",
               descricaoVeiculo: r.eqktx || "",
 
-              // material
               codMaterial: r.matnr || "",
               nome: r.maktx || "",
-              tipo: r.servpc || "",    // "Serv/Pc" no CDS
+              tipo: r.servpc || "", // "Serv/Pc" do CDS; seu formatter resolve a exibição
               unid: r.meins || "",
               deposito: r.lgort || "",
 
-              // quantidade / valores
               qtde: qtde,
               custoUnit: custoUnit,
               valorTotal: valor,
               moeda: r.waers || "",
 
-              // datas
-              data: toDateStr(r.budat_mkpf),
+              data: toDateStr(),
               dataEntrada: r.cpudt_mkpf || "",
               horaEntrada: horaEntrada,
 
-              // docs
               nOrdem: r.aufnr || "",
               nReserva: r.rsnum || "",
               nItem: r.rspos || "",
 
-              // demais
               recebedor: r.wempf || "",
               usuario: r.usnam_mkpf || "",
               categoria: r.CATEGORIA || "",
@@ -141,13 +133,17 @@ sap.ui.define([
             };
           });
 
+          console.info("Mapeados para o dialog:", mapped.length, "item(ns)");
+          if (mapped.length) console.table(mapped.slice(0, 5));
           resolve(mapped);
+          console.groupEnd();
         },
         error: (e) => {
           sap.ui.core.BusyIndicator.hide();
           console.error("[OData][Materiais][ERR]", e);
           MessageBox.error("Falha ao consultar materiais em ZC_EQ_MOVTO.");
           resolve([]);
+          console.groupEnd();
         }
       });
     });

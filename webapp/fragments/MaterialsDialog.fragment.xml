@@ -28,22 +28,12 @@
 
           <columns>
             <Column width="22rem"><Label text="Item"/></Column>
-
-            <!-- ID do Evento agora vem logo após o Item -->
-            <Column width="12rem" minScreenWidth="Tablet" demandPopin="true">
-              <Label text="Id Evento"/>
-            </Column>
-
             <Column width="7rem"><Label text="Tipo"/></Column>
             <Column width="5rem" hAlign="End" minScreenWidth="Tablet" demandPopin="true"><Label text="Qtde"/></Column>
             <Column width="5rem" minScreenWidth="Desktop" demandPopin="true"><Label text="Unid"/></Column>
             <Column width="8rem" hAlign="End" minScreenWidth="Tablet" demandPopin="true"><Label text="Custo Unit."/></Column>
             <Column width="9rem" hAlign="End"><Label text="Total (R$)"/></Column>
-
-            <Column width="9rem" hAlign="Center" minScreenWidth="Desktop" demandPopin="true">
-              <Label text="Status"/>
-            </Column>
-
+            <Column width="9rem" hAlign="Center" minScreenWidth="Desktop" demandPopin="true"><Label text="Status"/></Column>
             <Column width="8rem" minScreenWidth="Desktop" demandPopin="true"><Label text="Cód. Material"/></Column>
             <Column width="7rem" minScreenWidth="Desktop" demandPopin="true"><Label text="Depósito"/></Column>
             <Column width="6rem" minScreenWidth="Desktop" demandPopin="true"><Label text="Hora"/></Column>
@@ -57,32 +47,21 @@
           <items>
             <ColumnListItem vAlign="Middle">
               <cells>
-                <!-- Item -->
                 <Text class="wrapText" maxLines="3" text="{dlg>nome}" tooltip="{dlg>nome}"/>
-
-                <!-- Id Evento em destaque e com tooltip -->
-                <Text text="{dlg>idEvento}" class="nowrap" tooltip="{dlg>idEvento}"/>
-
-                <!-- Tipo com estilo -->
                 <ObjectStatus
                   text="{path:'dlg>tipo', formatter:'.formatter.getTipoText'}"
                   class="{path:'dlg>tipo', formatter:'.formatter.getTipoClass'}"
                   tooltip="{dlg>tipo}"/>
-
                 <ObjectNumber number="{dlg>qtde}" class="end"/>
                 <Text text="{dlg>unid}" class="center"/>
                 <ObjectNumber number="{path:'dlg>custoUnit', formatter:'.formatter.fmtBrl'}"/>
-
                 <ObjectNumber number="{
                   parts:['dlg>qtde','dlg>custoUnit'],
                   formatter:'.formatter.fmtTotalItemBrl'
                 }"/>
-
-                <!-- DEVOLUÇÃO piscando em vermelho -->
                 <Text text="DEVOLUÇÃO"
                       visible="{path:'dlg>qtde', formatter:'.formatter.isDevolucao'}"
                       class="blinkingText"/>
-
                 <Text text="{dlg>codMaterial}" class="nowrap" tooltip="{dlg>codMaterial}"/>
                 <Text text="{dlg>deposito}"/>
                 <Text text="{path:'dlg>horaEntrada', formatter:'.formatter.fmtHora'}" class="center"/>
@@ -96,7 +75,6 @@
           </items>
         </Table>
 
-        <!-- TOTAIS -->
         <Toolbar class="sapUiTinyMarginTop">
           <ToolbarSpacer/>
           <ObjectStatus text="Total itens:"/>

@@ -7,26 +7,29 @@ sap.ui.define([
   "sap/m/MessageToast",
   "sap/m/MessageBox",
 
+  // Utils & Services
   "com/skysinc/frota/frota/util/formatter",
   "com/skysinc/frota/frota/util/FilterUtil",
   "com/skysinc/frota/frota/services/MaterialsService",
   "com/skysinc/frota/frota/services/FuelService",
   "com/skysinc/frota/frota/services/KpiService",
   "com/skysinc/frota/frota/services/ODataMovtos",
+  "com/skysinc/frota/frota/services/VehiclesService",
   "com/skysinc/frota/frota/Aggregation"
 ], function (
   Controller, JSONModel, Filter, FilterOperator, Fragment, MessageToast, MessageBox,
-  formatter, FilterUtil, MaterialsService, FuelService, KpiService, ODataMovtos, Aggregation
+  formatter, FilterUtil, MaterialsService, FuelService, KpiService, ODataMovtos, VehiclesService, Aggregation
 ) {
   "use strict";
 
   return Controller.extend("com.skysinc.frota.frota.controller.Main", {
     formatter: formatter,
 
+    /* ======================== LIFECYCLE ======================== */
     onInit: function () {
       this.oTbl = this.byId("tbl");
 
-      // KPIs
+      // KPI model
       this.oKpi = new JSONModel({
         totalLitrosFmt: "0,00",
         gastoCombustivelFmt: "R$ 0,00",
@@ -39,39 +42,51 @@ sap.ui.define([
       });
       this.getView().setModel(this.oKpi, "kpi");
 
-      // pós-carregamento do modelo base
-      const oMainModel = this.getView().getModel();
-      const after = function () {
-        this._ensureCategories();
-        this._ensureVehiclesCombo();
-        this._recalcAndRefresh();
-      }.bind(this);
-
-      if (oMainModel && oMainModel.attachRequestCompleted) {
-        oMainModel.attachRequestCompleted(after);
-      } else {
-        setTimeout(after, 0);
+      // Base model (garante estrutura mínima)
+      if (!this.getView().getModel()) {
+        this.getView().setModel(new JSONModel({ veiculos: [] }));
       }
 
-      // modelo auxiliar (se quiser inspecionar OData de movimentos)
+      // Aux model p/ inspecionar movimentos (opcional)
       if (!this.getView().getModel("movtos")) {
         this.getView().setModel(new JSONModel({ results: [] }), "movtos");
       }
+
+      // Define o período padrão (ontem) e carrega veículos do OData
+      this._setDefaultYesterdayOnDRS();
+      this._reloadVehiclesFromOData().then(() => {
+        this._ensureCategories();
+        this._ensureVehiclesCombo();
+        this._recalcAndRefresh();
+      });
     },
 
-    // ---- UI events ----
+    /* ======================== EVENTS (UI) ======================== */
     onFilterChange: function () {
-      this._maybeReloadByFilterMonth().then(() => this._recalcAndRefresh());
+      // sempre que mudar período/categoria/veículo:
+      // 1) recarrega veículos do OData se mudou o período
+      // 2) recalcula KPIs + aplica filtros locais
+      this._reloadVehiclesFromOData().then(() => {
+        this._ensureCategories();
+        this._ensureVehiclesCombo();
+        this._recalcAndRefresh();
+      });
     },
 
     onClearFilters: function () {
-      this.byId("drs")?.setDateValue(null);
-      this.byId("drs")?.setSecondDateValue(null);
+      // O serviço OData exige budat_mkpf; ao limpar, voltamos para "ontem"
+      this._setDefaultYesterdayOnDRS();
+
       this.byId("segCat")?.setSelectedKey("__ALL__");
       const inp = this.byId("inpVeiculo");
       inp?.setSelectedKey("__ALL__");
       inp?.setValue("");
-      this._recalcAndRefresh();
+
+      this._reloadVehiclesFromOData().then(() => {
+        this._ensureCategories();
+        this._ensureVehiclesCombo();
+        this._recalcAndRefresh();
+      });
     },
 
     onOpenHistorico: function (oEvent) {
@@ -80,20 +95,19 @@ sap.ui.define([
       this.getOwnerComponent().getRouter().navTo("RouteHistorico", { id });
     },
 
-    // >>> AQUI: Materiais direto do OData <<<
+    // Materiais direto do OData (fragment)
     onOpenMateriais: function (oEvent) {
       const item = oEvent.getSource().getBindingContext().getObject();
       return MaterialsService.openDialog(
         this.getView(),
         item,
-        FilterUtil.currentRange(this.byId("drs"))  // usa range da tela
+        FilterUtil.currentRange(this.byId("drs"))
       );
     },
 
     onExportMateriais: function () {
-      // mantém export do diálogo já aberto
       if (!this._dlgModel) { MessageToast.show("Abra o diálogo de materiais primeiro."); return; }
-      return sap.ui.require(["com/skysinc/frota/frota/services/MaterialsService"], (Svc) => {
+      sap.ui.require(["com/skysinc/frota/frota/services/MaterialsService"], (Svc) => {
         Svc.exportCsv(this._dlgModel, this.byId("drs"));
       });
     },
@@ -103,6 +117,7 @@ sap.ui.define([
       if (!dlg) { MessageToast.show("Abra o diálogo de materiais primeiro."); return; }
       const win = window.open("", "_blank", "noopener,noreferrer");
       if (!win) { MessageBox.warning("Bloqueador de pop-up? Permita para imprimir."); return; }
+
       const title = (this._dlgModel?.getProperty("/titulo")) || "Materiais";
       const contentDom = dlg.getAggregation("content")[0].getDomRef()?.cloneNode(true);
 
@@ -121,13 +136,13 @@ sap.ui.define([
 
     onOpenAbastecimentos: function (oEvent) {
       const item = oEvent.getSource().getBindingContext().getObject();
-      return sap.ui.require(["com/skysinc/frota/frota/services/FuelService","com/skysinc/frota/frota/util/FilterUtil"], (FuelSvc, F) => {
+      sap.ui.require(["com/skysinc/frota/frota/services/FuelService","com/skysinc/frota/frota/util/FilterUtil"], (FuelSvc, F) => {
         FuelSvc.openFuelDialog(this, item, F.currentRange(this.byId("drs")));
       });
     },
     onCloseFuel: function () { this.byId("dlgFuel")?.close(); },
 
-    // ---- Helpers UI ----
+    /* ======================== HELPERS (UI/Binding) ======================== */
     _openFragment: function (sName, sId, mModels) {
       const v = this.getView();
       const promise = !this.byId(sId)
@@ -151,7 +166,7 @@ sap.ui.define([
       const set = new Set();
       data.forEach((i) => { if (i.categoria) set.add(String(i.categoria)); });
       Array.from(set).sort().forEach((c) => seg.addItem(new sap.ui.core.Item({ key: c, text: c })));
-      seg.setSelectedKey("__ALL__");
+      if (!seg.getSelectedKey()) seg.setSelectedKey("__ALL__");
     },
 
     _ensureVehiclesCombo: function () {
@@ -164,12 +179,14 @@ sap.ui.define([
       const set = new Set();
       data.forEach((i) => { if (i.veiculo) set.add(String(i.veiculo)); });
       Array.from(set).sort().forEach((c) => inp.addItem(new sap.ui.core.Item({ key: c, text: c })));
-      inp.setSelectedKey("__ALL__");
+      if (!inp.getSelectedKey()) inp.setSelectedKey("__ALL__");
     },
 
     _applyTableFilters: function () {
       if (!this.oTbl || !this.oTbl.getBinding("rows")) return;
+
       const aFilters = [];
+      // só exibe veículos com atividade no período
       aFilters.push(new Filter({ path: "", test: (oObj) => !!oObj.rangeHasActivity }));
 
       const seg = this.byId("segCat");
@@ -211,36 +228,42 @@ sap.ui.define([
       this.getView().getModel("kpi").setData(kpis);
     },
 
-    _maybeReloadByFilterMonth: function () {
-      const drs = this.byId("drs");
-      if (!drs) return Promise.resolve();
-
-      const d1 = drs.getDateValue();
-      const d2 = drs.getSecondDateValue();
-      if (!d1 || !d2) return Promise.resolve();
-
-      const comp = this.getOwnerComponent();
-
-      if (comp && typeof comp.setMockRange === "function") {
-        const lastDay = new Date(d2.getFullYear(), d2.getMonth() + 1, 0);
-        return comp.setMockRange(new Date(d1.getFullYear(), d1.getMonth(), 1), lastDay);
-      }
-
-      const yyyy = d1.getFullYear();
-      const mm   = String(d1.getMonth() + 1).padStart(2, "0");
-      const ym = `${yyyy}-${mm}`;
-
-      if (comp && comp.setMockYM && comp.__currentYM !== ym) {
-        return comp.setMockYM(yyyy, mm);
-      }
-      return Promise.resolve();
+    /* ======================== DATA (OData) ======================== */
+    _yesterdayPair: function () {
+      const now = new Date();
+      const y = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+      return [y, y]; // SingleRange (requisito do CDS)
     },
 
-    // (opcional) carregar movimentos via OData p/ outro grid
+    _setDefaultYesterdayOnDRS: function () {
+      const drs = this.byId("drs");
+      if (!drs) return;
+      const [d1, d2] = this._yesterdayPair();
+      drs.setDateValue(d1);
+      drs.setSecondDateValue(d2);
+    },
+
+    _reloadVehiclesFromOData: function () {
+      // Lê o range atual da DRS; se estiver vazio, usa ontem
+      const drs = this.byId("drs");
+      let range = null;
+
+      const d1 = drs?.getDateValue?.();
+      const d2 = drs?.getSecondDateValue?.();
+      if (d1 && d2) {
+        range = [d1, d2];
+      } else {
+        range = this._yesterdayPair();
+      }
+
+      return VehiclesService.loadVehiclesForRange(this.getView(), range);
+    },
+
+    // opcional: carregar movimentos do período para outro grid/modelo
     loadMovtosForCurrentRange: function () {
       const range = FilterUtil.currentRange(this.byId("drs"));
-      const start = range ? range[0] : new Date();
-      const end   = range ? range[1] : new Date();
+      const start = range ? range[0] : this._yesterdayPair()[0];
+      const end   = range ? range[1] : this._yesterdayPair()[1];
       return ODataMovtos.loadMovtos(this.getOwnerComponent(), start, end)
         .then(({ results }) => {
           this.getView().getModel("movtos").setData({ results });

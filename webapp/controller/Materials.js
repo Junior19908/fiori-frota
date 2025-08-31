@@ -57,7 +57,7 @@ sap.ui.define([
           const total = qtde * custo;
           return {
             // ===== Id primeiro para destacar no Excel =====
-            Id_Evento: m.idEvento || "",
+            //Id_Evento: m.idEvento || "",
 
             Veiculo: data.veiculo || "",
             DescricaoVeiculo: data.descricaoVeiculo || "",

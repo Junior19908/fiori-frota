@@ -16,7 +16,7 @@
     },
     "dataSources": {
       "mainService": {
-        "uri": "https://fiori.usga.com.br:8001/sap/opu/odata/sap/ZC_EQ_MOVTO_CDS/",
+        "uri": "/sap/opu/odata/sap/ZC_EQ_MOVTO_CDS/",
         "type": "OData",
         "settings": {
           "odataVersion": "2.0"
@@ -69,8 +69,9 @@
       },
       "svc": {
         "dataSource": "mainService",
+        "preload": true,
         "settings": {
-          "useBatch": true
+          "useBatch": false
         }
       },
       "movtos": {

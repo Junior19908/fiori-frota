@@ -10,22 +10,72 @@ sap.ui.define([
   "use strict";
 
   async function openDialog(oView, oVehicleObj, range) {
-    const comp = oView.getController().getOwnerComponent();
-    const [start, end] = range || [];
-    const equnr = oVehicleObj.id || oVehicleObj.veiculo;
+    /* eslint-disable no-console */
+    console.group("[MaterialsService.openDialog]");
+    try {
+      const comp = oView.getController().getOwnerComponent();
+      const [start, end] = range || [];
+      const equnr = oVehicleObj.id || oVehicleObj.veiculo;
 
-    const materiais = await ODataMaterials.loadMaterials(comp, {
-      equnr,
-      startDate: start || new Date(),
-      endDate: end   || new Date()
-    });
+      console.info("Parâmetros recebidos:");
+      console.table({
+        equnr,
+        veiculo: oVehicleObj.veiculo,
+        descricao: oVehicleObj.descricao,
+        start: start ? start.toISOString() : "(null)",
+        end:   end   ? end.toISOString()   : "(null)"
+      });
 
-    return MaterialsCtl.open(oView, {
-      titulo: `Materiais — ${oVehicleObj.veiculo || ""} — ${oVehicleObj.descricao || ""}`,
-      veiculo: oVehicleObj.veiculo || "",
-      descricaoVeiculo: oVehicleObj.descricao || "",
-      materiais
-    });
+      // Chamada ao OData
+      console.time("ODataMaterials.loadMaterials");
+      const materiais = await ODataMaterials.loadMaterials(comp, {
+        equnr,
+        startDate: start || new Date(),
+        endDate: end   || new Date()
+      });
+      console.timeEnd("ODataMaterials.loadMaterials");
+
+      // === LOG de retorno ===
+      const qtd = Array.isArray(materiais) ? materiais.length : 0;
+      console.info("Retorno do OData (materiais):", qtd, "item(ns)");
+      if (qtd) {
+        console.table(materiais.slice(0, 5)); // preview
+        console.debug("JSON completo dos materiais:", JSON.stringify(materiais, null, 2));
+      } else {
+        console.warn("Nenhum item retornado pelo OData para os filtros informados.");
+      }
+
+      // Calcula totais para o rodapé
+      const totalItens = qtd;
+      const totalValor = materiais.reduce((acc, m) => {
+        const qtde = Number(m.qtde || 0);
+        const custo = Number(m.custoUnit || 0);
+        return acc + (qtde * custo);
+      }, 0);
+
+      // Abre o diálogo com o payload pronto
+      const dlg = await MaterialsCtl.open(oView, {
+        titulo: `Materiais — ${oVehicleObj.veiculo || ""} — ${oVehicleObj.descricao || ""}`,
+        veiculo: oVehicleObj.veiculo || "",
+        descricaoVeiculo: oVehicleObj.descricao || "",
+        materiais,
+        totalItens,
+        totalValor
+      });
+
+      // Guarda referência do model do diálogo (útil para export/print no Main.controller)
+      const dlgModel = dlg.getModel("dlg");
+      if (oView.getController()) {
+        oView.getController()._dlgModel = dlgModel;
+      }
+
+      return dlg;
+    } catch (err) {
+      console.error("[MaterialsService.openDialog][ERR]", err);
+      MessageToast.show("Falha ao abrir materiais.");
+    } finally {
+      console.groupEnd();
+    }
   }
 
   function exportCsv(dlgModel, oDateRangeSelection) {
