@@ -88,29 +88,29 @@
           alternateRowColors="true"
           enableColumnReordering="true"
           width="auto"
-          noDataText="Sem dados para o período/filtragem."
-          rows="{ path:'/veiculos', sorter:{ path:'dataRef', descending:true } }">
+          noData="Sem dados para o período/filtragem."
+          rows="{vm>/veiculos}">
 
         <table:columns>
 
-          <table:Column sortProperty="veiculo" width="10rem">
+          <table:Column sortProperty="equnr" width="10rem">
             <Label text="Veículo"/>
             <table:template>
-              <Text text="{veiculo}"/>
+              <Text text="{vm>equnr}"/>
             </table:template>
           </table:Column>
 
-          <table:Column sortProperty="categoria" width="16rem">
+          <table:Column sortProperty="CATEGORIA" width="16rem">
             <Label text="Categoria"/>
             <table:template>
-              <Text text="{categoria}"/>
+              <Text text="{vm>CATEGORIA}"/>
             </table:template>
           </table:Column>
 
-          <table:Column sortProperty="descricao" width="18rem">
+          <table:Column sortProperty="eqktx" width="18rem">
             <Label text="Descrição do veículo"/>
             <table:template>
-              <Text text="{descricao}" maxLines="2"/>
+              <Text text="{vm>eqktx}" maxLines="2"/>
             </table:template>
           </table:Column>
 
@@ -126,10 +126,10 @@
           </table:Column>
 
           <!-- Agregados do período -->
-          <table:Column sortProperty="custoMaterialAgg" width="12rem" hAlign="End">
+          <table:Column sortProperty="totalValor" width="12rem" hAlign="End">
             <Label text="Custo material/serviço (R$)"/>
             <table:template>
-              <Text text="{path:'custoMaterialAgg', formatter:'.formatter.fmtBrl'}"/>
+              <Text text="{ path: 'vm>totalValor', formatter: '.formatter.currencyBRL' }"/>
             </table:template>
           </table:Column>
 

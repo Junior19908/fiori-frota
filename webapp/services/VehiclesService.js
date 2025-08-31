@@ -1,67 +1,80 @@
 sap.ui.define([
   "sap/base/Log",
   "sap/ui/model/json/JSONModel",
-  "com/skysinc/frota/frota/services/ODataVehicles"
+  "./ODataVehicles"
 ], function (Log, JSONModel, ODataVehicles) {
   "use strict";
 
-  function _yesterdayRange() {
-    const now = new Date();
-    const y = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
-    return [y, y]; // single-day (ontem), o CDS aceita intervalo SingleRange
+  function ensureVM(oView) {
+    let oVM = oView.getModel("vm");
+    if (!oVM) {
+      oVM = new JSONModel({ veiculos: [], movimentos: [], aggregateOn: true });
+      oView.setModel(oVM, "vm");
+    }
+    return oVM;
   }
 
-  function _normalizeEqunr(equnr) {
-    // sua UI mostra sem zeros à esquerda? Ajuste aqui se quiser:
-    // return String(Number(equnr));
-    return String(equnr || "");
+  /**
+   * (Mantido) Carrega linhas detalhadas e grava em vm>/movimentos.
+   */
+  function loadVehiclesForRange(oView, range) {
+    const base = new Date();
+    const from = (range && (range.from || range[0] || range.to)) || base;
+    const to   = (range && (range.to   || range[1] || range.from)) || from;
+
+    return ODataVehicles.loadVehicles(oView, from, to).then(function (aRows) {
+      const oVM = ensureVM(oView);
+      oVM.setProperty("/movimentos", Array.isArray(aRows) ? aRows : []);
+      console.log("[VehiclesService] vm>/movimentos length =", (aRows || []).length);
+      if ((aRows || []).length) console.table((aRows || []).slice(0, 10));
+    });
+  }
+
+  /**
+   * NOVO: Carrega DISTINCT (1 veículo por linha) e grava em targetPath (padrão vm>/veiculos).
+   * Faz agregação em memória (sum dmbtr → totalValor; sum menge → totalQtde).
+   */
+  function loadVehiclesDistinctForRange(oView, range, opts) {
+    const base = new Date();
+    const from = (range && (range.from || range[0] || range.to)) || base;
+    const to   = (range && (range.to   || range[1] || range.from)) || from;
+
+    const aggregate = !!(opts && opts.aggregate);
+    const targetPath = (opts && opts.targetPath) || "vm>/veiculos";
+
+    return ODataVehicles.loadVehiclesDistinct(oView, from, to, { aggregate }).then(function (aRows) {
+      const oVM = ensureVM(oView);
+
+      // Já vem agregado: {equnr, eqktx, totalValor, totalQtde}
+      const norm = Array.isArray(aRows) ? aRows.map(function (r) {
+        return {
+          equnr: r.equnr || "",
+          eqktx: r.eqktx || "",
+          CATEGORIA: r.CATEGORIA || "",
+          totalValor: Number(r.totalValor || 0),
+          totalQtde:  Number(r.totalQtde  || 0)
+        };
+      }) : [];
+
+      if (targetPath.startsWith("vm>/")) {
+        oVM.setProperty(targetPath.substring(3), norm);
+      } else {
+        oVM.setProperty(targetPath, norm);
+      }
+
+      const len = (targetPath.startsWith("vm>/")
+        ? oVM.getProperty(targetPath.substring(3))
+        : oVM.getProperty(targetPath)
+      )?.length || 0;
+
+      console.log("[VehiclesService] " + targetPath + " atualizado. length =", len);
+      if (len) console.table(norm.slice(0, 10));
+      window.__vm = oVM; // facilitar inspeção no console
+    });
   }
 
   return {
-    /**
-     * Carrega veículos do OData e salva no modelo base (/veiculos).
-     * @param {sap.ui.core.mvc.View} oView
-     * @param {[Date,Date]|null} range Opcional; se vazio, usa ontem
-     * @returns {Promise<void>}
-     */
-    loadVehiclesForRange(oView, range) {
-      if (!oView) return Promise.resolve();
-
-      const baseModel = oView.getModel();
-      if (!baseModel) {
-        oView.setModel(new JSONModel({ veiculos: [] })); // garante o modelo base
-      }
-
-      const [dFrom, dTo] = Array.isArray(range) && range[0] && range[1]
-        ? range
-        : _yesterdayRange();
-
-      return ODataVehicles.loadVehicles(oView, dFrom, dTo)
-        .then((raw) => {
-          // Mapeia para o formato usado na grid/combos
-          const mapped = raw.map((r) => ({
-            veiculo: _normalizeEqunr(r.equnr),
-            descricao: r.eqktx || "",
-            categoria: r.CATEGORIA || "",
-            // flags mínimos para a tabela filtrar por "tem atividade no range"
-            rangeHasActivity: true,
-            dataRef: dTo  // opcional: usado no sorter da tabela
-          }));
-
-          // Remove duplicados (se por algum motivo o backend não agregou)
-          const seen = new Set();
-          const uniq = [];
-          for (const v of mapped) {
-            const k = `${v.veiculo}||${v.categoria}||${v.descricao}`;
-            if (!seen.has(k)) { seen.add(k); uniq.push(v); }
-          }
-
-          oView.getModel().setProperty("/veiculos", uniq);
-        })
-        .catch((e) => {
-          Log.error("Falha ao carregar veículos do OData", e);
-          // mantém estado anterior e não quebra UI
-        });
-    }
+    loadVehiclesForRange,
+    loadVehiclesDistinctForRange
   };
 });

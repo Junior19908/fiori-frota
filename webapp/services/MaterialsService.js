@@ -9,71 +9,55 @@ sap.ui.define([
 ], function (JSONModel, MessageToast, formatter, CsvUtil, FilterUtil, MaterialsCtl, ODataMaterials) {
   "use strict";
 
+  function padEqunr(e) {
+    const digits = String(e || "").replace(/\D/g, "");
+    return digits.padStart(18, "0");
+  }
+
   async function openDialog(oView, oVehicleObj, range) {
-    /* eslint-disable no-console */
     console.group("[MaterialsService.openDialog]");
     try {
       const comp = oView.getController().getOwnerComponent();
       const [start, end] = range || [];
-      const equnr = oVehicleObj.id || oVehicleObj.veiculo;
+      const rawEqunr = oVehicleObj.equnr || oVehicleObj.veiculo || oVehicleObj.id;
+      const equnr = padEqunr(rawEqunr);
 
-      console.info("Parâmetros recebidos:");
       console.table({
-        equnr,
-        veiculo: oVehicleObj.veiculo,
-        descricao: oVehicleObj.descricao,
+        equnrSelecionado: equnr,
+        origemEqunr: rawEqunr,
+        desc: oVehicleObj.eqktx || oVehicleObj.descricao || "",
         start: start ? start.toISOString() : "(null)",
         end:   end   ? end.toISOString()   : "(null)"
       });
 
-      // Chamada ao OData
-      console.time("ODataMaterials.loadMaterials");
+      // Chama OData com equnr 18 chars + intervalo
       const materiais = await ODataMaterials.loadMaterials(comp, {
         equnr,
         startDate: start || new Date(),
-        endDate: end   || new Date()
+        endDate: end || start || new Date()
       });
-      console.timeEnd("ODataMaterials.loadMaterials");
 
-      // === LOG de retorno ===
-      const qtd = Array.isArray(materiais) ? materiais.length : 0;
-      console.info("Retorno do OData (materiais):", qtd, "item(ns)");
-      if (qtd) {
-        console.table(materiais.slice(0, 5)); // preview
-        console.debug("JSON completo dos materiais:", JSON.stringify(materiais, null, 2));
-      } else {
-        console.warn("Nenhum item retornado pelo OData para os filtros informados.");
-      }
+      const totalItens = materiais.length;
+      const totalValor = materiais.reduce((acc, m) => acc + (Number(m.qtde||0) * Number(m.custoUnit||0)), 0);
 
-      // Calcula totais para o rodapé
-      const totalItens = qtd;
-      const totalValor = materiais.reduce((acc, m) => {
-        const qtde = Number(m.qtde || 0);
-        const custo = Number(m.custoUnit || 0);
-        return acc + (qtde * custo);
-      }, 0);
-
-      // Abre o diálogo com o payload pronto
       const dlg = await MaterialsCtl.open(oView, {
-        titulo: `Materiais — ${oVehicleObj.veiculo || ""} — ${oVehicleObj.descricao || ""}`,
-        veiculo: oVehicleObj.veiculo || "",
-        descricaoVeiculo: oVehicleObj.descricao || "",
+        titulo: `Materiais — ${equnr}${oVehicleObj.eqktx ? " • " + oVehicleObj.eqktx : (oVehicleObj.descricao ? " • " + oVehicleObj.descricao : "")}`,
+        veiculo: equnr,
+        descricaoVeiculo: oVehicleObj.eqktx || oVehicleObj.descricao || "",
         materiais,
         totalItens,
         totalValor
       });
 
-      // Guarda referência do model do diálogo (útil para export/print no Main.controller)
+      // guarda p/ export/print
       const dlgModel = dlg.getModel("dlg");
-      if (oView.getController()) {
-        oView.getController()._dlgModel = dlgModel;
-      }
+      oView.getController()._dlgModel = dlgModel;
 
+      console.groupEnd();
       return dlg;
     } catch (err) {
       console.error("[MaterialsService.openDialog][ERR]", err);
       MessageToast.show("Falha ao abrir materiais.");
-    } finally {
       console.groupEnd();
     }
   }

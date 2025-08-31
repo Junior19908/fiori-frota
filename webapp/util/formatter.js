@@ -1,84 +1,136 @@
 sap.ui.define([], function () {
   "use strict";
-  function toNum(v){ return Number(v || 0); }
+
+  function toNum(v) { return Number(v || 0); }
+
+  // --- Helpers internos
+  function fmtNumber(v, min = 2, max = 2) {
+    return Number(v || 0).toLocaleString("pt-BR", {
+      minimumFractionDigits: min, maximumFractionDigits: max
+    });
+  }
+
   return {
-    fmtBrl: function(v){
-      try { return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(v||0)); }
-      catch(e){ return v; }
+    /* ==========================
+     * Formatação monetária / numérica
+     * ========================== */
+    fmtBrl: function (v) { // já existente
+      try { return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(Number(v || 0)); }
+      catch (e) { return v; }
     },
 
+    // ALIAS usado pela view: formatter=".formatter.currencyBRL"
+    currencyBRL: function (v) {
+      return this && typeof this.fmtBrl === "function" ? this.fmtBrl(v) : (() => {
+        try { return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(Number(v || 0)); }
+        catch (e) { return v; }
+      })();
+    },
+
+    fmtNum: function (v) { // já existente (2 casas)
+      return fmtNumber(v, 2, 2);
+    },
+
+    // ALIAS usado pela view: formatter=".formatter.number3"
+    // Ex.: 1234.567 -> "1.234,567"
+    number3: function (v) {
+      return fmtNumber(v, 3, 3);
+    },
+
+    /* ==========================
+     * Regras de negócio / classes
+     * ========================== */
     // DEVOLUÇÃO: qtde < 0
-    isDevolucao: function(qtde) {
+    isDevolucao: function (qtde) {
       return Number(qtde) < 0;
     },
 
-    // NOVO: texto exibido no status ("PEÇA" | "SERVIÇO")
-    getTipoText: function(tipo) {
+    // Texto exibido no status ("PEÇA" | "SERVIÇO")
+    getTipoText: function (tipo) {
       if (!tipo) return "";
       return String(tipo).toUpperCase();
     },
 
-    
-
-    // NOVO: classe CSS para piscar conforme o tipo
-    getTipoClass: function(tipo) {
+    // Classe CSS para piscar conforme o tipo
+    getTipoClass: function (tipo) {
       var t = (tipo || "").toString().toLowerCase();
       if (t === "serviço" || t === "servico") return "blinkingTextServico";
       if (t === "peça" || t === "peca")       return "blinkingTextPeca";
       return "";
     },
 
-    fmtNum: function (v) {
-      return Number(v || 0).toLocaleString('pt-BR', {
-        minimumFractionDigits: 2, maximumFractionDigits: 2
-      });
-    },
-    fmtDate: function(v) {
+    /* ==========================
+     * Datas / horas
+     * ========================== */
+    fmtDate: function (v) {
       if (!v) return "";
       const s = String(v).trim();
+
+      // Já no formato BR?
       const mBR = s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
       if (mBR) return s;
+
+      // ISO (YYYY-MM-DD...)
       const mISO = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
       if (mISO) return `${mISO[3]}/${mISO[2]}/${mISO[1]}`;
-      try { const d = new Date(s); return isNaN(d) ? s : d.toLocaleDateString("pt-BR"); }
-      catch { return s; }
+
+      // Tentativa de parse genérica
+      try {
+        const d = new Date(s);
+        return isNaN(d) ? s : d.toLocaleDateString("pt-BR");
+      } catch {
+        return s;
+      }
     },
-    fmtFuncaoKmComb: function(a,b){
-      var x = toNum(a), y = toNum(b)||0;
-      var r = y ? (x/y) : 0;
-      return r.toLocaleString('pt-BR',{minimumFractionDigits:2, maximumFractionDigits:2});
-    },
-    fmtFuncaoHoraComb: function(a,b){
-      var x = toNum(a), y = toNum(b)||0;
-      var r = y ? (x/y) : 0;
-      return r.toLocaleString('pt-BR',{minimumFractionDigits:2, maximumFractionDigits:2});
-    },
-    fmtSomaBrl: function(a,b){
-      var fmtBrl = toNum(a)+toNum(b);
-      return fmtBrl.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-    },
-    fmtTotalItemBrl: function(q,cu){
-      var total = (Number(q||0) * Number(cu||0));
-      return total.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-    },
-    fmtBrlunitario: function(q){
-      var n = Number(q||0);
-      return n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-    },
-    fmtLitros: function(v) {
-      try { return `${Number(v || 0).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} L`; }
-      catch (e) { return v; }
-    },
-    fmtKm: function(v) {
-      try { return `${Number(v || 0).toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} Km`; }
-      catch (e) { return v; }
-    },
+
     fmtHora: function (v) {
       if (!v) return "";
       var s = String(v);
       var m = s.match(/^(\d{1,2}):(\d{2})(?::\d{2})?$/);
-      if (m) return `${m[1].padStart(2,"0")}:${m[2]}`;
+      if (m) return `${m[1].padStart(2, "0")}:${m[2]}`;
       return s;
+    },
+
+    /* ==========================
+     * Métricas específicas
+     * ========================== */
+    fmtFuncaoKmComb: function (a, b) {
+      var x = toNum(a), y = toNum(b) || 0;
+      var r = y ? (x / y) : 0;
+      return fmtNumber(r, 2, 2);
+    },
+
+    fmtFuncaoHoraComb: function (a, b) {
+      var x = toNum(a), y = toNum(b) || 0;
+      var r = y ? (x / y) : 0;
+      return fmtNumber(r, 2, 2);
+    },
+
+    fmtSomaBrl: function (a, b) {
+      var total = toNum(a) + toNum(b);
+      try { return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(total); }
+      catch (e) { return String(total); }
+    },
+
+    fmtTotalItemBrl: function (q, cu) {
+      var total = (Number(q || 0) * Number(cu || 0));
+      try { return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(total); }
+      catch (e) { return String(total); }
+    },
+
+    fmtBrlunitario: function (q) {
+      var n = Number(q || 0);
+      try { return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(n); }
+      catch (e) { return String(n); }
+    },
+
+    fmtLitros: function (v) {
+      return `${fmtNumber(v, 2, 2)} L`;
+    },
+
+    fmtKm: function (v) {
+      try { return `${Number(v || 0).toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} Km`; }
+      catch (e) { return v; }
     }
   };
 });
