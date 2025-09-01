@@ -6,14 +6,12 @@ sap.ui.define([
   "sap/ui/core/Fragment",
   "sap/m/MessageToast",
   "sap/m/MessageBox",
-
-  // Utils & Services
   "com/skysinc/frota/frota/util/formatter",
   "com/skysinc/frota/frota/util/FilterUtil",
   "com/skysinc/frota/frota/services/MaterialsService",
   "com/skysinc/frota/frota/services/FuelService",
-  "com/skysinc/frota/frota/services/KpiService",         
-  "com/skysinc/frota/frota/services/ODataMovtos",        
+  "com/skysinc/frota/frota/services/KpiService",
+  "com/skysinc/frota/frota/services/ODataMovtos",
   "com/skysinc/frota/frota/services/VehiclesService",
   "com/skysinc/frota/frota/Aggregation"
 ], function (
@@ -22,14 +20,26 @@ sap.ui.define([
 ) {
   "use strict";
 
+  function pad2(n){ return String(n).padStart(2,"0"); }
+  function toODataLocal(d, endOfDay){
+    if (!d) return null;
+    const x = new Date(d);
+    if (endOfDay) x.setHours(23,59,59,999); else x.setHours(0,0,0,0);
+    const y = x.getFullYear();
+    const m = pad2(x.getMonth()+1);
+    const day = pad2(x.getDate());
+    const hh = pad2(x.getHours());
+    const mm = pad2(x.getMinutes());
+    const ss = pad2(x.getSeconds());
+    return `${y}-${m}-${day}T${hh}:${mm}:${ss}`;
+  }
+
   return Controller.extend("com.skysinc.frota.frota.controller.Main", {
     formatter: formatter,
 
-    /* ======================== LIFECYCLE ======================== */
     onInit: function () {
       this.oTbl = this.byId("tbl");
 
-      // ViewModel "vm"
       if (!this.getView().getModel("vm")) {
         this.getView().setModel(new JSONModel({
           veiculos: [],
@@ -38,7 +48,6 @@ sap.ui.define([
         }), "vm");
       }
 
-      // KPI model (strings já formatadas para a View)
       this.oKpi = new JSONModel({
         totalLitrosFmt: "0,00",
         gastoCombustivelFmt: "R$ 0,00",
@@ -51,21 +60,19 @@ sap.ui.define([
       });
       this.getView().setModel(this.oKpi, "kpi");
 
-      // Período padrão + primeira carga
       this._setDefaultYesterdayOnDRS();
       this._reloadDistinctOnly().then(() => {
         this._ensureVehiclesCombo();
         this._ensureCategoriasCombo();
-        this._recalcAndRefresh();   // aqui já dispara Aggregation + KPIs
+        this._recalcAndRefresh();
       });
     },
 
-    /* ======================== EVENTOS UI ======================== */
     onFilterChange: function () {
       this._reloadDistinctOnly().then(() => {
         this._ensureVehiclesCombo();
         this._ensureCategoriasCombo();
-        this._recalcAndRefresh();   // recalcula agregados + KPIs
+        this._recalcAndRefresh();
       }).catch(() => {
         MessageToast.show("Falha ao recarregar.");
       });
@@ -95,7 +102,6 @@ sap.ui.define([
       this.getOwnerComponent().getRouter().navTo("RouteHistorico", { id });
     },
 
-    // Materiais (fragment)
     onOpenMateriais: function (oEvent) {
       const item = oEvent.getSource().getBindingContext("vm").getObject();
       return MaterialsService.openDialog(
@@ -134,12 +140,8 @@ sap.ui.define([
       win.focus(); win.print(); win.close();
     },
 
-    /* ======================== ABASTECIMENTOS ======================== */
     _toIso: function (d, endOfDay) {
-      if (!d) return null;
-      const x = new Date(d);
-      if (endOfDay) x.setHours(23,59,59,999); else x.setHours(0,0,0,0);
-      return x.toISOString();
+      return toODataLocal(d, endOfDay);
     },
 
     _getPeriodoAtual: function () {
@@ -188,7 +190,7 @@ sap.ui.define([
         sap.m.MessageToast.show("Componente de período não encontrado.");
         return;
       }
-      const range = FilterUtil.currentRange(drs); // [Date, Date]
+      const range = FilterUtil.currentRange(drs);
 
       return FuelService.openFuelDialog(
         this,
@@ -204,10 +206,8 @@ sap.ui.define([
 
     onCloseFuel: function () { this.byId("dlgFuel")?.close(); },
 
-    // Debug
     onDumpVm: function () {},
 
-    /* ======================== HELPERS (UI/Binding) ======================== */
     _ensureVehiclesCombo: function () {
       const inp = this.byId("inpVeiculo");
       if (!inp) return;
@@ -248,14 +248,12 @@ sap.ui.define([
 
       const aFilters = [];
 
-      // Veículo
       const cbVeh = this.byId("inpVeiculo");
       const vKey = cbVeh?.getSelectedKey();
       if (vKey && vKey !== "__ALL__") {
         aFilters.push(new Filter("equnr", FilterOperator.EQ, vKey));
       }
 
-      // Categoria
       const cbCat = this.byId("segCat");
       const cKey = cbCat?.getSelectedKey();
       if (cKey && cKey !== "__ALL__") {
@@ -265,7 +263,6 @@ sap.ui.define([
       oBinding.filter(aFilters);
     },
 
-    /* ========= NOVO: pega subconjunto filtrado para somar KPIs ========= */
     _getFilteredVehiclesArray: function () {
       const vm = this.getView().getModel("vm");
       const all = (vm && vm.getProperty("/veiculos")) || [];
@@ -281,7 +278,6 @@ sap.ui.define([
     },
 
     _updateKpisFromList: function (list) {
-      // Somatórios
       let totLitros = 0, totCombR$ = 0, totMatR$ = 0;
       list.forEach((v) => {
         totLitros += Number(v.combustivelLitrosAgg || 0);
@@ -291,7 +287,6 @@ sap.ui.define([
 
       const precoMedio = (totLitros > 0) ? (totCombR$ / totLitros) : 0;
 
-      // Atualiza model "kpi" (formatado)
       this.oKpi.setData({
         totalLitrosFmt: this.formatter.fmtLitros(totLitros),
         gastoCombustivelFmt: this.formatter.fmtBrl(totCombR$),
@@ -317,7 +312,6 @@ sap.ui.define([
       KpiService.recalc(this.getView(), { vehicleKey: vKey, categoryKey: cKey });
     },
 
-    /* ======================== DATA (OData/mock) ======================== */
     _yesterdayPair: function () {
       const now = new Date();
       const y = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
@@ -347,9 +341,7 @@ sap.ui.define([
       return VehiclesService.loadVehiclesDistinctForRange(this.getView(), range, {
         aggregate: aggregate,
         targetPath: "vm>/veiculos"
-      }).then(() => {
-        // após carregar, nada de logs; Aggregation será chamado no _recalcAndRefresh
-      });
+      }).then(() => {});
     }
   });
 });

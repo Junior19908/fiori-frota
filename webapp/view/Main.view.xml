@@ -171,6 +171,29 @@
             </table:template>
           </table:Column>
 
+          <!-- Média por veículo: km/L -->
+          <table:Column width="9rem" hAlign="End">
+            <Label text="Média (km/L)"/>
+            <table:template>
+              <Text text="{
+                parts: ['vm>kmRodadosAgg', 'vm>combustivelLitrosAgg'],
+                formatter: '.formatter.fmtKmPorLitro'
+              }"/>
+            </table:template>
+          </table:Column>
+
+          <!-- Consumo por veículo: L/h -->
+          <table:Column width="9rem" hAlign="End">
+            <Label text="Média (L/h)"/>
+            <table:template>
+              <Text text="{
+                parts: ['vm>combustivelLitrosAgg', 'vm>hrRodadosAgg'],
+                formatter: '.formatter.fmtLitrosPorHora'
+              }"/>
+            </table:template>
+          </table:Column>
+
+
         </table:columns>
       </table:Table>
     </content>

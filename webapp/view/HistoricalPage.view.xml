@@ -51,14 +51,14 @@
         <HBox alignItems="Center" class="sapUiTinyMarginBegin">
           <core:Icon
             visible="{detail>/manutencaoHoje}"
-            src="sap-icon://wrench"
+            src="sap-icon://action-settings"
             size="1.25rem"
             class="spin-anim sapUiTinyMarginEnd"
             tooltip="Em manutenção hoje"/>
           <ObjectStatus
             text="{detail>/manutencaoTexto}"
             state="{detail>/manutencaoState}"
-            icon="{= ${detail>/manutencaoHoje} ? 'sap-icon://alert' : 'sap-icon://accept' }"/>
+            icon="{= ${detail>/manutencaoHoje} ? 'sap-icon://collision' : 'sap-icon://accept' }"/>
         </HBox>
 
       </HBox>
@@ -79,7 +79,7 @@
                 <l:mainContent>
                   <VBox class="sapUiSmallMargin sapUiResponsiveContentPadding">
 
-                    <!-- ===== Filtros do histórico ===== -->
+                    <!-- ===== Filtros do hi1stórico ===== -->
                     <OverflowToolbar>
                       <Text text="Período:"/>
                       <DateRangeSelection id="drsHist"

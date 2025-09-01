@@ -6,7 +6,7 @@ sap.ui.define([
 ], function (Controller, JSONModel, formatter, ODataMaterials) {
   "use strict";
 
-  // ===== helpers =====
+  // ===== helpers numéricos / formatação =====
   const toNum  = (v) => Number(v || 0);
   const fmtBrl = (v) => {
     try { return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(toNum(v)); }
@@ -14,18 +14,69 @@ sap.ui.define([
   };
   const fmtNum = (v) => toNum(v).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const MONTH_LABELS = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+  const sum = (arr, pick) => (arr||[]).reduce((s,x)=> s + toNum(pick(x)), 0);
 
+  // ===== datas (LOCAL para UI / filtros) =====
   const startOfDay = (d)=>{ const x=new Date(d); x.setHours(0,0,0,0); return x; };
   const endOfDay   = (d)=>{ const x=new Date(d); x.setHours(23,59,59,999); return x; };
 
-  function parseYMDLocal(s) {
+  // Parser LOCAL robusto: aceita 'YYYY-MM-DD' e 'YYYY-MM-DDTHH:mm(:ss)'
+  function parseLocalDateTime(s) {
     if (!s) return null;
-    const m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);
-    if (!m) return null;
-    return new Date(+m[1], +m[2]-1, +m[3], 0,0,0,0);
-  }
-  const sum = (arr, pick) => (arr||[]).reduce((s,x)=> s + toNum(pick(x)), 0);
+    const str = String(s);
 
+    // YYYY-MM-DD
+    let m = str.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (m) return new Date(+m[1], +m[2]-1, +m[3], 0, 0, 0, 0);
+
+    // YYYY-MM-DDTHH:mm(:ss)
+    m = str.match(/^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2}))?/);
+    if (m) return new Date(+m[1], +m[2]-1, +m[3], +m[4], +m[5], +(m[6]||0), 0);
+
+    // Date já válido
+    if (s instanceof Date) return new Date(s.getTime());
+    return null;
+  }
+
+  // Converte Date -> 'YYYY-MM-DD' preservando o "dia" em UTC (para datas OData)
+  function toYMD_UTC(d) {
+    if (!(d instanceof Date)) return null;
+    const y = d.getUTCFullYear();
+    const m = String(d.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(d.getUTCDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+  }
+
+  // Converte Date -> 'YYYY-MM-DD' em horário LOCAL (para strings locais)
+  function toYMD(d) {
+    if (!(d instanceof Date)) return null;
+    const y = d.getFullYear();
+    const m = String(d.getMonth()+1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+  }
+
+  // ===== helpers de datas extras =====
+  function addDays(d, n) {
+    if (!(d instanceof Date)) return null;
+    const x = new Date(d.getTime());
+    x.setDate(x.getDate() + n);
+    return x;
+  }
+  function addDaysYMD(ymd, n) {
+    if (!ymd) return ymd;
+    const m = String(ymd).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!m) return ymd;
+    const d = new Date(+m[1], +m[2]-1, +m[3], 0, 0, 0, 0);
+    return toYMD(addDays(d, n));
+  }
+  function pad2(n){ return String(n).padStart(2,"0"); }
+  function toABAPDateOnly(d){
+    const x = new Date(d);
+    return x.getFullYear() + pad2(x.getMonth()+1) + pad2(x.getDate()); // YYYYMMDD
+  }
+
+  // ===== outras helpers =====
   function padEqunr(e) {
     const digits = String(e || "").replace(/\D/g, "");
     return digits.padStart(18, "0");
@@ -68,9 +119,9 @@ sap.ui.define([
         totalCombustivelFmt:"R$ 0,00", totalMateriaisFmt:"R$ 0,00",
         totalServicosFmt:"R$ 0,00", totalGeralFmt:"R$ 0,00",
         precoMedioFmt:"0,00",
-        manutencaoHoje:false,                // <- NOVO
-        manutencaoTexto:"Operacional",       // <- NOVO
-        manutencaoState:"Success",           // <- NOVO
+        manutencaoHoje:false,
+        manutencaoTexto:"Operacional",
+        manutencaoState:"Success",
         _src:{ base:[] }
       }), "detail");
 
@@ -143,13 +194,21 @@ sap.ui.define([
       const from = startOfDay(hf.d1 || new Date());
       const to   = endOfDay(hf.d2 || hf.d1 || new Date());
 
+      // LOG: seleção e datas ABAP "date-only"
+      const abapStart = toABAPDateOnly(from);
+      const abapEnd   = toABAPDateOnly(to);
+      console.log("[Hist] Seleção local:",
+        "De:", from.toString(), "| Até:", to.toString(),
+        "| ABAP:", abapStart, "→", abapEnd
+      );
+
       Promise.all([
-        this._loadMateriaisServicosOData(from, to),
+        this._loadMateriaisServicosOData(from, to, { abapStart, abapEnd }),
         this._loadAbastecimentosLocal(from, to)
       ]).then(([matServ, abast]) => {
         const base = [];
 
-        // Materiais / Serviços (OData)
+        // Materiais / Serviços (OData) — normaliza e soma +1 dia
         (matServ || []).forEach((r) => {
           const tipoU = String(r.tipo || r.TIPO || "").toUpperCase();
           const isSrv = (tipoU === "SERVICO" || tipoU === "SERVIÇO" || r.isServico === true);
@@ -159,8 +218,18 @@ sap.ui.define([
           const pUni = toNum(r.custoUnit || r.CUSTO_UNIT || r.preco || r.PRECO || r.precoUnit || 0);
           const val  = toNum(r.valor || r.VALOR || r.dmbtr || r.DMBTR || (qt * pUni));
 
+          const rawDate = r.data || r.DATA || r.budat_mkpf || r.cpudt || null;
+          let dataYMD = null;
+          if (rawDate instanceof Date) {
+            const ymdUtc = toYMD_UTC(rawDate);
+            dataYMD = addDaysYMD(ymdUtc, 1);
+          } else {
+            const dLocal = parseLocalDateTime(rawDate);
+            dataYMD = dLocal ? toYMD(addDays(dLocal, 1)) : null;
+          }
+
           base.push({
-            data: r.data || r.DATA || r.budat_mkpf || r.cpudt || null,
+            data: dataYMD,           // YYYY-MM-DD (corrigido +1 dia)
             tipo: isSrv ? "Serviço" : "Material",
             descricao: desc,
             qtde: qt,
@@ -169,12 +238,14 @@ sap.ui.define([
           });
         });
 
-        // Abastecimentos (local)
+        // Abastecimentos (local) — aplica +1 dia para alinhar com listas e filtros
         (abast || []).forEach((a) => {
           const litros = toNum(a.litros || 0);
           const precoLinha = toNum(a.precoLitro ?? a.preco ?? a.precoUnit);
+          const dAbast = parseLocalDateTime(a.data || null);
+
           base.push({
-            data: a.data || null,
+            data: dAbast ? toYMD(addDays(dAbast, 1)) : null,  // YYYY-MM-DD (+1 dia)
             tipo: "Combustível",
             descricao: a.descricao || "Abastecimento",
             qtde: litros,
@@ -183,10 +254,10 @@ sap.ui.define([
           });
         });
 
-        // Ordena por data desc
+        // Ordena por data desc (sempre via parser LOCAL)
         base.sort((x,y)=>{
-          const dx = x.data ? new Date(x.data).getTime() : -Infinity;
-          const dy = y.data ? new Date(y.data).getTime() : -Infinity;
+          const dx = x.data ? parseLocalDateTime(x.data).getTime() : -Infinity;
+          const dy = y.data ? parseLocalDateTime(y.data).getTime() : -Infinity;
           return dy - dx;
         });
 
@@ -217,7 +288,7 @@ sap.ui.define([
 
       const hasToday = (base || []).some((r)=>{
         if (!(r && (r.tipo === "Material" || r.tipo === "Serviço"))) return false;
-        const d = r.data ? parseYMDLocal(r.data) : null;
+        const d = r.data ? parseLocalDateTime(r.data) : null;
         return d && d >= todayFrom && d <= todayTo;
       });
 
@@ -227,12 +298,25 @@ sap.ui.define([
       detail.setProperty("/manutencaoState", hasToday ? "Error" : "Success");
     },
 
-    _loadMateriaisServicosOData: function (from, to) {
+    _loadMateriaisServicosOData: function (from, to, extra) {
+      console.log("[Hist] Chamando OData:",
+        "local:", from.toString(), "→", to.toString(),
+        "| ABAP:", extra?.abapStart, "→", extra?.abapEnd
+      );
+
       return ODataMaterials.loadMaterials(this.getOwnerComponent(), {
         equnr: this._equnr,
         startDate: from,
-        endDate: to
-      }).then(res => res || []).catch(() => []);
+        endDate: to,
+        abapStart: extra?.abapStart,
+        abapEnd:   extra?.abapEnd
+      }).then(res => {
+        console.log("[Hist] Retorno OData:", (res || []).length, "linhas", res);
+        return res || [];
+      }).catch((e) => {
+        console.error("[Hist] Erro OData:", e && e.message || e);
+        return[];
+      });
     },
 
     _loadAbastecimentosLocal: function (from, to) {
@@ -243,7 +327,7 @@ sap.ui.define([
       const list = (abModel && abModel.getProperty("/abastecimentosPorVeiculo/" + key)) || [];
       return Promise.resolve(
         list.filter(a => {
-          const d = a && a.data ? parseYMDLocal(a.data) : null;
+          const d = a && a.data ? parseLocalDateTime(a.data) : null;
           return d && d >= from && d <= to;
         })
       );
@@ -251,13 +335,17 @@ sap.ui.define([
 
     /* ======================== FILTER + KPIs ======================== */
     onFilterChangeHist: function () {
+      const hf = this.getView().getModel("hfilter").getData();
+      console.log("[Hist] Data selecionada:",
+        "De:", hf.d1 && hf.d1.toString(),
+        "| Até:", hf.d2 && hf.d2.toString()
+      );
       this._applyFiltersAndKpis();
       this._buildYearComparison();
       this._connectPopover();
     },
 
     onClearHistFilters: function(){
-      // reset para 1 ano atrás até hoje
       const now = new Date();
       const d2 = now;
       const d1 = new Date(now); d1.setFullYear(now.getFullYear() - 1);
@@ -276,7 +364,7 @@ sap.ui.define([
 
       const base = detail.getProperty("/_src/base") || [];
       const filt = base.filter((row)=>{
-        const d = row.data ? parseYMDLocal(row.data) : null;
+        const d = row.data ? parseLocalDateTime(row.data) : null;
         if (!d || d < from || d > to) return false;
         if (tipo !== "__ALL__" && row.tipo !== tipo) return false;
         if (q && !String(row.descricao||"").toLowerCase().includes(q)) return false;
@@ -318,6 +406,13 @@ sap.ui.define([
     },
 
     /* ======================== CHART ======================== */
+    onChartTypeChange: function (oEvent) {
+      const key = oEvent.getParameter("item").getKey();
+      this._historyModel.setProperty("/chartType", key);
+      this._applyVizProps();
+      this._connectPopover();
+    },
+
     _buildYearComparison: function () {
       const detail = this.getView().getModel("detail");
       const hf = this.getView().getModel("hfilter").getData();
@@ -331,7 +426,7 @@ sap.ui.define([
       const sumPrev = new Array(12).fill(0);
 
       all.forEach((r)=>{
-        const d = r.data ? parseYMDLocal(r.data) : null;
+        const d = r.data ? parseLocalDateTime(r.data) : null;
         if (!d) return;
         const y = d.getFullYear();
         const m = d.getMonth(); // 0..11

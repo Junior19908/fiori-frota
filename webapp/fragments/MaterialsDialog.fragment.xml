@@ -65,7 +65,7 @@
                 <Text text="{dlg>codMaterial}" class="nowrap" tooltip="{dlg>codMaterial}"/>
                 <Text text="{dlg>deposito}"/>
                 <Text text="{path:'dlg>horaEntrada', formatter:'.formatter.fmtHora'}" class="center"/>
-                <Text text="{path:'dlg>data', formatter:'.formatter.fmtDate'}" class="center"/>
+                <Text text="{parts: [{path: 'dlg>data'}, {path: 'dlg>budat_mkpf'}], formatter:'.formatter.fmtDateUtcAware'}" class="center"/>
                 <Text text="{dlg>nOrdem}" class="nowrap" tooltip="{dlg>nOrdem}"/>
                 <Text text="{dlg>nReserva}" class="nowrap" tooltip="{dlg>nReserva}"/>
                 <Text text="{dlg>recebedor}" class="wrapText" maxLines="2" tooltip="{dlg>recebedor}"/>

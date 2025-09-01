@@ -5,15 +5,20 @@ sap.ui.define([
 
   function sumDeltasFromAbastecimentos(abastecList) {
     if (!Array.isArray(abastecList) || abastecList.length < 2) return { km: 0, hr: 0 };
+
     const toTime = (ev) => {
-      const d = FilterUtil.parseAnyDate(ev.data) || new Date(0,0,1);
+      const d = FilterUtil.parseAnyDate(ev.data) || new Date(0, 0, 1);
       if (ev.hora && /^\d{2}:\d{2}:\d{2}$/.test(String(ev.hora))) {
-        const [H,M,S] = ev.hora.split(":").map(Number);
-        d.setHours(H||0, M||0, S||0, 0);
+        const [H, M, S] = ev.hora.split(":").map(Number);
+        d.setHours(H || 0, M || 0, S || 0, 0);
+      } else {
+        // Sem hora no evento de abastecimento -> considerar início do dia
+        d.setHours(0, 0, 0, 0);
       }
       return d.getTime();
     };
-    const list = abastecList.slice().sort((a,b) => toTime(a)-toTime(b));
+
+    const list = abastecList.slice().sort((a, b) => toTime(a) - toTime(b));
 
     const toNum = (v) => {
       if (v == null) return NaN;
@@ -25,7 +30,7 @@ sap.ui.define([
 
     let totalKm = 0, totalHr = 0;
     for (let i = 1; i < list.length; i++) {
-      const ant = list[i-1], cur = list[i];
+      const ant = list[i - 1], cur = list[i];
       const kmAnt = toNum(ant.km), kmCur = toNum(cur.km);
       const hrAnt = toNum(ant.hr), hrCur = toNum(cur.hr);
 
@@ -38,7 +43,7 @@ sap.ui.define([
     return { km: totalKm, hr: totalHr };
   }
 
-  // >>> ALTERAÇÃO PRINCIPAL: trabalhar sobre o MODEL "vm"
+  // >>> Trabalhar sobre o MODEL "vm"
   function recalcAggByRange(oView, range) {
     const vm       = oView.getModel("vm");           // <— vm
     const matModel = oView.getModel("materiais");
@@ -58,6 +63,8 @@ sap.ui.define([
 
       if (range) {
         const [start, end] = range;
+
+        // === CORREÇÃO: sem hora definida, fixar 00:00:00 local para evitar regressão para o dia anterior
         const parseDateTime = (obj) => {
           const d = FilterUtil.parseAnyDate(obj.data);
           if (!d) return null;
@@ -65,7 +72,7 @@ sap.ui.define([
             const p = obj.horaEntrada.split(":").map(Number);
             d.setHours(p[0] || 0, p[1] || 0, p[2] || 0, 0);
           } else {
-            d.setHours(23, 59, 59, 999);
+            d.setHours(0, 0, 0, 0); // << antes era 23:59:59.999
           }
           return d;
         };
@@ -77,7 +84,14 @@ sap.ui.define([
 
         abInRange = abastec.filter((a) => {
           const d = FilterUtil.parseAnyDate(a.data);
-          return d && d >= start && d <= end;
+          if (!d) return false;
+          if (a.hora && /^\d{2}:\d{2}:\d{2}$/.test(String(a.hora))) {
+            const [H, M, S] = a.hora.split(":").map(Number);
+            d.setHours(H || 0, M || 0, S || 0, 0);
+          } else {
+            d.setHours(0, 0, 0, 0);
+          }
+          return d >= start && d <= end;
         });
       }
 
@@ -92,7 +106,9 @@ sap.ui.define([
         const valorTotal = FilterUtil.numBR(ev.valor);
         if (valorTotal > 0) valorAgg += valorTotal;
         else {
-          const preco = FilterUtil.numBR(ev.preco ?? ev.precoLitro ?? ev.preco_litro ?? ev.precoUnit ?? ev.preco_unit ?? ev.precoUnitario);
+          const preco = FilterUtil.numBR(
+            ev.preco ?? ev.precoLitro ?? ev.preco_litro ?? ev.precoUnit ?? ev.preco_unit ?? ev.precoUnitario
+          );
           valorAgg += preco * litros;
         }
       });
@@ -100,14 +116,37 @@ sap.ui.define([
       const deltas = sumDeltasFromAbastecimentos(abInRange);
 
       const maxTs = Math.max(
-        ...matsInRange.map((m) => (FilterUtil.parseAnyDate(m && m.data) || {getTime:()=>-Infinity}).getTime()),
-        ...abInRange.map((a) => (FilterUtil.parseAnyDate(a && a.data) || {getTime:()=>-Infinity}).getTime())
+        ...matsInRange.map((m) => {
+          const d = (function () {
+            const dt = FilterUtil.parseAnyDate(m && m.data);
+            if (!dt) return null;
+            if (m.horaEntrada && /^\d{2}:\d{2}:\d{2}$/.test(String(m.horaEntrada))) {
+              const p = m.horaEntrada.split(":").map(Number);
+              dt.setHours(p[0] || 0, p[1] || 0, p[2] || 0, 0);
+            } else {
+              dt.setHours(0, 0, 0, 0);
+            }
+            return dt;
+          })();
+          return d ? d.getTime() : -Infinity;
+        }),
+        ...abInRange.map((a) => {
+          const d = FilterUtil.parseAnyDate(a && a.data);
+          if (!d) return -Infinity;
+          if (a.hora && /^\d{2}:\d{2}:\d{2}$/.test(String(a.hora))) {
+            const [H, M, S] = a.hora.split(":").map(Number);
+            d.setHours(H || 0, M || 0, S || 0, 0);
+          } else {
+            d.setHours(0, 0, 0, 0);
+          }
+          return d.getTime();
+        })
       );
 
       let dataRef = null;
       if (isFinite(maxTs) && maxTs > -Infinity) {
         const dref = new Date(maxTs);
-        const mm = String(dref.getMonth()+1).padStart(2, "0");
+        const mm = String(dref.getMonth() + 1).padStart(2, "0");
         const dd = String(dref.getDate()).padStart(2, "0");
         dataRef = `${dref.getFullYear()}-${mm}-${dd}`;
       }
