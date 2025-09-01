@@ -15,7 +15,7 @@
         <Title text="Gestão de Frota" level="H3"/>
         <ToolbarSpacer/>
 
-        <!-- Período (obrigatório no OData – o controller garante default = ontem) -->
+        <!-- Período (obrigatório no OData – o controller garantes default = ontem) -->
         <Label text="Período:">
           <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow"/>
@@ -136,14 +136,14 @@
           <table:Column sortProperty="combustivelLitrosAgg" width="9rem" hAlign="End">
             <Label text="Combustível (L)"/>
             <table:template>
-              <Text text="{path:'combustivelLitrosAgg', formatter:'.formatter.fmtLitros'}"/>
+              <Text text="{path:'vm>combustivelLitrosAgg', formatter:'.formatter.fmtLitros'}"/>
             </table:template>
           </table:Column>
 
           <table:Column sortProperty="combustivelValorAgg" width="9rem" hAlign="End">
             <Label text="Combustível (R$)"/>
             <table:template>
-              <Text text="{path:'combustivelValorAgg', formatter:'.formatter.fmtBrl'}"/>
+              <Text text="{path:'vm>combustivelValorAgg', formatter:'.formatter.fmtBrl'}"/>
             </table:template>
           </table:Column>
 
@@ -151,8 +151,8 @@
             <Label text="Custo total (R$)"/>
             <table:template>
               <Text text="{
-                path: 'custoTotalAgg',
-                formatter: '.formatter.fmtBrl'
+                parts:['vm>totalValor','vm>combustivelValorAgg'],
+                formatter: '.formatter.fmtSomaBrl'
               }"/>
             </table:template>
           </table:Column>
@@ -160,45 +160,14 @@
           <table:Column sortProperty="kmRodadosAgg" width="9rem" hAlign="End">
             <Label text="Km rodados"/>
             <table:template>
-              <Text text="{path:'kmRodadosAgg', formatter:'.formatter.fmtKm'}"/>
+              <Text text="{path:'vm>kmRodadosAgg', formatter:'.formatter.fmtKm'}"/>
             </table:template>
           </table:Column>
 
           <table:Column sortProperty="hrRodadosAgg" width="9rem" hAlign="End">
             <Label text="Hr rodados"/>
             <table:template>
-              <Text text="{path:'hrRodadosAgg', formatter:'.formatter.fmtNum'}"/>
-            </table:template>
-          </table:Column>
-
-          <table:Column sortProperty="funcaokmcomb" width="8rem" hAlign="End">
-            <Label text="Km/L"/>
-            <table:template>
-              <Text
-                visible="{= ${kmRodadosAgg} > 0 }"
-                text="{
-                  parts:['kmRodadosAgg','combustivelLitrosAgg'],
-                  formatter: '.formatter.fmtFuncaoKmComb'
-                }"/>
-            </table:template>
-          </table:Column>
-
-          <table:Column sortProperty="funcaohrRodados" width="8rem" hAlign="End">
-            <Label text="L/Hr"/>
-            <table:template>
-              <Text
-                visible="{= ${hrRodadosAgg} > 0 }"
-                text="{
-                  parts:['combustivelLitrosAgg','hrRodadosAgg'],
-                  formatter: '.formatter.fmtFuncaoHoraComb'
-                }"/>
-            </table:template>
-          </table:Column>
-
-          <table:Column sortProperty="dataRef" width="9rem" hAlign="End">
-            <Label text="Data"/>
-            <table:template>
-              <Text text="{path:'dataRef', formatter:'.formatter.fmtDate'}"/>
+              <Text text="{path:'vm>hrRodadosAgg', formatter:'.formatter.fmtNum'}"/>
             </table:template>
           </table:Column>
 

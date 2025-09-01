@@ -16,34 +16,30 @@ sap.ui.define([
   function loadMovtos(oComponent, startDate, endDate) {
     const oSvc = oComponent.getModel("svc");
     if (!oSvc || !(oSvc instanceof ODataModel)) {
-      console.warn("[OData] Modelo 'svc' ausente ou inválido. Verifique manifest.");
       MessageToast.show("OData não configurado (svc).");
       return Promise.resolve({ results: [] });
     }
-
     const sFrom = _toABAPDateTimeString(startDate || new Date(), false);
     const sTo   = _toABAPDateTimeString(endDate   || new Date(), true);
     const sFilter = `budat_mkpf ge datetime'${sFrom}' and budat_mkpf le datetime'${sTo}'`;
-    const sTestUrl = `/sap/opu/odata/sap/ZC_EQ_MOVTO_CDS/ZC_EQ_MOVTO?$filter=${encodeURIComponent(sFilter)}&$format=json`;
-    /* eslint-disable no-console */
-    console.log("[OData][GET] Filtro:", sFilter);
-    console.log("[OData][GET] URL de teste:", sTestUrl);
 
     sap.ui.core.BusyIndicator.show(0);
+
     return new Promise((resolve) => {
       oSvc.read("/ZC_EQ_MOVTO", {
         urlParameters: { "$filter": sFilter, "$format": "json" },
         success: (oData) => {
           sap.ui.core.BusyIndicator.hide();
+
           const results = (oData && oData.results) || [];
-          console.table(results);
+
           MessageToast.show("Movimentos carregados do OData.");
           resolve({ results });
         },
-        error: (e) => {
+        error: () => {
           sap.ui.core.BusyIndicator.hide();
-          console.error("[OData][ERR]", e);
-          MessageBox.error("Falha ao consultar ZC_EQ_MOVTO. Veja o console.");
+
+          MessageBox.error("Falha ao consultar ZC_EQ_MOVTO.");
           resolve({ results: [] });
         }
       });

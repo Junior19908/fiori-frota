@@ -12,8 +12,8 @@ sap.ui.define([
   "com/skysinc/frota/frota/util/FilterUtil",
   "com/skysinc/frota/frota/services/MaterialsService",
   "com/skysinc/frota/frota/services/FuelService",
-  "com/skysinc/frota/frota/services/KpiService",
-  "com/skysinc/frota/frota/services/ODataMovtos",
+  "com/skysinc/frota/frota/services/KpiService",         
+  "com/skysinc/frota/frota/services/ODataMovtos",        
   "com/skysinc/frota/frota/services/VehiclesService",
   "com/skysinc/frota/frota/Aggregation"
 ], function (
@@ -29,16 +29,16 @@ sap.ui.define([
     onInit: function () {
       this.oTbl = this.byId("tbl");
 
-      // ViewModel nomeado "vm" (onde ficam veiculos/movimentos/flags)
+      // ViewModel "vm"
       if (!this.getView().getModel("vm")) {
         this.getView().setModel(new JSONModel({
           veiculos: [],
           movimentos: [],
-          aggregateOn: true // somar dmbtr/menge por veículo
+          aggregateOn: true
         }), "vm");
       }
 
-      // KPI model
+      // KPI model (strings já formatadas para a View)
       this.oKpi = new JSONModel({
         totalLitrosFmt: "0,00",
         gastoCombustivelFmt: "R$ 0,00",
@@ -51,36 +51,40 @@ sap.ui.define([
       });
       this.getView().setModel(this.oKpi, "kpi");
 
-      // Período padrão (ontem) e primeira carga distinct
+      // Período padrão + primeira carga
       this._setDefaultYesterdayOnDRS();
       this._reloadDistinctOnly().then(() => {
         this._ensureVehiclesCombo();
-        this._recalcAndRefresh();
+        this._ensureCategoriasCombo();
+        this._recalcAndRefresh();   // aqui já dispara Aggregation + KPIs
       });
-
-      console.log("[Main] onInit concluído.");
     },
 
-    /* ======================== EVENTS (UI) ======================== */
+    /* ======================== EVENTOS UI ======================== */
     onFilterChange: function () {
       this._reloadDistinctOnly().then(() => {
         this._ensureVehiclesCombo();
-        this._recalcAndRefresh();
-      }).catch((e) => {
-        console.error("[Main] onFilterChange erro", e);
-        MessageToast.show("Falha ao recarregar. Veja o console.");
+        this._ensureCategoriasCombo();
+        this._recalcAndRefresh();   // recalcula agregados + KPIs
+      }).catch(() => {
+        MessageToast.show("Falha ao recarregar.");
       });
     },
 
     onClearFilters: function () {
       this._setDefaultYesterdayOnDRS();
 
-      const inp = this.byId("inpVeiculo");
-      inp?.setSelectedKey("__ALL__");
-      inp?.setValue("");
+      const inpVeh = this.byId("inpVeiculo");
+      inpVeh?.setSelectedKey("__ALL__");
+      inpVeh?.setValue("");
+
+      const inpCat = this.byId("segCat");
+      inpCat?.setSelectedKey("__ALL__");
+      inpCat?.setValue("");
 
       this._reloadDistinctOnly().then(() => {
         this._ensureVehiclesCombo();
+        this._ensureCategoriasCombo();
         this._recalcAndRefresh();
       });
     },
@@ -91,7 +95,7 @@ sap.ui.define([
       this.getOwnerComponent().getRouter().navTo("RouteHistorico", { id });
     },
 
-    // Materiais direto do OData (fragment)
+    // Materiais (fragment)
     onOpenMateriais: function (oEvent) {
       const item = oEvent.getSource().getBindingContext("vm").getObject();
       return MaterialsService.openDialog(
@@ -130,24 +134,78 @@ sap.ui.define([
       win.focus(); win.print(); win.close();
     },
 
-    onOpenAbastecimentos: function (oEvent) {
-      const item = oEvent.getSource().getBindingContext("vm").getObject();
-      sap.ui.require(["com/skysinc/frota/frota/services/FuelService","com/skysinc/frota/frota/util/FilterUtil"], (FuelSvc, F) => {
-        FuelSvc.openFuelDialog(this, { equnr: item.equnr, descricaoVeiculo: item.eqktx }, F.currentRange(this.byId("drs")));
+    /* ======================== ABASTECIMENTOS ======================== */
+    _toIso: function (d, endOfDay) {
+      if (!d) return null;
+      const x = new Date(d);
+      if (endOfDay) x.setHours(23,59,59,999); else x.setHours(0,0,0,0);
+      return x.toISOString();
+    },
+
+    _getPeriodoAtual: function () {
+      const drs = this.byId("drs");
+      const d1  = drs?.getDateValue?.();
+      const d2  = drs?.getSecondDateValue?.();
+      return {
+        startIso: this._toIso(d1 || new Date(), false),
+        endIso:   this._toIso(d2 || d1 || new Date(), true)
+      };
+    },
+
+    _openFragment: function (sName, sDialogId, mModels) {
+      Object.entries(mModels || {}).forEach(([name, mdl]) => {
+        this.getView().setModel(mdl, name);
+      });
+
+      if (!this._fragments) this._fragments = {};
+      if (!this._fragments[sName]) {
+        this._fragments[sName] = sap.ui.core.Fragment.load({
+          id: this.getView().getId(),
+          name: sName,
+          controller: this
+        }).then((oDialog) => {
+          this.getView().addDependent(oDialog);
+          return oDialog;
+        });
+      }
+      return this._fragments[sName].then((oDialog) => {
+        oDialog.open();
+        return oDialog;
       });
     },
+
+    onOpenAbastecimentos: function (oEvent) {
+      const ctx = oEvent.getSource().getBindingContext("vm");
+      const item = ctx && ctx.getObject ? ctx.getObject() : null;
+
+      if (!item || !item.equnr) {
+        sap.m.MessageToast.show("Selecione um veículo válido.");
+        return;
+      }
+
+      const drs = this.byId("drs");
+      if (!drs) {
+        sap.m.MessageToast.show("Componente de período não encontrado.");
+        return;
+      }
+      const range = FilterUtil.currentRange(drs); // [Date, Date]
+
+      return FuelService.openFuelDialog(
+        this,
+        {
+          equnr: item.equnr,
+          veiculo: item.equnr,
+          eqktx: item.eqktx,
+          descricao: item.eqktx
+        },
+        range
+      );
+    },
+
     onCloseFuel: function () { this.byId("dlgFuel")?.close(); },
 
-    // Painel de Depuração (se você incluiu na view)
-    onDumpVm: function () {
-      const vm = this.getView().getModel("vm");
-      const veiculos = vm && vm.getProperty("/veiculos");
-      const movimentos = vm && vm.getProperty("/movimentos");
-      console.log("[Dump] vm>/veiculos length =", veiculos && veiculos.length);
-      if (veiculos && veiculos.length) console.table(veiculos.slice(0, 20));
-      console.log("[Dump] vm>/movimentos length =", movimentos && movimentos.length);
-      if (movimentos && movimentos.length) console.table(movimentos.slice(0, 20));
-    },
+    // Debug
+    onDumpVm: function () {},
 
     /* ======================== HELPERS (UI/Binding) ======================== */
     _ensureVehiclesCombo: function () {
@@ -163,28 +221,107 @@ sap.ui.define([
       if (!inp.getSelectedKey()) inp.setSelectedKey("__ALL__");
     },
 
+    _ensureCategoriasCombo: function () {
+      const inp = this.byId("segCat");
+      if (!inp) return;
+
+      inp.destroyItems();
+      inp.addItem(new sap.ui.core.Item({ key: "__ALL__", text: "Todas" }));
+
+      const data = (this.getView().getModel("vm")?.getProperty("/veiculos") || []);
+      const set = new Set();
+      data.forEach((i) => {
+        const cat = (i.CATEGORIA != null && i.CATEGORIA !== "") ? String(i.CATEGORIA) : null;
+        if (cat) set.add(cat);
+      });
+
+      Array.from(set).sort().forEach((c) => {
+        inp.addItem(new sap.ui.core.Item({ key: c, text: c }));
+      });
+
+      if (!inp.getSelectedKey()) inp.setSelectedKey("__ALL__");
+    },
+
     _applyTableFilters: function () {
-      if (!this.oTbl || !this.oTbl.getBinding("rows")) return;
+      const oBinding = this.oTbl && this.oTbl.getBinding("rows");
+      if (!oBinding) return;
 
       const aFilters = [];
+
+      // Veículo
       const cbVeh = this.byId("inpVeiculo");
       const vKey = cbVeh?.getSelectedKey();
-      if (vKey && vKey !== "__ALL__") aFilters.push(new Filter("equnr", FilterOperator.EQ, vKey));
+      if (vKey && vKey !== "__ALL__") {
+        aFilters.push(new Filter("equnr", FilterOperator.EQ, vKey));
+      }
 
-      this.oTbl.getBinding("rows").filter(aFilters);
+      // Categoria
+      const cbCat = this.byId("segCat");
+      const cKey = cbCat?.getSelectedKey();
+      if (cKey && cKey !== "__ALL__") {
+        aFilters.push(new Filter("CATEGORIA", FilterOperator.EQ, cKey));
+      }
+
+      oBinding.filter(aFilters);
+    },
+
+    /* ========= NOVO: pega subconjunto filtrado para somar KPIs ========= */
+    _getFilteredVehiclesArray: function () {
+      const vm = this.getView().getModel("vm");
+      const all = (vm && vm.getProperty("/veiculos")) || [];
+
+      const vKey = this.byId("inpVeiculo")?.getSelectedKey();
+      const cKey = this.byId("segCat")?.getSelectedKey();
+
+      return all.filter((row) => {
+        const byVeh = (!vKey || vKey === "__ALL__") ? true : String(row.equnr) === String(vKey);
+        const byCat = (!cKey || cKey === "__ALL__") ? true : String(row.CATEGORIA || "") === String(cKey);
+        return byVeh && byCat;
+      });
+    },
+
+    _updateKpisFromList: function (list) {
+      // Somatórios
+      let totLitros = 0, totCombR$ = 0, totMatR$ = 0;
+      list.forEach((v) => {
+        totLitros += Number(v.combustivelLitrosAgg || 0);
+        totCombR$ += Number(v.combustivelValorAgg || 0);
+        totMatR$  += Number(v.custoMaterialAgg   || 0);
+      });
+
+      const precoMedio = (totLitros > 0) ? (totCombR$ / totLitros) : 0;
+
+      // Atualiza model "kpi" (formatado)
+      this.oKpi.setData({
+        totalLitrosFmt: this.formatter.fmtLitros(totLitros),
+        gastoCombustivelFmt: this.formatter.fmtBrl(totCombR$),
+        custoMateriaisFmt: this.formatter.fmtBrl(totMatR$),
+        precoMedioFmt: this.formatter.fmtNum(precoMedio),
+        resumoCombFmt: "Comb: " + this.formatter.fmtBrl(totCombR$),
+        resumoLitrosFmt: "Litros: " + this.formatter.fmtLitros(totLitros),
+        resumoMatFmt: "Mat/Serv: " + this.formatter.fmtBrl(totMatR$),
+        resumoPrecoFmt: "Preço Médio: " + this.formatter.fmtNum(precoMedio) + " R$/L"
+      }, true);
     },
 
     _recalcAndRefresh: function () {
-      // Se você recalcula KPIs a partir de distincts, adapte aqui
+      const drs   = this.byId("drs");
+      const range = FilterUtil.currentRange(drs);
+      Aggregation.recalcAggByRange(this.getView(), range);
+
       this._applyTableFilters();
       this.byId("tbl")?.getBinding("rows")?.refresh(true);
+
+      const vKey = this.byId("inpVeiculo")?.getSelectedKey();
+      const cKey = this.byId("segCat")?.getSelectedKey();
+      KpiService.recalc(this.getView(), { vehicleKey: vKey, categoryKey: cKey });
     },
 
-    /* ======================== DATA (OData) ======================== */
+    /* ======================== DATA (OData/mock) ======================== */
     _yesterdayPair: function () {
       const now = new Date();
       const y = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
-      return [y, y]; // SingleRange (requisito do CDS)
+      return [y, y];
     },
 
     _setDefaultYesterdayOnDRS: function () {
@@ -193,7 +330,6 @@ sap.ui.define([
       const [d1, d2] = this._yesterdayPair();
       drs.setDateValue(d1);
       drs.setSecondDateValue(d2);
-      console.log("[Main] DRS default (ontem):", d1, d2);
     },
 
     _currentRangeObj: function () {
@@ -202,11 +338,9 @@ sap.ui.define([
       const d2 = drs?.getSecondDateValue?.();
       const [y1, y2] = this._yesterdayPair();
       const range = { from: d1 || y1, to: d2 || d1 || y2 };
-      console.log("[Main] DRS → from:", range.from, "to:", range.to);
       return range;
     },
 
-    // Carrega "1 veículo por linha" e grava em vm>/veiculos
     _reloadDistinctOnly: function () {
       const range = this._currentRangeObj();
       const aggregate = !!this.getView().getModel("vm").getProperty("/aggregateOn");
@@ -214,10 +348,7 @@ sap.ui.define([
         aggregate: aggregate,
         targetPath: "vm>/veiculos"
       }).then(() => {
-        const vm = this.getView().getModel("vm");
-        const arr = vm.getProperty("/veiculos") || [];
-        console.log("[Main] pós-load distinct → vm>/veiculos length =", arr.length);
-        if (arr.length) console.table(arr.slice(0, 10));
+        // após carregar, nada de logs; Aggregation será chamado no _recalcAndRefresh
       });
     }
   });

@@ -38,16 +38,17 @@ sap.ui.define([
     return { km: totalKm, hr: totalHr };
   }
 
+  // >>> ALTERAÇÃO PRINCIPAL: trabalhar sobre o MODEL "vm"
   function recalcAggByRange(oView, range) {
-    const baseModel = oView.getModel();
-    const matModel  = oView.getModel("materiais");
-    const abModel   = oView.getModel("abast");
-    if (!baseModel) return;
+    const vm       = oView.getModel("vm");           // <— vm
+    const matModel = oView.getModel("materiais");
+    const abModel  = oView.getModel("abast");
+    if (!vm) return;
 
-    const vlist = baseModel.getProperty("/veiculos") || [];
+    const vlist = vm.getProperty("/veiculos") || [];
 
     vlist.forEach((v) => {
-      const key = v.id || v.veiculo;
+      const key = v.id || v.veiculo || v.equnr;      // garantir a chave
 
       const materiais = (matModel && matModel.getProperty("/materiaisPorVeiculo/" + key)) || v.materiais || [];
       const abastec   = (abModel  && abModel.getProperty("/abastecimentosPorVeiculo/" + key)) || v.abastecimentos || [];
@@ -111,6 +112,7 @@ sap.ui.define([
         dataRef = `${dref.getFullYear()}-${mm}-${dd}`;
       }
 
+      // grava diretamente nas linhas do VM
       v.custoMaterialAgg       = custoMatAgg || 0;
       v.combustivelLitrosAgg   = litrosAgg   || 0;
       v.combustivelValorAgg    = valorAgg    || 0;
@@ -126,7 +128,7 @@ sap.ui.define([
       v.funcaohrRodados = (v.hrRodadosAgg ? (v.combustivelLitrosAgg / v.hrRodadosAgg) : 0);
     });
 
-    baseModel.setProperty("/veiculos", vlist);
+    vm.setProperty("/veiculos", vlist);              // <— escrever de volta no VM
   }
 
   return { sumDeltasFromAbastecimentos, recalcAggByRange };

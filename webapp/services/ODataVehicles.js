@@ -1,10 +1,8 @@
 sap.ui.define([
-  "sap/base/Log",
   "sap/ui/core/Component"
-], function (Log, Component) {
+], function (Component) {
   "use strict";
 
-  // === Utils ===
   function ymd(d) {
     if (!d) return "";
     if (typeof d === "string") return d.substring(0, 10);
@@ -31,38 +29,31 @@ sap.ui.define([
       }
       m = sap.ui.getCore().getModel("svc");
       return m || null;
-    } catch (e) {
-      Log.error("Falha ao resolver modelo 'svc'", e);
+    } catch (_e) {
       return null;
     }
   }
 
-  // Converte valores numéricos vindo como string do OData V2
   function toNum(v) {
     if (v == null) return 0;
     if (typeof v === "number") return v;
-    // garante ponto decimal padrão
     const t = String(v).trim().replace(/\./g, ".").replace(",", ".");
     const n = parseFloat(t);
     return isNaN(n) ? 0 : n;
   }
 
-  // === Leitura DETALHADA (sem agregação) ===
   function loadVehicles(ctx, dFrom, dTo) {
     return new Promise(function (resolve, reject) {
       const oModel = resolveSvcModel(ctx);
       if (!oModel) {
-        const msg = "Modelo OData 'svc' não encontrado. Verifique o manifest e o bootstrap.";
-        Log.error(msg); return reject(new Error(msg));
+        return reject(new Error("Modelo OData 'svc' não encontrado. Verifique manifest/bootstrapping."));
       }
+
       let fromYMD = ymd(dFrom);
       const toYMD = ymd(dTo || dFrom || new Date());
       if (!fromYMD) fromYMD = toYMD;
 
       const sFilter = buildDateFilter("budat_mkpf", fromYMD, toYMD);
-
-      Log.info("[ODataVehicles] DET /ZC_EQ_MOVTO");
-      console.log("[ODataVehicles][DET] $filter:", sFilter);
 
       oModel.read("/ZC_EQ_MOVTO", {
         async: true,
@@ -80,29 +71,14 @@ sap.ui.define([
         },
         success: function (oData) {
           const results = (oData && oData.results) || [];
-          console.log("[ODataVehicles][DET] success. results.length =", results.length);
-          if (results.length) console.table(results.slice(0, 10));
           resolve(results);
         },
         error: function (e) {
-          console.error("[ODataVehicles][DET] error:", e);
           reject(e);
         }
       });
     });
   }
-
-  // === Leitura DISTINCT (agregação em memória) ===
-  /**
-   * Retorna uma linha por veículo: {equnr, eqktx, totalValor?, totalQtde?}
-   * Faz a leitura DETALHADA com $filter e agrega em JS.
-   *
-   * @param {*} ctx View/Controller para resolver o modelo "svc"
-   * @param {Date|string} dFrom
-   * @param {Date|string} dTo
-   * @param {{aggregate?: boolean}} [opts]
-   * @returns {Promise<Array>}
-   */
   function loadVehiclesDistinct(ctx, dFrom, dTo, opts) {
     const options = opts || {};
     return loadVehicles(ctx, dFrom, dTo).then(function (rows) {
@@ -120,20 +96,21 @@ sap.ui.define([
         const agg = map.get(key);
 
         if (options.aggregate) {
-          // some dmbtr e menge
+          // Soma dmbtr e menge quando a flag aggregate estiver ligada
           agg.totalValor += toNum(r.dmbtr);
           agg.totalQtde  += toNum(r.menge);
         }
       });
 
-      const list = Array.from(map.values());
-      console.log("[ODataVehicles][DIST-MEM] agregação concluída. distintos =", list.length);
-      if (list.length) console.table(list.slice(0, 10));
-      return list;
+      return Array.from(map.values());
     });
   }
 
   return {
+    ymd,
+    buildDateFilter,
+    resolveSvcModel,
+    toNum,
     loadVehicles,
     loadVehiclesDistinct
   };

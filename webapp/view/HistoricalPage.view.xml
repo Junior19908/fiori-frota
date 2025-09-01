@@ -30,16 +30,37 @@
     </uxap:headerTitle>
 
     <uxap:headerContent>
-      <HBox alignItems="Center" renderType="Bare">
-        <GenericTag text="Veículo: "  design="StatusIconHidden" status="Error" class="sapUiTinyMarginEnd">
+      <HBox alignItems="Center" renderType="Bare" class="sapUiSmallMarginBottom">
+
+        <!-- Veículo -->
+        <GenericTag text="Veículo:" design="StatusIconHidden" status="Error" class="sapUiTinyMarginEnd">
           <ObjectNumber state="Error" emphasized="false" number="{detail>/veiculo}"/>
         </GenericTag>
-        <GenericTag text="Categoria: "  design="StatusIconHidden" status="Success" class="sapUiTinyMarginEnd">
+
+        <!-- Categoria -->
+        <GenericTag text="Categoria:"  design="StatusIconHidden" status="Success" class="sapUiTinyMarginEnd">
           <ObjectNumber state="Success" emphasized="false" number="{detail>/categoria}"/>
         </GenericTag>
-        <GenericTag text="Descrição: "  design="StatusIconHidden" status="Warning" class="sapUiTinyMarginEnd">
+
+        <!-- Descrição -->
+        <GenericTag text="Descrição:"  design="StatusIconHidden" status="Warning" class="sapUiTinyMarginEnd">
           <ObjectNumber state="Warning" emphasized="false" number="{detail>/descricao}"/>
         </GenericTag>
+
+        <!-- Status do dia: Em manutenção hoje / Operacional -->
+        <HBox alignItems="Center" class="sapUiTinyMarginBegin">
+          <core:Icon
+            visible="{detail>/manutencaoHoje}"
+            src="sap-icon://wrench"
+            size="1.25rem"
+            class="spin-anim sapUiTinyMarginEnd"
+            tooltip="Em manutenção hoje"/>
+          <ObjectStatus
+            text="{detail>/manutencaoTexto}"
+            state="{detail>/manutencaoState}"
+            icon="{= ${detail>/manutencaoHoje} ? 'sap-icon://alert' : 'sap-icon://accept' }"/>
+        </HBox>
+
       </HBox>
     </uxap:headerContent>
 
@@ -90,6 +111,7 @@
                       <Button text="Limpar" type="Transparent" press=".onClearHistFilters"/>
                     </OverflowToolbar>
                     <!-- ================================ -->
+
                     <IconTabBar expandable="false" class="sapUiResponsiveContentPadding sapUiMediumMarginTop">
                       <items>
                         <!-- ABA: COMBUSTÍVEIS -->
@@ -287,7 +309,7 @@
                         </viz:feeds>
                       </viz:VizFrame>
 
-                      <viz:Popover id="vfPopover" connect="vf"/>
+                      <viz:Popover id="vfPopover"/>
                       <HBox class="sapUiSmallMarginTop">
                         <ObjectStatus text="{history>/subtitle}" state="Information"/>
                       </HBox>

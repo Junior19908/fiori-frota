@@ -34,3 +34,11 @@ html, body, body > div, #container, #container-uiarea {
     75% { opacity: 0; }
     100% { opacity: 1; }
 }
+/* Chave girando quando há manutenção hoje */
+.spin-anim {
+  animation: spin 1.1s linear infinite;
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
