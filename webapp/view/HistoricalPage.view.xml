@@ -32,7 +32,7 @@
     <uxap:headerContent>
       <HBox alignItems="Center" renderType="Bare" class="sapUiSmallMarginBottom">
 
-        <!-- Veículo -->
+        <!-- Veícuslo -->
         <GenericTag text="Veículo:" design="StatusIconHidden" status="Error" class="sapUiTinyMarginEnd">
           <ObjectNumber state="Error" emphasized="false" number="{detail>/veiculo}"/>
         </GenericTag>

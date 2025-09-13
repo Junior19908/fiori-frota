@@ -197,10 +197,6 @@ sap.ui.define([
       // LOG: seleção e datas ABAP "date-only"
       const abapStart = toABAPDateOnly(from);
       const abapEnd   = toABAPDateOnly(to);
-      console.log("[Hist] Seleção local:",
-        "De:", from.toString(), "| Até:", to.toString(),
-        "| ABAP:", abapStart, "→", abapEnd
-      );
 
       Promise.all([
         this._loadMateriaisServicosOData(from, to, { abapStart, abapEnd }),
@@ -299,10 +295,7 @@ sap.ui.define([
     },
 
     _loadMateriaisServicosOData: function (from, to, extra) {
-      console.log("[Hist] Chamando OData:",
-        "local:", from.toString(), "→", to.toString(),
-        "| ABAP:", extra?.abapStart, "→", extra?.abapEnd
-      );
+      
 
       return ODataMaterials.loadMaterials(this.getOwnerComponent(), {
         equnr: this._equnr,
@@ -311,10 +304,8 @@ sap.ui.define([
         abapStart: extra?.abapStart,
         abapEnd:   extra?.abapEnd
       }).then(res => {
-        console.log("[Hist] Retorno OData:", (res || []).length, "linhas", res);
         return res || [];
       }).catch((e) => {
-        console.error("[Hist] Erro OData:", e && e.message || e);
         return[];
       });
     },

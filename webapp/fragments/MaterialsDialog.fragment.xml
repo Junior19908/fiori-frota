@@ -1,4 +1,4 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:table="sap.ui.table">
   <Dialog id="dlgMateriais"
           icon="sap-icon://wrench"
           contentWidth="auto"
@@ -18,62 +18,145 @@
 
     <content>
       <VBox renderType="Bare">
-        <Table id="tblMat"
-               items="{dlg>/materiais}"
-               sticky="ColumnHeaders"
-               autoPopinMode="true"
-               growing="true"
-               growingScrollToLoad="true"
-               noDataText="Sem materiais/serviços no período selecionado">
+        <!-- Tabela desktop com sortProperty e filtros por coluna -->
+        <table:Table id="tblMatGrid"
+                     rows="{dlg>/materiais}"
+                     selectionMode="None"
+                     enableColumnReordering="true"
+                     enableBusyIndicator="true"
+                     rowHeight="32"
+                     columnHeaderHeight="36"
+                     width="100%"
+                     visibleRowCountMode="Auto"
+                     minAutoRowCount="10"
+                     fixedColumnCount="2">
 
-          <columns>
-            <Column width="22rem"><Label text="Item"/></Column>
-            <Column width="7rem"><Label text="Tipo"/></Column>
-            <Column width="5rem" hAlign="End" minScreenWidth="Tablet" demandPopin="true"><Label text="Qtde"/></Column>
-            <Column width="5rem" minScreenWidth="Desktop" demandPopin="true"><Label text="Unid"/></Column>
-            <Column width="8rem" hAlign="End" minScreenWidth="Tablet" demandPopin="true"><Label text="Custo Unit."/></Column>
-            <Column width="9rem" hAlign="End"><Label text="Total (R$)"/></Column>
-            <Column width="9rem" hAlign="Center" minScreenWidth="Desktop" demandPopin="true"><Label text="Status"/></Column>
-            <Column width="8rem" minScreenWidth="Desktop" demandPopin="true"><Label text="Cód. Material"/></Column>
-            <Column width="7rem" minScreenWidth="Desktop" demandPopin="true"><Label text="Depósito"/></Column>
-            <Column width="6rem" minScreenWidth="Desktop" demandPopin="true"><Label text="Hora"/></Column>
-            <Column width="8rem" minScreenWidth="Desktop" demandPopin="true"><Label text="Data"/></Column>
-            <Column width="8rem" minScreenWidth="Desktop" demandPopin="true"><Label text="N. Ordem"/></Column>
-            <Column width="8rem" minScreenWidth="Desktop" demandPopin="true"><Label text="N. Reserva"/></Column>
-            <Column width="10rem" minScreenWidth="Desktop" demandPopin="true"><Label text="Recebedor"/></Column>
-            <Column width="10rem" minScreenWidth="Desktop" demandPopin="true"><Label text="Usuário"/></Column>
-          </columns>
+          <!-- Item (nome) | alinhado à esquerda -->
+          <table:Column width="24rem" sortProperty="nome" filterProperty="nome" hAlign="Begin">
+            <Label text="Item" textAlign="Center" width="100%"/>
+            <table:template>
+              <Text text="{dlg>nome}" tooltip="{dlg>nome}" wrapping="true"/>
+            </table:template>
+          </table:Column>
 
-          <items>
-            <ColumnListItem vAlign="Middle">
-              <cells>
-                <Text class="wrapText" maxLines="3" text="{dlg>nome}" tooltip="{dlg>nome}"/>
-                <ObjectStatus
-                  text="{path:'dlg>tipo', formatter:'.formatter.getTipoText'}"
-                  class="{path:'dlg>tipo', formatter:'.formatter.getTipoClass'}"
-                  tooltip="{dlg>tipo}"/>
-                <ObjectNumber number="{dlg>qtde}" class="end"/>
-                <Text text="{dlg>unid}" class="center"/>
-                <ObjectNumber number="{path:'dlg>custoUnit', formatter:'.formatter.fmtBrl'}"/>
-                <ObjectNumber number="{
-                  parts:['dlg>qtde','dlg>custoUnit'],
-                  formatter:'.formatter.fmtTotalItemBrl'
-                }"/>
-                <Text text="DEVOLUÇÃO"
-                      visible="{path:'dlg>qtde', formatter:'.formatter.isDevolucao'}"
-                      class="blinkingText"/>
-                <Text text="{dlg>codMaterial}" class="nowrap" tooltip="{dlg>codMaterial}"/>
-                <Text text="{dlg>deposito}"/>
-                <Text text="{path:'dlg>horaEntrada', formatter:'.formatter.fmtHora'}" class="center"/>
-                <Text text="{parts: [{path: 'dlg>data'}, {path: 'dlg>budat_mkpf'}], formatter:'.formatter.fmtDateUtcAware'}" class="center"/>
-                <Text text="{dlg>nOrdem}" class="nowrap" tooltip="{dlg>nOrdem}"/>
-                <Text text="{dlg>nReserva}" class="nowrap" tooltip="{dlg>nReserva}"/>
-                <Text text="{dlg>recebedor}" class="wrapText" maxLines="2" tooltip="{dlg>recebedor}"/>
-                <Text text="{dlg>usuario}" class="nowrap" tooltip="{dlg>usuario}"/>
-              </cells>
-            </ColumnListItem>
-          </items>
-        </Table>
+          <!-- Tipo | center -->
+          <table:Column width="4rem" sortProperty="tipo" filterProperty="tipo" hAlign="Center">
+            <Label text="Tipo" textAlign="Center" width="100%"/>
+            <table:template>
+              <ObjectStatus
+                text="{path:'dlg>tipo', formatter:'.formatter.getTipoText'}"
+                class="{path:'dlg>tipo', formatter:'.formatter.getTipoClass'}"
+                tooltip="{dlg>tipo}"/>
+            </table:template>
+          </table:Column>
+
+          <!-- Qtde | numérico direita -->
+          <table:Column width="4rem" sortProperty="qtde" filterProperty="qtde" hAlign="End">
+            <Label text="Qtde" textAlign="Center" width="100%"/>
+            <table:template>
+              <ObjectNumber number="{dlg>qtde}"/>
+            </table:template>
+          </table:Column>
+
+          <!-- Unid | center -->
+          <table:Column width="3rem" sortProperty="unid" filterProperty="unid" hAlign="Center">
+            <Label text="Unid" textAlign="Center" width="100%"/>
+            <table:template>
+              <Text text="{dlg>unid}"/>
+            </table:template>
+          </table:Column>
+
+          <!-- Custo Unit. | numérico direita -->
+          <table:Column width="6rem" sortProperty="custoUnit" filterProperty="custoUnit" hAlign="End">
+            <Label text="Custo Unit." textAlign="Center" width="100%"/>
+            <table:template>
+              <ObjectNumber number="{path:'dlg>custoUnit', formatter:'.formatter.fmtBrl'}"/>
+            </table:template>
+          </table:Column>
+
+          <!-- Total (R$) | numérico direita (usa totalItem calculado no controller) -->
+          <table:Column width="6rem" sortProperty="totalItem" filterProperty="totalItem" hAlign="End">
+            <Label text="Total (R$)" textAlign="Center" width="100%"/>
+            <table:template>
+              <ObjectNumber number="{path:'dlg>totalItem', formatter:'.formatter.fmtBrl'}"/>
+            </table:template>
+          </table:Column>
+
+          <!-- Status | center -->
+          <table:Column width="7rem" hAlign="Center">
+            <Label text="Status" textAlign="Center" width="100%"/>
+            <table:template>
+              <Text text="DEVOLUÇÃO"
+                    visible="{path:'dlg>qtde', formatter:'.formatter.isDevolucao'}"
+                    class="blinkingText"/>
+            </table:template>
+          </table:Column>
+
+          <!-- Cód. Material | texto monospace opcional (evita quebra) -->
+          <table:Column width="4rem" sortProperty="codMaterial" filterProperty="codMaterial" hAlign="Center">
+            <Label text="Cód. Material" textAlign="Center" width="100%"/>
+            <table:template>
+              <Text text="{dlg>codMaterial}" tooltip="{dlg>codMaterial}"/>
+            </table:template>
+          </table:Column>
+
+          <!-- Depósito | center -->
+          <table:Column width="4rem" sortProperty="deposito" filterProperty="deposito" hAlign="Center">
+            <Label text="Depósito" textAlign="Center" width="100%"/>
+            <table:template>
+              <Text text="{dlg>deposito}"/>
+            </table:template>
+          </table:Column>
+
+          <!-- Hora | center -->
+          <table:Column width="6rem" sortProperty="horaEntrada" filterProperty="horaEntrada" hAlign="Center">
+            <Label text="Hora" textAlign="Center" width="100%"/>
+            <table:template>
+              <Text text="{path:'dlg>horaEntrada', formatter:'.formatter.fmtHora'}"/>
+            </table:template>
+          </table:Column>
+
+          <!-- Data | center (usa sua formatter de UTC-aware) -->
+          <table:Column width="6rem" sortProperty="data" filterProperty="data" hAlign="Center">
+            <Label text="Data" textAlign="Center" width="100%"/>
+            <table:template>
+              <Text text="{parts: [{path: 'dlg>data'}, {path: 'dlg>budat_mkpf'}], formatter:'.formatter.fmtDateUtcAware'}"/>
+            </table:template>
+          </table:Column>
+
+          <!-- N. Ordem | direita para números longos -->
+          <table:Column width="5rem" sortProperty="nOrdem" filterProperty="nOrdem" hAlign="End">
+            <Label text="N. Ordem" textAlign="Center" width="100%"/>
+            <table:template>
+              <Text text="{dlg>nOrdem}" tooltip="{dlg>nOrdem}"/>
+            </table:template>
+          </table:Column>
+
+          <!-- N. Reserva | direita -->
+          <table:Column width="6rem" sortProperty="nReserva" filterProperty="nReserva" hAlign="End">
+            <Label text="N. Reserva" textAlign="Center" width="100%"/>
+            <table:template>
+              <Text text="{dlg>nReserva}" tooltip="{dlg>nReserva}"/>
+            </table:template>
+          </table:Column>
+
+          <!-- Recebedor | esquerda com wrap -->
+          <table:Column width="7rem" sortProperty="recebedor" filterProperty="recebedor" hAlign="Begin">
+            <Label text="Recebedor" textAlign="Center" width="100%"/>
+            <table:template>
+              <Text text="{dlg>recebedor}" tooltip="{dlg>recebedor}" wrapping="true"/>
+            </table:template>
+          </table:Column>
+
+          <!-- Usuário | esquerda -->
+          <table:Column width="7rem" sortProperty="usuario" filterProperty="usuario" hAlign="Begin">
+            <Label text="Usuário" textAlign="Center" width="100%"/>
+            <table:template>
+              <Text text="{dlg>usuario}" tooltip="{dlg>usuario}"/>
+            </table:template>
+          </table:Column>
+
+        </table:Table>
 
         <Toolbar class="sapUiTinyMarginTop">
           <ToolbarSpacer/>
