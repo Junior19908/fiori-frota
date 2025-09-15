@@ -176,9 +176,6 @@
       <Button text="Exportar CSV" type="Emphasized"
               press=".onExportMateriais"
               enabled="{= ${dlg>/materiais}.length > 0 }"/>
-      <Button text="Imprimir"
-              press=".onPrintMateriais"
-              enabled="{= ${dlg>/materiais}.length > 0 }"/>
       <Button text="Fechar" type="Transparent" press=".onCloseMateriais"/>
     </buttons>
   </Dialog>

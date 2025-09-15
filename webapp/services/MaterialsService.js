@@ -40,7 +40,7 @@ sap.ui.define([
     const y = d.getFullYear();
     const m = String(d.getMonth() + 1).padStart(2, "0");
     const day = String(d.getDate()).padStart(2, "0");
-    const t = endOfDay ? "23:59:59" : "00:00:00";
+    const t = endOfDay ? "23:59:59.999" : "00:00:00";
     return `${y}-${m}-${day}T${t}`;
   }
 
