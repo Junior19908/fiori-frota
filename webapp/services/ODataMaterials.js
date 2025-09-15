@@ -1,20 +1,17 @@
+// File: com/skysinc/frota/frota/services/ODataMaterials.js
 sap.ui.define([
   "sap/ui/model/odata/v2/ODataModel",
-  "sap/ui/model/Filter",
-  "sap/ui/model/FilterOperator",
   "sap/m/MessageBox"
-], function (ODataModel, Filter, FilterOperator, MessageBox) {
+], function (ODataModel, MessageBox) {
   "use strict";
+
+  function pad2(n){ return String(n).padStart(2,"0"); }
+  function ymd(d){ return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate()); }
+  function nextDay(d){ return new Date(d.getFullYear(), d.getMonth(), d.getDate()+1); }
 
   function padEqunr(e) {
     const digits = String(e || "").replace(/\D/g, "");
     return digits.padStart(18, "0");
-  }
-
-  function dayRange(from, to) {
-    const f = new Date(from || new Date()); f.setHours(0,0,0,0);
-    const t = new Date(to   || from || new Date()); t.setHours(23,59,59,999);
-    return [f, t];
   }
 
   const SELECT = [
@@ -85,6 +82,10 @@ sap.ui.define([
     };
   }
 
+  /**
+   * Carrega materiais respeitando datas locais (sem UTC manual).
+   * Usa meia-aberta: GE <start 00:00> e LT <end+1 00:00>.
+   */
   function loadMaterials(oComponent, { equnr, startDate, endDate }) {
     const oSvc = oComponent.getModel("svc");
     if (!oSvc || !(oSvc instanceof ODataModel)) {
@@ -93,19 +94,26 @@ sap.ui.define([
     }
 
     const equnr18 = padEqunr(equnr);
-    const [from, to] = dayRange(startDate, endDate);
 
-    const filters = [
-      new Filter("budat_mkpf", FilterOperator.BT, from, to), // obrigatório (SingleRange)
-      new Filter("equnr",      FilterOperator.EQ, equnr18)   // veículo selecionado
-    ];
+    // Normaliza para 00:00 local e 00:00 do dia seguinte
+    const start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+    const endNext = nextDay(new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()));
 
-    const urlParameters = { $select: SELECT, $orderby: ORDERBY };
+    // Monta $filter como STRING para evitar conversão Date->UTC pelo ODataModel
+    const fEqunr = "equnr eq '" + equnr18 + "'";
+    const fGe = "budat_mkpf ge datetime'" + ymd(start) + "T00:00:00'";
+    const fLt = "budat_mkpf lt datetime'" + ymd(endNext) + "T00:00:00'";
+    const filterStr = "(" + fGe + " and " + fLt + ") and " + fEqunr;
+
+    const urlParameters = {
+      "$select": SELECT,
+      "$orderby": ORDERBY,
+      "$filter": filterStr
+    };
 
     sap.ui.core.BusyIndicator.show(0);
     return new Promise((resolve) => {
       oSvc.read("/ZC_EQ_MOVTO", {
-        filters,
         urlParameters,
         success: (oData) => {
           sap.ui.core.BusyIndicator.hide();
