@@ -96,6 +96,29 @@ sap.ui.define([
       });
     },
 
+    // ========= NOVO: Botão de Configuração =========
+    onOpenConfig: function () {
+      // Usa o veículo selecionado no ComboBox "inpVeiculo"
+      const oVehCombo = this.byId("inpVeiculo");
+      const sEqunr = oVehCombo && oVehCombo.getSelectedKey();
+
+      try {
+        const oRouter = this.getOwnerComponent().getRouter && this.getOwnerComponent().getRouter();
+        if (oRouter && oRouter.navTo) {
+          if (sEqunr && sEqunr !== "__ALL__") {
+            oRouter.navTo("config", { equnr: sEqunr });
+          } else {
+            oRouter.navTo("config"); // sem parâmetro: usuário escolhe na tela
+          }
+          return;
+        }
+      } catch (e) {
+        // segue para fallback
+      }
+      MessageToast.show("Rota 'config' não encontrada. Configure o routing no manifest.json.");
+    },
+    // ========= FIM DO NOVO =========
+
     onOpenHistorico: function (oEvent) {
       const obj = oEvent.getSource().getBindingContext("vm").getObject();
       const id = String(obj.equnr || obj.veiculo || "");

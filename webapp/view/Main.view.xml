@@ -9,7 +9,7 @@
   <Page id="page" showHeader="false">
     <content>
 
-      <!-- Barra superior: título + filtro período + limpar -->
+      <!-- Barra superior: título + filtro período + limpar + configuração -->
       <OverflowToolbar>
         <core:Icon src="sap-icon://car-rental" size="1.5rem"/>
         <Title text="Gestão de Frota" level="H3"/>
@@ -31,7 +31,24 @@
           </layoutData>
         </DateRangeSelection>
 
-        <Button text="Limpar" type="Transparent" press=".onClearFilters"/>
+        <Button text="Limpar" type="Transparent" press=".onClearFilters">
+          <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow"/>
+          </layoutData>
+        </Button>
+
+        <!-- NOVO: Botão de Configuração -->
+        <Button
+          id="btnConfig"
+          icon="sap-icon://action-settings"
+          text="Configuração"
+          type="Transparent"
+          tooltip="Configurar limites do veículo selecionado"
+          press=".onOpenConfig">
+          <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow"/>
+          </layoutData>
+        </Button>
       </OverflowToolbar>
 
       <!-- KPIs -->
@@ -84,7 +101,7 @@
       <table:Table
           id="tbl"
           selectionMode="None"
-          visibleRowCount="22"
+          visibleRowCount="25"
           alternateRowColors="true"
           enableColumnReordering="true"
           width="100%"
@@ -192,7 +209,6 @@
               }"/>
             </table:template>
           </table:Column>
-
 
         </table:columns>
       </table:Table>

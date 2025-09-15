@@ -1,50 +1,108 @@
-/* Enter your custom styles here */
-.sapMPage>section{
+/* =======================
+   Fiori-Frota – Global CSS
+================== */
+
+.sapMPage > section {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
 }
+#application-app-preview-component---Config--pgConfig-intHeader {
+  display: none !important;
+}
 .sapMTB {
-    justify-content: center;
+  justify-content: center;
 }
-html, body, body > div, #container, #container-uiarea {
-    height: 100%;
-}
+/* Se quiser uma toolbar centralizada, aplique .tb-center no XML */
+.tb-center.sapMTB { justify-content: center; }
+
+/* 3) Altura total – deixe o UI5 gerir. Evite forçar todos os nós raiz. */
+html, body { height: 100%; }
+/* REMOVIDO: body > div, #container, #container-uiarea { height: 100%; } */
+
+/* 4) Tema legado (bluecrystal) – mantém seu detalhe */
 .sapUiTheme-sap_bluecrystal .sapUiDSC {
-    background-color: rgb(242, 248, 252);
+  background-color: rgb(242, 248, 252);
 }
 
-/* === BLINK === */
+/* ===========================================================
+   UTILITÁRIAS DE ESTILO (theme-aware, sem quebrar o theming)
+   =========================================================== */
+
+/* “Card” suave para blocos de formulário/section */
+.f-card {
+  background: var(--sapGroup_ContentBackground);
+  border: 1px solid var(--sapGroup_ContentBorderColor);
+  border-radius: var(--sapElement_BorderCornerRadius);
+  box-shadow: 0 1px 3px 0 var(--sapContent_ShadowColor);
+  margin: 0.75rem 1rem 1rem 1rem;
+  padding: 0.5rem 0.75rem;
+}
+
+/* Paddings responsivos padrões do Fiori */
+.sapUiResponsiveContentPadding,
+.f-pad {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Form: labels mais legíveis e campos 100% largura */
+.f-form .sapMLabel {
+  font-weight: 600;
+  color: var(--sapTextColor);
+}
+.f-form .sapMInputBase,
+.f-form .sapMSlt,
+.f-form .sapMSwitch { width: 100%; }
+
+/* Espaçamento vertical suave entre linhas do SimpleForm */
+.f-form .sapUiFormResGridCont { margin-bottom: 0.25rem; }
+
+/* Header do ObjectPage: pequenos gaps entre controles */
+.f-header .f-header-row { gap: 0.5rem; }
+
+/* AnchorBar (abas do ObjectPage) com ênfase de seleção */
+.sapUxAPAnchorBar .sapUxAPAnchorBarButton { font-weight: 600; }
+.sapUxAPAnchorBar .sapUxAPAnchorBarButton.sapUxAPAnchorBarButtonSelected {
+  color: var(--sapSelectedColor);
+}
+
+/* Botão “Salvar” mais largo quando emphasized */
+#btnSave.sapMBtn.emphasized { min-width: 7rem; }
+
+/* Opcional: densidade compacta mais coesa no desktop */
+html.sap-desktop body.sapUiSizeCompact .f-form .sapMLabel {
+  margin-top: 0.125rem;
+}
+
+/* ========= ANIMAÇÕES (mantidas) ========= */
+/* BLINK */
 .blinkingText {
-    color: red;
-    font-weight: bold;
-    animation: blink 1s infinite;
+  color: red;
+  font-weight: bold;
+  animation: blink 1s infinite;
 }
 .blinkingTextServico {
-    color: greenyellow;
-    font-weight: bold;
-    animation: blink 1s infinite;
+  color: greenyellow;
+  font-weight: bold;
+  animation: blink 1s infinite;
 }
-/* NOVO: piscar para PEÇA */
+/* PEÇA */
 .blinkingTextPeca {
-    color: red;
-    font-weight: bold;
-    animation: blink 1s infinite;
+  color: red;
+  font-weight: bold;
+  animation: blink 1s infinite;
 }
 @keyframes blink {
-    0% { opacity: 1; }
-    25% { opacity: 0; }
-    50% { opacity: 1; }
-    75% { opacity: 0; }
-    100% { opacity: 1; }
+  0% { opacity: 1; }
+  25% { opacity: 0; }
+  50% { opacity: 1; }
+  75% { opacity: 0; }
+  100% { opacity: 1; }
 }
-/* Chave girando quando há manutenção hoje */
-.spin-anim {
-  animation: spin 1.1s linear infinite;
-}
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
+
+/* Ícone girando (manutenção hoje) */
+.spin-anim { animation: spin 1.1s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }

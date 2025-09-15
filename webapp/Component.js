@@ -27,14 +27,12 @@ sap.ui.define([
   // Constrói URL relativa ao require
   function toUrl(p) { return sap.ui.require.toUrl(p); }
 
-  // === Merge helpers ===
-  // Mapa: { [veiculoId]: Array }
-  function ensureMap(arrOrMap, keyField) {
-    // Se já veio um mapa por veículo:
+  // === Helpers p/ merge de coleções por veículo ===
+  // Transforma array plano em mapa { [veiculoId]: Array }, se necessário
+  function ensureMap(arrOrMap) {
     if (arrOrMap && typeof arrOrMap === "object" && !Array.isArray(arrOrMap)) {
       return arrOrMap;
     }
-    // Caso venha array plano -> transformar em mapa por veículo
     const map = {};
     (Array.isArray(arrOrMap) ? arrOrMap : []).forEach((row) => {
       const key = String(row.veiculoId || row.veiculo || row.idVeiculo || "");
@@ -66,20 +64,6 @@ sap.ui.define([
     return dstMap;
   }
 
-  // Veículos: aceita array ou { veiculos:[...] }, deduplica por (id|veiculo)
-  function mergeVehicles(dstArr, src) {
-    const srcArr = Array.isArray(src) ? src : (src && Array.isArray(src.veiculos) ? src.veiculos : []);
-    if (!Array.isArray(dstArr)) dstArr = [];
-    const seen = new Set(dstArr.map(v => String(v.id || v.veiculo)));
-    srcArr.forEach((v) => {
-      const key = String(v.id || v.veiculo);
-      if (!key || seen.has(key)) return;
-      dstArr.push(v);
-      seen.add(key);
-    });
-    return dstArr;
-  }
-
   // Lista meses (YYYY, MM) entre start e end (Date), inclusive
   function monthsBetween(start, end) {
     const out = [];
@@ -94,18 +78,50 @@ sap.ui.define([
     return out;
   }
 
+  // ======= Modelo de Configuração de Veículo (vehConf) =======
+  // Hierarquia: globals -> categories -> vehicles -> current
+  function buildVehConfDefaults() {
+    return {
+      globals: {
+        MaxJumpKm: 500,
+        MaxNegativeKm: 0,
+        RolloverMaxKm: 999999,
+        MaxKmPerHour: 80,
+        MaxLitersPerFill: 300,
+        MaxLph: 60,
+        TankCapacity: 300,
+        FuelType: "Diesel S10",
+        EnableValidation: true,
+        StrictMode: false
+      },
+      categories: {
+        "Caminhao": { MaxJumpKm: 800, MaxKmPerHour: 100, TankCapacity: 400 },
+        "Trator":   { MaxJumpKm: 100, MaxKmPerHour: 40,  TankCapacity: 200 }
+      },
+      vehicles: {
+        // Exemplo: overrides por veículo (opcional)
+        "20010046": { MaxJumpKm: 600, MaxKmPerHour: 85, TankCapacity: 360, FuelType: "Diesel S10" }
+      },
+      current: {} // preenchido na tela de Config
+    };
+  }
+
   const Component = UIComponent.extend("com.skysinc.frota.frota.Component", {
     metadata: { manifest: "json" },
 
     init: function () {
       UIComponent.prototype.init.apply(this, arguments);
 
-      // Modelos cumulativos
-      this.setModel(new JSONModel({ veiculos: [] }));                       // default
-      this.setModel(new JSONModel({ materiaisPorVeiculo: {} }), "materiais");
-      this.setModel(new JSONModel({ abastecimentosPorVeiculo: {} }), "abast");
+      // Modelos cumulativos:
+      // - /veiculos e "materiais" agora NÃO são carregados de arquivo — ficam para OData/Services preencherem
+      this.setModel(new JSONModel({ veiculos: [] }));                       // default (preenchido por OData no fluxo da app)
+      this.setModel(new JSONModel({ materiaisPorVeiculo: {} }), "materiais"); // idem
+      this.setModel(new JSONModel({ abastecimentosPorVeiculo: {} }), "abast"); // este sim virá de arquivos locais
 
-      // Carregamento automático: últimos N meses (independe da Main)
+      // Modelo de configuração por veículo (para a tela Config e validações)
+      this.setModel(new JSONModel(buildVehConfDefaults()), "vehConf");
+
+      // Carregamento automático: últimos N meses (somente abastecimentos locais)
       const now = new Date();
       const start = new Date(now.getFullYear(), now.getMonth() - (MONTHS_BACK - 1), 1);
       const end   = new Date(now.getFullYear(), now.getMonth(), 28); // dia pouco sensível
@@ -117,63 +133,45 @@ sap.ui.define([
 
     /**
      * Carrega e MERGEIA todos os meses entre start e end, sem limpar os acumulados.
-     * Aceita formatos:
-     *  - veiculos.json: Array ou { veiculos: [...] }
-     *  - materiais.json: { materiaisPorVeiculo: {...} } OU Array plano com veiculoId/veiculo
-     *  - abastecimentos.json: { abastecimentosPorVeiculo: {...} } OU Array plano
+     * A PARTIR DE AGORA:
+     *  - NÃO lê veiculos.json
+     *  - NÃO lê materiais.json
+     *  - **SOMENTE** lê abastecimentos.json
+     *
+     * Aceita formatos de abastecimentos:
+     *  - { abastecimentosPorVeiculo: {...} } OU Array plano com veiculoId/veiculo
      */
     loadAllHistoryInRange: async function (start, end) {
-      const baseModel  = this.getModel();
-      const matModel   = this.getModel("materiais");
-      const abModel    = this.getModel("abast");
+      const abModel = this.getModel("abast");
 
       const months = monthsBetween(start, end);
       if (!months.length) return;
 
-      let veic = baseModel.getProperty("/veiculos") || [];
-      let matMap = matModel.getProperty("/materiaisPorVeiculo") || {};
       let abMap  = abModel.getProperty("/abastecimentosPorVeiculo") || {};
 
       for (const { y, m } of months) {
-        const ym = `${y}/${mm2(m)}`;
-        const vUrl  = toUrl(`${PATH_BASE}/${y}/${mm2(m)}/veiculos.json`);
-        const mUrl  = toUrl(`${PATH_BASE}/${y}/${mm2(m)}/materiais.json`);
         const aUrl  = toUrl(`${PATH_BASE}/${y}/${mm2(m)}/abastecimentos.json`);
 
-        const [vData, mData, aData] = await Promise.all([
-          fetchJSON(vUrl), fetchJSON(mUrl), fetchJSON(aUrl)
-        ]);
+        // Lê APENAS abastecimentos do mês
+        const aData = await fetchJSON(aUrl);
 
-        // Veículos
-        if (vData) veic = mergeVehicles(veic, vData);
-
-        // Materiais
-        if (mData) {
-          const map = mData.materiaisPorVeiculo
-            ? mData.materiaisPorVeiculo
-            : ensureMap(mData, "veiculoId");
-          matMap = mergeByVehicle(matMap, map);
-        }
-
-        // Abastecimentos
         if (aData) {
           const map = aData.abastecimentosPorVeiculo
             ? aData.abastecimentosPorVeiculo
-            : ensureMap(aData, "veiculoId");
+            : ensureMap(aData);
           abMap = mergeByVehicle(abMap, map);
         }
       }
 
-      baseModel.setProperty("/veiculos", veic);
-      matModel.setProperty("/materiaisPorVeiculo", matMap);
+      // Atualiza SOMENTE o modelo de abastecimentos
       abModel.setProperty("/abastecimentosPorVeiculo", abMap);
 
-      Log.info("[Component] Histórico cumulativo carregado: " +
+      Log.info("[Component] Histórico de abastecimentos (local) carregado: " +
         months.length + " mês(es)");
     },
 
     /**
-     * Compatibilidade: garante que (year, mm) esteja carregado e mesclado.
+     * Compatibilidade: garante que (year, mm) esteja carregado e mesclado (abastecimentos).
      * NÃO apaga dados anteriores; apenas adiciona se faltar.
      */
     setMockYM: async function (year, mm) {
@@ -187,8 +185,7 @@ sap.ui.define([
     },
 
     /**
-     * API que você já tinha — agora implementada chamando o método robusto.
-     * Mantida para não quebrar chamadas existentes.
+     * Mantida para compatibilidade. Carrega abastecimentos no intervalo.
      */
     setMockRange: function (startDate, endDate) {
       if (!(startDate instanceof Date) || !(endDate instanceof Date)) {

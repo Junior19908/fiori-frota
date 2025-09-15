@@ -1,0 +1,150 @@
+<mvc:View
+  controllerName="com.skysinc.frota.frota.controller.Config"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  xmlns:uxap="sap.uxap"
+  xmlns:form="sap.ui.layout.form"
+  displayBlock="true">
+
+  <Page id="pgConfig" showHeader="true" >
+    <content>
+      <uxap:ObjectPageLayout id="opl" useIconTabBar="true" showTitleInHeaderContent="true" class="f-obj">
+
+        <uxap:headerTitle>
+          <uxap:ObjectPageDynamicHeaderTitle class="sapUiResponsiveContentPadding f-header">
+            <uxap:expandedContent>
+              <HBox alignItems="Center" wrap="Wrap" class="f-header-row">
+                <ObjectIdentifier title="Veículo em edição" text="{= ${vehConf>/current/VehicleId} ? ${vehConf>/current/VehicleId} : '' }" class="sapUiTinyMarginEnd"/>
+                <ToolbarSeparator visible="{= !${route>/equnr} }"/>
+                <Text text="Veículo:" class="sapUiTinyMarginEnd" visible="{= !${route>/equnr} }"/>
+                <ComboBox id="cbVeicConfig" width="18rem"
+                          selectedKey="{vehConf>/current/VehicleId}"
+                          enabled="{= !${route>/equnr} }"
+                          visible="{= !${route>/equnr} }">
+                  <items>
+                    <core:Item key="__NONE__" text="Selecione..."/>
+                    <core:Item key="{vm>equnr}" text="{= ${vm>equnr} + ' — ' + ${vm>eqktx} }"/>
+                  </items>
+                </ComboBox>
+                <Button text="Carregar" class="sapUiTinyMarginBegin"
+                        press=".onLoadFromSelection"
+                        visible="{= !${route>/equnr} }"/>
+              </HBox>
+
+              <MessageStrip id="msWarn"
+                            text="{vehConf>/current/_validationMessage}"
+                            type="Warning" showIcon="true"
+                            visible="{= !!${vehConf>/current/_validationMessage} }"
+                            class="sapUiTinyMarginTop"/>
+            </uxap:expandedContent>
+
+            <uxap:actions>
+              <!--<Button icon="sap-icon://save" text="Salvar" type="Emphasized" press=".onSave"/>-->
+            </uxap:actions>
+          </uxap:ObjectPageDynamicHeaderTitle>
+        </uxap:headerTitle>
+
+        <!-- Seção: Limites -->
+        <uxap:sections>
+          <uxap:ObjectPageSection title="Limites de Quilometragem" importance="High">
+            <uxap:subSections>
+              <uxap:ObjectPageSubSection class="sapUiResponsiveContentPadding f-card">
+                <form:SimpleForm editable="true"
+                                 class="f-form"
+                                 layout="ResponsiveGridLayout"
+                                 labelSpanXL="3" labelSpanL="3" labelSpanM="4" labelSpanS="12"
+                                 columnsXL="2" columnsL="2" columnsM="2">
+                  <Label text="Salto máximo entre abastecimentos (km)"/>
+                  <Input value="{vehConf>/current/MaxJumpKm}" type="Number" liveChange=".onLiveValidate"/>
+
+                  <Label text="Queda permitida (km)"/>
+                  <Input value="{vehConf>/current/MaxNegativeKm}" type="Number" liveChange=".onLiveValidate"/>
+
+                  <Label text="Rollover do hodômetro (km)"/>
+                  <Input value="{vehConf>/current/RolloverMaxKm}" type="Number" liveChange=".onLiveValidate"/>
+                </form:SimpleForm>
+              </uxap:ObjectPageSubSection>
+            </uxap:subSections>
+          </uxap:ObjectPageSection>
+
+          <!-- Seção: Horímetro & Consumo -->
+          <uxap:ObjectPageSection title="Horímetro &amp; Consumo" importance="Medium">
+            <uxap:subSections>
+              <uxap:ObjectPageSubSection class="sapUiResponsiveContentPadding f-card">
+                <form:SimpleForm editable="true"
+                                 class="f-form"
+                                 layout="ResponsiveGridLayout"
+                                 labelSpanXL="3" labelSpanL="3" labelSpanM="4" labelSpanS="12"
+                                 columnsXL="2" columnsL="2" columnsM="2">
+                  <Label text="Velocidade máx. (km/h)"/>
+                  <Input value="{vehConf>/current/MaxKmPerHour}" type="Number" liveChange=".onLiveValidate"/>
+
+                  <Label text="Consumo máx. (L/h)"/>
+                  <Input value="{vehConf>/current/MaxLph}" type="Number" liveChange=".onLiveValidate"/>
+                </form:SimpleForm>
+              </uxap:ObjectPageSubSection>
+            </uxap:subSections>
+          </uxap:ObjectPageSection>
+
+          <!-- Seção: Tanque / Combustível -->
+          <uxap:ObjectPageSection title="Tanque / Combustível" importance="Medium">
+            <uxap:subSections>
+              <uxap:ObjectPageSubSection class="sapUiResponsiveContentPadding f-card">
+                <form:SimpleForm editable="true"
+                                 class="f-form"
+                                 layout="ResponsiveGridLayout"
+                                 labelSpanXL="3" labelSpanL="3" labelSpanM="4" labelSpanS="12"
+                                 columnsXL="2" columnsL="2" columnsM="2">
+                  <Label text="Capacidade do tanque (L)"/>
+                  <Input value="{vehConf>/current/TankCapacity}" type="Number" liveChange=".onLiveValidate"/>
+
+                  <Label text="Litros máx. por abastecimento (L)"/>
+                  <Input value="{vehConf>/current/MaxLitersPerFill}" type="Number" liveChange=".onLiveValidate"/>
+
+                  <Label text="Tipo de combustível"/>
+                  <ComboBox selectedKey="{vehConf>/current/FuelType}">
+                    <items>
+                      <core:Item key="Diesel S10" text="Diesel S10"/>
+                      <core:Item key="Diesel S500" text="Diesel S500"/>
+                      <core:Item key="Gasolina" text="Gasolina"/>
+                      <core:Item key="Etanol" text="Etanol"/>
+                    </items>
+                  </ComboBox>
+                </form:SimpleForm>
+              </uxap:ObjectPageSubSection>
+            </uxap:subSections>
+          </uxap:ObjectPageSection>
+
+          <!-- Seção: Modo de Validação -->
+          <uxap:ObjectPageSection title="Modo de Validação" importance="Low">
+            <uxap:subSections>
+              <uxap:ObjectPageSubSection class="sapUiResponsiveContentPadding f-card">
+                <form:SimpleForm editable="true"
+                                 class="f-form"
+                                 layout="ResponsiveGridLayout"
+                                 labelSpanXL="4" labelSpanL="4" labelSpanM="5" labelSpanS="12"
+                                 columnsXL="2" columnsL="2" columnsM="2">
+                  <Label text="Habilitar validação"/>
+                  <Switch state="{vehConf>/current/EnableValidation}"/>
+
+                  <Label text="Modo estrito (Warnings viram Errors)"/>
+                  <Switch state="{vehConf>/current/StrictMode}"/>
+                </form:SimpleForm>
+              </uxap:ObjectPageSubSection>
+            </uxap:subSections>
+          </uxap:ObjectPageSection>
+        </uxap:sections>
+
+      </uxap:ObjectPageLayout>
+    </content>
+        
+    <footer>
+      <OverflowToolbar>
+        <ToolbarSpacer/>
+        <Button text="Salvar" type="Emphasized" press=".onSave"/>
+      </OverflowToolbar>
+    </footer>
+    
+  </Page>
+</mvc:View>
