@@ -12,24 +12,24 @@
       <uxap:ObjectPageLayout id="opl" useIconTabBar="true" showTitleInHeaderContent="true" class="f-obj">
 
         <uxap:headerTitle>
-          <uxap:ObjectPageDynamicHeaderTitle class="sapUiResponsiveContentPadding f-header">
+          <uxap:ObjectPageDynamicHeaderTitle id="opdhtConfig" class="sapUiResponsiveContentPadding f-header">
             <uxap:expandedContent>
-              <HBox alignItems="Center" wrap="Wrap" class="f-header-row">
-                <ObjectIdentifier title="Veículo em edição" text="{= ${vehConf>/current/VehicleId} ? ${vehConf>/current/VehicleId} : '' }" class="sapUiTinyMarginEnd"/>
-                <ToolbarSeparator visible="{= !${route>/equnr} }"/>
-                <Text text="Veículo:" class="sapUiTinyMarginEnd" visible="{= !${route>/equnr} }"/>
-                <ComboBox id="cbVeicConfig" width="18rem"
+              <HBox id="hboxHeader" alignItems="Center" wrap="Wrap" class="f-header-row">
+                <ObjectIdentifier id="oiVeiculoEdit" title="Veículo em edição" text="{= ${vehConf>/current/VehicleId} ? ${vehConf>/current/VehicleId} : '' }" class="sapUiTinyMarginEnd"/>
+                <ToolbarSeparator id="sepRoute" visible="{= !${route>/equnr} }"/>
+                <Text id="txtVeiculoLabel" text="Veículo:" class="sapUiTinyMarginEnd" visible="{= !${route>/equnr} }"/>
+    <ComboBox id="cbVeicConfig" width="18rem"
                           selectedKey="{vehConf>/current/VehicleId}"
                           enabled="{= !${route>/equnr} }"
                           visible="{= !${route>/equnr} }">
                   <items>
-                    <core:Item key="__NONE__" text="Selecione..."/>
-                    <core:Item key="{vm>equnr}" text="{= ${vm>equnr} + ' — ' + ${vm>eqktx} }"/>
+        <core:Item id="itemNone" key="__NONE__" text="Selecione..."/>
+        <core:Item id="itemVmEq" key="{vm>equnr}" text="{= ${vm>equnr} + ' — ' + ${vm>eqktx} }"/>
                   </items>
                 </ComboBox>
-                <Button text="Carregar" class="sapUiTinyMarginBegin"
-                        press=".onLoadFromSelection"
-                        visible="{= !${route>/equnr} }"/>
+    <Button id="btnLoadFromSelection" text="Carregar" class="sapUiTinyMarginBegin"
+      press=".onLoadFromSelection"
+      visible="{= !${route>/equnr} }"/>
               </HBox>
 
               <MessageStrip id="msWarn"
@@ -45,92 +45,29 @@
           </uxap:ObjectPageDynamicHeaderTitle>
         </uxap:headerTitle>
 
-        <!-- Seção: Limites -->
+        <!-- Lista read-only dos ranges conforme ranges_config.json -->
         <uxap:sections>
-          <uxap:ObjectPageSection title="Limites de Quilometragem" importance="High">
+          <uxap:ObjectPageSection id="secRanges" title="Ranges por Veículo" importance="High">
             <uxap:subSections>
-              <uxap:ObjectPageSubSection class="sapUiResponsiveContentPadding f-card">
-                <form:SimpleForm editable="true"
-                                 class="f-form"
-                                 layout="ResponsiveGridLayout"
-                                 labelSpanXL="3" labelSpanL="3" labelSpanM="4" labelSpanS="12"
-                                 columnsXL="2" columnsL="2" columnsM="2">
-                  <Label text="Salto máximo entre abastecimentos (km)"/>
-                  <Input value="{vehConf>/current/MaxJumpKm}" type="Number" liveChange=".onLiveValidate"/>
-
-                  <Label text="Queda permitida (km)"/>
-                  <Input value="{vehConf>/current/MaxNegativeKm}" type="Number" liveChange=".onLiveValidate"/>
-
-                  <Label text="Rollover do hodômetro (km)"/>
-                  <Input value="{vehConf>/current/RolloverMaxKm}" type="Number" liveChange=".onLiveValidate"/>
-                </form:SimpleForm>
-              </uxap:ObjectPageSubSection>
-            </uxap:subSections>
-          </uxap:ObjectPageSection>
-
-          <!-- Seção: Horímetro & Consumo -->
-          <uxap:ObjectPageSection title="Horímetro &amp; Consumo" importance="Medium">
-            <uxap:subSections>
-              <uxap:ObjectPageSubSection class="sapUiResponsiveContentPadding f-card">
-                <form:SimpleForm editable="true"
-                                 class="f-form"
-                                 layout="ResponsiveGridLayout"
-                                 labelSpanXL="3" labelSpanL="3" labelSpanM="4" labelSpanS="12"
-                                 columnsXL="2" columnsL="2" columnsM="2">
-                  <Label text="Velocidade máx. (km/h)"/>
-                  <Input value="{vehConf>/current/MaxKmPerHour}" type="Number" liveChange=".onLiveValidate"/>
-
-                  <Label text="Consumo máx. (L/h)"/>
-                  <Input value="{vehConf>/current/MaxLph}" type="Number" liveChange=".onLiveValidate"/>
-                </form:SimpleForm>
-              </uxap:ObjectPageSubSection>
-            </uxap:subSections>
-          </uxap:ObjectPageSection>
-
-          <!-- Seção: Tanque / Combustível -->
-          <uxap:ObjectPageSection title="Tanque / Combustível" importance="Medium">
-            <uxap:subSections>
-              <uxap:ObjectPageSubSection class="sapUiResponsiveContentPadding f-card">
-                <form:SimpleForm editable="true"
-                                 class="f-form"
-                                 layout="ResponsiveGridLayout"
-                                 labelSpanXL="3" labelSpanL="3" labelSpanM="4" labelSpanS="12"
-                                 columnsXL="2" columnsL="2" columnsM="2">
-                  <Label text="Capacidade do tanque (L)"/>
-                  <Input value="{vehConf>/current/TankCapacity}" type="Number" liveChange=".onLiveValidate"/>
-
-                  <Label text="Litros máx. por abastecimento (L)"/>
-                  <Input value="{vehConf>/current/MaxLitersPerFill}" type="Number" liveChange=".onLiveValidate"/>
-
-                  <Label text="Tipo de combustível"/>
-                  <ComboBox selectedKey="{vehConf>/current/FuelType}">
-                    <items>
-                      <core:Item key="Diesel S10" text="Diesel S10"/>
-                      <core:Item key="Diesel S500" text="Diesel S500"/>
-                      <core:Item key="Gasolina" text="Gasolina"/>
-                      <core:Item key="Etanol" text="Etanol"/>
-                    </items>
-                  </ComboBox>
-                </form:SimpleForm>
-              </uxap:ObjectPageSubSection>
-            </uxap:subSections>
-          </uxap:ObjectPageSection>
-
-          <!-- Seção: Modo de Validação -->
-          <uxap:ObjectPageSection title="Modo de Validação" importance="Low">
-            <uxap:subSections>
-              <uxap:ObjectPageSubSection class="sapUiResponsiveContentPadding f-card">
-                <form:SimpleForm editable="true"
-                                 class="f-form"
-                                 layout="ResponsiveGridLayout"
-                                 labelSpanXL="4" labelSpanL="4" labelSpanM="5" labelSpanS="12"
-                                 columnsXL="2" columnsL="2" columnsM="2">
-                  <Label text="Habilitar validação"/>
-                  <Switch state="{vehConf>/current/EnableValidation}"/>
-
-                  <Label text="Modo estrito (Warnings viram Errors)"/>
-                  <Switch state="{vehConf>/current/StrictMode}"/>
-                </form:SimpleForm>
+              <uxap:ObjectPageSubSection id="subsecRanges" class="sapUiResponsiveContentPadding f-card">
+                <Table id="tblRanges" inset="false" width="100%" items="{ranges>/veiculos}">
+                  <columns>
+                    <Column id="colVeic"><Label id="lblVeic" text="Veículo"/></Column>
+                    <Column id="colLitrosRanges"><Label id="lblLitrosRanges" text="Litros (p50 / p95 / max)"/></Column>
+                    <Column id="colDeltaKm"><Label id="lblDeltaKm" text="Delta Km (p50 / p95 / max)"/></Column>
+                    <Column id="colDeltaHr"><Label id="lblDeltaHr" text="Delta Hr (p50 / p95 / max)"/></Column>
+                  </columns>
+                  <items>
+                    <ColumnListItem id="cliRange">
+                      <cells>
+                        <Text id="txtVeic" text="{veiculos>veiculo}"/>
+                        <Text id="txtLitrosRanges" text="{= ${veiculos>litros}.p50 + ' / ' + ${veiculos>litros}.p95 + ' / ' + ${veiculos>litros}.maxObs }"/>
+                        <Text id="txtDeltaKm" text="{= ${veiculos>deltaKm}.p50 + ' / ' + ${veiculos>deltaKm}.p95 + ' / ' + ${veiculos>deltaKm}.maxObs }"/>
+                        <Text id="txtDeltaHr" text="{= ${veiculos>deltaHr}.p50 + ' / ' + ${veiculos>deltaHr}.p95 + ' / ' + ${veiculos>deltaHr}.maxObs }"/>
+                      </cells>
+                    </ColumnListItem>
+                  </items>
+                </Table>
               </uxap:ObjectPageSubSection>
             </uxap:subSections>
           </uxap:ObjectPageSection>
@@ -139,12 +76,7 @@
       </uxap:ObjectPageLayout>
     </content>
         
-    <footer>
-      <OverflowToolbar>
-        <ToolbarSpacer/>
-        <Button text="Salvar" type="Emphasized" press=".onSave"/>
-      </OverflowToolbar>
-    </footer>
+    <!-- footer removido: visualização somente -->
     
   </Page>
 </mvc:View>

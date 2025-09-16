@@ -6,58 +6,63 @@
           horizontalScrolling="false">
 
     <content>
-      <VBox renderType="Bare">
+  <VBox id="vboxFuel" renderType="Bare">
         <Table id="tblFuel"
                items="{fuel>/eventos}"
                growing="true"
                growingScrollToLoad="true"
                noDataText="Sem abastecimentos no período selecionado">
           <columns>
-            <Column><Label text="Data"/></Column>
-            <Column minScreenWidth="Phone" demandPopin="true"><Label text="Hora"/></Column>
+            <Column id="colData"><Label id="lblData" text="Data"/></Column>
+            <Column id="colHora" minScreenWidth="Phone" demandPopin="true"><Label id="lblHora" text="Hora"/></Column>
 
-            <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true">
-              <Label text="Km"/>
+            <Column id="colComboio" minScreenWidth="Phone" demandPopin="true">
+              <Label id="lblComboio" text="Ponto de Abastecimento"/>
             </Column>
 
-            <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true">
-              <Label text="Hr"/>
+            <Column id="colKm" hAlign="End" minScreenWidth="Tablet" demandPopin="true">
+              <Label id="lblKm" text="Km"/>
             </Column>
 
-            <Column hAlign="End">
-              <Label text="Litros"/>
+            <Column id="colHr" hAlign="End" minScreenWidth="Tablet" demandPopin="true">
+              <Label id="lblHr" text="Hr"/>
             </Column>
 
-            <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true">
-              <Label text="Km/L"/>
+            <Column id="colLitros" hAlign="End">
+              <Label id="lblLitros" text="Litros"/>
             </Column>
 
-            <Column hAlign="End" minScreenWidth="Desktop" demandPopin="true">
-              <Label text="L/Hr"/>
+            <Column id="colKmL" hAlign="End" minScreenWidth="Tablet" demandPopin="true">
+              <Label id="lblKmL" text="Km/L"/>
+            </Column>
+
+            <Column id="colLHr" hAlign="End" minScreenWidth="Desktop" demandPopin="true">
+              <Label id="lblLHr" text="L/Hr"/>
             </Column>
           </columns>
 
           <items>
-            <ColumnListItem>
+            <ColumnListItem id="cliFuel">
               <cells>
-                <Text text="{path:'fuel>data', formatter:'.formatter.fmtDate'}"/>
-                <Text text="{path:'fuel>hora', formatter:'.formatter.fmtHora'}"/>
+                <Text id="txtData" text="{path:'fuel>data', formatter:'.formatter.fmtDate'}"/>
+                <Text id="txtHora" text="{path:'fuel>hora', formatter:'.formatter.fmtHora'}"/>
+                <Text id="txtComboio" text="{fuel>comboio}"/>
 
                 <!-- Km: se o seu JSON usa outro campo (quilometragem/hodometro), mantenha o cálculo no controller como já está -->
-                <ObjectNumber number="{path:'fuel>km', formatter:'.formatter.fmtKm'}"/>
+                <ObjectNumber id="objKm" number="{path:'fuel>km', formatter:'.formatter.fmtKm'}"/>
 
                 <!-- Horas -->
-                <ObjectNumber number="{path:'fuel>hr', formatter:'.formatter.fmtNum'}"/>
+                <ObjectNumber id="objHr" number="{path:'fuel>hr', formatter:'.formatter.fmtNum'}"/>
 
                 <!-- Litros -->
-                <ObjectNumber number="{path:'fuel>litros', formatter:'.formatter.fmtLitros'}"/>
+                <ObjectNumber id="objLitros" number="{path:'fuel>litros', formatter:'.formatter.fmtLitros'}"/>
 
                 <!-- Km/L (já calculado no controller em _kmPorL) -->
-                <ObjectNumber number="{path:'fuel>_kmPorL', formatter:'.formatter.fmtNum'}"
+                <ObjectNumber id="objKmPorL" number="{path:'fuel>_kmPorL', formatter:'.formatter.fmtNum'}"
                               visible="{= ${fuel>_kmPorL} > 0 }"/>
 
                 <!-- L/Hr (vamos calcular média global no rodapé; por linha pode vir vazio se não houver delta de horas entre eventos) -->
-                <ObjectNumber number="{path:'fuel>_lPorHr', formatter:'.formatter.fmtNum'}"
+                <ObjectNumber id="objLPorHr" number="{path:'fuel>_lPorHr', formatter:'.formatter.fmtNum'}"
                               visible="{= ${fuel>_lPorHr} > 0 }"/>
               </cells>
             </ColumnListItem>
@@ -65,30 +70,30 @@
         </Table>
 
         <!-- Rodapé com totais/médias do período -->
-        <Toolbar class="sapUiTinyMarginTop">
-          <ToolbarSpacer/>
-          <ObjectStatus text="Total Litros:"/>
-          <ObjectNumber number="{path:'fuel>/totalLitros', formatter:'.formatter.fmtLitros'}"/>
+        <Toolbar id="tbFuelFooter" class="sapUiTinyMarginTop">
+          <ToolbarSpacer id="tbspacer1"/>
+          <ObjectStatus id="osTotalLitros" text="Total Litros:"/>
+          <ObjectNumber id="objTotalLitros" number="{path:'fuel>/totalLitros', formatter:'.formatter.fmtLitros'}"/>
 
-          <ToolbarSeparator/>
+          <ToolbarSeparator id="tbsep1"/>
 
-          <ObjectStatus text="Média Km/L:"/>
-          <ObjectNumber number="{path:'fuel>/mediaKmPorL', formatter:'.formatter.fmtNum'}"/>
+          <ObjectStatus id="osMediaKmL" text="Média Km/L:"/>
+          <ObjectNumber id="objMediaKmPorL" number="{path:'fuel>/mediaKmPorL', formatter:'.formatter.fmtNum'}"/>
 
-          <ToolbarSeparator/>
+          <ToolbarSeparator id="tbsep2"/>
 
-          <ObjectStatus text="Média L/Hr:"/>
-          <ObjectNumber number="{path:'fuel>/mediaLPorHr', formatter:'.formatter.fmtNum'}"/>
+          <ObjectStatus id="osMediaLHr" text="Média L/Hr:"/>
+          <ObjectNumber id="objMediaLPorHr" number="{path:'fuel>/mediaLPorHr', formatter:'.formatter.fmtNum'}"/>
         </Toolbar>
 
         <!-- Mensagem vazio alternativa (opcional) -->
-        <Text text="Sem abastecimentos para este veículo no período"
+        <Text id="txtNoEvents" text="Sem abastecimentos para este veículo no período"
               visible="{= ${fuel>/eventos}.length === 0 }"/>
       </VBox>
     </content>
 
     <buttons>
-      <Button text="Fechar" type="Transparent" press=".onCloseFuel"/>
+      <Button id="btnCloseFuel" text="Fechar" type="Transparent" press=".onCloseFuel"/>
     </buttons>
   </Dialog>
 </core:FragmentDefinition>

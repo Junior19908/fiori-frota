@@ -174,14 +174,14 @@
             </table:template>
           </table:Column>
 
-          <table:Column sortProperty="kmRodadosAgg" width="7rem" hAlign="End">
+          <table:Column sortProperty="kmRodadosAgg" width="6rem" hAlign="End">
             <Label text="Km rodados"/>
             <table:template>
               <Text text="{path:'vm>kmRodadosAgg', formatter:'.formatter.fmtKm'}"/>
             </table:template>
           </table:Column>
 
-          <table:Column sortProperty="hrRodadosAgg" width="7rem" hAlign="End">
+          <table:Column sortProperty="hrRodadosAgg" width="6rem" hAlign="End">
             <Label text="Hr rodados"/>
             <table:template>
               <Text text="{path:'vm>hrRodadosAgg', formatter:'.formatter.fmtNum'}"/>
@@ -189,7 +189,7 @@
           </table:Column>
 
           <!-- Média por veículo: km/L -->
-          <table:Column width="7rem" hAlign="End">
+          <table:Column width="6rem" hAlign="End">
             <Label text="Média (km/L)"/>
             <table:template>
               <Text text="{
@@ -200,7 +200,7 @@
           </table:Column>
 
           <!-- Consumo por veículo: L/h -->
-          <table:Column width="7rem" hAlign="End">
+          <table:Column width="6rem" hAlign="End">
             <Label text="Média (L/h)"/>
             <table:template>
               <Text text="{

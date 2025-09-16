@@ -78,10 +78,10 @@ sap.ui.define([
     return out;
   }
 
-  // ======= Modelo de Configuração de Veículo (vehConf) =======
-  // Hierarquia: globals -> categories -> vehicles -> current
-  function buildVehConfDefaults() {
-    return {
+  // Transforma ranges_config.json (array `veiculos`) no formato esperado pelo Config.controller
+  function createVehConfFromRanges(data) {
+    // defaults compatíveis com o que o controller espera
+    const defaults = {
       globals: {
         MaxJumpKm: 500,
         MaxNegativeKm: 0,
@@ -94,17 +94,61 @@ sap.ui.define([
         EnableValidation: true,
         StrictMode: false
       },
-      categories: {
-        "Caminhao": { MaxJumpKm: 800, MaxKmPerHour: 100, TankCapacity: 400 },
-        "Trator":   { MaxJumpKm: 100, MaxKmPerHour: 40,  TankCapacity: 200 }
-      },
-      vehicles: {
-        // Exemplo: overrides por veículo (opcional)
-        "20010046": { MaxJumpKm: 600, MaxKmPerHour: 85, TankCapacity: 360, FuelType: "Diesel S10" }
-      },
-      current: {} // preenchido na tela de Config
+      categories: {},
+      vehicles: {},
+      current: {}
     };
+
+    if (!data) return defaults;
+
+    // preserve any globals/categories provided in the JSON
+    if (data.globals && typeof data.globals === 'object') {
+      defaults.globals = Object.assign({}, defaults.globals, data.globals);
+    }
+    if (data.categories && typeof data.categories === 'object') {
+      defaults.categories = Object.assign({}, defaults.categories, data.categories);
+    }
+
+    // data.veiculos pode ser array com objetos { veiculo, litros, deltaKm, deltaHr }
+    if (Array.isArray(data.veiculos)) {
+      data.veiculos.forEach(function(v) {
+        const id = String(v.veiculo || v.veiculoId || v.id || "");
+        if (!id) return;
+
+        // Mapeamento heurístico: preencher propriedades usadas pelo controller/view
+        const veh = {};
+
+        // MaxLitersPerFill / TankCapacity: usa maxObs ou p95/p50
+        const litros = v.litros || {};
+        veh.MaxLitersPerFill = litros.maxObs || litros.p95 || litros.p50 || defaults.globals.MaxLitersPerFill;
+        veh.TankCapacity = Math.max(veh.MaxLitersPerFill, defaults.globals.TankCapacity);
+
+        // MaxJumpKm a partir de deltaKm
+        const deltaKm = v.deltaKm || {};
+        veh.MaxJumpKm = deltaKm.maxObs || deltaKm.p95 || deltaKm.p50 || defaults.globals.MaxJumpKm;
+
+        // reserva para L/Hr e outros
+        const deltaHr = v.deltaHr || {};
+        veh.MaxLph = deltaHr.maxObs || deltaHr.p95 || deltaHr.p50 || defaults.globals.MaxLph;
+
+        // campos extras: manter os ranges originais para referência
+        veh._ranges = {
+          litros: litros,
+          deltaKm: deltaKm,
+          deltaHr: deltaHr
+        };
+
+        // vincula
+        defaults.vehicles[id] = veh;
+      });
+    }
+
+    // se o JSON tiver outras propriedades úteis (descricao etc), copie
+    if (data.descricao) defaults.descricao = data.descricao;
+
+    return defaults;
   }
+
 
   const Component = UIComponent.extend("com.skysinc.frota.frota.Component", {
     metadata: { manifest: "json" },
@@ -118,8 +162,21 @@ sap.ui.define([
       this.setModel(new JSONModel({ materiaisPorVeiculo: {} }), "materiais"); // idem
       this.setModel(new JSONModel({ abastecimentosPorVeiculo: {} }), "abast"); // este sim virá de arquivos locais
 
+
       // Modelo de configuração por veículo (para a tela Config e validações)
-      this.setModel(new JSONModel(buildVehConfDefaults()), "vehConf");
+      // Criar um modelo inicial síncrono para que o controller/route encontre /current imediatamente
+      var initialVehConf = createVehConfFromRanges(null);
+      this.setModel(new JSONModel(initialVehConf), "vehConf");
+      this.setModel(new JSONModel({}), "ranges");
+
+      var that = this;
+      // Carrega e substitui assincronamente
+      fetchJSON(toUrl("com/skysinc/frota/frota/model/localdata/config/ranges_config.json")).then(function(data) {
+        var vehConf = createVehConfFromRanges(data);
+        that.setModel(new JSONModel(vehConf), "vehConf");
+        // também expõe o JSON cru para visualização direta
+        that.setModel(new JSONModel(data || {}), "ranges");
+      });
 
       // Carregamento automático: últimos N meses (somente abastecimentos locais)
       const now = new Date();

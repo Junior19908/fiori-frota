@@ -1,0 +1,5567 @@
+{
+  "descricao": "Ranges por veículo (litros e deltas de KM/HR). Outliers de litros excluídos por percentis.",
+  "veiculos": [
+    {
+      "veiculo": "20010001",
+      "litros": {
+        "p50": 25.59,
+        "p95": 44.522999999999996,
+        "maxObs": 49.74
+      },
+      "deltaKm": {
+        "p50": 137.0,
+        "p95": 293.0,
+        "maxObs": 45742.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010002",
+      "litros": {
+        "p50": 19.26,
+        "p95": 33.005,
+        "maxObs": 44.11
+      },
+      "deltaKm": {
+        "p50": 132.5,
+        "p95": 369.5,
+        "maxObs": 78465.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010013",
+      "litros": {
+        "p50": 17.174999999999997,
+        "p95": 20.014,
+        "maxObs": 20.68
+      },
+      "deltaKm": {
+        "p50": 48.0,
+        "p95": 134.0,
+        "maxObs": 157.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010015",
+      "litros": {
+        "p50": 23.950000000000003,
+        "p95": 36.062999999999995,
+        "maxObs": 38.99
+      },
+      "deltaKm": {
+        "p50": 202.0,
+        "p95": 355.2499999999997,
+        "maxObs": 487512.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010018",
+      "litros": {
+        "p50": 27.72,
+        "p95": 27.72,
+        "maxObs": 27.72
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010019",
+      "litros": {
+        "p50": 21.65,
+        "p95": 36.748,
+        "maxObs": 41.63
+      },
+      "deltaKm": {
+        "p50": 155.0,
+        "p95": 308.4999999999999,
+        "maxObs": 1354.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010021",
+      "litros": {
+        "p50": 19.4,
+        "p95": 32.388,
+        "maxObs": 40.66
+      },
+      "deltaKm": {
+        "p50": 146.5,
+        "p95": 284.25,
+        "maxObs": 406.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010029",
+      "litros": {
+        "p50": 17.6,
+        "p95": 38.22599999999999,
+        "maxObs": 56.88
+      },
+      "deltaKm": {
+        "p50": 179.0,
+        "p95": 363.2,
+        "maxObs": 400130.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010030",
+      "litros": {
+        "p50": 23.735,
+        "p95": 28.9775,
+        "maxObs": 30.24
+      },
+      "deltaKm": {
+        "p50": 154.0,
+        "p95": 206.6,
+        "maxObs": 308.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010032",
+      "litros": {
+        "p50": 40.19,
+        "p95": 51.616,
+        "maxObs": 54.56
+      },
+      "deltaKm": {
+        "p50": 302.0,
+        "p95": 438.8499999999999,
+        "maxObs": 624.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010034",
+      "litros": {
+        "p50": 36.4,
+        "p95": 53.049,
+        "maxObs": 60.46
+      },
+      "deltaKm": {
+        "p50": 312.0,
+        "p95": 532.0999999999999,
+        "maxObs": 275398.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010035",
+      "litros": {
+        "p50": 42.94,
+        "p95": 55.394,
+        "maxObs": 58.22
+      },
+      "deltaKm": {
+        "p50": 381.5,
+        "p95": 497.65,
+        "maxObs": 773.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010036",
+      "litros": {
+        "p50": 36.605,
+        "p95": 54.592499999999994,
+        "maxObs": 60.97
+      },
+      "deltaKm": {
+        "p50": 264.0,
+        "p95": 446.19999999999993,
+        "maxObs": 242947.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010038",
+      "litros": {
+        "p50": 23.77,
+        "p95": 30.954999999999995,
+        "maxObs": 32.02
+      },
+      "deltaKm": {
+        "p50": 175.0,
+        "p95": 231.14999999999995,
+        "maxObs": 255.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010039",
+      "litros": {
+        "p50": 20.98,
+        "p95": 34.9155,
+        "maxObs": 37.23
+      },
+      "deltaKm": {
+        "p50": 149.0,
+        "p95": 255.94999999999996,
+        "maxObs": 372.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010040",
+      "litros": {
+        "p50": 23.494999999999997,
+        "p95": 34.24799999999999,
+        "maxObs": 36.48
+      },
+      "deltaKm": {
+        "p50": 135.0,
+        "p95": 253.19999999999976,
+        "maxObs": 548.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010042",
+      "litros": {
+        "p50": 31.909999999999997,
+        "p95": 53.697500000000005,
+        "maxObs": 62.08
+      },
+      "deltaKm": {
+        "p50": 303.0,
+        "p95": 550.8,
+        "maxObs": 899.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010043",
+      "litros": {
+        "p50": 33.47,
+        "p95": 49.643999999999984,
+        "maxObs": 56.02
+      },
+      "deltaKm": {
+        "p50": 308.0,
+        "p95": 508.2999999999999,
+        "maxObs": 901.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010044",
+      "litros": {
+        "p50": 25.96,
+        "p95": 35.3325,
+        "maxObs": 38.11
+      },
+      "deltaKm": {
+        "p50": 168.0,
+        "p95": 250.14999999999998,
+        "maxObs": 356.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010045",
+      "litros": {
+        "p50": 27.07,
+        "p95": 33.6,
+        "maxObs": 35.47
+      },
+      "deltaKm": {
+        "p50": 182.0,
+        "p95": 249.45000000000007,
+        "maxObs": 73357.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010046",
+      "litros": {
+        "p50": 36.81,
+        "p95": 49.66199999999999,
+        "maxObs": 51.89
+      },
+      "deltaKm": {
+        "p50": 300.0,
+        "p95": 477.0,
+        "maxObs": 95427.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010047",
+      "litros": {
+        "p50": 23.29,
+        "p95": 43.707499999999996,
+        "maxObs": 52.06
+      },
+      "deltaKm": {
+        "p50": 139.5,
+        "p95": 308.5,
+        "maxObs": 80246.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010048",
+      "litros": {
+        "p50": 28.240000000000002,
+        "p95": 52.745000000000005,
+        "maxObs": 57.82
+      },
+      "deltaKm": {
+        "p50": 325.0,
+        "p95": 620.7999999999997,
+        "maxObs": 100448.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010049",
+      "litros": {
+        "p50": 24.729999999999997,
+        "p95": 33.4125,
+        "maxObs": 34.94
+      },
+      "deltaKm": {
+        "p50": 174.0,
+        "p95": 255.0,
+        "maxObs": 368.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010052",
+      "litros": {
+        "p50": 23.51,
+        "p95": 31.490000000000002,
+        "maxObs": 36.01
+      },
+      "deltaKm": {
+        "p50": 159.0,
+        "p95": 249.69999999999993,
+        "maxObs": 30089.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010053",
+      "litros": {
+        "p50": 23.450000000000003,
+        "p95": 34.104,
+        "maxObs": 38.1
+      },
+      "deltaKm": {
+        "p50": 179.0,
+        "p95": 297.19999999999993,
+        "maxObs": 726.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010054",
+      "litros": {
+        "p50": 26.0,
+        "p95": 35.0,
+        "maxObs": 37.28
+      },
+      "deltaKm": {
+        "p50": 191.5,
+        "p95": 291.0,
+        "maxObs": 46519.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010055",
+      "litros": {
+        "p50": 27.66,
+        "p95": 52.376,
+        "maxObs": 57.17
+      },
+      "deltaKm": {
+        "p50": 239.5,
+        "p95": 490.75,
+        "maxObs": 823.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010056",
+      "litros": {
+        "p50": 30.03,
+        "p95": 52.51,
+        "maxObs": 59.05
+      },
+      "deltaKm": {
+        "p50": 278.0,
+        "p95": 575.9999999999999,
+        "maxObs": 10256.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010057",
+      "litros": {
+        "p50": 40.6,
+        "p95": 57.25,
+        "maxObs": 67.21
+      },
+      "deltaKm": {
+        "p50": 351.0,
+        "p95": 701.3999999999997,
+        "maxObs": 19608.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010058",
+      "litros": {
+        "p50": 27.83,
+        "p95": 45.6025,
+        "maxObs": 55.92
+      },
+      "deltaKm": {
+        "p50": 286.0,
+        "p95": 616.9999999999999,
+        "maxObs": 18222.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010059",
+      "litros": {
+        "p50": 26.66,
+        "p95": 32.080999999999996,
+        "maxObs": 33.65
+      },
+      "deltaKm": {
+        "p50": 238.0,
+        "p95": 332.0,
+        "maxObs": 7723.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010060",
+      "litros": {
+        "p50": 22.82,
+        "p95": 31.435999999999996,
+        "maxObs": 33.76
+      },
+      "deltaKm": {
+        "p50": 222.0,
+        "p95": 323.5,
+        "maxObs": 19444.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010100",
+      "litros": {
+        "p50": 46.21,
+        "p95": 92.70199999999998,
+        "maxObs": 107.82
+      },
+      "deltaKm": {
+        "p50": 150.0,
+        "p95": 313.5999999999999,
+        "maxObs": 661.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010101",
+      "litros": {
+        "p50": 66.645,
+        "p95": 113.92,
+        "maxObs": 145.0
+      },
+      "deltaKm": {
+        "p50": 154.5,
+        "p95": 266.79999999999995,
+        "maxObs": 808264.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010103",
+      "litros": {
+        "p50": 57.19,
+        "p95": 104.50949999999997,
+        "maxObs": 126.21
+      },
+      "deltaKm": {
+        "p50": 137.0,
+        "p95": 258.2,
+        "maxObs": 37052.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010104",
+      "litros": {
+        "p50": 44.27,
+        "p95": 62.365999999999985,
+        "maxObs": 77.58
+      },
+      "deltaKm": {
+        "p50": 137.5,
+        "p95": 207.5999999999999,
+        "maxObs": 398.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010105",
+      "litros": {
+        "p50": 217.98,
+        "p95": 330.283,
+        "maxObs": 405.99
+      },
+      "deltaKm": {
+        "p50": 187.0,
+        "p95": 338.0999999999999,
+        "maxObs": 335686.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010107",
+      "litros": {
+        "p50": 153.1,
+        "p95": 260.313,
+        "maxObs": 364.02
+      },
+      "deltaKm": {
+        "p50": 181.0,
+        "p95": 524.9999999999999,
+        "maxObs": 2208.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010108",
+      "litros": {
+        "p50": 66.15,
+        "p95": 112.93,
+        "maxObs": 153.2
+      },
+      "deltaKm": {
+        "p50": 167.0,
+        "p95": 376.90000000000003,
+        "maxObs": 6723.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010109",
+      "litros": {
+        "p50": 267.47,
+        "p95": 317.57399999999996,
+        "maxObs": 341.2
+      },
+      "deltaKm": {
+        "p50": 503.5,
+        "p95": 1317.949999999996,
+        "maxObs": 10456.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010116",
+      "litros": {
+        "p50": 55.8,
+        "p95": 81.764,
+        "maxObs": 93.6
+      },
+      "deltaKm": {
+        "p50": 153.0,
+        "p95": 246.65000000000003,
+        "maxObs": 439.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010117",
+      "litros": {
+        "p50": 70.42,
+        "p95": 113.966,
+        "maxObs": 137.3
+      },
+      "deltaKm": {
+        "p50": 111.0,
+        "p95": 229.7999999999999,
+        "maxObs": 599885.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010118",
+      "litros": {
+        "p50": 94.015,
+        "p95": 181.31849999999997,
+        "maxObs": 237.27
+      },
+      "deltaKm": {
+        "p50": 135.0,
+        "p95": 299.4,
+        "maxObs": 11179.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010119",
+      "litros": {
+        "p50": 68.95,
+        "p95": 126.102,
+        "maxObs": 176.04
+      },
+      "deltaKm": {
+        "p50": 80.0,
+        "p95": 345.79999999999615,
+        "maxObs": 445710.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010120",
+      "litros": {
+        "p50": 40.75,
+        "p95": 73.48,
+        "maxObs": 101.08
+      },
+      "deltaKm": {
+        "p50": 113.0,
+        "p95": 233.5999999999999,
+        "maxObs": 728903.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010121",
+      "litros": {
+        "p50": 55.0,
+        "p95": 95.53199999999998,
+        "maxObs": 114.24
+      },
+      "deltaKm": {
+        "p50": 124.0,
+        "p95": 244.8999999999998,
+        "maxObs": 731078.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010124",
+      "litros": {
+        "p50": 64.715,
+        "p95": 123.88949999999994,
+        "maxObs": 153.31
+      },
+      "deltaKm": {
+        "p50": 136.5,
+        "p95": 8567.649999999945,
+        "maxObs": 611266.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010125",
+      "litros": {
+        "p50": 219.68,
+        "p95": 372.87349999999986,
+        "maxObs": 433.71
+      },
+      "deltaKm": {
+        "p50": 157.5,
+        "p95": 349.4499999999999,
+        "maxObs": 1687.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010126",
+      "litros": {
+        "p50": 73.965,
+        "p95": 130.9775,
+        "maxObs": 170.0
+      },
+      "deltaKm": {
+        "p50": 173.0,
+        "p95": 377.9999999999998,
+        "maxObs": 845747.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010127",
+      "litros": {
+        "p50": 274.1,
+        "p95": 449.74,
+        "maxObs": 544.08
+      },
+      "deltaKm": {
+        "p50": 209.5,
+        "p95": 397.0,
+        "maxObs": 568.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010128",
+      "litros": {
+        "p50": 89.79,
+        "p95": 158.44199999999998,
+        "maxObs": 179.38
+      },
+      "deltaKm": {
+        "p50": 251.0,
+        "p95": 514.1999999999999,
+        "maxObs": 20175.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010129",
+      "litros": {
+        "p50": 76.68,
+        "p95": 140.94199999999998,
+        "maxObs": 211.64
+      },
+      "deltaKm": {
+        "p50": 260.0,
+        "p95": 300329.0,
+        "maxObs": 840907.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010131",
+      "litros": {
+        "p50": 48.425,
+        "p95": 73.557,
+        "maxObs": 87.87
+      },
+      "deltaKm": {
+        "p50": 136.0,
+        "p95": 236.90000000000003,
+        "maxObs": 317.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010135",
+      "litros": {
+        "p50": 60.49,
+        "p95": 111.38199999999998,
+        "maxObs": 125.0
+      },
+      "deltaKm": {
+        "p50": 114.0,
+        "p95": 50079.6,
+        "maxObs": 779226.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010138",
+      "litros": {
+        "p50": 95.52000000000001,
+        "p95": 130.8215,
+        "maxObs": 167.88
+      },
+      "deltaKm": {
+        "p50": 125.5,
+        "p95": 188.0,
+        "maxObs": 30081.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010139",
+      "litros": {
+        "p50": 215.945,
+        "p95": 394.4025,
+        "maxObs": 506.6
+      },
+      "deltaKm": {
+        "p50": 183.5,
+        "p95": 423.25,
+        "maxObs": 884.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010143",
+      "litros": {
+        "p50": 65.185,
+        "p95": 101.155,
+        "maxObs": 117.65
+      },
+      "deltaKm": {
+        "p50": 166.5,
+        "p95": 294.85,
+        "maxObs": 26101.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010147",
+      "litros": {
+        "p50": 58.91,
+        "p95": 85.27349999999993,
+        "maxObs": 108.94
+      },
+      "deltaKm": {
+        "p50": 164.5,
+        "p95": 282.0,
+        "maxObs": 416.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010151",
+      "litros": {
+        "p50": 130.27499999999998,
+        "p95": 250.075,
+        "maxObs": 344.09
+      },
+      "deltaKm": {
+        "p50": 164.0,
+        "p95": 406.49999999999983,
+        "maxObs": 569.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010153",
+      "litros": {
+        "p50": 193.6,
+        "p95": 349.4539999999999,
+        "maxObs": 428.59
+      },
+      "deltaKm": {
+        "p50": 154.0,
+        "p95": 342.4,
+        "maxObs": 83116.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010154",
+      "litros": {
+        "p50": 61.63,
+        "p95": 109.61,
+        "maxObs": 146.51
+      },
+      "deltaKm": {
+        "p50": 128.0,
+        "p95": 436.5,
+        "maxObs": 730015.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010155",
+      "litros": {
+        "p50": 93.76,
+        "p95": 147.21799999999996,
+        "maxObs": 168.28
+      },
+      "deltaKm": {
+        "p50": 169.0,
+        "p95": 314.0,
+        "maxObs": 548.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010156",
+      "litros": {
+        "p50": 219.52,
+        "p95": 336.66,
+        "maxObs": 407.35
+      },
+      "deltaKm": {
+        "p50": 206.0,
+        "p95": 3576.099999999981,
+        "maxObs": 501474.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010157",
+      "litros": {
+        "p50": 237.31,
+        "p95": 329.575,
+        "maxObs": 396.0
+      },
+      "deltaKm": {
+        "p50": 193.5,
+        "p95": 298.34999999999997,
+        "maxObs": 4192.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010158",
+      "litros": {
+        "p50": 67.01,
+        "p95": 112.42,
+        "maxObs": 156.27
+      },
+      "deltaKm": {
+        "p50": 132.0,
+        "p95": 271.0,
+        "maxObs": 575030.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010159",
+      "litros": {
+        "p50": 70.04,
+        "p95": 120.465,
+        "maxObs": 162.52
+      },
+      "deltaKm": {
+        "p50": 160.5,
+        "p95": 262.95,
+        "maxObs": 600184.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010160",
+      "litros": {
+        "p50": 89.08,
+        "p95": 149.4694999999999,
+        "maxObs": 226.6
+      },
+      "deltaKm": {
+        "p50": 170.5,
+        "p95": 416008.05,
+        "maxObs": 530178.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010163",
+      "litros": {
+        "p50": 226.39,
+        "p95": 354.47,
+        "maxObs": 420.03
+      },
+      "deltaKm": {
+        "p50": 197.0,
+        "p95": 339.7999999999998,
+        "maxObs": 392338.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010164",
+      "litros": {
+        "p50": 39.379999999999995,
+        "p95": 88.38149999999999,
+        "maxObs": 104.01
+      },
+      "deltaKm": {
+        "p50": 88.0,
+        "p95": 10000.0,
+        "maxObs": 370746.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010166",
+      "litros": {
+        "p50": 284.4,
+        "p95": 406.02700000000004,
+        "maxObs": 431.1
+      },
+      "deltaKm": {
+        "p50": 215.0,
+        "p95": 378.0999999999999,
+        "maxObs": 299827.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010169",
+      "litros": {
+        "p50": 64.7,
+        "p95": 112.54549999999995,
+        "maxObs": 142.07
+      },
+      "deltaKm": {
+        "p50": 129.0,
+        "p95": 257.0,
+        "maxObs": 1197.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010170",
+      "litros": {
+        "p50": 68.07,
+        "p95": 103.3775,
+        "maxObs": 111.06
+      },
+      "deltaKm": {
+        "p50": 96.5,
+        "p95": 203.25,
+        "maxObs": 454082.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010171",
+      "litros": {
+        "p50": 90.435,
+        "p95": 135.73849999999996,
+        "maxObs": 160.77
+      },
+      "deltaKm": {
+        "p50": 94.0,
+        "p95": 75121.79999999974,
+        "maxObs": 402514.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010172",
+      "litros": {
+        "p50": 256.54,
+        "p95": 391.742,
+        "maxObs": 460.51
+      },
+      "deltaKm": {
+        "p50": 210.0,
+        "p95": 388.5,
+        "maxObs": 19890.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010173",
+      "litros": {
+        "p50": 73.93,
+        "p95": 105.738,
+        "maxObs": 116.14
+      },
+      "deltaKm": {
+        "p50": 193.5,
+        "p95": 374.5,
+        "maxObs": 443.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010174",
+      "litros": {
+        "p50": 69.015,
+        "p95": 114.37499999999999,
+        "maxObs": 136.55
+      },
+      "deltaKm": {
+        "p50": 82.0,
+        "p95": 155.0,
+        "maxObs": 797.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010175",
+      "litros": {
+        "p50": 72.05,
+        "p95": 113.96,
+        "maxObs": 116.32
+      },
+      "deltaKm": {
+        "p50": 121.0,
+        "p95": 201.5,
+        "maxObs": 4072.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010176",
+      "litros": {
+        "p50": 80.28,
+        "p95": 130.42999999999992,
+        "maxObs": 251.05
+      },
+      "deltaKm": {
+        "p50": 265.0,
+        "p95": 507.59999999999997,
+        "maxObs": 629990.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010177",
+      "litros": {
+        "p50": 120.01,
+        "p95": 170.05800000000002,
+        "maxObs": 181.24
+      },
+      "deltaKm": {
+        "p50": 380.0,
+        "p95": 100292.7,
+        "maxObs": 840900.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010178",
+      "litros": {
+        "p50": 157.74,
+        "p95": 209.373,
+        "maxObs": 281.03
+      },
+      "deltaKm": {
+        "p50": 481.0,
+        "p95": 989.5,
+        "maxObs": 600424.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010179",
+      "litros": {
+        "p50": 54.525000000000006,
+        "p95": 91.54199999999999,
+        "maxObs": 104.0
+      },
+      "deltaKm": {
+        "p50": 157.0,
+        "p95": 252.0,
+        "maxObs": 337.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010180",
+      "litros": {
+        "p50": 63.57,
+        "p95": 98.078,
+        "maxObs": 110.08
+      },
+      "deltaKm": {
+        "p50": 154.0,
+        "p95": 308.5999999999999,
+        "maxObs": 1068.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010181",
+      "litros": {
+        "p50": 50.99,
+        "p95": 86.66999999999999,
+        "maxObs": 110.47
+      },
+      "deltaKm": {
+        "p50": 118.0,
+        "p95": 236.19999999999993,
+        "maxObs": 100115.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010182",
+      "litros": {
+        "p50": 72.62,
+        "p95": 106.67849999999999,
+        "maxObs": 135.74
+      },
+      "deltaKm": {
+        "p50": 185.0,
+        "p95": 385.59999999999985,
+        "maxObs": 349081.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010183",
+      "litros": {
+        "p50": 55.28,
+        "p95": 100.22199999999998,
+        "maxObs": 131.79
+      },
+      "deltaKm": {
+        "p50": 170.0,
+        "p95": 353.34999999999957,
+        "maxObs": 333142.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010184",
+      "litros": {
+        "p50": 58.54,
+        "p95": 103.317,
+        "maxObs": 140.41
+      },
+      "deltaKm": {
+        "p50": 176.5,
+        "p95": 321.7499999999999,
+        "maxObs": 24215.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010186",
+      "litros": {
+        "p50": 71.38,
+        "p95": 110.194,
+        "maxObs": 122.02
+      },
+      "deltaKm": {
+        "p50": 191.0,
+        "p95": 3733.500000000021,
+        "maxObs": 452270.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010187",
+      "litros": {
+        "p50": 51.125,
+        "p95": 77.44599999999998,
+        "maxObs": 99.02
+      },
+      "deltaKm": {
+        "p50": 148.0,
+        "p95": 253.0,
+        "maxObs": 115249.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010188",
+      "litros": {
+        "p50": 50.88,
+        "p95": 77.33599999999998,
+        "maxObs": 87.57
+      },
+      "deltaKm": {
+        "p50": 173.0,
+        "p95": 325.5999999999999,
+        "maxObs": 200077.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010189",
+      "litros": {
+        "p50": 58.504999999999995,
+        "p95": 85.2315,
+        "maxObs": 101.64
+      },
+      "deltaKm": {
+        "p50": 183.5,
+        "p95": 301.2499999999999,
+        "maxObs": 280765.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010190",
+      "litros": {
+        "p50": 51.73,
+        "p95": 85.45799999999997,
+        "maxObs": 114.28
+      },
+      "deltaKm": {
+        "p50": 169.0,
+        "p95": 419.80000000000007,
+        "maxObs": 310173.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010191",
+      "litros": {
+        "p50": 56.58,
+        "p95": 82.916,
+        "maxObs": 101.08
+      },
+      "deltaKm": {
+        "p50": 166.0,
+        "p95": 259.2999999999998,
+        "maxObs": 247204.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010192",
+      "litros": {
+        "p50": 215.33,
+        "p95": 359.35100000000006,
+        "maxObs": 435.35
+      },
+      "deltaKm": {
+        "p50": 147.0,
+        "p95": 105876.25,
+        "maxObs": 200221.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010193",
+      "litros": {
+        "p50": 203.375,
+        "p95": 367.57199999999995,
+        "maxObs": 469.45
+      },
+      "deltaKm": {
+        "p50": 181.0,
+        "p95": 425.50000000000006,
+        "maxObs": 233191.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010194",
+      "litros": {
+        "p50": 282.49,
+        "p95": 427.013,
+        "maxObs": 512.66
+      },
+      "deltaKm": {
+        "p50": 276.0,
+        "p95": 410.0,
+        "maxObs": 507.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20010195",
+      "litros": {
+        "p50": 343.85,
+        "p95": 482.2179999999999,
+        "maxObs": 542.13
+      },
+      "deltaKm": {
+        "p50": 323.5,
+        "p95": 501.75,
+        "maxObs": 180434.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011100",
+      "litros": {
+        "p50": 364.84,
+        "p95": 518.532,
+        "maxObs": 606.44
+      },
+      "deltaKm": {
+        "p50": 362.5,
+        "p95": 561.3999999999996,
+        "maxObs": 46220.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011101",
+      "litros": {
+        "p50": 329.53999999999996,
+        "p95": 512.5625,
+        "maxObs": 572.28
+      },
+      "deltaKm": {
+        "p50": 272.0,
+        "p95": 487.0,
+        "maxObs": 7260.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011102",
+      "litros": {
+        "p50": 348.635,
+        "p95": 508.2645,
+        "maxObs": 592.4
+      },
+      "deltaKm": {
+        "p50": 346.0,
+        "p95": 496.0,
+        "maxObs": 124235.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011103",
+      "litros": {
+        "p50": 340.48,
+        "p95": 514.985,
+        "maxObs": 591.46
+      },
+      "deltaKm": {
+        "p50": 359.0,
+        "p95": 510.5,
+        "maxObs": 1356.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011104",
+      "litros": {
+        "p50": 289.56,
+        "p95": 431.46599999999995,
+        "maxObs": 479.29
+      },
+      "deltaKm": {
+        "p50": 218.0,
+        "p95": 411.9,
+        "maxObs": 814.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011105",
+      "litros": {
+        "p50": 258.22,
+        "p95": 479.33,
+        "maxObs": 529.93
+      },
+      "deltaKm": {
+        "p50": 255.0,
+        "p95": 483.84999999999997,
+        "maxObs": 20205.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011107",
+      "litros": {
+        "p50": 224.615,
+        "p95": 414.41999999999996,
+        "maxObs": 454.57
+      },
+      "deltaKm": {
+        "p50": 214.5,
+        "p95": 459.2,
+        "maxObs": 45288.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011109",
+      "litros": {
+        "p50": 133.26,
+        "p95": 186.39249999999998,
+        "maxObs": 201.3
+      },
+      "deltaKm": {
+        "p50": 348.5,
+        "p95": 706.4499999999999,
+        "maxObs": 165689.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011110",
+      "litros": {
+        "p50": 111.8,
+        "p95": 149.32,
+        "maxObs": 174.04
+      },
+      "deltaKm": {
+        "p50": 164.0,
+        "p95": 240.0,
+        "maxObs": 617.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011118",
+      "litros": {
+        "p50": 138.81,
+        "p95": 247.80099999999996,
+        "maxObs": 325.07
+      },
+      "deltaKm": {
+        "p50": 143.0,
+        "p95": 2410.200000000027,
+        "maxObs": 280984.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011120",
+      "litros": {
+        "p50": 58.715,
+        "p95": 89.6325,
+        "maxObs": 106.57
+      },
+      "deltaKm": {
+        "p50": 163.0,
+        "p95": 260.4,
+        "maxObs": 381.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011121",
+      "litros": {
+        "p50": 50.68,
+        "p95": 84.68,
+        "maxObs": 99.34
+      },
+      "deltaKm": {
+        "p50": 149.0,
+        "p95": 254.79999999999998,
+        "maxObs": 377.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011122",
+      "litros": {
+        "p50": 64.105,
+        "p95": 90.772,
+        "maxObs": 109.4
+      },
+      "deltaKm": {
+        "p50": 206.0,
+        "p95": 321.5999999999999,
+        "maxObs": 103793.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011123",
+      "litros": {
+        "p50": 57.07,
+        "p95": 81.21000000000001,
+        "maxObs": 90.32
+      },
+      "deltaKm": {
+        "p50": 195.0,
+        "p95": 301.1999999999998,
+        "maxObs": 108182.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011124",
+      "litros": {
+        "p50": 64.98,
+        "p95": 90.03099999999999,
+        "maxObs": 118.29
+      },
+      "deltaKm": {
+        "p50": 200.5,
+        "p95": 295.7,
+        "maxObs": 389.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011125",
+      "litros": {
+        "p50": 58.75,
+        "p95": 86.196,
+        "maxObs": 118.2
+      },
+      "deltaKm": {
+        "p50": 195.0,
+        "p95": 318.0,
+        "maxObs": 464.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011126",
+      "litros": {
+        "p50": 90.65,
+        "p95": 117.15199999999999,
+        "maxObs": 124.59
+      },
+      "deltaKm": {
+        "p50": 316.0,
+        "p95": 449.3999999999998,
+        "maxObs": 6351.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011128",
+      "litros": {
+        "p50": 74.1,
+        "p95": 74.1,
+        "maxObs": 74.1
+      },
+      "deltaKm": {
+        "p50": 142.0,
+        "p95": 142.0,
+        "maxObs": 142.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011137",
+      "litros": {
+        "p50": 164.5,
+        "p95": 285.38,
+        "maxObs": 312.44
+      },
+      "deltaKm": {
+        "p50": 171.0,
+        "p95": 359.94999999999993,
+        "maxObs": 188073.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011150",
+      "litros": {
+        "p50": 44.51,
+        "p95": 75.14199999999998,
+        "maxObs": 97.57
+      },
+      "deltaKm": {
+        "p50": 233.5,
+        "p95": 511.44999999999993,
+        "maxObs": 91620.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011151",
+      "litros": {
+        "p50": 127.48,
+        "p95": 197.405,
+        "maxObs": 218.59
+      },
+      "deltaKm": {
+        "p50": 187.0,
+        "p95": 376.4,
+        "maxObs": 10798.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011152",
+      "litros": {
+        "p50": 121.97,
+        "p95": 196.802,
+        "maxObs": 234.28
+      },
+      "deltaKm": {
+        "p50": 169.0,
+        "p95": 301.95000000000005,
+        "maxObs": 11596.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011153",
+      "litros": {
+        "p50": 165.29000000000002,
+        "p95": 325.44199999999995,
+        "maxObs": 378.85
+      },
+      "deltaKm": {
+        "p50": 287.0,
+        "p95": 535.0,
+        "maxObs": 7354.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011196",
+      "litros": {
+        "p50": 277.005,
+        "p95": 431.52,
+        "maxObs": 597.36
+      },
+      "deltaKm": {
+        "p50": 243.0,
+        "p95": 432.79999999999995,
+        "maxObs": 668.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011197",
+      "litros": {
+        "p50": 250.22,
+        "p95": 394.70199999999994,
+        "maxObs": 460.89
+      },
+      "deltaKm": {
+        "p50": 197.0,
+        "p95": 395.2999999999999,
+        "maxObs": 137906.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20011198",
+      "litros": {
+        "p50": 256.22,
+        "p95": 447.81399999999996,
+        "maxObs": 511.25
+      },
+      "deltaKm": {
+        "p50": 197.0,
+        "p95": 391.2999999999996,
+        "maxObs": 10323.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012002",
+      "litros": {
+        "p50": 6.72,
+        "p95": 6.72,
+        "maxObs": 6.72
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012003",
+      "litros": {
+        "p50": 8.15,
+        "p95": 9.55,
+        "maxObs": 10.21
+      },
+      "deltaKm": {
+        "p50": 277.5,
+        "p95": 358.84999999999997,
+        "maxObs": 374.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012005",
+      "litros": {
+        "p50": 8.385,
+        "p95": 11.672,
+        "maxObs": 11.71
+      },
+      "deltaKm": {
+        "p50": 86.5,
+        "p95": 341.55,
+        "maxObs": 371.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012006",
+      "litros": {
+        "p50": 6.3,
+        "p95": 10.765999999999998,
+        "maxObs": 12.0
+      },
+      "deltaKm": {
+        "p50": 223.0,
+        "p95": 14864.399999999958,
+        "maxObs": 65630.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012008",
+      "litros": {
+        "p50": 7.01,
+        "p95": 10.21,
+        "maxObs": 10.37
+      },
+      "deltaKm": {
+        "p50": 259.0,
+        "p95": 349.90000000000003,
+        "maxObs": 370.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012014",
+      "litros": {
+        "p50": 8.325,
+        "p95": 11.1875,
+        "maxObs": 11.61
+      },
+      "deltaKm": {
+        "p50": 267.0,
+        "p95": 27689.799999999937,
+        "maxObs": 51129.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012016",
+      "litros": {
+        "p50": 6.33,
+        "p95": 7.87,
+        "maxObs": 8.43
+      },
+      "deltaKm": {
+        "p50": 191.0,
+        "p95": 257.0,
+        "maxObs": 75332.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012017",
+      "litros": {
+        "p50": 5.87,
+        "p95": 9.633000000000001,
+        "maxObs": 10.35
+      },
+      "deltaKm": {
+        "p50": 236.0,
+        "p95": 427.15,
+        "maxObs": 106603.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012030",
+      "litros": {
+        "p50": 5.0,
+        "p95": 5.156499999999999,
+        "maxObs": 7.2
+      },
+      "deltaKm": {
+        "p50": 147.0,
+        "p95": 247.79999999999998,
+        "maxObs": 99098.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012031",
+      "litros": {
+        "p50": 9.48,
+        "p95": 11.529,
+        "maxObs": 11.61
+      },
+      "deltaKm": {
+        "p50": 378.5,
+        "p95": 3480.999999999972,
+        "maxObs": 101289.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012032",
+      "litros": {
+        "p50": 6.56,
+        "p95": 8.165999999999999,
+        "maxObs": 9.08
+      },
+      "deltaKm": {
+        "p50": 199.5,
+        "p95": 290.74999999999994,
+        "maxObs": 427.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012033",
+      "litros": {
+        "p50": 5.405,
+        "p95": 6.8275,
+        "maxObs": 7.07
+      },
+      "deltaKm": {
+        "p50": 233.0,
+        "p95": 319.19999999999993,
+        "maxObs": 206913.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012034",
+      "litros": {
+        "p50": 5.85,
+        "p95": 8.2925,
+        "maxObs": 9.01
+      },
+      "deltaKm": {
+        "p50": 176.0,
+        "p95": 254.35,
+        "maxObs": 79504.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012035",
+      "litros": {
+        "p50": 7.945,
+        "p95": 10.0035,
+        "maxObs": 10.71
+      },
+      "deltaKm": {
+        "p50": 297.0,
+        "p95": 414.0,
+        "maxObs": 590.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012036",
+      "litros": {
+        "p50": 5.45,
+        "p95": 8.0,
+        "maxObs": 9.04
+      },
+      "deltaKm": {
+        "p50": 158.5,
+        "p95": 70639.7999999996,
+        "maxObs": 109182.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012037",
+      "litros": {
+        "p50": 6.64,
+        "p95": 10.099999999999994,
+        "maxObs": 12.3
+      },
+      "deltaKm": {
+        "p50": 247.5,
+        "p95": 101962.95,
+        "maxObs": 113289.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012038",
+      "litros": {
+        "p50": 8.38,
+        "p95": 11.626,
+        "maxObs": 12.01
+      },
+      "deltaKm": {
+        "p50": 252.5,
+        "p95": 359.15,
+        "maxObs": 424.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012039",
+      "litros": {
+        "p50": 7.06,
+        "p95": 10.12,
+        "maxObs": 11.45
+      },
+      "deltaKm": {
+        "p50": 188.0,
+        "p95": 291.59999999999974,
+        "maxObs": 100274.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012040",
+      "litros": {
+        "p50": 6.64,
+        "p95": 9.371999999999998,
+        "maxObs": 10.15
+      },
+      "deltaKm": {
+        "p50": 212.0,
+        "p95": 321.2,
+        "maxObs": 30244.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012041",
+      "litros": {
+        "p50": 7.12,
+        "p95": 10.166,
+        "maxObs": 11.01
+      },
+      "deltaKm": {
+        "p50": 262.0,
+        "p95": 398.4,
+        "maxObs": 672.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012042",
+      "litros": {
+        "p50": 6.0,
+        "p95": 9.1075,
+        "maxObs": 10.0
+      },
+      "deltaKm": {
+        "p50": 174.0,
+        "p95": 301.0,
+        "maxObs": 89719.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012043",
+      "litros": {
+        "p50": 8.28,
+        "p95": 9.616999999999999,
+        "maxObs": 10.21
+      },
+      "deltaKm": {
+        "p50": 279.0,
+        "p95": 458.79999999999944,
+        "maxObs": 632.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012044",
+      "litros": {
+        "p50": 6.0,
+        "p95": 9.0,
+        "maxObs": 9.29
+      },
+      "deltaKm": {
+        "p50": 128.5,
+        "p95": 251.75,
+        "maxObs": 379.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012045",
+      "litros": {
+        "p50": 6.72,
+        "p95": 8.988,
+        "maxObs": 9.63
+      },
+      "deltaKm": {
+        "p50": 199.0,
+        "p95": 355.5,
+        "maxObs": 60542.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012046",
+      "litros": {
+        "p50": 7.305,
+        "p95": 8.404,
+        "maxObs": 8.89
+      },
+      "deltaKm": {
+        "p50": 247.0,
+        "p95": 299.2,
+        "maxObs": 313.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012047",
+      "litros": {
+        "p50": 5.0,
+        "p95": 7.012999999999999,
+        "maxObs": 9.02
+      },
+      "deltaKm": {
+        "p50": 170.0,
+        "p95": 358.4999999999999,
+        "maxObs": 23339.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012048",
+      "litros": {
+        "p50": 6.92,
+        "p95": 8.498,
+        "maxObs": 9.41
+      },
+      "deltaKm": {
+        "p50": 265.0,
+        "p95": 353.75,
+        "maxObs": 511.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012049",
+      "litros": {
+        "p50": 7.51,
+        "p95": 9.654,
+        "maxObs": 10.63
+      },
+      "deltaKm": {
+        "p50": 259.0,
+        "p95": 355.04999999999995,
+        "maxObs": 8288.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012050",
+      "litros": {
+        "p50": 6.0,
+        "p95": 9.359999999999998,
+        "maxObs": 10.04
+      },
+      "deltaKm": {
+        "p50": 200.0,
+        "p95": 452.19999999999925,
+        "maxObs": 15143.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20012051",
+      "litros": {
+        "p50": 5.0,
+        "p95": 7.049999999999997,
+        "maxObs": 8.08
+      },
+      "deltaKm": {
+        "p50": 180.0,
+        "p95": 1125.7999999999965,
+        "maxObs": 15765.0
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "20020203",
+      "litros": {
+        "p50": 70.475,
+        "p95": 117.25,
+        "maxObs": 136.6
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 11.0,
+        "p95": 35.49999999999997,
+        "maxObs": 30112.0
+      }
+    },
+    {
+      "veiculo": "20020207",
+      "litros": {
+        "p50": 69.0,
+        "p95": 168.99999999999991,
+        "maxObs": 188.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 9.0,
+        "p95": 18.0,
+        "maxObs": 70.0
+      }
+    },
+    {
+      "veiculo": "20020209",
+      "litros": {
+        "p50": 34.965,
+        "p95": 68.357,
+        "maxObs": 103.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 14.599999999999994,
+        "maxObs": 22.0
+      }
+    },
+    {
+      "veiculo": "20020213",
+      "litros": {
+        "p50": 81.0,
+        "p95": 120.70000000000002,
+        "maxObs": 150.52
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 11.0,
+        "p95": 19.94999999999999,
+        "maxObs": 25.0
+      }
+    },
+    {
+      "veiculo": "20020233",
+      "litros": {
+        "p50": 60.705,
+        "p95": 106.175,
+        "maxObs": 130.04
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 16.0,
+        "p95": 30.85000000000001,
+        "maxObs": 100.0
+      }
+    },
+    {
+      "veiculo": "20020234",
+      "litros": {
+        "p50": 68.29,
+        "p95": 122.09999999999997,
+        "maxObs": 138.84
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 13.0,
+        "p95": 35.25000000000001,
+        "maxObs": 50.0
+      }
+    },
+    {
+      "veiculo": "20020236",
+      "litros": {
+        "p50": 48.725,
+        "p95": 152.10699999999994,
+        "maxObs": 223.77
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 23.0,
+        "maxObs": 35.0
+      }
+    },
+    {
+      "veiculo": "20020238",
+      "litros": {
+        "p50": 33.0,
+        "p95": 64.353,
+        "maxObs": 91.6
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 16.0,
+        "maxObs": 25012.0
+      }
+    },
+    {
+      "veiculo": "20020239",
+      "litros": {
+        "p50": 42.989999999999995,
+        "p95": 62.8695,
+        "maxObs": 76.12
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 11.0,
+        "p95": 17.0,
+        "maxObs": 6287.0
+      }
+    },
+    {
+      "veiculo": "20020240",
+      "litros": {
+        "p50": 33.815,
+        "p95": 52.6765,
+        "maxObs": 84.58
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 12.0,
+        "maxObs": 307.0
+      }
+    },
+    {
+      "veiculo": "20020243",
+      "litros": {
+        "p50": 42.0,
+        "p95": 81.89999999999998,
+        "maxObs": 114.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 18.59999999999991,
+        "maxObs": 28918.0
+      }
+    },
+    {
+      "veiculo": "20020244",
+      "litros": {
+        "p50": 46.400000000000006,
+        "p95": 91.0,
+        "maxObs": 105.7
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 16.0,
+        "maxObs": 308.0
+      }
+    },
+    {
+      "veiculo": "20020245",
+      "litros": {
+        "p50": 40.0,
+        "p95": 77.60499999999999,
+        "maxObs": 94.5
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 6.0,
+        "p95": 15.0,
+        "maxObs": 377.0
+      }
+    },
+    {
+      "veiculo": "20020246",
+      "litros": {
+        "p50": 51.0,
+        "p95": 85.0,
+        "maxObs": 106.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 20.0,
+        "maxObs": 9537.0
+      }
+    },
+    {
+      "veiculo": "20020247",
+      "litros": {
+        "p50": 60.0,
+        "p95": 95.19999999999999,
+        "maxObs": 121.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 19.94999999999999,
+        "maxObs": 3853.0
+      }
+    },
+    {
+      "veiculo": "20020248",
+      "litros": {
+        "p50": 47.0,
+        "p95": 82.0,
+        "maxObs": 103.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 20.399999999999977,
+        "maxObs": 14720.0
+      }
+    },
+    {
+      "veiculo": "20020249",
+      "litros": {
+        "p50": 54.0,
+        "p95": 90.0,
+        "maxObs": 110.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 22.0,
+        "maxObs": 10010.0
+      }
+    },
+    {
+      "veiculo": "20020250",
+      "litros": {
+        "p50": 55.1,
+        "p95": 100.0,
+        "maxObs": 125.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 18.0,
+        "maxObs": 810.0
+      }
+    },
+    {
+      "veiculo": "20020251",
+      "litros": {
+        "p50": 54.1,
+        "p95": 93.85,
+        "maxObs": 110.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 21.0,
+        "maxObs": 10407.0
+      }
+    },
+    {
+      "veiculo": "20020252",
+      "litros": {
+        "p50": 62.25,
+        "p95": 112.29999999999995,
+        "maxObs": 130.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 20.349999999999966,
+        "maxObs": 26614.0
+      }
+    },
+    {
+      "veiculo": "20020253",
+      "litros": {
+        "p50": 50.0,
+        "p95": 95.75,
+        "maxObs": 119.5
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 19.0,
+        "maxObs": 30005.0
+      }
+    },
+    {
+      "veiculo": "20020254",
+      "litros": {
+        "p50": 63.0,
+        "p95": 90.0,
+        "maxObs": 104.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 9.0,
+        "p95": 18.5,
+        "maxObs": 31.0
+      }
+    },
+    {
+      "veiculo": "20020255",
+      "litros": {
+        "p50": 46.0,
+        "p95": 90.49999999999997,
+        "maxObs": 125.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 18.0,
+        "maxObs": 18292.0
+      }
+    },
+    {
+      "veiculo": "20020256",
+      "litros": {
+        "p50": 47.0,
+        "p95": 87.0,
+        "maxObs": 104.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 20.349999999999966,
+        "maxObs": 177348.0
+      }
+    },
+    {
+      "veiculo": "20020257",
+      "litros": {
+        "p50": 48.1,
+        "p95": 86.0,
+        "maxObs": 106.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 22.0,
+        "maxObs": 2564.0
+      }
+    },
+    {
+      "veiculo": "20020258",
+      "litros": {
+        "p50": 58.5,
+        "p95": 99.0,
+        "maxObs": 121.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 22.0,
+        "maxObs": 27169.0
+      }
+    },
+    {
+      "veiculo": "20020259",
+      "litros": {
+        "p50": 57.0,
+        "p95": 88.0,
+        "maxObs": 100.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 19.0,
+        "maxObs": 5707.0
+      }
+    },
+    {
+      "veiculo": "20020260",
+      "litros": {
+        "p50": 63.2,
+        "p95": 106.0,
+        "maxObs": 117.7
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 16.0,
+        "maxObs": 12520.0
+      }
+    },
+    {
+      "veiculo": "20020261",
+      "litros": {
+        "p50": 61.45,
+        "p95": 103.95499999999998,
+        "maxObs": 120.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 17.0,
+        "maxObs": 11008.0
+      }
+    },
+    {
+      "veiculo": "20020262",
+      "litros": {
+        "p50": 60.0,
+        "p95": 93.22999999999999,
+        "maxObs": 106.7
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 18.0,
+        "maxObs": 47013.0
+      }
+    },
+    {
+      "veiculo": "20020263",
+      "litros": {
+        "p50": 72.0,
+        "p95": 109.0,
+        "maxObs": 121.4
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 9.0,
+        "p95": 20.0,
+        "maxObs": 13558.0
+      }
+    },
+    {
+      "veiculo": "20020264",
+      "litros": {
+        "p50": 57.9,
+        "p95": 100.0,
+        "maxObs": 125.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 20.69999999999999,
+        "maxObs": 12330.0
+      }
+    },
+    {
+      "veiculo": "20020265",
+      "litros": {
+        "p50": 56.6,
+        "p95": 93.89999999999998,
+        "maxObs": 115.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 19.0,
+        "maxObs": 12187.0
+      }
+    },
+    {
+      "veiculo": "20020267",
+      "litros": {
+        "p50": 28.77,
+        "p95": 54.343999999999944,
+        "maxObs": 73.71
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 145.0,
+        "p95": 71075.95,
+        "maxObs": 74983.0
+      }
+    },
+    {
+      "veiculo": "20020270",
+      "litros": {
+        "p50": 35.0,
+        "p95": 73.0,
+        "maxObs": 89.4
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 17.099999999999966,
+        "maxObs": 20005.0
+      }
+    },
+    {
+      "veiculo": "20020271",
+      "litros": {
+        "p50": 35.0,
+        "p95": 67.0,
+        "maxObs": 90.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 20.0,
+        "maxObs": 10013.0
+      }
+    },
+    {
+      "veiculo": "20020272",
+      "litros": {
+        "p50": 38.0,
+        "p95": 71.0,
+        "maxObs": 95.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 20.0,
+        "maxObs": 9010.0
+      }
+    },
+    {
+      "veiculo": "20020274",
+      "litros": {
+        "p50": 40.0,
+        "p95": 72.0,
+        "maxObs": 89.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 19.0,
+        "maxObs": 16454.0
+      }
+    },
+    {
+      "veiculo": "20020275",
+      "litros": {
+        "p50": 39.0,
+        "p95": 78.79999999999998,
+        "maxObs": 114.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 18.0,
+        "maxObs": 992.0
+      }
+    },
+    {
+      "veiculo": "20020277",
+      "litros": {
+        "p50": 37.0,
+        "p95": 61.0,
+        "maxObs": 76.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 17.0,
+        "maxObs": 31105.0
+      }
+    },
+    {
+      "veiculo": "20020278",
+      "litros": {
+        "p50": 39.0,
+        "p95": 75.036,
+        "maxObs": 93.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 16.0,
+        "maxObs": 1003.0
+      }
+    },
+    {
+      "veiculo": "20020279",
+      "litros": {
+        "p50": 37.0,
+        "p95": 63.07999999999997,
+        "maxObs": 83.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 16.599999999999966,
+        "maxObs": 20012.0
+      }
+    },
+    {
+      "veiculo": "20020280",
+      "litros": {
+        "p50": 39.1,
+        "p95": 75.5,
+        "maxObs": 104.5
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 20.0,
+        "maxObs": 34015.0
+      }
+    },
+    {
+      "veiculo": "20020281",
+      "litros": {
+        "p50": 37.3,
+        "p95": 68.03999999999999,
+        "maxObs": 86.6
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 16.0,
+        "maxObs": 17995.0
+      }
+    },
+    {
+      "veiculo": "20020282",
+      "litros": {
+        "p50": 38.0,
+        "p95": 74.46000000000001,
+        "maxObs": 97.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 17.849999999999966,
+        "maxObs": 10013.0
+      }
+    },
+    {
+      "veiculo": "20020284",
+      "litros": {
+        "p50": 42.4,
+        "p95": 78.0,
+        "maxObs": 105.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 19.599999999999966,
+        "maxObs": 32753.0
+      }
+    },
+    {
+      "veiculo": "20020285",
+      "litros": {
+        "p50": 36.7,
+        "p95": 75.0,
+        "maxObs": 91.78
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 18.0,
+        "maxObs": 9011.0
+      }
+    },
+    {
+      "veiculo": "20020286",
+      "litros": {
+        "p50": 35.5,
+        "p95": 74.0,
+        "maxObs": 94.8
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 20.0,
+        "maxObs": 20912.0
+      }
+    },
+    {
+      "veiculo": "20020288",
+      "litros": {
+        "p50": 38.0,
+        "p95": 64.64799999999997,
+        "maxObs": 86.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 18.0,
+        "maxObs": 2155.0
+      }
+    },
+    {
+      "veiculo": "20020289",
+      "litros": {
+        "p50": 38.599999999999994,
+        "p95": 75.0,
+        "maxObs": 83.7
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 18.94999999999999,
+        "maxObs": 1044.0
+      }
+    },
+    {
+      "veiculo": "20020290",
+      "litros": {
+        "p50": 42.0,
+        "p95": 71.50999999999998,
+        "maxObs": 107.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 19.0,
+        "maxObs": 25298.0
+      }
+    },
+    {
+      "veiculo": "20020291",
+      "litros": {
+        "p50": 34.155,
+        "p95": 69.0,
+        "maxObs": 90.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 19.0,
+        "maxObs": 32377.0
+      }
+    },
+    {
+      "veiculo": "20020292",
+      "litros": {
+        "p50": 40.0,
+        "p95": 67.44999999999999,
+        "maxObs": 86.3
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 20.799999999999955,
+        "maxObs": 16208.0
+      }
+    },
+    {
+      "veiculo": "20020293",
+      "litros": {
+        "p50": 37.0,
+        "p95": 59.0,
+        "maxObs": 80.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 18.0,
+        "maxObs": 27006.0
+      }
+    },
+    {
+      "veiculo": "20020294",
+      "litros": {
+        "p50": 38.0,
+        "p95": 64.0,
+        "maxObs": 78.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 20.0,
+        "maxObs": 28098.0
+      }
+    },
+    {
+      "veiculo": "20020301",
+      "litros": {
+        "p50": 130.0,
+        "p95": 254.84999999999997,
+        "maxObs": 277.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 18.0,
+        "maxObs": 21065.0
+      }
+    },
+    {
+      "veiculo": "20020302",
+      "litros": {
+        "p50": 123.0,
+        "p95": 221.0,
+        "maxObs": 262.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.5,
+        "p95": 15.0,
+        "maxObs": 40.0
+      }
+    },
+    {
+      "veiculo": "20020303",
+      "litros": {
+        "p50": 32.0,
+        "p95": 57.48,
+        "maxObs": 74.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 6.0,
+        "p95": 189.39999999999975,
+        "maxObs": 624.0
+      }
+    },
+    {
+      "veiculo": "20020304",
+      "litros": {
+        "p50": 32.0,
+        "p95": 51.699999999999996,
+        "maxObs": 66.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 19.699999999999996,
+        "maxObs": 455.0
+      }
+    },
+    {
+      "veiculo": "20020305",
+      "litros": {
+        "p50": 28.0,
+        "p95": 55.19999999999999,
+        "maxObs": 64.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 5.0,
+        "p95": 14.0,
+        "maxObs": 227.0
+      }
+    },
+    {
+      "veiculo": "20020306",
+      "litros": {
+        "p50": 30.0,
+        "p95": 65.59999999999997,
+        "maxObs": 72.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 5.0,
+        "p95": 173.19999999999914,
+        "maxObs": 388.0
+      }
+    },
+    {
+      "veiculo": "20020405",
+      "litros": {
+        "p50": 146.07,
+        "p95": 219.2575,
+        "maxObs": 257.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 9.0,
+        "p95": 20.0,
+        "maxObs": 14778.0
+      }
+    },
+    {
+      "veiculo": "20020406",
+      "litros": {
+        "p50": 152.69,
+        "p95": 240.0,
+        "maxObs": 276.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 9.0,
+        "p95": 21.0,
+        "maxObs": 17322.0
+      }
+    },
+    {
+      "veiculo": "20020407",
+      "litros": {
+        "p50": 150.72,
+        "p95": 214.55,
+        "maxObs": 236.15
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 10.0,
+        "p95": 22.0,
+        "maxObs": 629.0
+      }
+    },
+    {
+      "veiculo": "20020410",
+      "litros": {
+        "p50": 146.9,
+        "p95": 225.22750000000002,
+        "maxObs": 247.76
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 10.0,
+        "p95": 19.0,
+        "maxObs": 513.0
+      }
+    },
+    {
+      "veiculo": "20020501",
+      "litros": {
+        "p50": 88.32,
+        "p95": 152.032,
+        "maxObs": 177.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 9.0,
+        "p95": 21.0,
+        "maxObs": 49512.0
+      }
+    },
+    {
+      "veiculo": "20020502",
+      "litros": {
+        "p50": 86.07,
+        "p95": 136.98,
+        "maxObs": 153.45
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 18.0,
+        "maxObs": 20008.0
+      }
+    },
+    {
+      "veiculo": "20020505",
+      "litros": {
+        "p50": 64.54,
+        "p95": 75.838,
+        "maxObs": 78.14
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 14.0,
+        "p95": 172.0,
+        "maxObs": 18550.0
+      }
+    },
+    {
+      "veiculo": "20020508",
+      "litros": {
+        "p50": 86.39,
+        "p95": 146.315,
+        "maxObs": 158.6
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 20.049999999999955,
+        "maxObs": 12073.0
+      }
+    },
+    {
+      "veiculo": "20020509",
+      "litros": {
+        "p50": 66.3,
+        "p95": 103.93399999999998,
+        "maxObs": 122.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 10.0,
+        "p95": 27.69999999999999,
+        "maxObs": 5426.0
+      }
+    },
+    {
+      "veiculo": "20020510",
+      "litros": {
+        "p50": 69.68,
+        "p95": 119.51699999999998,
+        "maxObs": 130.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 11.0,
+        "p95": 22.0,
+        "maxObs": 2692.0
+      }
+    },
+    {
+      "veiculo": "20020511",
+      "litros": {
+        "p50": 69.5,
+        "p95": 117.0,
+        "maxObs": 120.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 10.0,
+        "p95": 22.24999999999998,
+        "maxObs": 315.0
+      }
+    },
+    {
+      "veiculo": "20022243",
+      "litros": {
+        "p50": 69.4,
+        "p95": 118.0,
+        "maxObs": 144.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 12.0,
+        "p95": 21.0,
+        "maxObs": 3805.0
+      }
+    },
+    {
+      "veiculo": "20022244",
+      "litros": {
+        "p50": 83.0,
+        "p95": 144.0,
+        "maxObs": 164.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 13.0,
+        "p95": 21.0,
+        "maxObs": 115.0
+      }
+    },
+    {
+      "veiculo": "20022245",
+      "litros": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 528.0,
+        "p95": 528.0,
+        "maxObs": 528.0
+      }
+    },
+    {
+      "veiculo": "20022246",
+      "litros": {
+        "p50": 82.0,
+        "p95": 135.0,
+        "maxObs": 175.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 13.0,
+        "p95": 22.0,
+        "maxObs": 97.0
+      }
+    },
+    {
+      "veiculo": "20022247",
+      "litros": {
+        "p50": 75.0,
+        "p95": 127.69,
+        "maxObs": 171.2
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 11.5,
+        "p95": 21.149999999999977,
+        "maxObs": 29005.0
+      }
+    },
+    {
+      "veiculo": "20022248",
+      "litros": {
+        "p50": 78.0,
+        "p95": 137.3,
+        "maxObs": 162.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 11.0,
+        "p95": 20.0,
+        "maxObs": 9007.0
+      }
+    },
+    {
+      "veiculo": "20022249",
+      "litros": {
+        "p50": 70.05,
+        "p95": 122.091,
+        "maxObs": 164.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 11.0,
+        "p95": 21.0,
+        "maxObs": 10005.0
+      }
+    },
+    {
+      "veiculo": "20022250",
+      "litros": {
+        "p50": 74.0,
+        "p95": 118.47999999999999,
+        "maxObs": 130.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 10.0,
+        "p95": 25.799999999999955,
+        "maxObs": 10006.0
+      }
+    },
+    {
+      "veiculo": "20022251",
+      "litros": {
+        "p50": 62.0,
+        "p95": 111.6,
+        "maxObs": 139.76
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 11.0,
+        "p95": 20.0,
+        "maxObs": 616.0
+      }
+    },
+    {
+      "veiculo": "20022252",
+      "litros": {
+        "p50": 30.62,
+        "p95": 58.0,
+        "maxObs": 71.7
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 14.349999999999994,
+        "maxObs": 25419.0
+      }
+    },
+    {
+      "veiculo": "20022253",
+      "litros": {
+        "p50": 44.38,
+        "p95": 66.289,
+        "maxObs": 82.16
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 9.0,
+        "p95": 19.0,
+        "maxObs": 43.0
+      }
+    },
+    {
+      "veiculo": "20022254",
+      "litros": {
+        "p50": 34.4,
+        "p95": 62.279999999999994,
+        "maxObs": 107.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 10.5,
+        "p95": 20.0,
+        "maxObs": 29357.0
+      }
+    },
+    {
+      "veiculo": "20022255",
+      "litros": {
+        "p50": 30.0,
+        "p95": 63.5,
+        "maxObs": 72.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 18.0,
+        "maxObs": 26602.0
+      }
+    },
+    {
+      "veiculo": "20022256",
+      "litros": {
+        "p50": 40.01,
+        "p95": 73.6425,
+        "maxObs": 90.01
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 9.0,
+        "p95": 16.0,
+        "maxObs": 20013.0
+      }
+    },
+    {
+      "veiculo": "20022257",
+      "litros": {
+        "p50": 28.0,
+        "p95": 52.599999999999994,
+        "maxObs": 74.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 6.0,
+        "p95": 13.5,
+        "maxObs": 22850.0
+      }
+    },
+    {
+      "veiculo": "20022258",
+      "litros": {
+        "p50": 46.78,
+        "p95": 69.28,
+        "maxObs": 76.61
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 10.0,
+        "p95": 17.0,
+        "maxObs": 29.0
+      }
+    },
+    {
+      "veiculo": "20022259",
+      "litros": {
+        "p50": 31.695,
+        "p95": 73.275,
+        "maxObs": 115.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 6.0,
+        "p95": 16.0,
+        "maxObs": 18008.0
+      }
+    },
+    {
+      "veiculo": "20022260",
+      "litros": {
+        "p50": 49.230000000000004,
+        "p95": 79.7425,
+        "maxObs": 89.19
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 13.0,
+        "p95": 21.69999999999999,
+        "maxObs": 17076.0
+      }
+    },
+    {
+      "veiculo": "20022261",
+      "litros": {
+        "p50": 32.83,
+        "p95": 68.22999999999998,
+        "maxObs": 89.59
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 16.599999999999966,
+        "maxObs": 18870.0
+      }
+    },
+    {
+      "veiculo": "20022262",
+      "litros": {
+        "p50": 32.0,
+        "p95": 60.099999999999966,
+        "maxObs": 78.06
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 14.949999999999989,
+        "maxObs": 22739.0
+      }
+    },
+    {
+      "veiculo": "20022263",
+      "litros": {
+        "p50": 35.0,
+        "p95": 69.847,
+        "maxObs": 84.89
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 16.0,
+        "maxObs": 1809.0
+      }
+    },
+    {
+      "veiculo": "20022264",
+      "litros": {
+        "p50": 40.79,
+        "p95": 76.31799999999998,
+        "maxObs": 85.33
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 11.0,
+        "p95": 19.900000000000006,
+        "maxObs": 6113.0
+      }
+    },
+    {
+      "veiculo": "20022265",
+      "litros": {
+        "p50": 30.405,
+        "p95": 64.025,
+        "maxObs": 76.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 19.0,
+        "maxObs": 162002.0
+      }
+    },
+    {
+      "veiculo": "20022266",
+      "litros": {
+        "p50": 45.595,
+        "p95": 64.06049999999999,
+        "maxObs": 67.19
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 10.0,
+        "p95": 18.599999999999994,
+        "maxObs": 21.0
+      }
+    },
+    {
+      "veiculo": "20022267",
+      "litros": {
+        "p50": 60.355000000000004,
+        "p95": 92.64850000000001,
+        "maxObs": 104.16
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 11.5,
+        "p95": 3847.899999999964,
+        "maxObs": 69386.0
+      }
+    },
+    {
+      "veiculo": "20022268",
+      "litros": {
+        "p50": 37.53,
+        "p95": 74.70599999999999,
+        "maxObs": 88.89
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 11.0,
+        "p95": 3919.699999999995,
+        "maxObs": 46530.0
+      }
+    },
+    {
+      "veiculo": "20022269",
+      "litros": {
+        "p50": 36.54,
+        "p95": 62.748,
+        "maxObs": 73.1
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 83.09999999999937,
+        "maxObs": 3030601.0
+      }
+    },
+    {
+      "veiculo": "20022270",
+      "litros": {
+        "p50": 34.0,
+        "p95": 63.0,
+        "maxObs": 74.81
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 575.8999999999955,
+        "maxObs": 70007.0
+      }
+    },
+    {
+      "veiculo": "20022271",
+      "litros": {
+        "p50": 28.0,
+        "p95": 58.69999999999999,
+        "maxObs": 71.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.5,
+        "p95": 35.5,
+        "maxObs": 13069.0
+      }
+    },
+    {
+      "veiculo": "20022272",
+      "litros": {
+        "p50": 33.0,
+        "p95": 59.585,
+        "maxObs": 74.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 417.5999999999974,
+        "maxObs": 25007.0
+      }
+    },
+    {
+      "veiculo": "20022281",
+      "litros": {
+        "p50": 70.85,
+        "p95": 108.02999999999999,
+        "maxObs": 125.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 11.0,
+        "p95": 18.0,
+        "maxObs": 18966.0
+      }
+    },
+    {
+      "veiculo": "20022282",
+      "litros": {
+        "p50": 75.84,
+        "p95": 125.73499999999999,
+        "maxObs": 156.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 12.0,
+        "p95": 20.0,
+        "maxObs": 32.0
+      }
+    },
+    {
+      "veiculo": "20022283",
+      "litros": {
+        "p50": 78.7,
+        "p95": 129.84999999999997,
+        "maxObs": 145.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 14.0,
+        "p95": 21.049999999999983,
+        "maxObs": 5016.0
+      }
+    },
+    {
+      "veiculo": "20022284",
+      "litros": {
+        "p50": 81.5,
+        "p95": 140.09,
+        "maxObs": 156.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 12.0,
+        "p95": 25.549999999999983,
+        "maxObs": 22111.0
+      }
+    },
+    {
+      "veiculo": "20022285",
+      "litros": {
+        "p50": 99.0,
+        "p95": 140.0,
+        "maxObs": 180.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 13.0,
+        "p95": 20.0,
+        "maxObs": 31.0
+      }
+    },
+    {
+      "veiculo": "20022286",
+      "litros": {
+        "p50": 133.6,
+        "p95": 200.0,
+        "maxObs": 261.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 16.0,
+        "p95": 28.94999999999999,
+        "maxObs": 47.0
+      }
+    },
+    {
+      "veiculo": "20022287",
+      "litros": {
+        "p50": 100.0,
+        "p95": 140.0,
+        "maxObs": 190.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 13.0,
+        "p95": 20.849999999999966,
+        "maxObs": 36.0
+      }
+    },
+    {
+      "veiculo": "20022288",
+      "litros": {
+        "p50": 145.0,
+        "p95": 210.22,
+        "maxObs": 243.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 17.0,
+        "p95": 28.0,
+        "maxObs": 100.0
+      }
+    },
+    {
+      "veiculo": "20022289",
+      "litros": {
+        "p50": 138.0,
+        "p95": 235.35999999999999,
+        "maxObs": 296.6
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 16.0,
+        "p95": 31.0,
+        "maxObs": 4013.0
+      }
+    },
+    {
+      "veiculo": "20022290",
+      "litros": {
+        "p50": 146.0,
+        "p95": 219.0,
+        "maxObs": 244.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 19.0,
+        "p95": 31.299999999999955,
+        "maxObs": 4476.0
+      }
+    },
+    {
+      "veiculo": "20022291",
+      "litros": {
+        "p50": 153.0,
+        "p95": 229.07999999999996,
+        "maxObs": 277.3
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 17.0,
+        "p95": 27.0,
+        "maxObs": 61.0
+      }
+    },
+    {
+      "veiculo": "20022292",
+      "litros": {
+        "p50": 160.0,
+        "p95": 219.5,
+        "maxObs": 256.5
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 18.0,
+        "p95": 27.699999999999996,
+        "maxObs": 29.0
+      }
+    },
+    {
+      "veiculo": "20022293",
+      "litros": {
+        "p50": 155.5,
+        "p95": 211.535,
+        "maxObs": 240.6
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 18.0,
+        "p95": 24.5,
+        "maxObs": 30.0
+      }
+    },
+    {
+      "veiculo": "24051001",
+      "litros": {
+        "p50": 78.0,
+        "p95": 120.0,
+        "maxObs": 127.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.0,
+        "p95": 11.95,
+        "maxObs": 16.0
+      }
+    },
+    {
+      "veiculo": "24051002",
+      "litros": {
+        "p50": 95.25,
+        "p95": 206.25,
+        "maxObs": 288.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 10.0,
+        "p95": 23.5,
+        "maxObs": 794.0
+      }
+    },
+    {
+      "veiculo": "24051003",
+      "litros": {
+        "p50": 43.9,
+        "p95": 138.74999999999997,
+        "maxObs": 281.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 5.0,
+        "p95": 16.099999999999994,
+        "maxObs": 14072.0
+      }
+    },
+    {
+      "veiculo": "24051004",
+      "litros": {
+        "p50": 62.0,
+        "p95": 116.0,
+        "maxObs": 129.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 14.849999999999994,
+        "maxObs": 18.0
+      }
+    },
+    {
+      "veiculo": "24051005",
+      "litros": {
+        "p50": 118.0,
+        "p95": 266.74,
+        "maxObs": 318.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 10.0,
+        "p95": 23.400000000000006,
+        "maxObs": 704.0
+      }
+    },
+    {
+      "veiculo": "24051006",
+      "litros": {
+        "p50": 4.3,
+        "p95": 4.3,
+        "maxObs": 4.3
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "24051007",
+      "litros": {
+        "p50": 74.5,
+        "p95": 202.29999999999998,
+        "maxObs": 241.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 9.0,
+        "p95": 21.5,
+        "maxObs": 3168.0
+      }
+    },
+    {
+      "veiculo": "24051009",
+      "litros": {
+        "p50": 80.0,
+        "p95": 240.72499999999982,
+        "maxObs": 324.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 11.0,
+        "p95": 27.599999999999994,
+        "maxObs": 5498.0
+      }
+    },
+    {
+      "veiculo": "24051012",
+      "litros": {
+        "p50": 58.0,
+        "p95": 110.725,
+        "maxObs": 123.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 6.0,
+        "p95": 9.7,
+        "maxObs": 10.0
+      }
+    },
+    {
+      "veiculo": "24051013",
+      "litros": {
+        "p50": 102.0,
+        "p95": 301.1999999999998,
+        "maxObs": 333.2
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 12.0,
+        "p95": 24.699999999999996,
+        "maxObs": 26.0
+      }
+    },
+    {
+      "veiculo": "24051014",
+      "litros": {
+        "p50": 95.0,
+        "p95": 289.19999999999993,
+        "maxObs": 340.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 6.0,
+        "p95": 19.550000000000004,
+        "maxObs": 21.0
+      }
+    },
+    {
+      "veiculo": "24051015",
+      "litros": {
+        "p50": 53.0,
+        "p95": 117.09999999999992,
+        "maxObs": 183.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 11.0,
+        "p95": 19.0,
+        "maxObs": 1813.0
+      }
+    },
+    {
+      "veiculo": "24051021",
+      "litros": {
+        "p50": 167.0,
+        "p95": 167.0,
+        "maxObs": 167.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "24051022",
+      "litros": {
+        "p50": 91.0,
+        "p95": 248.26999999999998,
+        "maxObs": 328.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 9.0,
+        "p95": 22.0,
+        "maxObs": 700.0
+      }
+    },
+    {
+      "veiculo": "24051025",
+      "litros": {
+        "p50": 143.95,
+        "p95": 284.825,
+        "maxObs": 359.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 12.0,
+        "p95": 22.049999999999994,
+        "maxObs": 33.0
+      }
+    },
+    {
+      "veiculo": "24051026",
+      "litros": {
+        "p50": 81.65,
+        "p95": 193.77499999999998,
+        "maxObs": 236.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 22.0,
+        "maxObs": 31.0
+      }
+    },
+    {
+      "veiculo": "24051031",
+      "litros": {
+        "p50": 107.5,
+        "p95": 297.62999999999994,
+        "maxObs": 333.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 9.0,
+        "p95": 21.599999999999994,
+        "maxObs": 111.0
+      }
+    },
+    {
+      "veiculo": "24051033",
+      "litros": {
+        "p50": 87.5,
+        "p95": 277.575,
+        "maxObs": 320.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 6.0,
+        "p95": 21.299999999999994,
+        "maxObs": 24.0
+      }
+    },
+    {
+      "veiculo": "24051034",
+      "litros": {
+        "p50": 104.8,
+        "p95": 275.5,
+        "maxObs": 321.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 9.0,
+        "p95": 21.39999999999999,
+        "maxObs": 1085.0
+      }
+    },
+    {
+      "veiculo": "24051037",
+      "litros": {
+        "p50": 133.3,
+        "p95": 255.0,
+        "maxObs": 375.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 11.0,
+        "p95": 21.25,
+        "maxObs": 28.0
+      }
+    },
+    {
+      "veiculo": "24051042",
+      "litros": {
+        "p50": 85.5,
+        "p95": 336.0399999999999,
+        "maxObs": 390.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 21.449999999999996,
+        "maxObs": 180.0
+      }
+    },
+    {
+      "veiculo": "24051043",
+      "litros": {
+        "p50": 190.0,
+        "p95": 300.0,
+        "maxObs": 333.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 15.5,
+        "p95": 29.0,
+        "maxObs": 1679.0
+      }
+    },
+    {
+      "veiculo": "24051045",
+      "litros": {
+        "p50": 105.5,
+        "p95": 281.6999999999999,
+        "maxObs": 353.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 9.5,
+        "p95": 26.599999999999994,
+        "maxObs": 77.0
+      }
+    },
+    {
+      "veiculo": "24051047",
+      "litros": {
+        "p50": 121.5,
+        "p95": 252.38999999999996,
+        "maxObs": 289.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 17.299999999999997,
+        "maxObs": 20.0
+      }
+    },
+    {
+      "veiculo": "24051048",
+      "litros": {
+        "p50": 265.5,
+        "p95": 394.0,
+        "maxObs": 420.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 18.0,
+        "p95": 29.599999999999994,
+        "maxObs": 96.0
+      }
+    },
+    {
+      "veiculo": "24051049",
+      "litros": {
+        "p50": 80.0,
+        "p95": 185.75,
+        "maxObs": 226.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 9.0,
+        "p95": 21.0,
+        "maxObs": 29.0
+      }
+    },
+    {
+      "veiculo": "24051050",
+      "litros": {
+        "p50": 60.2,
+        "p95": 89.25,
+        "maxObs": 98.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 5.0,
+        "p95": 6.0,
+        "maxObs": 6.0
+      }
+    },
+    {
+      "veiculo": "24051051",
+      "litros": {
+        "p50": 86.5,
+        "p95": 325.55,
+        "maxObs": 381.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.0,
+        "p95": 22.699999999999996,
+        "maxObs": 1027.0
+      }
+    },
+    {
+      "veiculo": "24051062",
+      "litros": {
+        "p50": 141.0,
+        "p95": 300.08,
+        "maxObs": 317.6
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.5,
+        "p95": 19.0,
+        "maxObs": 23.0
+      }
+    },
+    {
+      "veiculo": "24051063",
+      "litros": {
+        "p50": 191.05,
+        "p95": 283.575,
+        "maxObs": 285.5
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 19.0,
+        "p95": 23.45,
+        "maxObs": 24.0
+      }
+    },
+    {
+      "veiculo": "24051064",
+      "litros": {
+        "p50": 130.0,
+        "p95": 332.23999999999995,
+        "maxObs": 397.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 8.5,
+        "p95": 19.0,
+        "maxObs": 24.0
+      }
+    },
+    {
+      "veiculo": "24051065",
+      "litros": {
+        "p50": 126.25,
+        "p95": 231.69999999999996,
+        "maxObs": 294.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 12.0,
+        "p95": 28.399999999999977,
+        "maxObs": 5006.0
+      }
+    },
+    {
+      "veiculo": "24051069",
+      "litros": {
+        "p50": 118.25,
+        "p95": 278.25,
+        "maxObs": 284.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 6.0,
+        "p95": 25.29999999999999,
+        "maxObs": 32.0
+      }
+    },
+    {
+      "veiculo": "24051071",
+      "litros": {
+        "p50": 199.0,
+        "p95": 307.15,
+        "maxObs": 314.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 14.0,
+        "p95": 11381.6,
+        "maxObs": 11390.0
+      }
+    },
+    {
+      "veiculo": "24051072",
+      "litros": {
+        "p50": 42.0,
+        "p95": 48.8,
+        "maxObs": 50.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 12.0,
+        "p95": 79.99999999999983,
+        "maxObs": 155.0
+      }
+    },
+    {
+      "veiculo": "24051073",
+      "litros": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 10.0,
+        "p95": 10.0,
+        "maxObs": 10.0
+      }
+    },
+    {
+      "veiculo": "24051074",
+      "litros": {
+        "p50": 5.0,
+        "p95": 5.0,
+        "maxObs": 5.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      }
+    },
+    {
+      "veiculo": "24054005",
+      "litros": {
+        "p50": 5.01,
+        "p95": 19.41,
+        "maxObs": 20.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 6.0,
+        "p95": 9.6,
+        "maxObs": 10.0
+      }
+    },
+    {
+      "veiculo": "24054006",
+      "litros": {
+        "p50": 36.510000000000005,
+        "p95": 53.56799999999999,
+        "maxObs": 56.56
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 7.5,
+        "p95": 19.099999999999994,
+        "maxObs": 38.0
+      }
+    },
+    {
+      "veiculo": "24054009",
+      "litros": {
+        "p50": 200.0,
+        "p95": 400.0,
+        "maxObs": 400.0
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 24.0,
+        "p95": 100.69999999999999,
+        "maxObs": 133.0
+      }
+    },
+    {
+      "veiculo": "24054027",
+      "litros": {
+        "p50": 21.52,
+        "p95": 32.343999999999994,
+        "maxObs": 34.57
+      },
+      "deltaKm": {
+        "p50": null,
+        "p95": null,
+        "maxObs": null
+      },
+      "deltaHr": {
+        "p50": 6.0,
+        "p95": 10028.349999999991,
+        "maxObs": 15418.0
+      }
+    }
+  ]
+}
