@@ -18,13 +18,13 @@
                 <ObjectIdentifier id="oiVeiculoEdit" title="Veículo em edição" text="{= ${vehConf>/current/VehicleId} ? ${vehConf>/current/VehicleId} : '' }" class="sapUiTinyMarginEnd"/>
                 <ToolbarSeparator id="sepRoute" visible="{= !${route>/equnr} }"/>
                 <Text id="txtVeiculoLabel" text="Veículo:" class="sapUiTinyMarginEnd" visible="{= !${route>/equnr} }"/>
-    <ComboBox id="cbVeicConfig" width="18rem"
+                <ComboBox id="cbVeicConfig" width="18rem"
                           selectedKey="{vehConf>/current/VehicleId}"
                           enabled="{= !${route>/equnr} }"
                           visible="{= !${route>/equnr} }">
                   <items>
-        <core:Item id="itemNone" key="__NONE__" text="Selecione..."/>
-        <core:Item id="itemVmEq" key="{vm>equnr}" text="{= ${vm>equnr} + ' — ' + ${vm>eqktx} }"/>
+                    <core:Item id="itemNone" key="__NONE__" text="Selecione..."/>
+                    <core:Item id="itemRangeEq" key="{ranges>veiculo}" text="{ranges>veiculo}"/>
                   </items>
                 </ComboBox>
     <Button id="btnLoadFromSelection" text="Carregar" class="sapUiTinyMarginBegin"
