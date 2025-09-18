@@ -86,7 +86,8 @@ sap.ui.define([
       maxKm: isFinite(maxKm) ? maxKm : null,
       minHr: isFinite(minHr) ? minHr : null,
       maxHr: isFinite(maxHr) ? maxHr : null,
-      minLt: isFinite(minLt) ? minLt : null
+      minLt: isFinite(minLt) ? minLt : null,
+      maxLt: isFinite(_parseNum(lt.max)) ? _parseNum(lt.max) : null
     };
   }
 
@@ -127,7 +128,7 @@ sap.ui.define([
     list = list.slice().sort((a, b) => _orderTs(a) - _orderTs(b));
 
     // 5) Ranges do veículo
-    const { minKm, maxKm, minHr, maxHr, minLt } = _getVehRanges(vehKey);
+    const { minKm, maxKm, minHr, maxHr, minLt, maxLt } = _getVehRanges(vehKey);
 
     // 6) Acumuladores
     let totalLitros = 0,
@@ -203,8 +204,8 @@ sap.ui.define([
       if (hasHr || isFinite(minHr) || isFinite(maxHr)) {
         parts.push(`Hr=${hasHr ? _fmt(dHr) : "-"} (Mín.=${_fmt(minHr)}, Máx.=${_fmt(maxHr)})`);
       }
-      if (litrosOk || isFinite(minLt)) {
-        parts.push(`Litros=${_fmt(litros)} (Mín.=${_fmt(minLt)})`);
+      if (litrosOk || isFinite(minLt) || isFinite(maxLt)) {
+        parts.push(`Litros=${_fmt(litros)} (Mín.=${_fmt(minLt)}, Máx.=${_fmt(maxLt)})`);
       }
       ev._statusTooltip = parts.join(" • ");
 

@@ -4,5563 +4,4711 @@
     {
       "veiculo": "20010001",
       "litros": {
-        "min": 25.59,
-        "max": 44.522999999999996,
-        "maxObs": 49.74
+        "min": 3.72,
+        "max": 45.47
       },
       "deltaKm": {
-        "min": 137.0,
-        "max": 293.0,
-        "maxObs": 45742.0
+        "min": 2.0,
+        "max": 248.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
-      }
-    },
-    {
-      "veiculo": "20010002",
-      "litros": {
-        "min": null,
-        "max": null,
-        "maxObs": null
-      },
-      "deltaKm": {
-        "min": null,
-        "max": null,
-        "maxObs": null
-      },
-      "deltaHr": {
-        "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010013",
       "litros": {
-        "min": 10.83,
-        "max": 34.66,
-        "maxObs": 0
+        "min": 17.04,
+        "max": 21.48
       },
       "deltaKm": {
-        "min": 40,
-        "max": 396,
-        "maxObs": 0
+        "min": 40.0,
+        "max": 186.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
-      }
-    },
-    {
-      "veiculo": "20010015",
-      "litros": {
-        "min": null,
-        "max": null,
-        "maxObs": null
-      },
-      "deltaKm": {
-        "min": null,
-        "max": null,
-        "maxObs": null
-      },
-      "deltaHr": {
-        "min": null,
-        "max": null,
-        "maxObs": null
-      }
-    },
-    {
-      "veiculo": "20010018",
-      "litros": {
-        "min": null,
-        "max": null,
-        "maxObs": null
-      },
-      "deltaKm": {
-        "min": null,
-        "max": null,
-        "maxObs": null
-      },
-      "deltaHr": {
-        "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010019",
       "litros": {
-        "min": 1.05,
-        "max": 46.12,
-        "maxObs": 0
+        "min": 4.61,
+        "max": 44.05
       },
       "deltaKm": {
-        "min": 13,
-        "max": 406,
-        "maxObs": 0
+        "min": 1.0,
+        "max": 406.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
-      }
-    },
-    {
-      "veiculo": "20010021",
-      "litros": {
-        "min": null,
-        "max": null,
-        "maxObs": null
-      },
-      "deltaKm": {
-        "min": null,
-        "max": null,
-        "maxObs": null
-      },
-      "deltaHr": {
-        "min": null,
-        "max": null,
-        "maxObs": null
-      }
-    },
-    {
-      "veiculo": "20010029",
-      "litros": {
-        "min": null,
-        "max": null,
-        "maxObs": null
-      },
-      "deltaKm": {
-        "min": null,
-        "max": null,
-        "maxObs": null
-      },
-      "deltaHr": {
-        "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010030",
       "litros": {
-        "min": 25.04,
-        "max": 27.35,
-        "maxObs": 0
+        "min": null,
+        "max": null
       },
       "deltaKm": {
-        "min": 79,
-        "max": 79,
-        "maxObs": 0
+        "min": 79.0,
+        "max": 79.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
-      }
-    },
-    {
-      "veiculo": "20010032",
-      "litros": {
-        "min": 40.19,
-        "max": 51.616,
-        "maxObs": 54.56
-      },
-      "deltaKm": {
-        "min": 302.0,
-        "max": 438.8499999999999,
-        "maxObs": 624.0
-      },
-      "deltaHr": {
-        "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010034",
       "litros": {
-        "min": 36.4,
-        "max": 53.049,
-        "maxObs": 60.46
+        "min": 16.13,
+        "max": 61.0
       },
       "deltaKm": {
-        "min": 312.0,
-        "max": 532.0999999999999,
-        "maxObs": 275398.0
+        "min": 90.0,
+        "max": 508.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010035",
       "litros": {
-        "min": 42.94,
-        "max": 55.394,
-        "maxObs": 58.22
+        "min": 2.92,
+        "max": 54.74
       },
       "deltaKm": {
-        "min": 381.5,
-        "max": 497.65,
-        "maxObs": 773.0
+        "min": 17.0,
+        "max": 549.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010036",
       "litros": {
-        "min": 36.605,
-        "max": 54.592499999999994,
-        "maxObs": 60.97
+        "min": 7.34,
+        "max": 54.19
       },
       "deltaKm": {
-        "min": 264.0,
-        "max": 446.19999999999993,
-        "maxObs": 242947.0
+        "min": 65.0,
+        "max": 447.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
-      }
-    },
-    {
-      "veiculo": "20010038",
-      "litros": {
-        "min": 23.77,
-        "max": 30.954999999999995,
-        "maxObs": 32.02
-      },
-      "deltaKm": {
-        "min": 175.0,
-        "max": 231.14999999999995,
-        "maxObs": 255.0
-      },
-      "deltaHr": {
-        "min": null,
-        "max": null,
-        "maxObs": null
-      }
-    },
-    {
-      "veiculo": "20010039",
-      "litros": {
-        "min": 20.98,
-        "max": 34.9155,
-        "maxObs": 37.23
-      },
-      "deltaKm": {
-        "min": 149.0,
-        "max": 255.94999999999996,
-        "maxObs": 372.0
-      },
-      "deltaHr": {
-        "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010040",
       "litros": {
-        "min": 23.494999999999997,
-        "max": 34.24799999999999,
-        "maxObs": 36.48
+        "min": 15.71,
+        "max": 32.01
       },
       "deltaKm": {
-        "min": 135.0,
-        "max": 253.19999999999976,
-        "maxObs": 548.0
+        "min": 100.0,
+        "max": 244.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010042",
       "litros": {
-        "min": 31.909999999999997,
-        "max": 53.697500000000005,
-        "maxObs": 62.08
+        "min": 15.06,
+        "max": 67.97
       },
       "deltaKm": {
-        "min": 303.0,
-        "max": 550.8,
-        "maxObs": 899.0
+        "min": 34.0,
+        "max": 550.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010043",
       "litros": {
-        "min": 33.47,
-        "max": 49.643999999999984,
-        "maxObs": 56.02
+        "min": 10.14,
+        "max": 54.89
       },
       "deltaKm": {
-        "min": 308.0,
-        "max": 508.2999999999999,
-        "maxObs": 901.0
+        "min": 9.0,
+        "max": 510.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
-      }
-    },
-    {
-      "veiculo": "20010044",
-      "litros": {
-        "min": 25.96,
-        "max": 35.3325,
-        "maxObs": 38.11
-      },
-      "deltaKm": {
-        "min": 168.0,
-        "max": 250.14999999999998,
-        "maxObs": 356.0
-      },
-      "deltaHr": {
-        "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010045",
       "litros": {
-        "min": 27.07,
-        "max": 33.6,
-        "maxObs": 35.47
+        "min": 5.91,
+        "max": 37.01
       },
       "deltaKm": {
-        "min": 182.0,
-        "max": 249.45000000000007,
-        "maxObs": 73357.0
+        "min": 32.0,
+        "max": 350.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010046",
       "litros": {
-        "min": 36.81,
-        "max": 49.66199999999999,
-        "maxObs": 51.89
+        "min": 13.32,
+        "max": 60.01
       },
       "deltaKm": {
-        "min": 300.0,
-        "max": 477.0,
-        "maxObs": 95427.0
+        "min": 103.0,
+        "max": 484.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010047",
       "litros": {
-        "min": 23.29,
-        "max": 43.707499999999996,
-        "maxObs": 52.06
+        "min": 2.78,
+        "max": 51.97
       },
       "deltaKm": {
-        "min": 139.5,
-        "max": 308.5,
-        "maxObs": 80246.0
+        "min": 2.0,
+        "max": 317.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010048",
       "litros": {
-        "min": 28.240000000000002,
-        "max": 52.745000000000005,
-        "maxObs": 57.82
+        "min": 9.55,
+        "max": 67.89
       },
       "deltaKm": {
-        "min": 325.0,
-        "max": 620.7999999999997,
-        "maxObs": 100448.0
+        "min": 20.0,
+        "max": 871.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010049",
       "litros": {
-        "min": 24.729999999999997,
-        "max": 33.4125,
-        "maxObs": 34.94
+        "min": 5.95,
+        "max": 35.85
       },
       "deltaKm": {
-        "min": 174.0,
-        "max": 255.0,
-        "maxObs": 368.0
+        "min": 32.0,
+        "max": 324.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010052",
       "litros": {
-        "min": 23.51,
-        "max": 31.490000000000002,
-        "maxObs": 36.01
+        "min": 10.71,
+        "max": 36.02
       },
       "deltaKm": {
-        "min": 159.0,
-        "max": 249.69999999999993,
-        "maxObs": 30089.0
+        "min": 54.0,
+        "max": 305.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010053",
       "litros": {
-        "min": 23.450000000000003,
-        "max": 34.104,
-        "maxObs": 38.1
+        "min": 10.26,
+        "max": 40.16
       },
       "deltaKm": {
-        "min": 179.0,
-        "max": 297.19999999999993,
-        "maxObs": 726.0
+        "min": 24.0,
+        "max": 380.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010054",
       "litros": {
-        "min": 26.0,
-        "max": 35.0,
-        "maxObs": 37.28
+        "min": 11.09,
+        "max": 35.28
       },
       "deltaKm": {
-        "min": 191.5,
-        "max": 291.0,
-        "maxObs": 46519.0
+        "min": 67.0,
+        "max": 310.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010055",
       "litros": {
-        "min": 27.66,
-        "max": 52.376,
-        "maxObs": 57.17
+        "min": 13.08,
+        "max": 50.03
       },
       "deltaKm": {
-        "min": 239.5,
-        "max": 490.75,
-        "maxObs": 823.0
+        "min": 75.0,
+        "max": 420.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010056",
       "litros": {
-        "min": 30.03,
-        "max": 52.51,
-        "maxObs": 59.05
+        "min": 12.3,
+        "max": 62.0
       },
       "deltaKm": {
-        "min": 278.0,
-        "max": 575.9999999999999,
-        "maxObs": 10256.0
+        "min": 52.0,
+        "max": 603.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010057",
       "litros": {
-        "min": 40.6,
-        "max": 57.25,
-        "maxObs": 67.21
+        "min": 17.91,
+        "max": 56.5
       },
       "deltaKm": {
-        "min": 351.0,
-        "max": 701.3999999999997,
-        "maxObs": 19608.0
+        "min": 100.0,
+        "max": 551.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010058",
       "litros": {
-        "min": 27.83,
-        "max": 45.6025,
-        "maxObs": 55.92
+        "min": 13.09,
+        "max": 50.46
       },
       "deltaKm": {
-        "min": 286.0,
-        "max": 616.9999999999999,
-        "maxObs": 18222.0
+        "min": 75.0,
+        "max": 581.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010059",
       "litros": {
-        "min": 26.66,
-        "max": 32.080999999999996,
-        "maxObs": 33.65
+        "min": 6.89,
+        "max": 34.01
       },
       "deltaKm": {
-        "min": 238.0,
-        "max": 332.0,
-        "maxObs": 7723.0
+        "min": 25.0,
+        "max": 367.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010060",
       "litros": {
-        "min": 22.82,
-        "max": 31.435999999999996,
-        "maxObs": 33.76
+        "min": 7.1,
+        "max": 32.41
       },
       "deltaKm": {
-        "min": 222.0,
-        "max": 323.5,
-        "maxObs": 19444.0
+        "min": 29.0,
+        "max": 380.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
+      }
+    },
+    {
+      "veiculo": "20010061",
+      "litros": {
+        "min": 14.94,
+        "max": 54.23
+      },
+      "deltaKm": {
+        "min": 112.0,
+        "max": 510.0
+      },
+      "deltaHr": {
+        "min": null,
+        "max": null
+      }
+    },
+    {
+      "veiculo": "20010062",
+      "litros": {
+        "min": 12.25,
+        "max": 32.69
+      },
+      "deltaKm": {
+        "min": 77.0,
+        "max": 338.0
+      },
+      "deltaHr": {
+        "min": null,
+        "max": null
+      }
+    },
+    {
+      "veiculo": "20010063",
+      "litros": {
+        "min": 7.71,
+        "max": 32.9
+      },
+      "deltaKm": {
+        "min": 100.0,
+        "max": 320.0
+      },
+      "deltaHr": {
+        "min": null,
+        "max": null
       }
     },
     {
       "veiculo": "20010100",
       "litros": {
-        "min": 46.21,
-        "max": 92.70199999999998,
-        "maxObs": 107.82
+        "min": 11.89,
+        "max": 130.82
       },
       "deltaKm": {
-        "min": 150.0,
-        "max": 313.5999999999999,
-        "maxObs": 661.0
+        "min": 9.0,
+        "max": 370.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010101",
       "litros": {
-        "min": 66.645,
-        "max": 113.92,
-        "maxObs": 145.0
+        "min": 25.49,
+        "max": 123.03
       },
       "deltaKm": {
-        "min": 154.5,
-        "max": 266.79999999999995,
-        "maxObs": 808264.0
+        "min": 1.0,
+        "max": 316.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010103",
       "litros": {
-        "min": 57.19,
-        "max": 104.50949999999997,
-        "maxObs": 126.21
+        "min": 3.87,
+        "max": 90.01
       },
       "deltaKm": {
-        "min": 137.0,
-        "max": 258.2,
-        "maxObs": 37052.0
+        "min": 1.0,
+        "max": 190.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010104",
       "litros": {
-        "min": 44.27,
-        "max": 62.365999999999985,
-        "maxObs": 77.58
+        "min": 27.38,
+        "max": 78.73
       },
       "deltaKm": {
-        "min": 137.5,
-        "max": 207.5999999999999,
-        "maxObs": 398.0
+        "min": 77.0,
+        "max": 212.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010105",
       "litros": {
-        "min": 217.98,
-        "max": 330.283,
-        "maxObs": 405.99
+        "min": 104.17,
+        "max": 410.02
       },
       "deltaKm": {
-        "min": 187.0,
-        "max": 338.0999999999999,
-        "maxObs": 335686.0
+        "min": 21.0,
+        "max": 410.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010107",
       "litros": {
-        "min": 153.1,
-        "max": 260.313,
-        "maxObs": 364.02
+        "min": 34.62,
+        "max": 326.4
       },
       "deltaKm": {
-        "min": 181.0,
-        "max": 524.9999999999999,
-        "maxObs": 2208.0
+        "min": 44.0,
+        "max": 518.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010108",
       "litros": {
-        "min": 66.15,
-        "max": 112.93,
-        "maxObs": 153.2
+        "min": 17.14,
+        "max": 114.93
       },
       "deltaKm": {
-        "min": 167.0,
-        "max": 376.90000000000003,
-        "maxObs": 6723.0
+        "min": 51.0,
+        "max": 643.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010109",
       "litros": {
-        "min": 267.47,
-        "max": 317.57399999999996,
-        "maxObs": 341.2
+        "min": 72.95,
+        "max": 371.37
       },
       "deltaKm": {
-        "min": 503.5,
-        "max": 1317.949999999996,
-        "maxObs": 10456.0
+        "min": 181.0,
+        "max": 1070.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010116",
       "litros": {
-        "min": 55.8,
-        "max": 81.764,
-        "maxObs": 93.6
+        "min": 40.39,
+        "max": 95.01
       },
       "deltaKm": {
-        "min": 153.0,
-        "max": 246.65000000000003,
-        "maxObs": 439.0
+        "min": 53.0,
+        "max": 298.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010117",
       "litros": {
-        "min": 70.42,
-        "max": 113.966,
-        "maxObs": 137.3
+        "min": 32.44,
+        "max": 136.81
       },
       "deltaKm": {
-        "min": 111.0,
-        "max": 229.7999999999999,
-        "maxObs": 599885.0
+        "min": 41.0,
+        "max": 236.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010118",
       "litros": {
-        "min": 94.015,
-        "max": 181.31849999999997,
-        "maxObs": 237.27
+        "min": 6.25,
+        "max": 178.59
       },
       "deltaKm": {
-        "min": 135.0,
-        "max": 299.4,
-        "maxObs": 11179.0
+        "min": 3.0,
+        "max": 348.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010119",
       "litros": {
-        "min": 68.95,
-        "max": 126.102,
-        "maxObs": 176.04
+        "min": 20.67,
+        "max": 204.68
       },
       "deltaKm": {
-        "min": 80.0,
-        "max": 345.79999999999615,
-        "maxObs": 445710.0
+        "min": 9.0,
+        "max": 612.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010120",
       "litros": {
-        "min": 40.75,
-        "max": 73.48,
-        "maxObs": 101.08
+        "min": 3.43,
+        "max": 113.34
       },
       "deltaKm": {
-        "min": 113.0,
-        "max": 233.5999999999999,
-        "maxObs": 728903.0
+        "min": 2.0,
+        "max": 248.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010121",
       "litros": {
-        "min": 55.0,
-        "max": 95.53199999999998,
-        "maxObs": 114.24
+        "min": 13.09,
+        "max": 151.75
       },
       "deltaKm": {
-        "min": 124.0,
-        "max": 244.8999999999998,
-        "maxObs": 731078.0
+        "min": 28.0,
+        "max": 330.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
-      }
-    },
-    {
-      "veiculo": "20010124",
-      "litros": {
-        "min": 64.715,
-        "max": 123.88949999999994,
-        "maxObs": 153.31
-      },
-      "deltaKm": {
-        "min": 136.5,
-        "max": 8567.649999999945,
-        "maxObs": 611266.0
-      },
-      "deltaHr": {
-        "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010125",
       "litros": {
-        "min": 219.68,
-        "max": 372.87349999999986,
-        "maxObs": 433.71
+        "min": 44.01,
+        "max": 512.38
       },
       "deltaKm": {
-        "min": 157.5,
-        "max": 349.4499999999999,
-        "maxObs": 1687.0
+        "min": 7.0,
+        "max": 504.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010126",
       "litros": {
-        "min": 73.965,
-        "max": 130.9775,
-        "maxObs": 170.0
+        "min": 26.18,
+        "max": 162.26
       },
       "deltaKm": {
-        "min": 173.0,
-        "max": 377.9999999999998,
-        "maxObs": 845747.0
+        "min": 25.0,
+        "max": 376.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010127",
       "litros": {
-        "min": 274.1,
-        "max": 449.74,
-        "maxObs": 544.08
+        "min": 83.85,
+        "max": 462.94
       },
       "deltaKm": {
-        "min": 209.5,
-        "max": 397.0,
-        "maxObs": 568.0
+        "min": 9.0,
+        "max": 478.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010128",
       "litros": {
-        "min": 89.79,
-        "max": 158.44199999999998,
-        "maxObs": 179.38
+        "min": 10.72,
+        "max": 178.83
       },
       "deltaKm": {
-        "min": 251.0,
-        "max": 514.1999999999999,
-        "maxObs": 20175.0
+        "min": 3.0,
+        "max": 369.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010129",
       "litros": {
-        "min": 76.68,
-        "max": 140.94199999999998,
-        "maxObs": 211.64
+        "min": 6.9,
+        "max": 175.11
       },
       "deltaKm": {
-        "min": 260.0,
-        "max": 300329.0,
-        "maxObs": 840907.0
+        "min": 1.0,
+        "max": 476.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010131",
       "litros": {
-        "min": 48.425,
-        "max": 73.557,
-        "maxObs": 87.87
+        "min": 28.93,
+        "max": 85.03
       },
       "deltaKm": {
-        "min": 136.0,
-        "max": 236.90000000000003,
-        "maxObs": 317.0
+        "min": 27.0,
+        "max": 284.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010135",
       "litros": {
-        "min": 60.49,
-        "max": 111.38199999999998,
-        "maxObs": 125.0
+        "min": 12.74,
+        "max": 112.62
       },
       "deltaKm": {
-        "min": 114.0,
-        "max": 50079.6,
-        "maxObs": 779226.0
+        "min": 1.0,
+        "max": 210.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010138",
       "litros": {
-        "min": 95.52000000000001,
-        "max": 130.8215,
-        "maxObs": 167.88
+        "min": 33.04,
+        "max": 183.01
       },
       "deltaKm": {
-        "min": 125.5,
-        "max": 188.0,
-        "maxObs": 30081.0
+        "min": 35.0,
+        "max": 218.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010139",
       "litros": {
-        "min": 215.945,
-        "max": 394.4025,
-        "maxObs": 506.6
+        "min": 60.91,
+        "max": 472.93
       },
       "deltaKm": {
-        "min": 183.5,
-        "max": 423.25,
-        "maxObs": 884.0
+        "min": 5.0,
+        "max": 475.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010143",
       "litros": {
-        "min": 65.185,
-        "max": 101.155,
-        "maxObs": 117.65
+        "min": 20.02,
+        "max": 129.96
       },
       "deltaKm": {
-        "min": 166.5,
-        "max": 294.85,
-        "maxObs": 26101.0
+        "min": 48.0,
+        "max": 396.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010147",
       "litros": {
-        "min": 58.91,
-        "max": 85.27349999999993,
-        "maxObs": 108.94
+        "min": 39.0,
+        "max": 97.89
       },
       "deltaKm": {
-        "min": 164.5,
-        "max": 282.0,
-        "maxObs": 416.0
+        "min": 94.0,
+        "max": 299.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
-      }
-    },
-    {
-      "veiculo": "20010151",
-      "litros": {
-        "min": 130.27499999999998,
-        "max": 250.075,
-        "maxObs": 344.09
-      },
-      "deltaKm": {
-        "min": 164.0,
-        "max": 406.49999999999983,
-        "maxObs": 569.0
-      },
-      "deltaHr": {
-        "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010153",
       "litros": {
-        "min": 193.6,
-        "max": 349.4539999999999,
-        "maxObs": 428.59
+        "min": 39.37,
+        "max": 383.01
       },
       "deltaKm": {
-        "min": 154.0,
-        "max": 342.4,
-        "maxObs": 83116.0
+        "min": 10.0,
+        "max": 358.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010154",
       "litros": {
-        "min": 61.63,
-        "max": 109.61,
-        "maxObs": 146.51
+        "min": 19.51,
+        "max": 129.98
       },
       "deltaKm": {
-        "min": 128.0,
-        "max": 436.5,
-        "maxObs": 730015.0
+        "min": 4.0,
+        "max": 292.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010155",
       "litros": {
-        "min": 93.76,
-        "max": 147.21799999999996,
-        "maxObs": 168.28
+        "min": 21.14,
+        "max": 143.32
       },
       "deltaKm": {
-        "min": 169.0,
-        "max": 314.0,
-        "maxObs": 548.0
+        "min": 2.0,
+        "max": 325.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010156",
       "litros": {
-        "min": 219.52,
-        "max": 336.66,
-        "maxObs": 407.35
+        "min": 52.86,
+        "max": 431.87
       },
       "deltaKm": {
-        "min": 206.0,
-        "max": 3576.099999999981,
-        "maxObs": 501474.0
+        "min": 35.0,
+        "max": 441.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010157",
       "litros": {
-        "min": 237.31,
-        "max": 329.575,
-        "maxObs": 396.0
+        "min": 59.89,
+        "max": 325.86
       },
       "deltaKm": {
-        "min": 193.5,
-        "max": 298.34999999999997,
-        "maxObs": 4192.0
+        "min": 27.0,
+        "max": 345.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010158",
       "litros": {
-        "min": 67.01,
-        "max": 112.42,
-        "maxObs": 156.27
+        "min": 5.04,
+        "max": 92.41
       },
       "deltaKm": {
-        "min": 132.0,
-        "max": 271.0,
-        "maxObs": 575030.0
+        "min": 1.0,
+        "max": 290.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010159",
       "litros": {
-        "min": 70.04,
-        "max": 120.465,
-        "maxObs": 162.52
+        "min": 16.73,
+        "max": 153.5
       },
       "deltaKm": {
-        "min": 160.5,
-        "max": 262.95,
-        "maxObs": 600184.0
+        "min": 69.0,
+        "max": 292.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010160",
       "litros": {
-        "min": 89.08,
-        "max": 149.4694999999999,
-        "maxObs": 226.6
+        "min": 10.51,
+        "max": 168.42
       },
       "deltaKm": {
-        "min": 170.5,
-        "max": 416008.05,
-        "maxObs": 530178.0
+        "min": 1.0,
+        "max": 191.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010163",
       "litros": {
-        "min": 226.39,
-        "max": 354.47,
-        "maxObs": 420.03
+        "min": 70.51,
+        "max": 400.01
       },
       "deltaKm": {
-        "min": 197.0,
-        "max": 339.7999999999998,
-        "maxObs": 392338.0
+        "min": 28.0,
+        "max": 396.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010164",
       "litros": {
-        "min": 39.379999999999995,
-        "max": 88.38149999999999,
-        "maxObs": 104.01
+        "min": 13.9,
+        "max": 128.0
       },
       "deltaKm": {
-        "min": 88.0,
-        "max": 10000.0,
-        "maxObs": 370746.0
+        "min": 3.0,
+        "max": 351.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010166",
       "litros": {
-        "min": 284.4,
-        "max": 406.02700000000004,
-        "maxObs": 431.1
+        "min": 53.26,
+        "max": 457.73
       },
       "deltaKm": {
-        "min": 215.0,
-        "max": 378.0999999999999,
-        "maxObs": 299827.0
+        "min": 10.0,
+        "max": 416.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010169",
       "litros": {
-        "min": 64.7,
-        "max": 112.54549999999995,
-        "maxObs": 142.07
+        "min": 20.74,
+        "max": 96.01
       },
       "deltaKm": {
-        "min": 129.0,
-        "max": 257.0,
-        "maxObs": 1197.0
+        "min": 5.0,
+        "max": 314.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
-      }
-    },
-    {
-      "veiculo": "20010170",
-      "litros": {
-        "min": 68.07,
-        "max": 103.3775,
-        "maxObs": 111.06
-      },
-      "deltaKm": {
-        "min": 96.5,
-        "max": 203.25,
-        "maxObs": 454082.0
-      },
-      "deltaHr": {
-        "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010171",
       "litros": {
-        "min": 90.435,
-        "max": 135.73849999999996,
-        "maxObs": 160.77
+        "min": 12.42,
+        "max": 122.11
       },
       "deltaKm": {
-        "min": 94.0,
-        "max": 75121.79999999974,
-        "maxObs": 402514.0
+        "min": 9.0,
+        "max": 185.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010172",
       "litros": {
-        "min": 256.54,
-        "max": 391.742,
-        "maxObs": 460.51
+        "min": 56.11,
+        "max": 391.71
       },
       "deltaKm": {
-        "min": 210.0,
-        "max": 388.5,
-        "maxObs": 19890.0
+        "min": 1.0,
+        "max": 370.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010173",
       "litros": {
-        "min": 73.93,
-        "max": 105.738,
-        "maxObs": 116.14
+        "min": 12.2,
+        "max": 120.85
       },
       "deltaKm": {
-        "min": 193.5,
-        "max": 374.5,
-        "maxObs": 443.0
+        "min": 55.0,
+        "max": 321.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010174",
       "litros": {
-        "min": 69.015,
-        "max": 114.37499999999999,
-        "maxObs": 136.55
+        "min": 10.55,
+        "max": 149.97
       },
       "deltaKm": {
-        "min": 82.0,
-        "max": 155.0,
-        "maxObs": 797.0
+        "min": 6.0,
+        "max": 330.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010175",
       "litros": {
-        "min": 72.05,
-        "max": 113.96,
-        "maxObs": 116.32
+        "min": 12.47,
+        "max": 95.01
       },
       "deltaKm": {
-        "min": 121.0,
-        "max": 201.5,
-        "maxObs": 4072.0
+        "min": 1.0,
+        "max": 216.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010176",
       "litros": {
-        "min": 80.28,
-        "max": 130.42999999999992,
-        "maxObs": 251.05
+        "min": 16.41,
+        "max": 144.52
       },
       "deltaKm": {
-        "min": 265.0,
-        "max": 507.59999999999997,
-        "maxObs": 629990.0
+        "min": 3.0,
+        "max": 394.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010177",
       "litros": {
-        "min": 120.01,
-        "max": 170.05800000000002,
-        "maxObs": 181.24
+        "min": 12.14,
+        "max": 157.91
       },
       "deltaKm": {
-        "min": 380.0,
-        "max": 100292.7,
-        "maxObs": 840900.0
+        "min": 54.0,
+        "max": 300900.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010178",
       "litros": {
-        "min": 157.74,
-        "max": 209.373,
-        "maxObs": 281.03
+        "min": 8.44,
+        "max": 217.66
       },
       "deltaKm": {
-        "min": 481.0,
-        "max": 989.5,
-        "maxObs": 600424.0
+        "min": 16.0,
+        "max": 724.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010179",
       "litros": {
-        "min": 54.525000000000006,
-        "max": 91.54199999999999,
-        "maxObs": 104.0
+        "min": 16.82,
+        "max": 92.99
       },
       "deltaKm": {
-        "min": 157.0,
-        "max": 252.0,
-        "maxObs": 337.0
+        "min": 1.0,
+        "max": 259.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010180",
       "litros": {
-        "min": 63.57,
-        "max": 98.078,
-        "maxObs": 110.08
+        "min": 23.59,
+        "max": 100.03
       },
       "deltaKm": {
-        "min": 154.0,
-        "max": 308.5999999999999,
-        "maxObs": 1068.0
+        "min": 31.0,
+        "max": 245.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010181",
       "litros": {
-        "min": 50.99,
-        "max": 86.66999999999999,
-        "maxObs": 110.47
+        "min": 16.92,
+        "max": 102.88
       },
       "deltaKm": {
-        "min": 118.0,
-        "max": 236.19999999999993,
-        "maxObs": 100115.0
+        "min": 17.0,
+        "max": 306.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010182",
       "litros": {
-        "min": 72.62,
-        "max": 106.67849999999999,
-        "maxObs": 135.74
+        "min": 11.36,
+        "max": 110.02
       },
       "deltaKm": {
-        "min": 185.0,
-        "max": 385.59999999999985,
-        "maxObs": 349081.0
+        "min": 2.0,
+        "max": 386.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010183",
       "litros": {
-        "min": 55.28,
-        "max": 100.22199999999998,
-        "maxObs": 131.79
+        "min": 18.6,
+        "max": 130.21
       },
       "deltaKm": {
-        "min": 170.0,
-        "max": 353.34999999999957,
-        "maxObs": 333142.0
+        "min": 11.0,
+        "max": 323.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010184",
       "litros": {
-        "min": 58.54,
-        "max": 103.317,
-        "maxObs": 140.41
+        "min": 10.01,
+        "max": 127.58
       },
       "deltaKm": {
-        "min": 176.5,
-        "max": 321.7499999999999,
-        "maxObs": 24215.0
+        "min": 9.0,
+        "max": 340.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010186",
       "litros": {
-        "min": 71.38,
-        "max": 110.194,
-        "maxObs": 122.02
+        "min": 5.23,
+        "max": 121.15
       },
       "deltaKm": {
-        "min": 191.0,
-        "max": 3733.500000000021,
-        "maxObs": 452270.0
+        "min": 1.0,
+        "max": 329.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010187",
       "litros": {
-        "min": 51.125,
-        "max": 77.44599999999998,
-        "maxObs": 99.02
+        "min": 26.03,
+        "max": 93.0
       },
       "deltaKm": {
-        "min": 148.0,
-        "max": 253.0,
-        "maxObs": 115249.0
+        "min": 4.0,
+        "max": 289.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010188",
       "litros": {
-        "min": 50.88,
-        "max": 77.33599999999998,
-        "maxObs": 87.57
+        "min": 24.56,
+        "max": 80.02
       },
       "deltaKm": {
-        "min": 173.0,
-        "max": 325.5999999999999,
-        "maxObs": 200077.0
+        "min": 18.0,
+        "max": 219.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010189",
       "litros": {
-        "min": 58.504999999999995,
-        "max": 85.2315,
-        "maxObs": 101.64
+        "min": 29.2,
+        "max": 83.31
       },
       "deltaKm": {
-        "min": 183.5,
-        "max": 301.2499999999999,
-        "maxObs": 280765.0
+        "min": 28.0,
+        "max": 307.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010190",
       "litros": {
-        "min": 51.73,
-        "max": 85.45799999999997,
-        "maxObs": 114.28
+        "min": 14.84,
+        "max": 100.0
       },
       "deltaKm": {
-        "min": 169.0,
-        "max": 419.80000000000007,
-        "maxObs": 310173.0
+        "min": 27.0,
+        "max": 259.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010191",
       "litros": {
-        "min": 56.58,
-        "max": 82.916,
-        "maxObs": 101.08
+        "min": 11.68,
+        "max": 100.0
       },
       "deltaKm": {
-        "min": 166.0,
-        "max": 259.2999999999998,
-        "maxObs": 247204.0
+        "min": 1.0,
+        "max": 283.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010192",
       "litros": {
-        "min": 215.33,
-        "max": 359.35100000000006,
-        "maxObs": 435.35
+        "min": 78.84,
+        "max": 394.34
       },
       "deltaKm": {
-        "min": 147.0,
-        "max": 105876.25,
-        "maxObs": 200221.0
+        "min": 49.0,
+        "max": 625.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010193",
       "litros": {
-        "min": 203.375,
-        "max": 367.57199999999995,
-        "maxObs": 469.45
+        "min": 62.9,
+        "max": 405.8
       },
       "deltaKm": {
-        "min": 181.0,
-        "max": 425.50000000000006,
-        "maxObs": 233191.0
+        "min": 1.0,
+        "max": 498.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010194",
       "litros": {
-        "min": 58.5,
-        "max": 492.45,
-        "maxObs": 0
+        "min": 77.86,
+        "max": 431.68
       },
       "deltaKm": {
-        "min": 40,
-        "max": 571,
-        "maxObs": 0
+        "min": 40.0,
+        "max": 476.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20010195",
       "litros": {
-        "min": 343.85,
-        "max": 482.2179999999999,
-        "maxObs": 542.13
+        "min": 132.59,
+        "max": 634.01
       },
       "deltaKm": {
-        "min": 323.5,
-        "max": 501.75,
-        "maxObs": 180434.0
+        "min": 75.0,
+        "max": 661.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011100",
       "litros": {
-        "min": 364.84,
-        "max": 518.532,
-        "maxObs": 606.44
+        "min": 116.61,
+        "max": 552.96
       },
       "deltaKm": {
-        "min": 362.5,
-        "max": 561.3999999999996,
-        "maxObs": 46220.0
+        "min": 82.0,
+        "max": 582.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011101",
       "litros": {
-        "min": 329.53999999999996,
-        "max": 512.5625,
-        "maxObs": 572.28
+        "min": 99.89,
+        "max": 614.9
       },
       "deltaKm": {
-        "min": 272.0,
-        "max": 487.0,
-        "maxObs": 7260.0
+        "min": 98.0,
+        "max": 690.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011102",
       "litros": {
-        "min": 348.635,
-        "max": 508.2645,
-        "maxObs": 592.4
+        "min": 92.19,
+        "max": 535.37
       },
       "deltaKm": {
-        "min": 346.0,
-        "max": 496.0,
-        "maxObs": 124235.0
+        "min": 52.0,
+        "max": 642.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011103",
       "litros": {
-        "min": 340.48,
-        "max": 514.985,
-        "maxObs": 591.46
+        "min": 107.67,
+        "max": 554.6
       },
       "deltaKm": {
-        "min": 359.0,
-        "max": 510.5,
-        "maxObs": 1356.0
+        "min": 94.0,
+        "max": 626.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011104",
       "litros": {
-        "min": 289.56,
-        "max": 431.46599999999995,
-        "maxObs": 479.29
+        "min": 125.0,
+        "max": 466.64
       },
       "deltaKm": {
-        "min": 218.0,
-        "max": 411.9,
-        "maxObs": 814.0
+        "min": 41.0,
+        "max": 666.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011105",
       "litros": {
-        "min": 258.22,
-        "max": 479.33,
-        "maxObs": 529.93
+        "min": 55.15,
+        "max": 549.76
       },
       "deltaKm": {
-        "min": 255.0,
-        "max": 483.84999999999997,
-        "maxObs": 20205.0
+        "min": 2.0,
+        "max": 657.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
+      }
+    },
+    {
+      "veiculo": "20011106",
+      "litros": {
+        "min": 662.01,
+        "max": 662.01
+      },
+      "deltaKm": {
+        "min": null,
+        "max": null
+      },
+      "deltaHr": {
+        "min": null,
+        "max": null
       }
     },
     {
       "veiculo": "20011107",
       "litros": {
-        "min": 224.615,
-        "max": 414.41999999999996,
-        "maxObs": 454.57
+        "min": 36.61,
+        "max": 317.06
       },
       "deltaKm": {
-        "min": 214.5,
-        "max": 459.2,
-        "maxObs": 45288.0
+        "min": 1.0,
+        "max": 458.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011109",
       "litros": {
-        "min": 133.26,
-        "max": 186.39249999999998,
-        "maxObs": 201.3
+        "min": 41.7,
+        "max": 210.4
       },
       "deltaKm": {
-        "min": 348.5,
-        "max": 706.4499999999999,
-        "maxObs": 165689.0
+        "min": 44.0,
+        "max": 579.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011110",
       "litros": {
-        "min": 111.8,
-        "max": 149.32,
-        "maxObs": 174.04
+        "min": 51.3,
+        "max": 210.01
       },
       "deltaKm": {
-        "min": 164.0,
-        "max": 240.0,
-        "maxObs": 617.0
+        "min": 85.0,
+        "max": 267.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
+      }
+    },
+    {
+      "veiculo": "20011111",
+      "litros": {
+        "min": 67.98,
+        "max": 171.02
+      },
+      "deltaKm": {
+        "min": 84.0,
+        "max": 398.0
+      },
+      "deltaHr": {
+        "min": null,
+        "max": null
+      }
+    },
+    {
+      "veiculo": "20011112",
+      "litros": {
+        "min": 177.16,
+        "max": 466.65
+      },
+      "deltaKm": {
+        "min": 110.0,
+        "max": 480.0
+      },
+      "deltaHr": {
+        "min": null,
+        "max": null
       }
     },
     {
       "veiculo": "20011118",
       "litros": {
-        "min": 138.81,
-        "max": 247.80099999999996,
-        "maxObs": 325.07
+        "min": 36.17,
+        "max": 357.67
       },
       "deltaKm": {
-        "min": 143.0,
-        "max": 2410.200000000027,
-        "maxObs": 280984.0
+        "min": 5.0,
+        "max": 425.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011120",
       "litros": {
-        "min": 58.715,
-        "max": 89.6325,
-        "maxObs": 106.57
+        "min": 24.05,
+        "max": 103.09
       },
       "deltaKm": {
-        "min": 163.0,
-        "max": 260.4,
-        "maxObs": 381.0
+        "min": 2.0,
+        "max": 293.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011121",
       "litros": {
-        "min": 50.68,
-        "max": 84.68,
-        "maxObs": 99.34
+        "min": 27.05,
+        "max": 105.1
       },
       "deltaKm": {
-        "min": 149.0,
-        "max": 254.79999999999998,
-        "maxObs": 377.0
+        "min": 32.0,
+        "max": 295.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011122",
       "litros": {
-        "min": 64.105,
-        "max": 90.772,
-        "maxObs": 109.4
+        "min": 45.01,
+        "max": 103.71
       },
       "deltaKm": {
-        "min": 206.0,
-        "max": 321.5999999999999,
-        "maxObs": 103793.0
+        "min": 133.0,
+        "max": 361.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011123",
       "litros": {
-        "min": 36.03,
-        "max": 382.64,
-        "maxObs": 0
+        "min": 46.46,
+        "max": 110.05
       },
       "deltaKm": {
-        "min": 56,
-        "max": 434,
-        "maxObs": 0
+        "min": 129.0,
+        "max": 305.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011124",
       "litros": {
-        "min": 64.98,
-        "max": 90.03099999999999,
-        "maxObs": 118.29
+        "min": 31.2,
+        "max": 112.49
       },
       "deltaKm": {
-        "min": 200.5,
-        "max": 295.7,
-        "maxObs": 389.0
+        "min": 38.0,
+        "max": 388.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011125",
       "litros": {
-        "min": 58.75,
-        "max": 86.196,
-        "maxObs": 118.2
+        "min": 42.22,
+        "max": 108.01
       },
       "deltaKm": {
-        "min": 195.0,
-        "max": 318.0,
-        "maxObs": 464.0
+        "min": 101.0,
+        "max": 350.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011126",
       "litros": {
-        "min": 90.65,
-        "max": 117.15199999999999,
-        "maxObs": 124.59
+        "min": 43.69,
+        "max": 140.01
       },
       "deltaKm": {
-        "min": 316.0,
-        "max": 449.3999999999998,
-        "maxObs": 6351.0
+        "min": 97.0,
+        "max": 524.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011128",
       "litros": {
-        "min": 74.1,
-        "max": 74.1,
-        "maxObs": 74.1
+        "min": 24.54,
+        "max": 158.02
       },
       "deltaKm": {
-        "min": 142.0,
-        "max": 142.0,
-        "maxObs": 142.0
+        "min": 5.0,
+        "max": 141.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011137",
       "litros": {
-        "min": 164.5,
-        "max": 285.38,
-        "maxObs": 312.44
+        "min": null,
+        "max": null
       },
       "deltaKm": {
-        "min": 171.0,
-        "max": 359.94999999999993,
-        "maxObs": 188073.0
+        "min": 144.0,
+        "max": 144.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011150",
       "litros": {
-        "min": 44.51,
-        "max": 75.14199999999998,
-        "maxObs": 97.57
+        "min": 8.91,
+        "max": 71.07
       },
       "deltaKm": {
-        "min": 233.5,
-        "max": 511.44999999999993,
-        "maxObs": 91620.0
+        "min": 7.0,
+        "max": 419.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011151",
       "litros": {
-        "min": 127.48,
-        "max": 197.405,
-        "maxObs": 218.59
+        "min": 52.01,
+        "max": 217.0
       },
       "deltaKm": {
-        "min": 187.0,
-        "max": 376.4,
-        "maxObs": 10798.0
+        "min": 41.0,
+        "max": 371.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011152",
       "litros": {
-        "min": 121.97,
-        "max": 196.802,
-        "maxObs": 234.28
+        "min": 44.43,
+        "max": 234.67
       },
       "deltaKm": {
-        "min": 169.0,
-        "max": 301.95000000000005,
-        "maxObs": 11596.0
+        "min": 46.0,
+        "max": 387.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011153",
       "litros": {
-        "min": 165.29000000000002,
-        "max": 325.44199999999995,
-        "maxObs": 378.85
+        "min": 50.42,
+        "max": 335.35
       },
       "deltaKm": {
-        "min": 287.0,
-        "max": 535.0,
-        "maxObs": 7354.0
+        "min": 100.0,
+        "max": 700.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
+      }
+    },
+    {
+      "veiculo": "20011154",
+      "litros": {
+        "min": 97.29,
+        "max": 403.02
+      },
+      "deltaKm": {
+        "min": 33.0,
+        "max": 784.0
+      },
+      "deltaHr": {
+        "min": null,
+        "max": null
       }
     },
     {
       "veiculo": "20011196",
       "litros": {
-        "min": 277.005,
-        "max": 431.52,
-        "maxObs": 597.36
+        "min": 27.49,
+        "max": 509.01
       },
       "deltaKm": {
-        "min": 243.0,
-        "max": 432.79999999999995,
-        "maxObs": 668.0
+        "min": 15.0,
+        "max": 422.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011197",
       "litros": {
-        "min": 250.22,
-        "max": 394.70199999999994,
-        "maxObs": 460.89
+        "min": 95.64,
+        "max": 445.75
       },
       "deltaKm": {
-        "min": 197.0,
-        "max": 395.2999999999999,
-        "maxObs": 137906.0
+        "min": 76.0,
+        "max": 333.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20011198",
       "litros": {
-        "min": 256.22,
-        "max": 447.81399999999996,
-        "maxObs": 511.25
+        "min": 87.44,
+        "max": 412.1
       },
       "deltaKm": {
-        "min": 197.0,
-        "max": 391.2999999999996,
-        "maxObs": 10323.0
+        "min": 66.0,
+        "max": 352.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
-      }
-    },
-    {
-      "veiculo": "20012002",
-      "litros": {
-        "min": 6.72,
-        "max": 6.72,
-        "maxObs": 6.72
-      },
-      "deltaKm": {
-        "min": null,
-        "max": null,
-        "maxObs": null
-      },
-      "deltaHr": {
-        "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012003",
       "litros": {
-        "min": 8.15,
-        "max": 9.55,
-        "maxObs": 10.21
+        "min": 3.02,
+        "max": 9.75
       },
       "deltaKm": {
-        "min": 277.5,
-        "max": 358.84999999999997,
-        "maxObs": 374.0
+        "min": 42.0,
+        "max": 399.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012005",
       "litros": {
-        "min": 8.385,
-        "max": 11.672,
-        "maxObs": 11.71
+        "min": 6.62,
+        "max": 11.82
       },
       "deltaKm": {
-        "min": 86.5,
-        "max": 341.55,
-        "maxObs": 371.0
+        "min": 300.0,
+        "max": 420.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012006",
       "litros": {
-        "min": 6.3,
-        "max": 10.765999999999998,
-        "maxObs": 12.0
+        "min": 3.13,
+        "max": 11.23
       },
       "deltaKm": {
-        "min": 223.0,
-        "max": 14864.399999999958,
-        "maxObs": 65630.0
+        "min": 9.0,
+        "max": 447.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012008",
       "litros": {
-        "min": 7.01,
-        "max": 10.21,
-        "maxObs": 10.37
+        "min": 4.71,
+        "max": 10.4
       },
       "deltaKm": {
-        "min": 259.0,
-        "max": 349.90000000000003,
-        "maxObs": 370.0
+        "min": 1.0,
+        "max": 459.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
-      }
-    },
-    {
-      "veiculo": "20012014",
-      "litros": {
-        "min": 8.325,
-        "max": 11.1875,
-        "maxObs": 11.61
-      },
-      "deltaKm": {
-        "min": 267.0,
-        "max": 27689.799999999937,
-        "maxObs": 51129.0
-      },
-      "deltaHr": {
-        "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012016",
       "litros": {
-        "min": 6.33,
-        "max": 7.87,
-        "maxObs": 8.43
+        "min": 3.88,
+        "max": 9.64
       },
       "deltaKm": {
-        "min": 191.0,
-        "max": 257.0,
-        "maxObs": 75332.0
+        "min": 1.0,
+        "max": 451.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012017",
       "litros": {
-        "min": 5.87,
-        "max": 9.633000000000001,
-        "maxObs": 10.35
+        "min": 5.64,
+        "max": 11.17
       },
       "deltaKm": {
-        "min": 236.0,
-        "max": 427.15,
-        "maxObs": 106603.0
+        "min": 124.0,
+        "max": 484.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012030",
       "litros": {
-        "min": 5.0,
-        "max": 5.156499999999999,
-        "maxObs": 7.2
+        "min": 3.68,
+        "max": 10.12
       },
       "deltaKm": {
-        "min": 147.0,
-        "max": 247.79999999999998,
-        "maxObs": 99098.0
+        "min": 12.0,
+        "max": 360.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
-      }
-    },
-    {
-      "veiculo": "20012031",
-      "litros": {
-        "min": 9.48,
-        "max": 11.529,
-        "maxObs": 11.61
-      },
-      "deltaKm": {
-        "min": 378.5,
-        "max": 3480.999999999972,
-        "maxObs": 101289.0
-      },
-      "deltaHr": {
-        "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012032",
       "litros": {
-        "min": 6.56,
-        "max": 8.165999999999999,
-        "maxObs": 9.08
+        "min": 5.62,
+        "max": 9.02
       },
       "deltaKm": {
-        "min": 199.5,
-        "max": 290.74999999999994,
-        "maxObs": 427.0
+        "min": 120.0,
+        "max": 295.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
-      }
-    },
-    {
-      "veiculo": "20012033",
-      "litros": {
-        "min": 5.405,
-        "max": 6.8275,
-        "maxObs": 7.07
-      },
-      "deltaKm": {
-        "min": 233.0,
-        "max": 319.19999999999993,
-        "maxObs": 206913.0
-      },
-      "deltaHr": {
-        "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012034",
       "litros": {
-        "min": 5.85,
-        "max": 8.2925,
-        "maxObs": 9.01
+        "min": 4.0,
+        "max": 12.01
       },
       "deltaKm": {
-        "min": 176.0,
-        "max": 254.35,
-        "maxObs": 79504.0
+        "min": 97.0,
+        "max": 577.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012035",
       "litros": {
-        "min": 7.945,
-        "max": 10.0035,
-        "maxObs": 10.71
+        "min": 6.48,
+        "max": 11.46
       },
       "deltaKm": {
-        "min": 297.0,
-        "max": 414.0,
-        "maxObs": 590.0
+        "min": 167.0,
+        "max": 425.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012036",
       "litros": {
-        "min": 5.45,
-        "max": 8.0,
-        "maxObs": 9.04
+        "min": 3.73,
+        "max": 10.17
       },
       "deltaKm": {
-        "min": 158.5,
-        "max": 70639.7999999996,
-        "maxObs": 109182.0
+        "min": 36.0,
+        "max": 239.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012037",
       "litros": {
-        "min": 6.64,
-        "max": 10.099999999999994,
-        "maxObs": 12.3
+        "min": 3.29,
+        "max": 12.23
       },
       "deltaKm": {
-        "min": 247.5,
-        "max": 101962.95,
-        "maxObs": 113289.0
+        "min": 56.0,
+        "max": 399.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012038",
       "litros": {
-        "min": 8.38,
-        "max": 11.626,
-        "maxObs": 12.01
+        "min": 3.7,
+        "max": 12.01
       },
       "deltaKm": {
-        "min": 252.5,
-        "max": 359.15,
-        "maxObs": 424.0
+        "min": 73.0,
+        "max": 486.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012039",
       "litros": {
-        "min": 7.06,
-        "max": 10.12,
-        "maxObs": 11.45
+        "min": 3.99,
+        "max": 10.91
       },
       "deltaKm": {
-        "min": 188.0,
-        "max": 291.59999999999974,
-        "maxObs": 100274.0
+        "min": 73.0,
+        "max": 304.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012040",
       "litros": {
-        "min": 6.64,
-        "max": 9.371999999999998,
-        "maxObs": 10.15
+        "min": 5.62,
+        "max": 10.24
       },
       "deltaKm": {
-        "min": 212.0,
-        "max": 321.2,
-        "maxObs": 30244.0
+        "min": 65.0,
+        "max": 300.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012041",
       "litros": {
-        "min": 7.12,
-        "max": 10.166,
-        "maxObs": 11.01
+        "min": 3.69,
+        "max": 10.49
       },
       "deltaKm": {
-        "min": 262.0,
-        "max": 398.4,
-        "maxObs": 672.0
+        "min": 90.0,
+        "max": 404.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012042",
       "litros": {
-        "min": 6.0,
-        "max": 9.1075,
-        "maxObs": 10.0
+        "min": 4.28,
+        "max": 10.03
       },
       "deltaKm": {
-        "min": 174.0,
-        "max": 301.0,
-        "maxObs": 89719.0
+        "min": 85.0,
+        "max": 326.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012043",
       "litros": {
-        "min": 8.28,
-        "max": 9.616999999999999,
-        "maxObs": 10.21
+        "min": 4.15,
+        "max": 9.96
       },
       "deltaKm": {
-        "min": 279.0,
-        "max": 458.79999999999944,
-        "maxObs": 632.0
+        "min": 163.0,
+        "max": 384.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012044",
       "litros": {
-        "min": 6.0,
-        "max": 9.0,
-        "maxObs": 9.29
+        "min": 2.11,
+        "max": 8.7
       },
       "deltaKm": {
-        "min": 128.5,
-        "max": 251.75,
-        "maxObs": 379.0
+        "min": 2.0,
+        "max": 328.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012045",
       "litros": {
-        "min": 6.72,
-        "max": 8.988,
-        "maxObs": 9.63
+        "min": 4.0,
+        "max": 10.09
       },
       "deltaKm": {
-        "min": 199.0,
-        "max": 355.5,
-        "maxObs": 60542.0
+        "min": 64.0,
+        "max": 253.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012046",
       "litros": {
-        "min": 7.305,
-        "max": 8.404,
-        "maxObs": 8.89
+        "min": 4.88,
+        "max": 9.52
       },
       "deltaKm": {
-        "min": 247.0,
-        "max": 299.2,
-        "maxObs": 313.0
+        "min": 164.0,
+        "max": 328.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012047",
       "litros": {
-        "min": 5.0,
-        "max": 7.012999999999999,
-        "maxObs": 9.02
+        "min": 3.0,
+        "max": 10.17
       },
       "deltaKm": {
-        "min": 170.0,
-        "max": 358.4999999999999,
-        "maxObs": 23339.0
+        "min": 45.0,
+        "max": 325.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012048",
       "litros": {
-        "min": 6.92,
-        "max": 8.498,
-        "maxObs": 9.41
+        "min": 4.53,
+        "max": 9.92
       },
       "deltaKm": {
-        "min": 265.0,
-        "max": 353.75,
-        "maxObs": 511.0
+        "min": 115.0,
+        "max": 399.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012049",
       "litros": {
-        "min": 7.51,
-        "max": 9.654,
-        "maxObs": 10.63
+        "min": 4.74,
+        "max": 10.83
       },
       "deltaKm": {
-        "min": 259.0,
-        "max": 355.04999999999995,
-        "maxObs": 8288.0
+        "min": 151.0,
+        "max": 388.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012050",
       "litros": {
-        "min": 6.0,
-        "max": 9.359999999999998,
-        "maxObs": 10.04
+        "min": 3.0,
+        "max": 9.52
       },
       "deltaKm": {
-        "min": 200.0,
-        "max": 452.19999999999925,
-        "maxObs": 15143.0
+        "min": 57.0,
+        "max": 347.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "20012051",
       "litros": {
-        "min": 5.0,
-        "max": 7.049999999999997,
-        "maxObs": 8.08
+        "min": 2.0,
+        "max": 9.16
       },
       "deltaKm": {
-        "min": 180.0,
-        "max": 1125.7999999999965,
-        "maxObs": 15765.0
+        "min": 37.0,
+        "max": 381.0
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
+      }
+    },
+    {
+      "veiculo": "20012052",
+      "litros": {
+        "min": 4.54,
+        "max": 10.77
+      },
+      "deltaKm": {
+        "min": 128.0,
+        "max": 420.0
+      },
+      "deltaHr": {
+        "min": null,
+        "max": null
+      }
+    },
+    {
+      "veiculo": "20012053",
+      "litros": {
+        "min": 3.74,
+        "max": 9.55
+      },
+      "deltaKm": {
+        "min": 228.0,
+        "max": 383.0
+      },
+      "deltaHr": {
+        "min": null,
+        "max": null
+      }
+    },
+    {
+      "veiculo": "20012054",
+      "litros": {
+        "min": 5.0,
+        "max": 8.84
+      },
+      "deltaKm": {
+        "min": 159.0,
+        "max": 351.0
+      },
+      "deltaHr": {
+        "min": null,
+        "max": null
+      }
+    },
+    {
+      "veiculo": "20012055",
+      "litros": {
+        "min": 4.0,
+        "max": 9.32
+      },
+      "deltaKm": {
+        "min": 105.0,
+        "max": 378.0
+      },
+      "deltaHr": {
+        "min": null,
+        "max": null
+      }
+    },
+    {
+      "veiculo": "20012056",
+      "litros": {
+        "min": 5.87,
+        "max": 11.0
+      },
+      "deltaKm": {
+        "min": 211.0,
+        "max": 404.0
+      },
+      "deltaHr": {
+        "min": null,
+        "max": null
       }
     },
     {
       "veiculo": "20020203",
       "litros": {
-        "min": 70.475,
-        "max": 117.25,
-        "maxObs": 136.6
+        "min": 9.1,
+        "max": 133.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 11.0,
-        "max": 35.49999999999997,
-        "maxObs": 30112.0
+        "min": 1.0,
+        "max": 23.0
       }
     },
     {
       "veiculo": "20020207",
       "litros": {
-        "min": 69.0,
-        "max": 168.99999999999991,
-        "maxObs": 188.0
+        "min": 17.5,
+        "max": 228.8
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 9.0,
-        "max": 18.0,
-        "maxObs": 70.0
+        "min": 2.0,
+        "max": 18.0
       }
     },
     {
       "veiculo": "20020209",
       "litros": {
-        "min": 34.965,
-        "max": 68.357,
-        "maxObs": 103.0
+        "min": 11.7,
+        "max": 73.57
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 14.599999999999994,
-        "maxObs": 22.0
+        "min": 1.0,
+        "max": 15.0
       }
     },
     {
       "veiculo": "20020213",
       "litros": {
-        "min": 81.0,
-        "max": 120.70000000000002,
-        "maxObs": 150.52
+        "min": 9.0,
+        "max": 144.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 11.0,
-        "max": 19.94999999999999,
-        "maxObs": 25.0
+        "min": 1.0,
+        "max": 19.0
       }
     },
     {
       "veiculo": "20020233",
       "litros": {
-        "min": 60.705,
-        "max": 106.175,
-        "maxObs": 130.04
+        "min": 17.74,
+        "max": 117.55
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 16.0,
-        "max": 30.85000000000001,
-        "maxObs": 100.0
-      }
-    },
-    {
-      "veiculo": "20020234",
-      "litros": {
-        "min": 68.29,
-        "max": 122.09999999999997,
-        "maxObs": 138.84
-      },
-      "deltaKm": {
-        "min": null,
-        "max": null,
-        "maxObs": null
-      },
-      "deltaHr": {
-        "min": 13.0,
-        "max": 35.25000000000001,
-        "maxObs": 50.0
+        "min": 2.0,
+        "max": 33.0
       }
     },
     {
       "veiculo": "20020236",
       "litros": {
-        "min": 48.725,
-        "max": 152.10699999999994,
-        "maxObs": 223.77
+        "min": 13.06,
+        "max": 152.72
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 23.0,
-        "maxObs": 35.0
+        "min": 1.0,
+        "max": 29.0
       }
     },
     {
       "veiculo": "20020238",
       "litros": {
-        "min": 33.0,
-        "max": 64.353,
-        "maxObs": 91.6
+        "min": 5.0,
+        "max": 76.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 16.0,
-        "maxObs": 25012.0
+        "min": 1.0,
+        "max": 18.0
       }
     },
     {
       "veiculo": "20020239",
       "litros": {
-        "min": 42.989999999999995,
-        "max": 62.8695,
-        "maxObs": 76.12
+        "min": 10.43,
+        "max": 76.14
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 11.0,
-        "max": 17.0,
-        "maxObs": 6287.0
+        "min": 1.0,
+        "max": 23.0
       }
     },
     {
       "veiculo": "20020240",
       "litros": {
-        "min": 33.815,
-        "max": 52.6765,
-        "maxObs": 84.58
+        "min": 15.32,
+        "max": 83.9
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 12.0,
-        "maxObs": 307.0
+        "min": 1.0,
+        "max": 19.0
       }
     },
     {
       "veiculo": "20020243",
       "litros": {
-        "min": 42.0,
-        "max": 81.89999999999998,
-        "maxObs": 114.0
+        "min": 2.0,
+        "max": 154.2
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 18.59999999999991,
-        "maxObs": 28918.0
+        "min": 1.0,
+        "max": 16.0
       }
     },
     {
       "veiculo": "20020244",
       "litros": {
-        "min": 46.400000000000006,
-        "max": 91.0,
-        "maxObs": 105.7
+        "min": 2.7,
+        "max": 89.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 16.0,
-        "maxObs": 308.0
+        "min": 1.0,
+        "max": 13.0
       }
     },
     {
       "veiculo": "20020245",
       "litros": {
-        "min": 40.0,
-        "max": 77.60499999999999,
-        "maxObs": 94.5
+        "min": 2.0,
+        "max": 108.3
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 6.0,
-        "max": 15.0,
-        "maxObs": 377.0
+        "min": 1.0,
+        "max": 16.0
       }
     },
     {
       "veiculo": "20020246",
       "litros": {
-        "min": 51.0,
-        "max": 85.0,
-        "maxObs": 106.0
+        "min": 1.8,
+        "max": 96.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 20.0,
-        "maxObs": 9537.0
+        "min": 1.0,
+        "max": 16.0
       }
     },
     {
       "veiculo": "20020247",
       "litros": {
-        "min": 60.0,
-        "max": 95.19999999999999,
-        "maxObs": 121.0
+        "min": 7.0,
+        "max": 108.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 19.94999999999999,
-        "maxObs": 3853.0
+        "min": 1.0,
+        "max": 17.0
       }
     },
     {
       "veiculo": "20020248",
       "litros": {
-        "min": 47.0,
-        "max": 82.0,
-        "maxObs": 103.0
+        "min": 13.0,
+        "max": 111.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 20.399999999999977,
-        "maxObs": 14720.0
+        "min": 1.0,
+        "max": 15.0
       }
     },
     {
       "veiculo": "20020249",
       "litros": {
-        "min": 54.0,
-        "max": 90.0,
-        "maxObs": 110.0
+        "min": 10.0,
+        "max": 114.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 22.0,
-        "maxObs": 10010.0
+        "min": 1.0,
+        "max": 15.0
       }
     },
     {
       "veiculo": "20020250",
       "litros": {
-        "min": 55.1,
-        "max": 100.0,
-        "maxObs": 125.0
+        "min": 7.6,
+        "max": 126.6
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 18.0,
-        "maxObs": 810.0
+        "min": 1.0,
+        "max": 14.0
       }
     },
     {
       "veiculo": "20020251",
       "litros": {
-        "min": 54.1,
-        "max": 93.85,
-        "maxObs": 110.0
+        "min": 5.7,
+        "max": 122.5
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 21.0,
-        "maxObs": 10407.0
+        "min": 1.0,
+        "max": 17.0
       }
     },
     {
       "veiculo": "20020252",
       "litros": {
-        "min": 62.25,
-        "max": 112.29999999999995,
-        "maxObs": 130.0
+        "min": 7.1,
+        "max": 131.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 20.349999999999966,
-        "maxObs": 26614.0
+        "min": 0.05700000000069849,
+        "max": 17.0
       }
     },
     {
       "veiculo": "20020253",
       "litros": {
-        "min": 50.0,
-        "max": 95.75,
-        "maxObs": 119.5
+        "min": 8.0,
+        "max": 110.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 19.0,
-        "maxObs": 30005.0
+        "min": 1.0,
+        "max": 17.0
       }
     },
     {
       "veiculo": "20020254",
       "litros": {
-        "min": 63.0,
-        "max": 90.0,
-        "maxObs": 104.0
+        "min": 5.0,
+        "max": 120.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 9.0,
-        "max": 18.5,
-        "maxObs": 31.0
+        "min": 1.0,
+        "max": 17.0
       }
     },
     {
       "veiculo": "20020255",
       "litros": {
-        "min": 46.0,
-        "max": 90.49999999999997,
-        "maxObs": 125.0
+        "min": 4.0,
+        "max": 149.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 18.0,
-        "maxObs": 18292.0
+        "min": 1.0,
+        "max": 17.0
       }
     },
     {
       "veiculo": "20020256",
       "litros": {
-        "min": 47.0,
-        "max": 87.0,
-        "maxObs": 104.0
+        "min": 11.0,
+        "max": 111.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 20.349999999999966,
-        "maxObs": 177348.0
+        "min": 1.0,
+        "max": 16.0
       }
     },
     {
       "veiculo": "20020257",
       "litros": {
-        "min": 48.1,
-        "max": 86.0,
-        "maxObs": 106.0
+        "min": 10.0,
+        "max": 107.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 22.0,
-        "maxObs": 2564.0
+        "min": 1.0,
+        "max": 15.0
       }
     },
     {
       "veiculo": "20020258",
       "litros": {
-        "min": 58.5,
-        "max": 99.0,
-        "maxObs": 121.0
+        "min": 15.0,
+        "max": 129.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 22.0,
-        "maxObs": 27169.0
+        "min": 1.0,
+        "max": 17.0
       }
     },
     {
       "veiculo": "20020259",
       "litros": {
-        "min": 57.0,
-        "max": 88.0,
-        "maxObs": 100.0
+        "min": 9.0,
+        "max": 106.2
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 19.0,
-        "maxObs": 5707.0
+        "min": 1.0,
+        "max": 16.0
       }
     },
     {
       "veiculo": "20020260",
       "litros": {
-        "min": 63.2,
-        "max": 106.0,
-        "maxObs": 117.7
+        "min": 3.8,
+        "max": 111.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 16.0,
-        "maxObs": 12520.0
+        "min": 1.0,
+        "max": 16.0
       }
     },
     {
       "veiculo": "20020261",
       "litros": {
-        "min": 61.45,
-        "max": 103.95499999999998,
-        "maxObs": 120.0
+        "min": 6.0,
+        "max": 115.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 17.0,
-        "maxObs": 11008.0
+        "min": 1.0,
+        "max": 16.0
       }
     },
     {
       "veiculo": "20020262",
       "litros": {
-        "min": 60.0,
-        "max": 93.22999999999999,
-        "maxObs": 106.7
+        "min": 13.0,
+        "max": 116.7
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 18.0,
-        "maxObs": 47013.0
+        "min": 1.0,
+        "max": 16.0
       }
     },
     {
       "veiculo": "20020263",
       "litros": {
-        "min": 72.0,
-        "max": 109.0,
-        "maxObs": 121.4
+        "min": 14.0,
+        "max": 124.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 9.0,
-        "max": 20.0,
-        "maxObs": 13558.0
+        "min": 1.0,
+        "max": 17.0
       }
     },
     {
       "veiculo": "20020264",
       "litros": {
-        "min": 57.9,
-        "max": 100.0,
-        "maxObs": 125.0
+        "min": 4.0,
+        "max": 131.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 20.69999999999999,
-        "maxObs": 12330.0
+        "min": 2.0,
+        "max": 19.0
       }
     },
     {
       "veiculo": "20020265",
       "litros": {
-        "min": 56.6,
-        "max": 93.89999999999998,
-        "maxObs": 115.0
+        "min": 6.7,
+        "max": 120.1
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 19.0,
-        "maxObs": 12187.0
+        "min": 1.0,
+        "max": 16.0
       }
     },
     {
       "veiculo": "20020267",
       "litros": {
-        "min": 28.77,
-        "max": 54.343999999999944,
-        "maxObs": 73.71
+        "min": 6.48,
+        "max": 70.04
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 145.0,
-        "max": 71075.95,
-        "maxObs": 74983.0
+        "min": 1.0,
+        "max": 27.0
+      }
+    },
+    {
+      "veiculo": "20020269",
+      "litros": {
+        "min": 9.0,
+        "max": 78.6
+      },
+      "deltaKm": {
+        "min": null,
+        "max": null
+      },
+      "deltaHr": {
+        "min": 1.0,
+        "max": 13.0
       }
     },
     {
       "veiculo": "20020270",
       "litros": {
-        "min": 35.0,
-        "max": 73.0,
-        "maxObs": 89.4
+        "min": 6.0,
+        "max": 90.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 17.099999999999966,
-        "maxObs": 20005.0
+        "min": 1.0,
+        "max": 16.0
       }
     },
     {
       "veiculo": "20020271",
       "litros": {
-        "min": 35.0,
-        "max": 67.0,
-        "maxObs": 90.0
+        "min": 10.0,
+        "max": 98.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 20.0,
-        "maxObs": 10013.0
+        "min": 1.0,
+        "max": 20.0
       }
     },
     {
       "veiculo": "20020272",
       "litros": {
-        "min": 38.0,
-        "max": 71.0,
-        "maxObs": 95.0
+        "min": 3.0,
+        "max": 78.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 20.0,
-        "maxObs": 9010.0
+        "min": 1.0,
+        "max": 15.0
       }
     },
     {
       "veiculo": "20020274",
       "litros": {
-        "min": 40.0,
-        "max": 72.0,
-        "maxObs": 89.0
+        "min": 5.0,
+        "max": 105.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 19.0,
-        "maxObs": 16454.0
+        "min": 1.0,
+        "max": 17.0
       }
     },
     {
       "veiculo": "20020275",
       "litros": {
-        "min": 39.0,
-        "max": 78.79999999999998,
-        "maxObs": 114.0
+        "min": 8.0,
+        "max": 75.7
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 18.0,
-        "maxObs": 992.0
+        "min": 1.0,
+        "max": 15.0
       }
     },
     {
       "veiculo": "20020277",
       "litros": {
-        "min": 37.0,
-        "max": 61.0,
-        "maxObs": 76.0
+        "min": 3.09,
+        "max": 93.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 17.0,
-        "maxObs": 31105.0
+        "min": 1.0,
+        "max": 14.0
       }
     },
     {
       "veiculo": "20020278",
       "litros": {
-        "min": 39.0,
-        "max": 75.036,
-        "maxObs": 93.0
+        "min": 2.4,
+        "max": 103.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 16.0,
-        "maxObs": 1003.0
+        "min": 1.0,
+        "max": 17.0
       }
     },
     {
       "veiculo": "20020279",
       "litros": {
-        "min": 37.0,
-        "max": 63.07999999999997,
-        "maxObs": 83.0
+        "min": 7.0,
+        "max": 93.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 16.599999999999966,
-        "maxObs": 20012.0
+        "min": 1.0,
+        "max": 14.0
       }
     },
     {
       "veiculo": "20020280",
       "litros": {
-        "min": 39.1,
-        "max": 75.5,
-        "maxObs": 104.5
+        "min": 9.86,
+        "max": 95.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 20.0,
-        "maxObs": 34015.0
+        "min": 1.0,
+        "max": 16.0
       }
     },
     {
       "veiculo": "20020281",
       "litros": {
-        "min": 37.3,
-        "max": 68.03999999999999,
-        "maxObs": 86.6
+        "min": 5.0,
+        "max": 80.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 16.0,
-        "maxObs": 17995.0
+        "min": 1.0,
+        "max": 16.0
       }
     },
     {
       "veiculo": "20020282",
       "litros": {
-        "min": 38.0,
-        "max": 74.46000000000001,
-        "maxObs": 97.0
+        "min": 2.2,
+        "max": 101.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 17.849999999999966,
-        "maxObs": 10013.0
+        "min": 1.0,
+        "max": 16.0
       }
     },
     {
       "veiculo": "20020284",
       "litros": {
-        "min": 42.4,
-        "max": 78.0,
-        "maxObs": 105.0
+        "min": 12.7,
+        "max": 95.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 19.599999999999966,
-        "maxObs": 32753.0
+        "min": 1.0,
+        "max": 15.0
       }
     },
     {
       "veiculo": "20020285",
       "litros": {
-        "min": 36.7,
-        "max": 75.0,
-        "maxObs": 91.78
+        "min": 7.0,
+        "max": 93.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 18.0,
-        "maxObs": 9011.0
+        "min": 1.0,
+        "max": 17.0
       }
     },
     {
       "veiculo": "20020286",
       "litros": {
-        "min": 35.5,
-        "max": 74.0,
-        "maxObs": 94.8
+        "min": 1.84,
+        "max": 103.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 20.0,
-        "maxObs": 20912.0
+        "min": 1.0,
+        "max": 17.0
       }
     },
     {
       "veiculo": "20020288",
       "litros": {
-        "min": 38.0,
-        "max": 64.64799999999997,
-        "maxObs": 86.0
+        "min": 14.0,
+        "max": 100.5
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 18.0,
-        "maxObs": 2155.0
+        "min": 1.0,
+        "max": 17.0
       }
     },
     {
       "veiculo": "20020289",
       "litros": {
-        "min": 38.599999999999994,
-        "max": 75.0,
-        "maxObs": 83.7
+        "min": 6.53,
+        "max": 95.4
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 18.94999999999999,
-        "maxObs": 1044.0
+        "min": 1.0,
+        "max": 17.0
       }
     },
     {
       "veiculo": "20020290",
       "litros": {
-        "min": 42.0,
-        "max": 71.50999999999998,
-        "maxObs": 107.0
+        "min": 3.89,
+        "max": 98.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 19.0,
-        "maxObs": 25298.0
+        "min": 1.0,
+        "max": 15.0
       }
     },
     {
       "veiculo": "20020291",
       "litros": {
-        "min": 34.155,
-        "max": 69.0,
-        "maxObs": 90.0
+        "min": 5.9,
+        "max": 96.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 19.0,
-        "maxObs": 32377.0
+        "min": 1.0,
+        "max": 15.0
       }
     },
     {
       "veiculo": "20020292",
       "litros": {
-        "min": 40.0,
-        "max": 67.44999999999999,
-        "maxObs": 86.3
+        "min": 6.0,
+        "max": 88.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 20.799999999999955,
-        "maxObs": 16208.0
+        "min": 1.0,
+        "max": 15.0
       }
     },
     {
       "veiculo": "20020293",
       "litros": {
-        "min": 37.0,
-        "max": 59.0,
-        "maxObs": 80.0
+        "min": 5.0,
+        "max": 87.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 18.0,
-        "maxObs": 27006.0
+        "min": 1.0,
+        "max": 15.0
       }
     },
     {
       "veiculo": "20020294",
       "litros": {
-        "min": 38.0,
-        "max": 64.0,
-        "maxObs": 78.0
+        "min": 5.0,
+        "max": 82.8
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 20.0,
-        "maxObs": 28098.0
+        "min": 1.0,
+        "max": 17.0
       }
     },
     {
       "veiculo": "20020301",
       "litros": {
-        "min": 130.0,
-        "max": 254.84999999999997,
-        "maxObs": 277.0
+        "min": 27.0,
+        "max": 281.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 18.0,
-        "maxObs": 21065.0
+        "min": 1.0,
+        "max": 17.0
       }
     },
     {
       "veiculo": "20020302",
       "litros": {
-        "min": 123.0,
-        "max": 221.0,
-        "maxObs": 262.0
+        "min": 30.7,
+        "max": 225.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.5,
-        "max": 15.0,
-        "maxObs": 40.0
+        "min": 2.0,
+        "max": 16.0
       }
     },
     {
       "veiculo": "20020303",
       "litros": {
-        "min": 32.0,
-        "max": 57.48,
-        "maxObs": 74.0
+        "min": 2.0,
+        "max": 60.5
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 6.0,
-        "max": 189.39999999999975,
-        "maxObs": 624.0
+        "min": 1.0,
+        "max": 15.0
       }
     },
     {
       "veiculo": "20020304",
       "litros": {
-        "min": 32.0,
-        "max": 51.699999999999996,
-        "maxObs": 66.0
+        "min": 4.0,
+        "max": 63.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 19.699999999999996,
-        "maxObs": 455.0
+        "min": 1.0,
+        "max": 15.0
       }
     },
     {
       "veiculo": "20020305",
       "litros": {
-        "min": 28.0,
-        "max": 55.19999999999999,
-        "maxObs": 64.0
+        "min": 5.0,
+        "max": 60.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 5.0,
-        "max": 14.0,
-        "maxObs": 227.0
+        "min": 1.0,
+        "max": 10.0
       }
     },
     {
       "veiculo": "20020306",
       "litros": {
-        "min": 30.0,
-        "max": 65.59999999999997,
-        "maxObs": 72.0
+        "min": 1.7,
+        "max": 57.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 5.0,
-        "max": 173.19999999999914,
-        "maxObs": 388.0
+        "min": 1.0,
+        "max": 16.0
       }
     },
     {
       "veiculo": "20020405",
       "litros": {
-        "min": 146.07,
-        "max": 219.2575,
-        "maxObs": 257.0
+        "min": 58.0,
+        "max": 253.26
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 9.0,
-        "max": 20.0,
-        "maxObs": 14778.0
+        "min": 2.0,
+        "max": 18.0
       }
     },
     {
       "veiculo": "20020406",
       "litros": {
-        "min": 152.69,
-        "max": 240.0,
-        "maxObs": 276.0
+        "min": 32.5,
+        "max": 280.63
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 9.0,
-        "max": 21.0,
-        "maxObs": 17322.0
+        "min": 1.0,
+        "max": 17.0
       }
     },
     {
       "veiculo": "20020407",
       "litros": {
-        "min": 150.72,
-        "max": 214.55,
-        "maxObs": 236.15
+        "min": 51.56,
+        "max": 231.8
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 10.0,
-        "max": 22.0,
-        "maxObs": 629.0
+        "min": 4.0,
+        "max": 15.0
       }
     },
     {
       "veiculo": "20020410",
       "litros": {
-        "min": 146.9,
-        "max": 225.22750000000002,
-        "maxObs": 247.76
+        "min": 36.0,
+        "max": 243.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 10.0,
-        "max": 19.0,
-        "maxObs": 513.0
+        "min": 1.0,
+        "max": 17.0
       }
     },
     {
       "veiculo": "20020501",
       "litros": {
-        "min": 88.32,
-        "max": 152.032,
-        "maxObs": 177.0
+        "min": 36.52,
+        "max": 217.13
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 9.0,
-        "max": 21.0,
-        "maxObs": 49512.0
+        "min": 3.0,
+        "max": 17.0
       }
     },
     {
       "veiculo": "20020502",
       "litros": {
-        "min": 86.07,
-        "max": 136.98,
-        "maxObs": 153.45
+        "min": 26.16,
+        "max": 156.55
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 18.0,
-        "maxObs": 20008.0
+        "min": 1.0,
+        "max": 15.0
       }
     },
     {
       "veiculo": "20020505",
       "litros": {
-        "min": 64.54,
-        "max": 75.838,
-        "maxObs": 78.14
+        "min": 36.5,
+        "max": 83.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 14.0,
-        "max": 172.0,
-        "maxObs": 18550.0
+        "min": 6.0,
+        "max": 20.0
       }
     },
     {
       "veiculo": "20020508",
       "litros": {
-        "min": 86.39,
-        "max": 146.315,
-        "maxObs": 158.6
+        "min": 21.28,
+        "max": 144.64
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 20.049999999999955,
-        "maxObs": 12073.0
+        "min": 1.0,
+        "max": 14.0
       }
     },
     {
       "veiculo": "20020509",
       "litros": {
-        "min": 66.3,
-        "max": 103.93399999999998,
-        "maxObs": 122.0
+        "min": 15.83,
+        "max": 123.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 10.0,
-        "max": 27.69999999999999,
-        "maxObs": 5426.0
+        "min": 1.0,
+        "max": 16.0
       }
     },
     {
       "veiculo": "20020510",
       "litros": {
-        "min": 69.68,
-        "max": 119.51699999999998,
-        "maxObs": 130.0
+        "min": 24.0,
+        "max": 133.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 11.0,
-        "max": 22.0,
-        "maxObs": 2692.0
+        "min": 1.0,
+        "max": 21.0
       }
     },
     {
       "veiculo": "20020511",
       "litros": {
-        "min": 69.5,
-        "max": 117.0,
-        "maxObs": 120.0
+        "min": 21.5,
+        "max": 126.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 10.0,
-        "max": 22.24999999999998,
-        "maxObs": 315.0
+        "min": 2.0,
+        "max": 18.0
+      }
+    },
+    {
+      "veiculo": "20020901",
+      "litros": {
+        "min": 16.3,
+        "max": 134.0
+      },
+      "deltaKm": {
+        "min": null,
+        "max": null
+      },
+      "deltaHr": {
+        "min": 1.0,
+        "max": 8.0
+      }
+    },
+    {
+      "veiculo": "20020902",
+      "litros": {
+        "min": 12.0,
+        "max": 157.4
+      },
+      "deltaKm": {
+        "min": null,
+        "max": null
+      },
+      "deltaHr": {
+        "min": 0.4099999999999966,
+        "max": 8.0
+      }
+    },
+    {
+      "veiculo": "20020903",
+      "litros": {
+        "min": 20.8,
+        "max": 130.7
+      },
+      "deltaKm": {
+        "min": null,
+        "max": null
+      },
+      "deltaHr": {
+        "min": 0.4000000000000057,
+        "max": 8.0
+      }
+    },
+    {
+      "veiculo": "20020904",
+      "litros": {
+        "min": 6.0,
+        "max": 158.0
+      },
+      "deltaKm": {
+        "min": null,
+        "max": null
+      },
+      "deltaHr": {
+        "min": 0.10000000000000142,
+        "max": 8.199999999999989
       }
     },
     {
       "veiculo": "20022243",
       "litros": {
-        "min": 69.4,
-        "max": 118.0,
-        "maxObs": 144.0
+        "min": 9.0,
+        "max": 170.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 12.0,
-        "max": 21.0,
-        "maxObs": 3805.0
+        "min": 1.0,
+        "max": 23.0
       }
     },
     {
       "veiculo": "20022244",
       "litros": {
-        "min": 83.0,
-        "max": 144.0,
-        "maxObs": 164.0
+        "min": 11.49,
+        "max": 179.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 13.0,
-        "max": 21.0,
-        "maxObs": 115.0
-      }
-    },
-    {
-      "veiculo": "20022245",
-      "litros": {
-        "min": null,
-        "max": null,
-        "maxObs": null
-      },
-      "deltaKm": {
-        "min": null,
-        "max": null,
-        "maxObs": null
-      },
-      "deltaHr": {
-        "min": 528.0,
-        "max": 528.0,
-        "maxObs": 528.0
+        "min": 1.0,
+        "max": 28.0
       }
     },
     {
       "veiculo": "20022246",
       "litros": {
-        "min": 82.0,
-        "max": 135.0,
-        "maxObs": 175.0
+        "min": 14.0,
+        "max": 159.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 13.0,
-        "max": 22.0,
-        "maxObs": 97.0
+        "min": 1.0,
+        "max": 24.0
       }
     },
     {
       "veiculo": "20022247",
       "litros": {
-        "min": 75.0,
-        "max": 127.69,
-        "maxObs": 171.2
+        "min": 15.0,
+        "max": 178.99
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 11.5,
-        "max": 21.149999999999977,
-        "maxObs": 29005.0
+        "min": 1.0,
+        "max": 26.0
       }
     },
     {
       "veiculo": "20022248",
       "litros": {
-        "min": 78.0,
-        "max": 137.3,
-        "maxObs": 162.0
+        "min": 5.52,
+        "max": 163.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 11.0,
-        "max": 20.0,
-        "maxObs": 9007.0
+        "min": 1.0,
+        "max": 22.0
       }
     },
     {
       "veiculo": "20022249",
       "litros": {
-        "min": 70.05,
-        "max": 122.091,
-        "maxObs": 164.0
+        "min": 17.5,
+        "max": 122.54
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 11.0,
-        "max": 21.0,
-        "maxObs": 10005.0
+        "min": 1.0,
+        "max": 18.0
       }
     },
     {
       "veiculo": "20022250",
       "litros": {
-        "min": 74.0,
-        "max": 118.47999999999999,
-        "maxObs": 130.0
+        "min": 20.0,
+        "max": 128.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 10.0,
-        "max": 25.799999999999955,
-        "maxObs": 10006.0
+        "min": 1.0,
+        "max": 17.0
       }
     },
     {
       "veiculo": "20022251",
       "litros": {
-        "min": 62.0,
-        "max": 111.6,
-        "maxObs": 139.76
+        "min": 8.0,
+        "max": 101.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 11.0,
-        "max": 20.0,
-        "maxObs": 616.0
+        "min": 2.0,
+        "max": 13.0
       }
     },
     {
       "veiculo": "20022252",
       "litros": {
-        "min": 30.62,
-        "max": 58.0,
-        "maxObs": 71.7
+        "min": 4.32,
+        "max": 76.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 14.349999999999994,
-        "maxObs": 25419.0
+        "min": 1.0,
+        "max": 20.0
       }
     },
     {
       "veiculo": "20022253",
       "litros": {
-        "min": 44.38,
-        "max": 66.289,
-        "maxObs": 82.16
+        "min": 6.17,
+        "max": 64.96
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 9.0,
-        "max": 19.0,
-        "maxObs": 43.0
+        "min": 1.0,
+        "max": 23.0
       }
     },
     {
       "veiculo": "20022254",
       "litros": {
-        "min": 34.4,
-        "max": 62.279999999999994,
-        "maxObs": 107.0
+        "min": 8.4,
+        "max": 74.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 10.5,
-        "max": 20.0,
-        "maxObs": 29357.0
+        "min": 1.0,
+        "max": 25.0
       }
     },
     {
       "veiculo": "20022255",
       "litros": {
-        "min": 30.0,
-        "max": 63.5,
-        "maxObs": 72.0
+        "min": 7.0,
+        "max": 90.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 18.0,
-        "maxObs": 26602.0
+        "min": 1.0,
+        "max": 22.0
       }
     },
     {
       "veiculo": "20022256",
       "litros": {
-        "min": 40.01,
-        "max": 73.6425,
-        "maxObs": 90.01
+        "min": 12.77,
+        "max": 66.52
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 9.0,
-        "max": 16.0,
-        "maxObs": 20013.0
+        "min": 1.0,
+        "max": 19.0
       }
     },
     {
       "veiculo": "20022257",
       "litros": {
-        "min": 28.0,
-        "max": 52.599999999999994,
-        "maxObs": 74.0
+        "min": 3.0,
+        "max": 90.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 6.0,
-        "max": 13.5,
-        "maxObs": 22850.0
+        "min": 1.0,
+        "max": 16.0
       }
     },
     {
       "veiculo": "20022258",
       "litros": {
-        "min": 46.78,
-        "max": 69.28,
-        "maxObs": 76.61
+        "min": 8.1,
+        "max": 63.5
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 10.0,
-        "max": 17.0,
-        "maxObs": 29.0
+        "min": 1.0,
+        "max": 16.0
       }
     },
     {
       "veiculo": "20022259",
       "litros": {
-        "min": 31.695,
-        "max": 73.275,
-        "maxObs": 115.0
+        "min": 7.0,
+        "max": 115.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 6.0,
-        "max": 16.0,
-        "maxObs": 18008.0
+        "min": 1.0,
+        "max": 15.0
       }
     },
     {
       "veiculo": "20022260",
       "litros": {
-        "min": 49.230000000000004,
-        "max": 79.7425,
-        "maxObs": 89.19
+        "min": 15.01,
+        "max": 85.21
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 13.0,
-        "max": 21.69999999999999,
-        "maxObs": 17076.0
+        "min": 2.0,
+        "max": 23.0
       }
     },
     {
       "veiculo": "20022261",
       "litros": {
-        "min": 32.83,
-        "max": 68.22999999999998,
-        "maxObs": 89.59
+        "min": 7.63,
+        "max": 82.58
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 16.599999999999966,
-        "maxObs": 18870.0
+        "min": 1.0,
+        "max": 21.0
       }
     },
     {
       "veiculo": "20022262",
       "litros": {
-        "min": 32.0,
-        "max": 60.099999999999966,
-        "maxObs": 78.06
+        "min": 5.0,
+        "max": 93.4
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 14.949999999999989,
-        "maxObs": 22739.0
+        "min": 1.0,
+        "max": 17.0
       }
     },
     {
       "veiculo": "20022263",
       "litros": {
-        "min": 35.0,
-        "max": 69.847,
-        "maxObs": 84.89
+        "min": 5.6,
+        "max": 102.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 16.0,
-        "maxObs": 1809.0
+        "min": 1.0,
+        "max": 13.0
       }
     },
     {
       "veiculo": "20022264",
       "litros": {
-        "min": 40.79,
-        "max": 76.31799999999998,
-        "maxObs": 85.33
+        "min": 3.0,
+        "max": 95.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 11.0,
-        "max": 19.900000000000006,
-        "maxObs": 6113.0
+        "min": 1.0,
+        "max": 19.0
       }
     },
     {
       "veiculo": "20022265",
       "litros": {
-        "min": 30.405,
-        "max": 64.025,
-        "maxObs": 76.0
+        "min": 3.5,
+        "max": 76.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 19.0,
-        "maxObs": 162002.0
+        "min": 1.0,
+        "max": 14.0
       }
     },
     {
       "veiculo": "20022266",
       "litros": {
-        "min": 45.595,
-        "max": 64.06049999999999,
-        "maxObs": 67.19
+        "min": 52.17,
+        "max": 88.31
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 10.0,
-        "max": 18.599999999999994,
-        "maxObs": 21.0
+        "min": 80561.0,
+        "max": 80561.0
       }
     },
     {
       "veiculo": "20022267",
       "litros": {
-        "min": 60.355000000000004,
-        "max": 92.64850000000001,
-        "maxObs": 104.16
+        "min": 5.6,
+        "max": 140.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 11.5,
-        "max": 3847.899999999964,
-        "maxObs": 69386.0
+        "min": 1.0,
+        "max": 26.0
       }
     },
     {
       "veiculo": "20022268",
       "litros": {
-        "min": 37.53,
-        "max": 74.70599999999999,
-        "maxObs": 88.89
+        "min": 13.04,
+        "max": 89.15
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 11.0,
-        "max": 3919.699999999995,
-        "maxObs": 46530.0
+        "min": 1.0,
+        "max": 29.0
       }
     },
     {
       "veiculo": "20022269",
       "litros": {
-        "min": 36.54,
-        "max": 62.748,
-        "maxObs": 73.1
+        "min": 5.3,
+        "max": 78.2
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 83.09999999999937,
-        "maxObs": 3030601.0
+        "min": 1.0,
+        "max": 15.0
       }
     },
     {
       "veiculo": "20022270",
       "litros": {
-        "min": 34.0,
-        "max": 63.0,
-        "maxObs": 74.81
+        "min": 5.0,
+        "max": 63.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 575.8999999999955,
-        "maxObs": 70007.0
+        "min": 1.0,
+        "max": 16.0
       }
     },
     {
       "veiculo": "20022271",
       "litros": {
-        "min": 28.0,
-        "max": 58.69999999999999,
-        "maxObs": 71.0
+        "min": 5.67,
+        "max": 77.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.5,
-        "max": 35.5,
-        "maxObs": 13069.0
+        "min": 1.0,
+        "max": 15.0
       }
     },
     {
       "veiculo": "20022272",
       "litros": {
-        "min": 33.0,
-        "max": 59.585,
-        "maxObs": 74.0
+        "min": 7.0,
+        "max": 64.8
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 417.5999999999974,
-        "maxObs": 25007.0
+        "min": 1.0,
+        "max": 20.0
       }
     },
     {
       "veiculo": "20022281",
       "litros": {
-        "min": 70.85,
-        "max": 108.02999999999999,
-        "maxObs": 125.0
+        "min": 13.3,
+        "max": 119.9
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 11.0,
-        "max": 18.0,
-        "maxObs": 18966.0
+        "min": 1.0,
+        "max": 21.0
       }
     },
     {
       "veiculo": "20022282",
       "litros": {
-        "min": 75.84,
-        "max": 125.73499999999999,
-        "maxObs": 156.0
+        "min": 15.4,
+        "max": 143.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 12.0,
-        "max": 20.0,
-        "maxObs": 32.0
+        "min": 1.0,
+        "max": 25.0
       }
     },
     {
       "veiculo": "20022283",
       "litros": {
-        "min": 78.7,
-        "max": 129.84999999999997,
-        "maxObs": 145.0
+        "min": 14.09,
+        "max": 143.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 14.0,
-        "max": 21.049999999999983,
-        "maxObs": 5016.0
+        "min": 1.0,
+        "max": 21.0
       }
     },
     {
       "veiculo": "20022284",
       "litros": {
-        "min": 81.5,
-        "max": 140.09,
-        "maxObs": 156.0
+        "min": 10.0,
+        "max": 135.2
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 12.0,
-        "max": 25.549999999999983,
-        "maxObs": 22111.0
+        "min": 1.0,
+        "max": 26.0
       }
     },
     {
       "veiculo": "20022285",
       "litros": {
-        "min": 99.0,
-        "max": 140.0,
-        "maxObs": 180.0
+        "min": 22.12,
+        "max": 220.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 13.0,
-        "max": 20.0,
-        "maxObs": 31.0
+        "min": 1.0,
+        "max": 27.0
       }
     },
     {
       "veiculo": "20022286",
       "litros": {
-        "min": 133.6,
-        "max": 200.0,
-        "maxObs": 261.0
+        "min": 30.0,
+        "max": 247.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 16.0,
-        "max": 28.94999999999999,
-        "maxObs": 47.0
+        "min": 2.0,
+        "max": 36.0
       }
     },
     {
       "veiculo": "20022287",
       "litros": {
-        "min": 100.0,
-        "max": 140.0,
-        "maxObs": 190.0
+        "min": 15.0,
+        "max": 200.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 13.0,
-        "max": 20.849999999999966,
-        "maxObs": 36.0
+        "min": 1.0,
+        "max": 23.0
       }
     },
     {
       "veiculo": "20022288",
       "litros": {
-        "min": 145.0,
-        "max": 210.22,
-        "maxObs": 243.0
+        "min": 28.6,
+        "max": 221.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 17.0,
-        "max": 28.0,
-        "maxObs": 100.0
+        "min": 2.0,
+        "max": 31.0
       }
     },
     {
       "veiculo": "20022289",
       "litros": {
-        "min": 138.0,
-        "max": 235.35999999999999,
-        "maxObs": 296.6
+        "min": 52.0,
+        "max": 229.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 16.0,
-        "max": 31.0,
-        "maxObs": 4013.0
+        "min": 3.0,
+        "max": 29.0
       }
     },
     {
       "veiculo": "20022290",
       "litros": {
-        "min": 146.0,
-        "max": 219.0,
-        "maxObs": 244.0
+        "min": 26.5,
+        "max": 191.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 19.0,
-        "max": 31.299999999999955,
-        "maxObs": 4476.0
+        "min": 1.0,
+        "max": 28.0
       }
     },
     {
       "veiculo": "20022291",
       "litros": {
-        "min": 153.0,
-        "max": 229.07999999999996,
-        "maxObs": 277.3
+        "min": 25.0,
+        "max": 327.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 17.0,
-        "max": 27.0,
-        "maxObs": 61.0
+        "min": 1.0,
+        "max": 28.0
       }
     },
     {
       "veiculo": "20022292",
       "litros": {
-        "min": 160.0,
-        "max": 219.5,
-        "maxObs": 256.5
+        "min": 64.9,
+        "max": 240.1
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 18.0,
-        "max": 27.699999999999996,
-        "maxObs": 29.0
+        "min": 5.0,
+        "max": 29.0
       }
     },
     {
       "veiculo": "20022293",
       "litros": {
-        "min": 155.5,
-        "max": 211.535,
-        "maxObs": 240.6
+        "min": 30.0,
+        "max": 244.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 18.0,
-        "max": 24.5,
-        "maxObs": 30.0
+        "min": 1.0,
+        "max": 31.0
+      }
+    },
+    {
+      "veiculo": "20022294",
+      "litros": {
+        "min": 79.5,
+        "max": 246.72
+      },
+      "deltaKm": {
+        "min": null,
+        "max": null
+      },
+      "deltaHr": {
+        "min": 9.0,
+        "max": 27.0
+      }
+    },
+    {
+      "veiculo": "20022295",
+      "litros": {
+        "min": 81.31,
+        "max": 288.57
+      },
+      "deltaKm": {
+        "min": null,
+        "max": null
+      },
+      "deltaHr": {
+        "min": 11.0,
+        "max": 28.0
+      }
+    },
+    {
+      "veiculo": "20022296",
+      "litros": {
+        "min": 13.56,
+        "max": 256.09
+      },
+      "deltaKm": {
+        "min": null,
+        "max": null
+      },
+      "deltaHr": {
+        "min": 6.0,
+        "max": 29.0
+      }
+    },
+    {
+      "veiculo": "20022297",
+      "litros": {
+        "min": 44.0,
+        "max": 330.0
+      },
+      "deltaKm": {
+        "min": null,
+        "max": null
+      },
+      "deltaHr": {
+        "min": 3.0,
+        "max": 26.0
+      }
+    },
+    {
+      "veiculo": "20022298",
+      "litros": {
+        "min": 104.41,
+        "max": 318.0
+      },
+      "deltaKm": {
+        "min": null,
+        "max": null
+      },
+      "deltaHr": {
+        "min": 9.0,
+        "max": 39.0
+      }
+    },
+    {
+      "veiculo": "20022299",
+      "litros": {
+        "min": 33.0,
+        "max": 211.0
+      },
+      "deltaKm": {
+        "min": null,
+        "max": null
+      },
+      "deltaHr": {
+        "min": 3.0,
+        "max": 26.0
       }
     },
     {
       "veiculo": "24051001",
       "litros": {
-        "min": 78.0,
-        "max": 120.0,
-        "maxObs": 127.0
+        "min": 20.0,
+        "max": 319.8
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.0,
-        "max": 11.95,
-        "maxObs": 16.0
+        "min": 1.0,
+        "max": 24.0
       }
     },
     {
       "veiculo": "24051002",
       "litros": {
-        "min": 95.25,
-        "max": 206.25,
-        "maxObs": 288.0
+        "min": 21.6,
+        "max": 378.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 10.0,
-        "max": 23.5,
-        "maxObs": 794.0
+        "min": 2.0,
+        "max": 33.0
       }
     },
     {
       "veiculo": "24051003",
       "litros": {
-        "min": 43.9,
-        "max": 138.74999999999997,
-        "maxObs": 281.0
+        "min": 22.0,
+        "max": 253.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 5.0,
-        "max": 16.099999999999994,
-        "maxObs": 14072.0
+        "min": 2.0,
+        "max": 35.0
       }
     },
     {
       "veiculo": "24051004",
       "litros": {
-        "min": 62.0,
-        "max": 116.0,
-        "maxObs": 129.0
+        "min": 30.0,
+        "max": 244.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 14.849999999999994,
-        "maxObs": 18.0
+        "min": 2.0,
+        "max": 27.0
       }
     },
     {
       "veiculo": "24051005",
       "litros": {
-        "min": 118.0,
-        "max": 266.74,
-        "maxObs": 318.0
+        "min": 30.2,
+        "max": 344.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 10.0,
-        "max": 23.400000000000006,
-        "maxObs": 704.0
-      }
-    },
-    {
-      "veiculo": "24051006",
-      "litros": {
-        "min": 4.3,
-        "max": 4.3,
-        "maxObs": 4.3
-      },
-      "deltaKm": {
-        "min": null,
-        "max": null,
-        "maxObs": null
-      },
-      "deltaHr": {
-        "min": null,
-        "max": null,
-        "maxObs": null
+        "min": 1.0,
+        "max": 21.0
       }
     },
     {
       "veiculo": "24051007",
       "litros": {
-        "min": 74.5,
-        "max": 202.29999999999998,
-        "maxObs": 241.0
+        "min": 13.2,
+        "max": 244.5
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 9.0,
-        "max": 21.5,
-        "maxObs": 3168.0
+        "min": 1.0,
+        "max": 28.0
       }
     },
     {
       "veiculo": "24051009",
       "litros": {
-        "min": 80.0,
-        "max": 240.72499999999982,
-        "maxObs": 324.0
+        "min": 25.0,
+        "max": 261.5
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 11.0,
-        "max": 27.599999999999994,
-        "maxObs": 5498.0
+        "min": 1.0,
+        "max": 29.0
+      }
+    },
+    {
+      "veiculo": "24051011",
+      "litros": {
+        "min": 76.0,
+        "max": 84.0
+      },
+      "deltaKm": {
+        "min": null,
+        "max": null
+      },
+      "deltaHr": {
+        "min": 1.0,
+        "max": 11.0
       }
     },
     {
       "veiculo": "24051012",
       "litros": {
-        "min": 58.0,
-        "max": 110.725,
-        "maxObs": 123.0
+        "min": 50.0,
+        "max": 174.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 6.0,
-        "max": 9.7,
-        "maxObs": 10.0
+        "min": 1.0,
+        "max": 25.0
       }
     },
     {
       "veiculo": "24051013",
       "litros": {
-        "min": 102.0,
-        "max": 301.1999999999998,
-        "maxObs": 333.2
+        "min": 20.0,
+        "max": 271.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 12.0,
-        "max": 24.699999999999996,
-        "maxObs": 26.0
+        "min": 1.0,
+        "max": 31.0
       }
     },
     {
       "veiculo": "24051014",
       "litros": {
-        "min": 95.0,
-        "max": 289.19999999999993,
-        "maxObs": 340.0
+        "min": 75.0,
+        "max": 326.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 6.0,
-        "max": 19.550000000000004,
-        "maxObs": 21.0
+        "min": 1.0,
+        "max": 27.0
       }
     },
     {
       "veiculo": "24051015",
       "litros": {
-        "min": 53.0,
-        "max": 117.09999999999992,
-        "maxObs": 183.0
+        "min": 26.0,
+        "max": 242.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 11.0,
-        "max": 19.0,
-        "maxObs": 1813.0
+        "min": 1.0,
+        "max": 27.0
       }
     },
     {
       "veiculo": "24051021",
       "litros": {
-        "min": 167.0,
-        "max": 167.0,
-        "maxObs": 167.0
+        "min": 15.0,
+        "max": 292.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": null,
-        "max": null,
-        "maxObs": null
+        "min": 1.0,
+        "max": 20.0
       }
     },
     {
       "veiculo": "24051022",
       "litros": {
-        "min": 91.0,
-        "max": 248.26999999999998,
-        "maxObs": 328.0
+        "min": 29.0,
+        "max": 277.5
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 9.0,
-        "max": 22.0,
-        "maxObs": 700.0
+        "min": 1.0,
+        "max": 30.0
       }
     },
     {
       "veiculo": "24051025",
       "litros": {
-        "min": 143.95,
-        "max": 284.825,
-        "maxObs": 359.0
+        "min": 40.0,
+        "max": 280.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 12.0,
-        "max": 22.049999999999994,
-        "maxObs": 33.0
-      }
-    },
-    {
-      "veiculo": "24051026",
-      "litros": {
-        "min": 81.65,
-        "max": 193.77499999999998,
-        "maxObs": 236.0
-      },
-      "deltaKm": {
-        "min": null,
-        "max": null,
-        "maxObs": null
-      },
-      "deltaHr": {
-        "min": 8.0,
-        "max": 22.0,
-        "maxObs": 31.0
+        "min": 3.0,
+        "max": 30.0
       }
     },
     {
       "veiculo": "24051031",
       "litros": {
-        "min": 107.5,
-        "max": 297.62999999999994,
-        "maxObs": 333.0
+        "min": 19.0,
+        "max": 349.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 9.0,
-        "max": 21.599999999999994,
-        "maxObs": 111.0
+        "min": 2.0,
+        "max": 42.0
       }
     },
     {
       "veiculo": "24051033",
       "litros": {
-        "min": 87.5,
-        "max": 277.575,
-        "maxObs": 320.0
+        "min": 34.0,
+        "max": 378.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 6.0,
-        "max": 21.299999999999994,
-        "maxObs": 24.0
+        "min": 1.0,
+        "max": 43.0
       }
     },
     {
       "veiculo": "24051034",
       "litros": {
-        "min": 104.8,
-        "max": 275.5,
-        "maxObs": 321.0
+        "min": 44.0,
+        "max": 365.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 9.0,
-        "max": 21.39999999999999,
-        "maxObs": 1085.0
+        "min": 1.0,
+        "max": 26.0
       }
     },
     {
       "veiculo": "24051037",
       "litros": {
-        "min": 133.3,
-        "max": 255.0,
-        "maxObs": 375.0
+        "min": 23.0,
+        "max": 281.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 11.0,
-        "max": 21.25,
-        "maxObs": 28.0
+        "min": 2.0,
+        "max": 37.0
       }
     },
     {
       "veiculo": "24051042",
       "litros": {
-        "min": 85.5,
-        "max": 336.0399999999999,
-        "maxObs": 390.0
+        "min": 26.0,
+        "max": 392.4
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 21.449999999999996,
-        "maxObs": 180.0
+        "min": 1.0,
+        "max": 35.0
       }
     },
     {
       "veiculo": "24051043",
       "litros": {
-        "min": 190.0,
-        "max": 300.0,
-        "maxObs": 333.0
+        "min": 37.5,
+        "max": 354.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 15.5,
-        "max": 29.0,
-        "maxObs": 1679.0
+        "min": 1.0,
+        "max": 25.0
+      }
+    },
+    {
+      "veiculo": "24051044",
+      "litros": {
+        "min": 82.6,
+        "max": 390.0
+      },
+      "deltaKm": {
+        "min": null,
+        "max": null
+      },
+      "deltaHr": {
+        "min": 1.0,
+        "max": 29.0
       }
     },
     {
       "veiculo": "24051045",
       "litros": {
-        "min": 105.5,
-        "max": 281.6999999999999,
-        "maxObs": 353.0
+        "min": 38.0,
+        "max": 348.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 9.5,
-        "max": 26.599999999999994,
-        "maxObs": 77.0
+        "min": 2.0,
+        "max": 36.0
       }
     },
     {
       "veiculo": "24051047",
       "litros": {
-        "min": 121.5,
-        "max": 252.38999999999996,
-        "maxObs": 289.0
+        "min": 40.0,
+        "max": 324.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 17.299999999999997,
-        "maxObs": 20.0
+        "min": 4.0,
+        "max": 33.0
       }
     },
     {
       "veiculo": "24051048",
       "litros": {
-        "min": 265.5,
-        "max": 394.0,
-        "maxObs": 420.0
+        "min": 30.0,
+        "max": 312.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 18.0,
-        "max": 29.599999999999994,
-        "maxObs": 96.0
+        "min": 1.0,
+        "max": 26.0
       }
     },
     {
       "veiculo": "24051049",
       "litros": {
-        "min": 80.0,
-        "max": 185.75,
-        "maxObs": 226.0
+        "min": 82.0,
+        "max": 226.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 9.0,
-        "max": 21.0,
-        "maxObs": 29.0
+        "min": 3.0,
+        "max": 20.0
       }
     },
     {
       "veiculo": "24051050",
       "litros": {
-        "min": 60.2,
-        "max": 89.25,
-        "maxObs": 98.0
+        "min": 407.0,
+        "max": 407.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 5.0,
-        "max": 6.0,
-        "maxObs": 6.0
+        "min": null,
+        "max": null
       }
     },
     {
       "veiculo": "24051051",
       "litros": {
-        "min": 86.5,
-        "max": 325.55,
-        "maxObs": 381.0
+        "min": 71.0,
+        "max": 401.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.0,
-        "max": 22.699999999999996,
-        "maxObs": 1027.0
+        "min": 6.0,
+        "max": 23.0
       }
     },
     {
       "veiculo": "24051062",
       "litros": {
-        "min": 141.0,
-        "max": 300.08,
-        "maxObs": 317.6
+        "min": 50.0,
+        "max": 244.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.5,
-        "max": 19.0,
-        "maxObs": 23.0
+        "min": 0.5,
+        "max": 33.0
       }
     },
     {
       "veiculo": "24051063",
       "litros": {
-        "min": 191.05,
-        "max": 283.575,
-        "maxObs": 285.5
+        "min": 35.0,
+        "max": 250.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 19.0,
-        "max": 23.45,
-        "maxObs": 24.0
+        "min": 2.0,
+        "max": 21.0
       }
     },
     {
       "veiculo": "24051064",
       "litros": {
-        "min": 130.0,
-        "max": 332.23999999999995,
-        "maxObs": 397.0
+        "min": 29.0,
+        "max": 366.2
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 8.5,
-        "max": 19.0,
-        "maxObs": 24.0
+        "min": 1.0,
+        "max": 30.0
       }
     },
     {
       "veiculo": "24051065",
       "litros": {
-        "min": 126.25,
-        "max": 231.69999999999996,
-        "maxObs": 294.0
+        "min": 35.0,
+        "max": 307.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 12.0,
-        "max": 28.399999999999977,
-        "maxObs": 5006.0
+        "min": 2.0,
+        "max": 21.0
+      }
+    },
+    {
+      "veiculo": "24051068",
+      "litros": {
+        "min": 43.0,
+        "max": 369.0
+      },
+      "deltaKm": {
+        "min": null,
+        "max": null
+      },
+      "deltaHr": {
+        "min": 3.0,
+        "max": 25.0
       }
     },
     {
       "veiculo": "24051069",
       "litros": {
-        "min": 118.25,
-        "max": 278.25,
-        "maxObs": 284.0
+        "min": 24.0,
+        "max": 400.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 6.0,
-        "max": 25.29999999999999,
-        "maxObs": 32.0
+        "min": 1.0,
+        "max": 35.0
       }
     },
     {
       "veiculo": "24051071",
       "litros": {
-        "min": 199.0,
-        "max": 307.15,
-        "maxObs": 314.0
+        "min": 40.0,
+        "max": 298.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 14.0,
-        "max": 11381.6,
-        "maxObs": 11390.0
+        "min": 1.0,
+        "max": 30.0
       }
     },
     {
       "veiculo": "24051072",
       "litros": {
-        "min": 42.0,
-        "max": 48.8,
-        "maxObs": 50.0
+        "min": 13.0,
+        "max": 64.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 12.0,
-        "max": 79.99999999999983,
-        "maxObs": 155.0
+        "min": 3.0,
+        "max": 21.0
       }
     },
     {
       "veiculo": "24051073",
       "litros": {
-        "min": null,
-        "max": null,
-        "maxObs": null
+        "min": 42.82,
+        "max": 42.82
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
-      },
-      "deltaHr": {
-        "min": 10.0,
-        "max": 10.0,
-        "maxObs": 10.0
-      }
-    },
-    {
-      "veiculo": "24051074",
-      "litros": {
-        "min": 5.0,
-        "max": 5.0,
-        "maxObs": 5.0
-      },
-      "deltaKm": {
-        "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       }
     },
     {
       "veiculo": "24054005",
       "litros": {
-        "min": 5.01,
-        "max": 19.41,
-        "maxObs": 20.0
+        "min": 5.0,
+        "max": 20.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 6.0,
-        "max": 9.6,
-        "maxObs": 10.0
+        "min": 1.0,
+        "max": 2.0
       }
     },
     {
       "veiculo": "24054006",
       "litros": {
-        "min": 36.510000000000005,
-        "max": 53.56799999999999,
-        "maxObs": 56.56
+        "min": 6.18,
+        "max": 47.49
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 7.5,
-        "max": 19.099999999999994,
-        "maxObs": 38.0
+        "min": 2.0,
+        "max": 12.0
       }
     },
     {
       "veiculo": "24054009",
       "litros": {
-        "min": 200.0,
-        "max": 400.0,
-        "maxObs": 400.0
+        "min": 116.0,
+        "max": 200.01
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 24.0,
-        "max": 100.69999999999999,
-        "maxObs": 133.0
+        "min": 1.0,
+        "max": 40.0
       }
     },
     {
       "veiculo": "24054027",
       "litros": {
-        "min": 21.52,
-        "max": 32.343999999999994,
-        "maxObs": 34.57
+        "min": 18.6,
+        "max": 45.0
       },
       "deltaKm": {
         "min": null,
-        "max": null,
-        "maxObs": null
+        "max": null
       },
       "deltaHr": {
-        "min": 6.0,
-        "max": 10028.349999999991,
-        "maxObs": 15418.0
+        "min": 2.0,
+        "max": 13.0
       }
     }
   ]
