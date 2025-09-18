@@ -12,21 +12,40 @@
                growing="true"
                growingScrollToLoad="true"
                noDataText="Sem abastecimentos no período selecionado">
+
           <columns>
             <Column id="colData"><Label text="Data"/></Column>
             <Column id="colHora" minScreenWidth="Phone" demandPopin="true"><Label text="Hora"/></Column>
-            <Column id="colComboio" minScreenWidth="Phone" demandPopin="true"><Label text="Ponto de Abastecimento"/></Column>
+
+            <!-- Ponto de Abastecimento (Comboio/Posto) -->
+            <Column id="colComboio" minScreenWidth="Phone" demandPopin="true">
+              <Label text="Ponto de Abastecimento"/>
+            </Column>
 
             <!-- STATUS -->
-            <Column id="colStatus" minScreenWidth="Tablet" demandPopin="true">
+            <Column id="colStatus" hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
               <Label text="STATUS"/>
             </Column>
 
-            <Column id="colKm" hAlign="End" minScreenWidth="Tablet" demandPopin="true"><Label text="Km"/></Column>
-            <Column id="colHr" hAlign="End" minScreenWidth="Tablet" demandPopin="true"><Label text="Hr"/></Column>
-            <Column id="colLitros" hAlign="End"><Label text="Litros"/></Column>
-            <Column id="colKmL" hAlign="End" minScreenWidth="Tablet" demandPopin="true"><Label text="Km/L"/></Column>
-            <Column id="colLHr" hAlign="End" minScreenWidth="Desktop" demandPopin="true"><Label text="L/Hr"/></Column>
+            <Column id="colKm" hAlign="End" minScreenWidth="Tablet" demandPopin="true">
+              <Label text="Km"/>
+            </Column>
+
+            <Column id="colHr" hAlign="End" minScreenWidth="Tablet" demandPopin="true">
+              <Label text="Hr"/>
+            </Column>
+
+            <Column id="colLitros" hAlign="End">
+              <Label text="Litros"/>
+            </Column>
+
+            <Column id="colKmL" hAlign="End" minScreenWidth="Tablet" demandPopin="true">
+              <Label text="Km/L"/>
+            </Column>
+
+            <Column id="colLHr" hAlign="End" minScreenWidth="Desktop" demandPopin="true">
+              <Label text="L/Hr"/>
+            </Column>
           </columns>
 
           <items>
@@ -34,19 +53,31 @@
               <cells>
                 <Text text="{path:'fuel>data', formatter:'.formatter.fmtDate'}"/>
                 <Text text="{path:'fuel>hora', formatter:'.formatter.fmtHora'}"/>
+
+                <!-- Comboio/Posto -->
                 <Text text="{fuel>comboio}"/>
 
-                <!-- STATUS com ícone e tooltip -->
-                <ObjectStatus text="{fuel>_statusText}"
-                              state="{fuel>_statusState}"
-                              icon="{fuel>_statusIcon}"
-                              tooltip="{fuel>_statusTooltip}"/>
+                <!-- STATUS com ícone + tooltip -->
+                <ObjectStatus
+                  text="{fuel>_statusText}"
+                  state="{fuel>_statusState}"
+                  icon="{fuel>_statusIcon}"
+                  tooltip="{fuel>_statusTooltip}"/>
 
+                <!-- Km -->
                 <ObjectNumber number="{path:'fuel>km', formatter:'.formatter.fmtKm'}"/>
+
+                <!-- Hr -->
                 <ObjectNumber number="{path:'fuel>hr', formatter:'.formatter.fmtNum'}"/>
+
+                <!-- Litros -->
                 <ObjectNumber number="{path:'fuel>litros', formatter:'.formatter.fmtLitros'}"/>
+
+                <!-- Km/L -->
                 <ObjectNumber number="{path:'fuel>_kmPorL', formatter:'.formatter.fmtNum'}"
                               visible="{= ${fuel>_kmPorL} > 0 }"/>
+
+                <!-- L/Hr -->
                 <ObjectNumber number="{path:'fuel>_lPorHr', formatter:'.formatter.fmtNum'}"
                               visible="{= ${fuel>_lPorHr} > 0 }"/>
               </cells>
@@ -54,22 +85,24 @@
           </items>
         </Table>
 
-        <!-- Rodapé com totais/médias e limites -->
+        <!-- Rodapé: totais/médias -->
         <Toolbar class="sapUiTinyMarginTop">
           <ToolbarSpacer/>
           <ObjectStatus text="Total Litros:"/>
           <ObjectNumber number="{path:'fuel>/totalLitros', formatter:'.formatter.fmtLitros'}"/>
 
           <ToolbarSeparator/>
+
           <ObjectStatus text="Média Km/L:"/>
           <ObjectNumber number="{path:'fuel>/mediaKmPorL', formatter:'.formatter.fmtNum'}"/>
 
           <ToolbarSeparator/>
+
           <ObjectStatus text="Média L/Hr:"/>
           <ObjectNumber number="{path:'fuel>/mediaLPorHr', formatter:'.formatter.fmtNum'}"/>
         </Toolbar>
 
-        <!-- Limites usados (p50/p95) -->
+        <!-- Rodapé: limites usados (Km/Hr) -->
         <Toolbar>
           <ToolbarSpacer/>
           <ObjectStatus state="Information" icon="sap-icon://hint" text="{fuel>/limitesKmText}"/>
@@ -77,6 +110,13 @@
           <ObjectStatus state="Information" icon="sap-icon://hint" text="{fuel>/limitesHrText}"/>
         </Toolbar>
 
+        <!-- Rodapé: limites de Litros (opcional) -->
+        <Toolbar visible="{= !!${fuel>/limitesLtText} }">
+          <ToolbarSpacer/>
+          <ObjectStatus state="Information" icon="sap-icon://hint" text="{fuel>/limitesLtText}"/>
+        </Toolbar>
+
+        <!-- Mensagem quando não há eventos -->
         <Text text="Sem abastecimentos para este veículo no período"
               visible="{= ${fuel>/eventos}.length === 0 }"/>
       </VBox>
