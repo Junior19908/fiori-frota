@@ -198,10 +198,10 @@ sap.ui.define([
       // Tooltip detalhado
       const parts = [];
       if (hasKm || isFinite(minKm) || isFinite(maxKm)) {
-        parts.push(`ΔKm=${_fmt(dKm)} (Mín.=${_fmt(minKm)}, Máx.=${_fmt(maxKm)})`);
+        parts.push(`Km=${_fmt(dKm)} (Mín.=${_fmt(minKm)}, Máx.=${_fmt(maxKm)})`);
       }
       if (hasHr || isFinite(minHr) || isFinite(maxHr)) {
-        parts.push(`ΔHr=${hasHr ? _fmt(dHr) : "-"} (Mín.=${_fmt(minHr)}, Máx.=${_fmt(maxHr)})`);
+        parts.push(`Hr=${hasHr ? _fmt(dHr) : "-"} (Mín.=${_fmt(minHr)}, Máx.=${_fmt(maxHr)})`);
       }
       if (litrosOk || isFinite(minLt)) {
         parts.push(`Litros=${_fmt(litros)} (Mín.=${_fmt(minLt)})`);
