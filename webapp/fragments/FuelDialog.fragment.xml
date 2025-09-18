@@ -14,11 +14,11 @@
                noDataText="Sem abastecimentos no período selecionado">
 
           <columns>
-            <Column id="colData"><Label text="Data"/></Column>
-            <Column id="colHora" minScreenWidth="Phone" demandPopin="true"><Label text="Hora"/></Column>
+            <Column id="colData" width="7rem"><Label text="Data"/></Column>
+            <Column id="colHora" width="7rem" minScreenWidth="Phone" demandPopin="true"><Label text="Hora"/></Column>
 
             <!-- Ponto de Abastecimento (Comboio/Posto) -->
-            <Column id="colComboio" minScreenWidth="Phone" demandPopin="true">
+            <Column id="colComboio" width="12rem" hAlign="Center" minScreenWidth="Phone" demandPopin="true">
               <Label text="Ponto de Abastecimento"/>
             </Column>
 
@@ -27,23 +27,23 @@
               <Label text="STATUS"/>
             </Column>
 
-            <Column id="colKm" hAlign="End" minScreenWidth="Tablet" demandPopin="true">
+            <Column id="colKm" width="7rem" hAlign="End" minScreenWidth="Tablet" demandPopin="true">
               <Label text="Km"/>
             </Column>
 
-            <Column id="colHr" hAlign="End" minScreenWidth="Tablet" demandPopin="true">
+            <Column id="colHr" width="7rem" hAlign="End" minScreenWidth="Tablet" demandPopin="true">
               <Label text="Hr"/>
             </Column>
 
-            <Column id="colLitros" hAlign="End">
+            <Column id="colLitros" width="7rem" hAlign="End">
               <Label text="Litros"/>
             </Column>
 
-            <Column id="colKmL" hAlign="End" minScreenWidth="Tablet" demandPopin="true">
+            <Column id="colKmL" width="7rem" hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
               <Label text="Km/L"/>
             </Column>
 
-            <Column id="colLHr" hAlign="End" minScreenWidth="Desktop" demandPopin="true">
+            <Column id="colLHr" width="7rem" hAlign="Center" minScreenWidth="Desktop" demandPopin="true">
               <Label text="L/Hr"/>
             </Column>
           </columns>

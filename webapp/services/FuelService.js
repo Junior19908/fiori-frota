@@ -8,7 +8,7 @@ sap.ui.define([
     "com/skysinc/frota/frota/model/localdata/config/ranges_config.json"
   );
 
-  // Cache de ranges em memória: { [veiculo]: { litros:{p50,p95}, deltaKm:{p50,p95}, deltaHr:{p50,p95} } }
+  // Cache de ranges em memória: { [veiculo]: { litros:{min,max}, deltaKm:{min,max}, deltaHr:{min,max} } }
   let _rangesByVeh = null;
 
   /* ============================== Utils ============================== */
@@ -76,11 +76,11 @@ sap.ui.define([
     const km = r.deltaKm || {};
     const hr = r.deltaHr || {};
     const lt = r.litros || {};
-    const minKm = _parseNum(km.p50);
-    const maxKm = _parseNum(km.p95);
-    const minHr = _parseNum(hr.p50);
-    const maxHr = _parseNum(hr.p95);
-    const minLt = _parseNum(lt.p50);
+    const minKm = _parseNum(km.min);
+    const maxKm = _parseNum(km.max);
+    const minHr = _parseNum(hr.min);
+    const maxHr = _parseNum(hr.max);
+    const minLt = _parseNum(lt.min);
     return {
       minKm: isFinite(minKm) ? minKm : null,
       maxKm: isFinite(maxKm) ? maxKm : null,
@@ -168,7 +168,7 @@ sap.ui.define([
       const hasHr = isFinite(hrCur) && isFinite(hrAnt) && (hrCur > 0 || hrAnt > 0);
       const hasKm = isFinite(kmCur) && isFinite(kmAnt) && (kmCur > 0 || kmAnt > 0);
 
-      // Outliers por p95/p50
+      // Outliers por max/min
       const tooHighKm = hasKm && isFinite(maxKm) && dKm > maxKm;
       const tooHighHr = hasHr && isFinite(maxHr) && dHr > maxHr;
 
@@ -208,7 +208,7 @@ sap.ui.define([
       }
       ev._statusTooltip = parts.join(" • ");
 
-      // Métricas por linha (respeitando teto p95)
+      // Métricas por linha (respeitando teto max)
       const kmValido = hasKm && dKm > 0 && (!isFinite(maxKm) || dKm <= maxKm);
       const hrValido = hasHr && dHr > 0 && (!isFinite(maxHr) || dHr <= maxHr);
 
