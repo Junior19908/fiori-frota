@@ -37,7 +37,7 @@
           </layoutData>
         </Button>
 
-        <!-- NOVO: Botão de Configuração -->
+        <!-- NOVO: Botão de Configuração 
         <Button
           id="btnConfig"
           icon="sap-icon://action-settings"
@@ -48,7 +48,7 @@
           <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow"/>
           </layoutData>
-        </Button>
+        </Button>-->
       </OverflowToolbar>
 
       <!-- KPIs -->
