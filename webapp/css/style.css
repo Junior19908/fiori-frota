@@ -79,10 +79,15 @@ html.sap-desktop body.sapUiSizeCompact .f-form .sapMLabel {
 
 /* ========= ANIMAÇÕES (mantidas) ========= */
 /* BLINK */
-.blinkingText {
+.disponibilidadeText {
+  color: green;
+  font-weight: bold;
+  /*animation: blink 1s infinite;*/
+}
+.indisponibilidadeText {
   color: red;
   font-weight: bold;
-  animation: blink 1s infinite;
+  animation: blink 5s infinite;
 }
 .blinkingTextServico {
   color: greenyellow;

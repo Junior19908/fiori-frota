@@ -62,6 +62,12 @@ sap.ui.define([], function () {
     isDevolucao: function (qtde) {
       return Number(qtde) < 0;
     },
+	isDisponibilidade: function (data){
+	  return Number(data) <= 50;
+	},
+	isIndisponibilidade: function (data){
+	  return Number(data) <= 49;
+	},
 
     getTipoText: function (tipo) {
       if (!tipo) return "";

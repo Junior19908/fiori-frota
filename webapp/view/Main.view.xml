@@ -210,6 +210,26 @@
             </table:template>
           </table:Column>
 
+          <!-- Consumo por veículo: Disponibilidade -->
+          <table:Column width="9rem" hAlign="Center">
+            <Label text="Disponibilidade (%)"/>
+            <table:template>
+              <Text text="95%" 
+			  visible="{path:'95', formatter:'.formatter.isDisponibilidade'}"
+			  class="disponibilidadeText"/>
+            </table:template>
+          </table:Column>
+
+          <!-- Consumo por veículo: Indisponibilidade -->
+          <table:Column width="10rem" hAlign="Center">
+            <Label text="Indisponibilidade (%)"/>
+            <table:template>
+              <Text text="5%"
+			  visible="{path:'5', formatter:'.formatter.isIndisponibilidade'}"
+			  class="indisponibilidadeText"/>
+            </table:template>
+          </table:Column>
+
         </table:columns>
       </table:Table>
     </content>

@@ -12,7 +12,8 @@
     "@sap/ux-ui5-tooling": "1",
     "@ui5/cli": "^4.0.22",
     "dotenv": "^17.2.1",
-    "ui5-middleware-simpleproxy": "^3.4.3"
+    "ui5-middleware-simpleproxy": "^3.4.3",
+	"@openui5/sap.m": "^1.120.0"
   },
   "scripts": {
     "start": "fiori run --open \"test/flp.html?sap-ui-language=pt-BR#app-preview\"",

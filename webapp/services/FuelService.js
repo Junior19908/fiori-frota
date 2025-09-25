@@ -213,18 +213,18 @@ sap.ui.define([
       const kmValido = hasKm && dKm > 0 && (!isFinite(maxKm) || dKm <= maxKm);
       const hrValido = hasHr && dHr > 0 && (!isFinite(maxHr) || dHr <= maxHr);
 
-      if (kmValido && litrosOk) {
+      //if (kmValido && litrosOk) {
         ev._kmPerc = dKm;
         ev._kmPorL = dKm / litros;
         ev._lPorKm = litros / dKm;
         somaKmValidos += dKm;
         somaLitrosKmL += litros;
-      }
-      if (hrValido && litrosOk) {
+      //}
+      //if (hrValido && litrosOk) {
         ev._lPorHr = litros / dHr;
         somaHrValidos += dHr;
         somaLitrosLHr += litros;
-      }
+      //}
     }
 
     // 8) Rodapé: médias do período
