@@ -95,7 +95,7 @@ html.sap-desktop body.sapUiSizeCompact .f-form .sapMLabel {
   animation: blink 1s infinite;
 }
 /* PEÇA */
-.blinkingTextPeca {
+.blinkingText {
   color: red;
   font-weight: bold;
   animation: blink 1s infinite;

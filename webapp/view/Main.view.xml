@@ -1,4 +1,4 @@
-<mvc:View
+﻿<mvc:View
   controllerName="com.skysinc.frota.frota.controller.Main"
   xmlns:mvc="sap.ui.core.mvc"
   xmlns="sap.m"
@@ -15,7 +15,7 @@
         <Title text="Gestão de Frota" level="H3"/>
         <ToolbarSpacer/>
 
-        <!-- Período (obrigatório no OData – o controller garantes default = ontem) -->
+        <!-- Período (obrigatório no OData – o controller garante default = ontem) -->
         <Label text="Período:">
           <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow"/>
@@ -214,9 +214,9 @@
           <table:Column width="9rem" hAlign="Center">
             <Label text="Disponibilidade (%)"/>
             <table:template>
-              <Text text="95%" 
-			  visible="{path:'95', formatter:'.formatter.isDisponibilidade'}"
-			  class="disponibilidadeText"/>
+              <ObjectStatus
+                text="{path:'vm>disponibilidadePerc', formatter:'.formatter.fmtPercent'}"
+                state="{path:'vm>disponibilidadePerc', formatter:'.formatter.disponibilidadeState'}"/>
             </table:template>
           </table:Column>
 
@@ -224,9 +224,9 @@
           <table:Column width="10rem" hAlign="Center">
             <Label text="Indisponibilidade (%)"/>
             <table:template>
-              <Text text="5%"
-			  visible="{path:'5', formatter:'.formatter.isIndisponibilidade'}"
-			  class="indisponibilidadeText"/>
+              <ObjectStatus
+                text="{path:'vm>indisponibilidadePerc', formatter:'.formatter.fmtPercent'}"
+                state="{path:'vm>indisponibilidadePerc', formatter:'.formatter.indisponibilidadeState'}"/>
             </table:template>
           </table:Column>
 

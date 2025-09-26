@@ -1,4 +1,4 @@
-sap.ui.define([
+﻿sap.ui.define([
   "sap/ui/core/UIComponent",
   "sap/ui/model/json/JSONModel",
   "sap/base/Log"
@@ -7,6 +7,7 @@ sap.ui.define([
 
   // === CONFIGURAÇÕES ===
   const PATH_BASE   = "com/skysinc/frota/frota/model/localdata"; // ajuste se seu caminho mudar
+  const DOWNTIME_FILE = PATH_BASE + "/downtime.json";
   const MONTHS_BACK = 18; // quantos meses para trás carregar automaticamente
 
   function mm2(m) { return String(m).padStart(2, "0"); }
@@ -41,6 +42,43 @@ sap.ui.define([
       map[key].push(row);
     });
     return map;
+  }
+
+  // Normaliza o JSON de downtime para o formato { eventosPorVeiculo: { [veiculoId]: [events] } }
+  // Aceita tanto o formato { downtimes: [...] } quanto um mapa já estruturado.
+  function normalizeDowntime(raw) {
+    if (!raw) return {};
+    // Se já vier no formato { eventosPorVeiculo: { ... } }
+    if (raw.eventosPorVeiculo && typeof raw.eventosPorVeiculo === 'object') {
+      return raw.eventosPorVeiculo;
+    }
+    // Se vier como { downtimes: [...] }
+    if (Array.isArray(raw.downtimes)) {
+      const map = {};
+      raw.downtimes.forEach((it) => {
+        const key = String(it.equnr || it.veiculo || it.veiculoId || it.idVeiculo || '');
+        if (!key) return;
+        if (!map[key]) map[key] = [];
+        map[key].push(it);
+      });
+      return map;
+    }
+    // Se vier como array raiz
+    if (Array.isArray(raw)) {
+      const map = {};
+      raw.forEach((it) => {
+        const key = String(it.equnr || it.veiculo || it.veiculoId || it.idVeiculo || '');
+        if (!key) return;
+        if (!map[key]) map[key] = [];
+        map[key].push(it);
+      });
+      return map;
+    }
+    // Se vier como objeto plano que já é um map por veículo, assume-o
+    if (typeof raw === 'object') {
+      return raw;
+    }
+    return {};
   }
 
   // Dedup simples por (data + id|nItem|nome)
@@ -78,79 +116,43 @@ sap.ui.define([
     return out;
   }
 
-  // Transforma ranges_config.json (array `veiculos`) no formato esperado pelo Config.controller
-  function createVehConfFromRanges(data) {
-    // defaults compatíveis com o que o controller espera
+  // Constrói um objeto vehConf compatível com o que os controllers esperam.
+  // Se 'ranges' for fornecido (conteúdo de ranges_config.json), podemos
+  // inicializar valores padrões por veículo com base nos ranges ou apenas expor
+  // a estrutura mínima necessária.
+  function createVehConfFromRanges(ranges) {
     const defaults = {
-      globals: {
-        MaxJumpKm: 500,
-        MaxNegativeKm: 0,
-        RolloverMaxKm: 999999,
-        MaxKmPerHour: 80,
-        MaxLitersPerFill: 300,
-        MaxLph: 60,
-        TankCapacity: 300,
-        FuelType: "Diesel S10",
-        EnableValidation: true,
-        StrictMode: false
-      },
-      categories: {},
-      vehicles: {},
-      current: {}
+      MaxJumpKm: 100,
+      MaxNegativeKm: 0,
+      RolloverMaxKm: 1000,
+      MaxKmPerHour: 120,
+      MaxLitersPerFill: 200,
+      MaxLph: 50,
+      TankCapacity: 400,
+      FuelType: "",
+      EnableValidation: false,
+      StrictMode: false
     };
 
-    if (!data) return defaults;
+    const result = {
+      globals: Object.assign({}, defaults),
+      vehicles: {}
+    };
 
-    // preserve any globals/categories provided in the JSON
-    if (data.globals && typeof data.globals === 'object') {
-      defaults.globals = Object.assign({}, defaults.globals, data.globals);
-    }
-    if (data.categories && typeof data.categories === 'object') {
-      defaults.categories = Object.assign({}, defaults.categories, data.categories);
-    }
-
-    // data.veiculos pode ser array com objetos { veiculo, litros, deltaKm, deltaHr }
-    if (Array.isArray(data.veiculos)) {
-      data.veiculos.forEach(function(v) {
-        const id = String(v.veiculo || v.veiculoId || v.id || "");
-        if (!id) return;
-
-        // Mapeamento heurístico: preencher propriedades usadas pelo controller/view
-        const veh = {};
-
-        // MaxLitersPerFill / TankCapacity: usa maxObs ou p95/p50
-        const litros = v.litros || {};
-        veh.MaxLitersPerFill = litros.maxObs || litros.p95 || litros.p50 || defaults.globals.MaxLitersPerFill;
-        veh.TankCapacity = Math.max(veh.MaxLitersPerFill, defaults.globals.TankCapacity);
-
-        // MaxJumpKm a partir de deltaKm
-        const deltaKm = v.deltaKm || {};
-        veh.MaxJumpKm = deltaKm.maxObs || deltaKm.p95 || deltaKm.p50 || defaults.globals.MaxJumpKm;
-
-        // reserva para L/Hr e outros
-        const deltaHr = v.deltaHr || {};
-        veh.MaxLph = deltaHr.maxObs || deltaHr.p95 || deltaHr.p50 || defaults.globals.MaxLph;
-
-        // campos extras: manter os ranges originais para referência
-        veh._ranges = {
-          litros: litros,
-          deltaKm: deltaKm,
-          deltaHr: deltaHr
-        };
-
-        // vincula
-        defaults.vehicles[id] = veh;
+    if (ranges && Array.isArray(ranges.veiculos)) {
+      // Preenche chaves de veículos com os defaults (permite override futuro via UI)
+      ranges.veiculos.forEach((r) => {
+        const key = String(r.veiculo || r.id || r.veiculoId || "");
+        if (!key) return;
+        result.vehicles[key] = Object.assign({}, defaults);
       });
     }
 
-    // se o JSON tiver outras propriedades úteis (descricao etc), copie
-    if (data.descricao) defaults.descricao = data.descricao;
-
-    return defaults;
+    return result;
   }
 
-
-  const Component = UIComponent.extend("com.skysinc.frota.frota.Component", {
+  // Transforma ranges_config.json (array `veiculos`) no formato esperado pelo Config.controller
+  var Component = UIComponent.extend("com.skysinc.frota.frota.Component", {
     metadata: { manifest: "json" },
 
     init: function () {
@@ -168,14 +170,35 @@ sap.ui.define([
       var initialVehConf = createVehConfFromRanges(null);
       this.setModel(new JSONModel(initialVehConf), "vehConf");
       this.setModel(new JSONModel({}), "ranges");
+      this.setModel(new JSONModel({ eventosPorVeiculo: {} }), "downtime");
 
       var that = this;
       // Carrega e substitui assincronamente
-      fetchJSON(toUrl("com/skysinc/frota/frota/model/localdata/config/ranges_config.json")).then(function(data) {
+      fetchJSON(toUrl(PATH_BASE + "/config/ranges_config.json")).then(function(data) {
         var vehConf = createVehConfFromRanges(data);
         that.setModel(new JSONModel(vehConf), "vehConf");
         // também expõe o JSON cru para visualização direta
         that.setModel(new JSONModel(data || {}), "ranges");
+      });
+
+      fetchJSON(toUrl(DOWNTIME_FILE)).then(function(data) {
+        const map = normalizeDowntime(data);
+        var downtimeModel = that.getModel("downtime");
+        if (downtimeModel) {
+          downtimeModel.setData({ eventosPorVeiculo: map });
+        } else {
+          downtimeModel = new JSONModel({ eventosPorVeiculo: map });
+          that.setModel(downtimeModel, "downtime");
+        }
+
+        try {
+          var eventBus = sap && sap.ui && sap.ui.getCore ? sap.ui.getCore().getEventBus() : null;
+          if (eventBus && eventBus.publish) {
+            eventBus.publish("downtime", "ready");
+          }
+        } catch (e) {
+          // noop
+        }
       });
 
       // Carregamento automático: últimos N meses (somente abastecimentos locais)

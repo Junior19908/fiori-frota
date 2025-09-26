@@ -1,0 +1,13 @@
+﻿{
+  "downtimes": [
+    {
+      "equnr": "20020301",
+      "ordem": "OS-0001",
+      "aberturaData": "01/09/2025",
+      "aberturaHora": "12:53:25",
+      "fechamentoData": "01/09/2025",
+      "fechamentoHora": "15:30:00",
+      "descricao": "Parada para ajuste do sistema de combustivel"
+    }
+  ]
+}

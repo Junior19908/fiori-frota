@@ -1,4 +1,4 @@
-sap.ui.define([
+﻿sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/ui/model/json/JSONModel",
   "sap/ui/model/Filter",
@@ -59,6 +59,11 @@ sap.ui.define([
         resumoPrecoFmt: "Preço Médio: 0,00 R$/L"
       });
       this.getView().setModel(this.oKpi, "kpi");
+
+      this._eventBus = sap.ui.getCore().getEventBus();
+      if (this._eventBus && this._eventBus.subscribe) {
+        this._eventBus.subscribe("downtime", "ready", this._onDowntimeReady, this);
+      }
 
       this._setDefaultYesterdayOnDRS();
       this._reloadDistinctOnly().then(() => {
@@ -227,7 +232,65 @@ sap.ui.define([
       );
     },
 
-    onCloseFuel: function () { this.byId("dlgFuel")?.close(); },
+    onCloseFuel: function () {
+      if (this._fuelDialogState?._persistTimer) {
+        clearTimeout(this._fuelDialogState._persistTimer);
+      }
+      this.byId("dlgFuel")?.close();
+      this._fuelDialogState = null;
+    },
+
+    onLimiteKmMinChange: function (oEvent) {
+      this._applyFuelLimitOverride("limiteKmMin", oEvent);
+    },
+
+    onLimiteKmChange: function (oEvent) {
+      this._applyFuelLimitOverride("limiteKm", oEvent);
+    },
+
+    onLimiteHrMinChange: function (oEvent) {
+      this._applyFuelLimitOverride("limiteHrMin", oEvent);
+    },
+
+    onLimiteHrChange: function (oEvent) {
+      this._applyFuelLimitOverride("limiteHr", oEvent);
+    },
+
+    _applyFuelLimitOverride: function (prop, oEvent) {
+      if (!this._fuelModel || !this._fuelDialogState) return;
+
+      const source = oEvent?.getSource?.();
+      const rawValue = oEvent?.getParameter?.("value");
+      const parsed = Number(rawValue != null ? rawValue : source?.getValue?.());
+      if (!Number.isFinite(parsed)) return;
+
+      const sanitized = Math.max(0, parsed);
+      const currentOverrides = this._fuelDialogState.overrides || {};
+      if (currentOverrides[prop] === sanitized) return;
+
+      const overrides = {};
+      overrides[prop] = sanitized;
+
+      const adjustPair = (minProp, maxProp) => {
+        const model = this._fuelModel;
+        const minActive = !!model.getProperty("/" + minProp + "Active");
+        const maxActive = !!model.getProperty("/" + maxProp + "Active");
+        const currentMin = Number(model.getProperty("/" + minProp));
+        const currentMax = Number(model.getProperty("/" + maxProp));
+
+        if (prop === minProp && maxActive && Number.isFinite(currentMax) && sanitized > currentMax) {
+          overrides[maxProp] = sanitized;
+        }
+        if (prop === maxProp && minActive && Number.isFinite(currentMin) && sanitized < currentMin) {
+          overrides[minProp] = sanitized;
+        }
+      };
+
+      adjustPair("limiteKmMin", "limiteKm");
+      adjustPair("limiteHrMin", "limiteHr");
+
+      FuelService.updateFuelLimits(this, overrides);
+    },
 
     onDumpVm: function () {},
 
@@ -320,6 +383,20 @@ sap.ui.define([
         resumoMatFmt: "Mat/Serv: " + this.formatter.fmtBrl(totMatR$),
         resumoPrecoFmt: "Preço Médio: " + this.formatter.fmtNum(precoMedio) + " R$/L"
       }, true);
+    },
+
+    _onDowntimeReady: function () {
+      try {
+        this._recalcAndRefresh();
+      } catch (e) {
+        // ignore failures triggered during teardown
+      }
+    },
+
+    onExit: function () {
+      if (this._eventBus && this._eventBus.unsubscribe) {
+        this._eventBus.unsubscribe("downtime", "ready", this._onDowntimeReady, this);
+      }
     },
 
     _recalcAndRefresh: function () {

@@ -92,7 +92,7 @@
             </table:template>
           </table:Column>
 
-          <!-- Cód. Material | texto monospace opcional (evita quebra) -->
+          <!-- Cód. Material | texto monospac1e opcional (evita quebra) -->
           <table:Column width="4rem" sortProperty="codMaterial" filterProperty="codMaterial" hAlign="Center">
             <Label text="Cód. Material" textAlign="Center" width="100%"/>
             <table:template>

@@ -1,16 +1,14 @@
-sap.ui.define([], function () {
+﻿sap.ui.define([], function () {
   "use strict";
 
   function toNum(v) { return Number(v || 0); }
 
-  // --- Helpers internos
   function fmtNumber(v, min = 2, max = 2) {
     return Number(v || 0).toLocaleString("pt-BR", {
       minimumFractionDigits: min, maximumFractionDigits: max
     });
   }
 
-  // Monta "DD/MM/YYYY" a partir de pedaços numéricos, sem criar Date()
   function _ddmmyyyy(d, m, y) {
     const dd = String(d).padStart(2, "0");
     const mm = String(m).padStart(2, "0");
@@ -18,10 +16,8 @@ sap.ui.define([], function () {
     return `${dd}/${mm}/${yy}`;
   }
 
-  // Versão usada quando já temos (y,m,d) — mantém semântica
   function _ddmmyyyy_from(y, m, d) { return _ddmmyyyy(d, m, y); }
 
-  // Normaliza hora "HH:mm[:ss]" sem criar Date()
   function _hhmmss(hhmmss) {
     if (!hhmmss) return "";
     const m = String(hhmmss).match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
@@ -32,42 +28,55 @@ sap.ui.define([], function () {
     return S ? `${H}:${M}:${S}` : `${H}:${M}`;
   }
 
+  function clampPercent(value) {
+    const n = Number(value);
+    if (!isFinite(n)) return 0;
+    if (n < 0) return 0;
+    if (n > 100) return 100;
+    return n;
+  }
+
   return {
-    /* ==========================
-     * Formatação monetária / numérica
-     * ========================== */
     fmtBrl: function (v) {
       try { return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(Number(v || 0)); }
       catch (e) { return v; }
     },
 
-    // alias usado na view
     currencyBRL: function (v) {
       try { return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(Number(v || 0)); }
       catch (e) { return v; }
     },
 
-    fmtNum: function (v) { // 2 casas
+    fmtNum: function (v) {
       return fmtNumber(v, 2, 2);
     },
 
-    // alias com 3 casas
     number3: function (v) {
       return fmtNumber(v, 3, 3);
     },
 
-    /* ==========================
-     * Regras de negócio / classes
-     * ========================== */
     isDevolucao: function (qtde) {
       return Number(qtde) < 0;
     },
-	isDisponibilidade: function (data){
-	  return Number(data) <= 50;
-	},
-	isIndisponibilidade: function (data){
-	  return Number(data) <= 49;
-	},
+
+    disponibilidadeState: function (valor) {
+      const v = clampPercent(valor);
+      if (v <= 50) return "Error";
+      if (v <= 70) return "Warning";
+      return "Success";
+    },
+
+    indisponibilidadeState: function (valor) {
+      const v = clampPercent(valor);
+      if (v >= 71) return "Error";
+      if (v >= 51) return "Warning";
+      return "Success";
+    },
+
+    fmtPercent: function (valor) {
+      const v = clampPercent(valor);
+      return v.toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + " %";
+    },
 
     getTipoText: function (tipo) {
       if (!tipo) return "";
@@ -81,36 +90,27 @@ sap.ui.define([], function () {
       return "";
     },
 
-    /* ==========================
-     * Datas / horas (fuso-safe)
-     * ========================== */
-
-    // Data sem deslocar: aceita Date, "YYYY-MM-DD" (com/sem timezone), "DD/MM/YYYY"
     fmtDate: function (v) {
       if (!v) return "";
 
-      // ⚠️ Se já é Date, formatar pelos campos UTC para não "voltar 1 dia"
       if (v instanceof Date && !isNaN(v)) {
         const y = v.getUTCFullYear();
-        const m = v.getUTCMonth() + 1; // 1..12
+        const m = v.getUTCMonth() + 1;
         const d = v.getUTCDate();
         return _ddmmyyyy_from(y, m, d);
       }
 
       const s = String(v).trim();
 
-      // DD/MM/YYYY -> retorna como está
       let m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s);
       if (m) return s;
 
-      // ISO: YYYY-MM-DD[...] (com ou sem timezone) -> usa só a parte da data
       m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s);
       if (m) {
         const y = +m[1], mon = +m[2], d = +m[3];
         return _ddmmyyyy_from(y, mon, d);
       }
 
-      // Fallback: tenta parse e usa UTC para exibir
       try {
         const d2 = new Date(s);
         if (isNaN(d2)) return s;
@@ -163,26 +163,20 @@ sap.ui.define([], function () {
       }
     },
 
-
-    /** Média de eficiência: km/L (usa kmRodados / combustivelLitros) */
     fmtKmPorLitro: function (kmRodados, litros) {
       const km = Number(kmRodados || 0);
       const lt = Number(litros || 0);
-      if (!isFinite(km) || !isFinite(lt) || lt <= 0) return "—";
+      if (!isFinite(km) || !isFinite(lt) || lt <= 0) return "-";
       return (km / lt).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     },
 
-    /** Consumo horário: L/h (usa combustivelLitros / hrRodados) */
     fmtLitrosPorHora: function (litros, horas) {
       const lt = Number(litros || 0);
       const hr = Number(horas || 0);
-      if (!isFinite(lt) || !isFinite(hr) || hr <= 0) return "—";
+      if (!isFinite(lt) || !isFinite(hr) || hr <= 0) return "-";
       return (lt / hr).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     },
 
-
-    // Data + Hora sem deslocar (montagem textual)
-    // Ex.: ( Date(2025-09-01T00:00:00Z), "13:21:00" ) => "01/09/2025 13:21:00"
     fmtDateTime: function (dateVal, horaVal) {
       let dataTxt = "";
       if (dateVal instanceof Date && !isNaN(dateVal)) {
@@ -203,9 +197,6 @@ sap.ui.define([], function () {
       return _hhmmss(v);
     },
 
-    /* ==========================
-     * Métricas específicas
-     * ========================== */
     fmtFuncaoKmComb: function (a, b) {
       var x = toNum(a), y = toNum(b) || 0;
       var r = y ? (x / y) : 0;

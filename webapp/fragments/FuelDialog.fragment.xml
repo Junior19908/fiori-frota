@@ -102,38 +102,29 @@
           <ObjectNumber number="{path:'fuel>/mediaLPorHr', formatter:'.formatter.fmtNum'}"/>
         </Toolbar>
 
-        <!-- Rodapé: limites usados (Km/Hr) 
-        <Toolbar>
+        <!-- Ajuste manual de limites -->
+        <Toolbar visible="{fuel>/limiteToolbarVisible}">
           <ToolbarSpacer/>
-          <ObjectStatus state="Information" icon="sap-icon://hint" text="{fuel>/limitesKmText}"/>
-          <ToolbarSeparator/>
-          <ObjectStatus state="Information" icon="sap-icon://hint" text="{fuel>/limitesHrText}"/>
-        </Toolbar>-->
-		
-		<Toolbar>
-		  <ToolbarSpacer/>
-		  <!-- Limite Km com Stepper -->
-		  <HBox alignItems="Center">
-			<Label text="Km:"/>
-			<Stepper value="{fuel>/limiteKm}" min="0" max="999999" step="10" change=".onLimiteKmChange"/>
-			<Text text="{= `Mín.=${${fuel>/limiteKmMin}} • Máx.=${${fuel>/limiteKmMax}}` }" class="sapUiSmallMarginBegin"/>
-		  </HBox>
+          <HBox alignItems="Center" visible="{fuel>/limiteKmVisible}">
+            <Label text="Km:"/>
+            <Text text="Min." class="sapUiTinyMarginBegin"/>
+            <StepInput value="{fuel>/limiteKmMin}" min="0" max="999999" step="10" change=".onLimiteKmMinChange" enabled="{fuel>/limiteKmEnabled}" valueLiveUpdate="true" displayValuePrecision="0" width="6rem" class="sapUiTinyMarginBegin"/>
+            <Text text="Max." class="sapUiTinyMarginBegin"/>
+            <StepInput value="{fuel>/limiteKm}" min="0" max="999999" step="10" change=".onLimiteKmChange" enabled="{fuel>/limiteKmEnabled}" valueLiveUpdate="true" displayValuePrecision="0" width="6rem" class="sapUiTinyMarginBegin"/>
+            <Text text="{fuel>/limiteKmHint}" class="sapUiSmallMarginBegin"/>
+          </HBox>
 
-		  <ToolbarSeparator/>
+          <ToolbarSeparator visible="{= ${fuel>/limiteKmVisible} &amp;&amp; ${fuel>/limiteHrVisible} }"/>
 
-		  <!-- Limite Hr com Stepper -->
-		  <HBox alignItems="Center">
-			<Label text="Hr:"/>
-			<Stepper value="{fuel>/limiteHr}" min="0" max="9999" step="1" change=".onLimiteHrChange"/>
-			<Text text="{= `Mín.=${${fuel>/limiteHrMin}} • Máx.=${${fuel>/limiteHrMax}}` }" class="sapUiSmallMarginBegin"/>
-		  </HBox>
-		</Toolbar>		
-		
-        <!-- Rodapé: limites de Litros (opcional) 
-        <Toolbar visible="{= !!${fuel>/limitesLtText} }">
-          <ToolbarSpacer/>
-          <ObjectStatus state="Information" icon="sap-icon://hint" text="{fuel>/limitesLtText}"/>
-        </Toolbar>-->
+          <HBox alignItems="Center" visible="{fuel>/limiteHrVisible}">
+            <Label text="Hr:"/>
+            <Text text="Min." class="sapUiTinyMarginBegin"/>
+            <StepInput value="{fuel>/limiteHrMin}" min="0" max="9999" step="1" change=".onLimiteHrMinChange" enabled="{fuel>/limiteHrEnabled}" valueLiveUpdate="true" displayValuePrecision="0" width="5rem" class="sapUiTinyMarginBegin"/>
+            <Text text="Max." class="sapUiTinyMarginBegin"/>
+            <StepInput value="{fuel>/limiteHr}" min="0" max="9999" step="1" change=".onLimiteHrChange" enabled="{fuel>/limiteHrEnabled}" valueLiveUpdate="true" displayValuePrecision="0" width="5rem" class="sapUiTinyMarginBegin"/>
+            <Text text="{fuel>/limiteHrHint}" class="sapUiSmallMarginBegin"/>
+          </HBox>
+        </Toolbar>
 
         <!-- Mensagem quando não há eventos -->
         <Text text="Sem abastecimentos para este veículo no período"
