@@ -1,0 +1,217 @@
+<mvc:View
+  controllerName="com.skysinc.frota.frota.controller.IW38Preview"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  xmlns:form="sap.ui.layout.form"
+  xmlns:table="sap.ui.table"
+  displayBlock="true">
+
+  <Page id="page" title="{i18n>iw38Title}">
+    <content>
+      <IconTabBar expandable="false">
+        <items>
+
+          <!-- Aba DdsCabeç. -->
+          <IconTabFilter text="{i18n>iw38TabHeader}" key="cabec">
+            <VBox class="sapUiSmallMargin">
+              <form:SimpleForm editable="false" layout="ResponsiveGridLayout"
+                               labelSpanL="3" labelSpanM="3" adjustLabelSpan="false">
+                <Label text="{i18n>iw38FieldOrdem}"/>
+                <ObjectIdentifier title="{iw38>/header/ordem}"/>
+
+                <Label text="{i18n>iw38FieldStatus}"/>
+                <ObjectStatus text="{iw38>/header/status}" state="Success"/>
+
+                <Label text="{i18n>iw38FieldTitulo}"/>
+                <Text text="{iw38>/header/titulo}"/>
+
+                <Label text="{i18n>iw38FieldCentroGrp}"/>
+                <Text text="{iw38>/header/centroTrabalho} / {iw38>/header/grupoPlanej}"/>
+
+                <Label text="{i18n>iw38FieldTipoAtv}"/>
+                <Text text="{iw38>/header/tipoAtv}"/>
+
+                <Label text="{i18n>iw38FieldPrioridade}"/>
+                <Text text="{iw38>/header/prioridade}"/>
+
+                <Label text="{i18n>iw38FieldPeriodo}"/>
+                <Text text="{= ${iw38>/header/inicioBase} + ' - ' + ${iw38>/header/fimBase} }"/>
+
+                <Label text="{i18n>iw38FieldObjeto}"/>
+                <Text text="{iw38>/header/locInstal} - {iw38>/header/equip} - {iw38>/header/textoEquip}"/>
+
+                <Label text="{i18n>iw38FieldParadaH}"/>
+                <Text text="{iw38>/header/duracaoParada}"/>
+              </form:SimpleForm>
+            </VBox>
+          </IconTabFilter>
+
+          <!-- Aba Componentes -->
+          <IconTabFilter text="{i18n>iw38TabComponents}" key="comp">
+            <IconTabBar expandable="false">
+              <items>
+
+                <!-- Sub-aba Dados gerais -->
+                <IconTabFilter text="{i18n>iw38SubtabGeneral}" key="geral">
+                  <table:Table id="tblGeral"
+                               rows="{iw38>/componentes}"
+                               selectionMode="None"
+                               visibleRowCountMode="Auto"
+                               rowHeight="28"
+                               enableColumnReordering="false"
+                               fixedColumnCount="1">
+                    <table:columns>
+
+                      <table:Column width="7rem" hAlign="Begin">
+                        <Label text="{i18n>colComp}"/>
+                        <table:template><Text text="{iw38>componente}"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="22rem">
+                        <Label text="{i18n>colDescricao}"/>
+                        <table:template><Text text="{iw38>descricao}"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="3.5rem" hAlign="Center">
+                        <Label text="{i18n>colT}"/>
+                        <table:template><Text text="{iw38>tipo}"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="7rem" hAlign="End">
+                        <Label text="{i18n>colQtdNec}"/>
+                        <table:template><Text text="{iw38>qtdNecess}"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="5rem" hAlign="Center">
+                        <Label text="{i18n>colUM}"/>
+                        <table:template><Text text="{iw38>um}"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="6rem" hAlign="Center">
+                        <Label text="{i18n>colCC}"/>
+                        <table:template><Text text="{iw38>cc}"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="4rem" hAlign="Center">
+                        <Label text="{i18n>colEst}"/>
+                        <table:template>
+                          <Text text="{= ${iw38>estoque} ? '✔' : '✖' }"/>
+                        </table:template>
+                      </table:Column>
+
+                      <table:Column width="6rem" hAlign="Center">
+                        <Label text="{i18n>colDep}"/>
+                        <table:template><Text text="{iw38>deposito}"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="6rem" hAlign="Center">
+                        <Label text="{i18n>colCen}"/>
+                        <table:template><Text text="{iw38>centro}"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="6rem" hAlign="Center">
+                        <Label text="{i18n>colOper}"/>
+                        <table:template><Text text="{iw38>oper}"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="7rem" hAlign="Center">
+                        <Label text="{i18n>colLote}"/>
+                        <table:template><Text text="{iw38>lote}"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="16rem">
+                        <Label text="{i18n>colCtgSuprimento}"/>
+                        <table:template><Text text="{iw38>ctgSuprimento}"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="5rem" hAlign="Center">
+                        <Label text="{i18n>colItem}"/>
+                        <table:template><Text text="{iw38>item}"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="12rem">
+                        <Label text="{i18n>colRecebedor}"/>
+                        <table:template><Text text="{iw38>recebedor}"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="6rem" hAlign="Center">
+                        <Label text="{i18n>colPtoDesc}"/>
+                        <table:template><Text text="{iw38>ptoDescarga}"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="3rem" hAlign="Center">
+                        <Label text="{i18n>colE}"/>
+                        <table:template><Text text="{= ${iw38>flagE} ? '✔' : '✖' }"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="3rem" hAlign="Center">
+                        <Label text="{i18n>colM}"/>
+                        <table:template><Text text="{= ${iw38>flagM} ? '✔' : '✖' }"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="3rem" hAlign="Center">
+                        <Label text="{i18n>colB}"/>
+                        <table:template><Text text="{= ${iw38>flagB} ? '✔' : '✖' }"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="14rem">
+                        <Label text="{i18n>colReqCompra}"/>
+                        <table:template><Text text="{iw38>reqCompra}"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="14rem">
+                        <Label text="{i18n>colLocalizDesti}"/>
+                        <table:template><Text text="{iw38>localizDestino}"/></table:template>
+                      </table:Column>
+
+                    </table:columns>
+                  </table:Table>
+                </IconTabFilter>
+
+                <!-- Sub-aba Compras -->
+                <IconTabFilter text="{i18n>iw38SubtabPurch}" key="compras">
+                  <table:Table id="tblCompras"
+                               rows="{iw38>/componentes}"
+                               selectionMode="None"
+                               visibleRowCountMode="Auto"
+                               rowHeight="28">
+                    <table:columns>
+
+                      <table:Column width="7rem"><Label text="{i18n>colComp}"/>
+                        <table:template><Text text="{iw38>componente}"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="22rem"><Label text="{i18n>colDescricao}"/>
+                        <table:template><Text text="{iw38>descricao}"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="16rem"><Label text="{i18n>colCtgSuprimento}"/>
+                        <table:template><Text text="{iw38>ctgSuprimento}"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="12rem"><Label text="{i18n>colReqCompra}"/>
+                        <table:template><Text text="{iw38>reqCompra}"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="12rem"><Label text="{i18n>colRecebedor}"/>
+                        <table:template><Text text="{iw38>recebedor}"/></table:template>
+                      </table:Column>
+
+                      <table:Column width="6rem" hAlign="Center"><Label text="{i18n>colPtoDesc}"/>
+                        <table:template><Text text="{iw38>ptoDescarga}"/></table:template>
+                      </table:Column>
+
+                    </table:columns>
+                  </table:Table>
+                </IconTabFilter>
+
+              </items>
+            </IconTabBar>
+          </IconTabFilter>
+
+        </items>
+      </IconTabBar>
+    </content>
+  </Page>
+</mvc:View>

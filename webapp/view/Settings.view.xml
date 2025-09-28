@@ -1,0 +1,91 @@
+<mvc:View
+  controllerName="com.skysinc.frota.frota.controller.Settings"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  xmlns:f="sap.ui.layout.form"
+  xmlns:unified="sap.ui.unified"
+  displayBlock="true">
+
+  <Page id="settingsPage" title="Configurações" class="sapUiContentPadding" showFooter="true">
+    <content>
+      <VBox width="100%" renderType="Bare">
+        <f:SimpleForm editable="true"
+          layout="ResponsiveGridLayout"
+          width="100%"
+          labelSpanXL="3" labelSpanL="3" labelSpanM="4" labelSpanS="12"
+          adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+          columnsXL="2" columnsL="1" columnsM="1">
+
+          <Label text="Exibir todas as Ordens de Serviço?"/>
+          <HBox>
+            <Switch id="swShowAll" state="{settings>/showAllOS}" change=".onLiveChange"/>
+            <Text id="txShowAll" text="&#160;&#160;{= ${settings>/showAllOS} ? 'Sim' : 'Não' }"/>
+          </HBox>
+
+          <Label text="Tipos de OS"/>
+          <MultiComboBox id="mcOsTypes" width="100%" selectionChange=".onLiveChange" selectedKeys="{settings>/osTypes}">
+            <core:Item key="ZF1" text="ZF1"/>
+            <core:Item key="ZF2" text="ZF2"/>
+            <core:Item key="ZF3" text="ZF3"/>
+          </MultiComboBox>
+
+          <Label text="Carregar a tela principal automaticamente?"/>
+          <HBox>
+            <Switch id="swAutoLoad" state="{settings>/autoLoadMain}" change=".onAutoLoadToggle"/>
+            <Text id="txAutoLoad" text="&#160;&#160;{= ${settings>/autoLoadMain} ? 'Sim' : 'Não' }"/>
+          </HBox>
+
+          <Label text="Intervalo para atualização automática (segundos)"/>
+          <HBox id="hbInterval" visible="{settings>/autoLoadMain}">
+            <StepInput id="stepInterval" value="{settings>/autoLoadIntervalSec}" min="5" max="3600" step="5" liveChange=".onLiveChange"/>
+            <Text text="&#160;s"/>
+          </HBox>
+
+          <Label text="Filtro principal (data inicial)"/>
+          <SegmentedButton id="sbDatePref" selectedKey="{settings>/mainDatePref}" selectionChange=".onLiveChange">
+            <items>
+              <SegmentedButtonItem key="today" text="Hoje"/>
+              <SegmentedButtonItem key="yesterday" text="Ontem"/>
+            </items>
+          </SegmentedButton>
+
+          <Label text="Salvar informações localmente? (se Não, usar remoto)"/>
+          <HBox>
+            <Switch id="swSaveLocal" state="{settings>/saveLocal}" change=".onSaveLocalToggle"/>
+            <Text id="txSaveLocal" text="&#160;&#160;{= ${settings>/saveLocal} ? 'Local' : 'Remoto' }"/>
+          </HBox>
+
+          <Label text="Tema do Fiori"/>
+          <Select id="selTheme" selectedKey="{settings>/theme}" change=".onThemeChange" width="100%">
+            <core:Item key="sap_horizon" text="Horizon (Claro)"/>
+            <core:Item key="sap_horizon_dark" text="Horizon (Escuro)"/>
+            <core:Item key="sap_horizon_hcb" text="Alto Contraste Black"/>
+            <core:Item key="sap_horizon_hcw" text="Alto Contraste White"/>
+            <core:Item key="sap_fiori_3" text="Fiori 3 (Claro)"/>
+            <core:Item key="sap_fiori_3_dark" text="Fiori 3 (Escuro)"/>
+          </Select>
+
+          <Label text="Avatar do usuário"/>
+          <HBox alignItems="Center" justifyContent="Start" width="100%" wrap="Wrap">
+            <Avatar id="avatar" displaySize="L" src="{settings>/avatarSrc}" initials="{settings>/avatarInitials}" class="sapUiSmallMarginEnd"/>
+            <unified:FileUploader id="uploader"
+                                  buttonText="Selecionar imagem"
+                                  fileType="jpg,png,jpeg"
+                                  change=".onAvatarUpload"/>
+            <Button id="btnClearAvatar" text="Limpar" type="Transparent" press=".onAvatarClear" class="sapUiTinyMarginBegin"/>
+          </HBox>
+
+        </f:SimpleForm>
+      </VBox>
+    </content>
+
+    <footer>
+      <Toolbar>
+        <ToolbarSpacer/>
+        <Button id="btnRestore" text="Restaurar Padrões" type="Transparent" press=".onRestoreDefaults"/>
+        <Button id="btnSave" text="Salvar" type="Emphasized" press=".onSave"/>
+      </Toolbar>
+    </footer>
+  </Page>
+</mvc:View>

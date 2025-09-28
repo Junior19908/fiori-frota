@@ -37,18 +37,16 @@
           </layoutData>
         </Button>
 
-        <!-- NOVO: Botão de Configuração 
-        <Button
-          id="btnConfig"
-          icon="sap-icon://action-settings"
-          text="Configuração"
-          type="Transparent"
-          tooltip="Configurar limites do veículo selecionado"
-          press=".onOpenConfig">
-          <layoutData>
-            <OverflowToolbarLayoutData priority="NeverOverflow"/>
-          </layoutData>
-        </Button>-->
+      <Button
+        id="btnSettings"
+        icon="sap-icon://action-settings"
+        text="Configurações"
+        type="Transparent"
+        press=".onOpenSettings">
+        <layoutData>
+          <OverflowToolbarLayoutData priority="NeverOverflow"/>
+        </layoutData>
+      </Button>
       </OverflowToolbar>
 
       <!-- KPIs -->
@@ -101,9 +99,11 @@
       <table:Table
           id="tbl"
           selectionMode="None"
-          visibleRowCount="25"
+          visibleRowCountMode="Auto"
+          minAutoRowCount="8"
           alternateRowColors="true"
           enableColumnReordering="true"
+          fixedColumnCount="4"
           width="100%"
           noData="Sem dados para o período/filtragem."
           rows="{vm>/veiculos}">
@@ -131,13 +131,14 @@
             </table:template>
           </table:Column>
 
-          <table:Column width="6rem" hAlign="Center">
+          <table:Column width="8rem" hAlign="Center">
             <Label text="Ações"/>
             <table:template>
               <HBox alignItems="Center" justifyContent="Center">
                 <Button icon="sap-icon://detail-view" type="Transparent" tooltip="Materiais/Serviços" press=".onOpenMateriais"/>
                 <Button icon="sap-icon://mileage" type="Transparent" tooltip="Abastecimentos" press=".onOpenAbastecimentos"/>
                 <Button icon="sap-icon://insurance-car" type="Transparent" tooltip="Histórico" press=".onOpenHistorico"/>
+                <Button icon="sap-icon://enablement" type="Transparent" tooltip="Odens de Serviço" press=".onOpenIW38Preview"/>
               </HBox>
             </table:template>
           </table:Column>

@@ -209,6 +209,30 @@
       this.loadAllHistoryInRange(start, end).then(() => {
         this.getRouter().initialize();
       });
+
+
+        // --- Settings model (global) ---
+        (function initSettingsModel(ComponentInstance){
+          const STORAGE_KEY = "frota.settings.v1";
+          const defaults = {
+            showAllOS: false,
+            osTypes: ["ZF1","ZF2","ZF3"],
+            autoLoadMain: false,
+            autoLoadIntervalSec: 30,
+            mainDatePref: "yesterday",
+            saveLocal: true,
+            theme: "sap_horizon",
+            avatarSrc: "",
+            avatarInitials: "CJ"
+          };
+          let saved = null;
+          try { saved = JSON.parse(window.localStorage.getItem(STORAGE_KEY)); } catch(e){}
+          const settingsData = Object.assign({}, defaults, saved || {});
+          const oSettingsModel = new sap.ui.model.json.JSONModel(settingsData);
+          ComponentInstance.setModel(oSettingsModel, "settings");
+          try { sap.ui.getCore().applyTheme(settingsData.theme); } catch(e){}
+        })(this);
+
     },
 
     /**

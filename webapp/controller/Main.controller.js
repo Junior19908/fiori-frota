@@ -124,10 +124,41 @@
     },
     // ========= FIM DO NOVO =========
 
+    // Abre página de Configurações (preferências do usuário)
+    onOpenSettings: function () {
+      try {
+        const oRouter = this.getOwnerComponent().getRouter && this.getOwnerComponent().getRouter();
+        if (oRouter && oRouter.navTo) {
+          oRouter.navTo("settings");
+          return;
+        }
+      } catch (e) {
+        // fallback abaixo
+      }
+      sap.m.MessageToast.show("Rota 'settings' não encontrada. Verifique o routing no manifest.json.");
+    },
+
     onOpenHistorico: function (oEvent) {
       const obj = oEvent.getSource().getBindingContext("vm").getObject();
       const id = String(obj.equnr || obj.veiculo || "");
       this.getOwnerComponent().getRouter().navTo("RouteHistorico", { id });
+    },
+
+    // Abre a visualização/preview da IW38 (mock local por enquanto)
+    onOpenIW38Preview: function (oEvent) {
+      try {
+        const ctxObj = oEvent?.getSource?.()?.getBindingContext("vm")?.getObject?.();
+        // Usa alguma possível ordem vinda do contexto, senão um valor padrão do mock
+        const ordem = String(ctxObj?.ordem || ctxObj?.lastOrder || "4804378");
+        const oRouter = this.getOwnerComponent().getRouter && this.getOwnerComponent().getRouter();
+        if (oRouter && oRouter.navTo) {
+          oRouter.navTo("RouteIW38", { ordem });
+          return;
+        }
+      } catch (e) {
+        // segue para fallback
+      }
+      sap.m.MessageToast.show("Rota 'RouteIW38' não encontrada. Verifique o routing no manifest.json.");
     },
 
     onOpenMateriais: function (oEvent) {

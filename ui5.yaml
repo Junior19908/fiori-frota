@@ -34,8 +34,14 @@ server:
         endpoint: /local/ranges
         filePath: webapp/model/localdata/config/ranges_config.json
 
-    - name: fiori-tools-preview
+    - name: save-settings
       afterMiddleware: save-ranges
+      configuration:
+        endpoint: /local/settings
+        filePath: webapp/model/settings.json
+
+    - name: fiori-tools-preview
+      afterMiddleware: save-settings
       configuration:
         flp:
           theme: sap_horizon
@@ -47,6 +53,15 @@ metadata:
   name: save-ranges
 middleware:
   path: middleware/saveRanges.js
+
+---
+specVersion: "3.1"
+kind: extension
+type: server-middleware
+metadata:
+  name: save-settings
+middleware:
+  path: middleware/saveSettings.js
 
 
 

@@ -2,19 +2,11 @@
    Fiori-Frota – Global CSS
 ================== */
 
-.sapMPage > section {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-}
+/* Removido: não fixe todas as sections de Page – quebra layout e rolagem padrão */
 #application-app-preview-component---Config--pgConfig-intHeader {
   display: none !important;
 }
-.sapMTB {
-  justify-content: center;
-}
+/* Removido: não centralizar todas as toolbars globalmente. Use .tb-center quando precisar. */
 /* Se quiser uma toolbar centralizada, aplique .tb-center no XML */
 .tb-center.sapMTB { justify-content: center; }
 

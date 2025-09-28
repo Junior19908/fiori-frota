@@ -118,7 +118,8 @@
                         <IconTabFilter text="Combustíveis" icon="sap-icon://mileage">
                           <table:Table id="tblCombustiveis"
                                        rows="{path:'detail>/historicoComb'}"
-                                       visibleRowCount="12"
+                                       visibleRowCountMode="Auto"
+                                       minAutoRowCount="8"
                                        selectionMode="None"
                                        width="100%"
                                        alternateRowColors="true">
@@ -161,7 +162,8 @@
                         <IconTabFilter text="Materiais" icon="sap-icon://sales-order-item">
                           <table:Table id="tblMateriais"
                                        rows="{path:'detail>/historicoMateriais'}"
-                                       visibleRowCount="12"
+                                       visibleRowCountMode="Auto"
+                                       minAutoRowCount="8"
                                        selectionMode="None"
                                        width="100%"
                                        alternateRowColors="true">
