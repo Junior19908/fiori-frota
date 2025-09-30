@@ -76,6 +76,15 @@
             <Button id="btnClearAvatar" text="Limpar" type="Transparent" press=".onAvatarClear" class="sapUiTinyMarginBegin"/>
           </HBox>
 
+          <Label text="Importar arquivo de configurações"/>
+          <HBox alignItems="Center" justifyContent="Start" width="100%" wrap="Wrap">
+            <unified:FileUploader id="settingsFileUploader"
+                                  buttonText="Selecionar arquivo"
+                                  fileType="json"
+                                  change=".onSettingsFileUpload"
+                                  width="100%"/>
+          </HBox>
+
           <Label text="Integração Firebase"/>
           <VBox class="sapUiSmallMarginBottom">
             <HBox>

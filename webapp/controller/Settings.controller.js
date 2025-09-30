@@ -21,6 +21,81 @@ sap.ui.define([
       });
     },
 
+      /**
+       * Envia o arquivo selecionado para o Storage do Firebase
+       */
+      onSettingsFileUpload: function (oEvent) {
+        var that = this;
+        const files = oEvent.getParameter("files");
+        const file = files && files[0];
+        if (!file) {
+          MessageToast.show("Selecione um arquivo JSON.");
+          return;
+        }
+        if (!/\.json$/i.test(file.name)) {
+          MessageToast.show("Apenas arquivos .json são permitidos.");
+          return;
+        }
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          var contents = e.target.result;
+          var json;
+          try {
+            json = JSON.parse(contents);
+          } catch (err) {
+            MessageToast.show("Arquivo JSON inválido.");
+            return;
+          }
+          // Pergunta ao usuário o nome do arquivo no storage
+          sap.ui.require(["sap/m/Dialog", "sap/m/Input", "sap/m/Button"], function(Dialog, Input, Button) {
+            var inp = new Input({ value: "abastecimentos/2025/09/" + file.name, width: "100%" });
+            var dlg = new Dialog({
+              title: "Destino no Storage",
+              content: [inp],
+              beginButton: new Button({
+                text: "Enviar",
+                type: "Emphasized",
+                press: function() {
+                  var path = inp.getValue();
+                  dlg.close();
+                  that._uploadJsonToFirebase(path, json);
+                }
+              }),
+              endButton: new Button({ text: "Cancelar", press: function(){ dlg.close(); } }),
+              afterClose: function(){ dlg.destroy(); }
+            });
+            that.getView().addDependent(dlg);
+            dlg.open();
+          });
+        };
+        reader.readAsText(file);
+      },
+
+      /**
+       * Faz upload de um objeto JSON para o Firebase Storage
+       */
+      _uploadJsonToFirebase: function (path, json) {
+        var that = this;
+        if (!path) {
+          MessageToast.show("Caminho de destino não informado.");
+          return;
+        }
+        BusyIndicator.show(0);
+        sap.ui.require(["com/skysinc/frota/frota/services/FirebaseExportService"], function (svc) {
+          svc.getFirebase().then(function (f) {
+            var sref = f.ref(f.storage, path);
+            var blob = new Blob([JSON.stringify(json, null, 2)], { type: "application/json" });
+            return f.uploadBytes(sref, blob, { contentType: "application/json" });
+          }).then(function () {
+            MessageToast.show("Arquivo enviado para o Storage com sucesso.");
+          }).catch(function (e) {
+            MessageToast.show("Falha ao enviar arquivo: " + (e && (e.message || e.code || e)));
+          }).finally(function () {
+            BusyIndicator.hide();
+          });
+        });
+      },
+
     onLiveChange: function () {},
     onAutoLoadToggle: function () {},
     onSaveLocalToggle: function () {},
