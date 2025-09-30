@@ -133,6 +133,7 @@
     </content>
 
     <buttons>
+      <Button text="Salvar" type="Emphasized" press=".onSaveFuelLimits"/>
       <Button text="Fechar" type="Transparent" press=".onCloseFuel"/>
     </buttons>
   </Dialog>

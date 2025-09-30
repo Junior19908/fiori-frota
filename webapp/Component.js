@@ -252,23 +252,51 @@
       if (!months.length) return;
 
       let abMap  = abModel.getProperty("/abastecimentosPorVeiculo") || {};
+      const missingMonths = [];
+
+      // Força consumo remoto (Firebase Storage) em vez de arquivos locais
+      const useLocal = false;
 
       for (const { y, m } of months) {
-        const aUrl  = toUrl(`${PATH_BASE}/${y}/${mm2(m)}/abastecimentos.json`);
+        let aData = null;
+        if (useLocal) {
+          const aUrl  = toUrl(`${PATH_BASE}/${y}/${mm2(m)}/abastecimentos.json`);
+          aData = await fetchJSON(aUrl);
+        } else {
+          try {
+            aData = await new Promise(function(resolve){
+              sap.ui.require(["com/skysinc/frota/frota/services/FirebaseExportService"], function (svc) {
+                svc.fetchMonthlyFromStorage(y, m).then(function (d) { resolve(d); }).catch(function(){ resolve(null); });
+              });
+            });
+          } catch (e) { aData = null; }
+        }
 
-        // Lê APENAS abastecimentos do mês
-        const aData = await fetchJSON(aUrl);
+        // Sem fallback local: se remoto indisponível, mês ficará sem dados
 
         if (aData) {
           const map = aData.abastecimentosPorVeiculo
             ? aData.abastecimentosPorVeiculo
             : ensureMap(aData);
           abMap = mergeByVehicle(abMap, map);
+        } else {
+          // marca mês como ausente no Storage remoto
+          missingMonths.push(`${y}-${mm2(m)}`);
         }
       }
 
       // Atualiza SOMENTE o modelo de abastecimentos
       abModel.setProperty("/abastecimentosPorVeiculo", abMap);
+
+      if (missingMonths.length > 0) {
+        try {
+          sap.ui.require(["sap/m/MessageToast"], function (MessageToast) {
+            const list = missingMonths.slice(0, 6).join(", ");
+            const extra = missingMonths.length > 6 ? ` +${missingMonths.length - 6}` : "";
+            MessageToast.show(`Meses sem dados no Firebase: ${list}${extra}`);
+          });
+        } catch (e) { /* no-op */ }
+      }
 
       Log.info("[Component] Histórico de abastecimentos (local) carregado: " +
         months.length + " mês(es)");

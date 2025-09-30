@@ -38,7 +38,7 @@
 
           <Label text="Intervalo para atualização automática (segundos)"/>
           <HBox id="hbInterval" visible="{settings>/autoLoadMain}">
-            <StepInput id="stepInterval" value="{settings>/autoLoadIntervalSec}" min="5" max="3600" step="5" liveChange=".onLiveChange"/>
+            <StepInput id="stepInterval" value="{settings>/autoLoadIntervalSec}" min="5" max="3600" step="5" change=".onLiveChange"/>
             <Text text="&#160;s"/>
           </HBox>
 
@@ -75,6 +75,28 @@
                                   change=".onAvatarUpload"/>
             <Button id="btnClearAvatar" text="Limpar" type="Transparent" press=".onAvatarClear" class="sapUiTinyMarginBegin"/>
           </HBox>
+
+          <Label text="Integração Firebase"/>
+          <VBox class="sapUiSmallMarginBottom">
+            <HBox>
+              <Button text="Testar Conexão" type="Transparent" press=".onTestFirebase"/>
+            </HBox>
+            <HBox class="sapUiTinyMarginTop" alignItems="Center">
+              <Button text="Exportar Mês Atual" type="Emphasized" press=".onExportCurrentMonth"/>
+            </HBox>
+            <HBox class="sapUiTinyMarginTop" alignItems="Center">
+              <Text text="Exportar últimos"/>
+              <StepInput id="stepExportN" min="1" max="36" step="1" value="6" class="sapUiTinyMarginBegin"/>
+              <Text text="meses" class="sapUiTinyMarginBegin"/>
+              <Button text="Exportar" type="Transparent" press=".onExportLastNMonths" class="sapUiTinyMarginBegin"/>
+            </HBox>
+
+            <HBox class="sapUiTinyMarginTop" alignItems="Center" wrap="Wrap">
+              <Text text="Teste gs://" class="sapUiTinyMarginEnd"/>
+              <Input id="inpGsUrl" width="100%" placeholder="Cole aqui o gs://.../abastecimentos/YYYY/MM/abastecimentos.json"/>
+              <Button text="Baixar e exibir JSON" type="Transparent" press=".onFetchGsJson" class="sapUiTinyMarginBegin"/>
+            </HBox>
+          </VBox>
 
         </f:SimpleForm>
       </VBox>

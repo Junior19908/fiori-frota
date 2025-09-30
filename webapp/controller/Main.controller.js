@@ -264,11 +264,24 @@
     },
 
     onCloseFuel: function () {
+      // Apenas fecha, sem salvar.
       if (this._fuelDialogState?._persistTimer) {
         clearTimeout(this._fuelDialogState._persistTimer);
       }
       this.byId("dlgFuel")?.close();
       this._fuelDialogState = null;
+    },
+
+    onSaveFuelLimits: function () {
+      try {
+        FuelService.saveFuelLimits(this, { reason: "manual" })
+          .then((ok) => {
+            if (ok) MessageToast.show("Limites salvos.");
+            else MessageToast.show("Não foi possível salvar os limites.");
+          });
+      } catch (e) {
+        MessageToast.show("Não foi possível salvar os limites.");
+      }
     },
 
     onLimiteKmMinChange: function (oEvent) {

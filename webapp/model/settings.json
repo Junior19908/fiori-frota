@@ -7,9 +7,9 @@
   ],
   "autoLoadMain": false,
   "autoLoadIntervalSec": 30,
-  "mainDatePref": "yesterday",
+  "mainDatePref": "today",
   "saveLocal": true,
-  "theme": "sap_horizon",
+  "theme": "sap_horizon_dark",
   "avatarSrc": "",
   "avatarInitials": "CJ"
 }

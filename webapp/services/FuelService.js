@@ -514,12 +514,72 @@ sap.ui.define([
     state.limits.minHr = payload.limiteHrMinActive ? payload.limiteHrMin : null;
     state.limits.maxHr = payload.limiteHrActive ? payload.limiteHr : null;
 
-    _queuePersist(state, payload);
+    // Removido: não persistir automaticamente a cada mudança.
+    // A persistência ocorrerá explicitamente via saveFuelLimits() ou ao fechar o diálogo.
+  }
+
+  async function saveFuelLimits(oController, metadata) {
+    if (!oController || !oController._fuelDialogState) return Promise.resolve(false);
+
+    const state = oController._fuelDialogState;
+    const payload = _buildFuelModelPayload(
+      state.baseEvents,
+      state.limits,
+      state.overrides,
+      state.originalLimits
+    );
+
+    if (!state.vehicleKey) return Promise.resolve(false);
+
+    const body = {
+      vehicle: state.vehicleKey,
+      deltaKm: {
+        min: payload.limiteKmMinActive ? payload.limiteKmMin : null,
+        max: payload.limiteKmActive ? payload.limiteKm : null
+      },
+      deltaHr: {
+        min: payload.limiteHrMinActive ? payload.limiteHrMin : null,
+        max: payload.limiteHrActive ? payload.limiteHr : null
+      },
+      metadata: Object.assign({
+        source: "FuelDialog",
+        savedAt: new Date().toISOString()
+      }, metadata || {})
+    };
+
+    const payloadBody = JSON.stringify(body);
+
+    const doFetch = (typeof window !== "undefined" && typeof window.fetch === "function")
+      ? window.fetch
+      : null;
+
+    const request = doFetch
+      ? doFetch(SAVE_LIMITS_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: payloadBody
+        })
+      : jQuery.ajax({
+          url: SAVE_LIMITS_URL,
+          method: "POST",
+          contentType: "application/json",
+          data: payloadBody
+        });
+
+    try {
+      const resp = await Promise.resolve(request);
+      if (resp && resp.ok === false) throw new Error("Falha ao salvar limites");
+      state._lastPersistBody = payloadBody;
+      state._pendingPersistBody = null;
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   return {
     openFuelDialog,
-    updateFuelLimits
+    updateFuelLimits,
+    saveFuelLimits
   };
 });
-
