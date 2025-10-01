@@ -1,8 +1,8 @@
-sap.ui.define([], function () {
+﻿sap.ui.define([], function () {
   "use strict";
 
-  // Implementação em ES5 compatível com UI5; usa dynamic import() para Firebase.
-  // Permite injeção de mocks no construtor para testes.
+  // ImplementaÃ§Ã£o em ES5 compatÃ­vel com UI5; usa dynamic import() para Firebase.
+  // Permite injeÃ§Ã£o de mocks no construtor para testes.
 
   var DEFAULTS = {
     showAllOS: false,
@@ -44,7 +44,7 @@ sap.ui.define([], function () {
   FirebaseSettingsRepository.prototype._getFirebase = function () {
     var self = this;
     if (self._inject) return Promise.resolve(self._inject);
-    // Carrega config e módulos necessários sob demanda
+    // Carrega config e mÃ³dulos necessÃ¡rios sob demanda
     return Promise.all([
       import("./firebaseConfig.js"),
       import("firebase/firestore"),
@@ -103,10 +103,10 @@ sap.ui.define([], function () {
     });
   };
 
-  // Regras mínimas (DEV) sugeridas:
-  // Firestore rules (DEV): allow read, write: if true;  (NÃO usar em produção)
-  // Storage rules (DEV):   allow read, write: if true;  (NÃO usar em produção)
-  // Em produção, restrinja por Auth (request.auth.uid)
+  // Regras mÃ­nimas (DEV) sugeridas:
+  // Firestore rules (DEV): allow read, write: if true;  (NÃƒO usar em produÃ§Ã£o)
+  // Storage rules (DEV):   allow read, write: if true;  (NÃƒO usar em produÃ§Ã£o)
+  // Em produÃ§Ã£o, restrinja por Auth (request.auth.uid)
 
   return FirebaseSettingsRepository;
 });

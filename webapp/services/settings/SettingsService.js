@@ -1,4 +1,4 @@
-sap.ui.define([
+﻿sap.ui.define([
   "com/skysinc/frota/frota/services/settings/LocalSettingsRepository",
   "com/skysinc/frota/frota/services/settings/FirebaseSettingsRepository",
   "sap/base/Log"
@@ -28,7 +28,7 @@ sap.ui.define([
   }
 
   function loadSettings() {
-    // Persistência de preferência de local/remote em localStorage
+    // PersistÃªncia de preferÃªncia de local/remote em localStorage
     var persisted = parseOr(window.localStorage.getItem(STORAGE_KEY), null) || {};
     var saveLocal = (typeof persisted.saveLocal === "boolean") ? persisted.saveLocal : true;
     var repo = getRepository(saveLocal);

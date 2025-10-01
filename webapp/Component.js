@@ -5,10 +5,10 @@
 ], function (UIComponent, JSONModel, Log) {
   "use strict";
 
-  // === CONFIGURAÇÕES ===
+  // === CONFIGURAÃ‡Ã•ES ===
   const PATH_BASE   = "com/skysinc/frota/frota/model/localdata"; // ajuste se seu caminho mudar
   const DOWNTIME_FILE = PATH_BASE + "/downtime.json";
-  const MONTHS_BACK = 18; // quantos meses para trás carregar automaticamente
+  const MONTHS_BACK = 18; // quantos meses para trÃ¡s carregar automaticamente
 
   function mm2(m) { return String(m).padStart(2, "0"); }
 
@@ -25,11 +25,11 @@
     });
   }
 
-  // Constrói URL relativa ao require
+  // ConstrÃ³i URL relativa ao require
   function toUrl(p) { return sap.ui.require.toUrl(p); }
 
-  // === Helpers p/ merge de coleções por veículo ===
-  // Transforma array plano em mapa { [veiculoId]: Array }, se necessário
+  // === Helpers p/ merge de coleÃ§Ãµes por veÃ­culo ===
+  // Transforma array plano em mapa { [veiculoId]: Array }, se necessÃ¡rio
   function ensureMap(arrOrMap) {
     if (arrOrMap && typeof arrOrMap === "object" && !Array.isArray(arrOrMap)) {
       return arrOrMap;
@@ -45,10 +45,10 @@
   }
 
   // Normaliza o JSON de downtime para o formato { eventosPorVeiculo: { [veiculoId]: [events] } }
-  // Aceita tanto o formato { downtimes: [...] } quanto um mapa já estruturado.
+  // Aceita tanto o formato { downtimes: [...] } quanto um mapa jÃ¡ estruturado.
   function normalizeDowntime(raw) {
     if (!raw) return {};
-    // Se já vier no formato { eventosPorVeiculo: { ... } }
+    // Se jÃ¡ vier no formato { eventosPorVeiculo: { ... } }
     if (raw.eventosPorVeiculo && typeof raw.eventosPorVeiculo === 'object') {
       return raw.eventosPorVeiculo;
     }
@@ -74,7 +74,7 @@
       });
       return map;
     }
-    // Se vier como objeto plano que já é um map por veículo, assume-o
+    // Se vier como objeto plano que jÃ¡ Ã© um map por veÃ­culo, assume-o
     if (typeof raw === 'object') {
       return raw;
     }
@@ -116,10 +116,10 @@
     return out;
   }
 
-  // Constrói um objeto vehConf compatível com o que os controllers esperam.
-  // Se 'ranges' for fornecido (conteúdo de ranges_config.json), podemos
-  // inicializar valores padrões por veículo com base nos ranges ou apenas expor
-  // a estrutura mínima necessária.
+  // ConstrÃ³i um objeto vehConf compatÃ­vel com o que os controllers esperam.
+  // Se 'ranges' for fornecido (conteÃºdo de ranges_config.json), podemos
+  // inicializar valores padrÃµes por veÃ­culo com base nos ranges ou apenas expor
+  // a estrutura mÃ­nima necessÃ¡ria.
   function createVehConfFromRanges(ranges) {
     const defaults = {
       MaxJumpKm: 100,
@@ -140,7 +140,7 @@
     };
 
     if (ranges && Array.isArray(ranges.veiculos)) {
-      // Preenche chaves de veículos com os defaults (permite override futuro via UI)
+      // Preenche chaves de veÃ­culos com os defaults (permite override futuro via UI)
       ranges.veiculos.forEach((r) => {
         const key = String(r.veiculo || r.id || r.veiculoId || "");
         if (!key) return;
@@ -159,14 +159,14 @@
       UIComponent.prototype.init.apply(this, arguments);
 
       // Modelos cumulativos:
-      // - /veiculos e "materiais" agora NÃO são carregados de arquivo — ficam para OData/Services preencherem
+      // - /veiculos e "materiais" agora NÃƒO sÃ£o carregados de arquivo â€” ficam para OData/Services preencherem
       this.setModel(new JSONModel({ veiculos: [] }));                       // default (preenchido por OData no fluxo da app)
       this.setModel(new JSONModel({ materiaisPorVeiculo: {} }), "materiais"); // idem
-      this.setModel(new JSONModel({ abastecimentosPorVeiculo: {} }), "abast"); // este sim virá de arquivos locais
+      this.setModel(new JSONModel({ abastecimentosPorVeiculo: {} }), "abast"); // este sim virÃ¡ de arquivos locais
 
 
-      // Modelo de configuração por veículo (para a tela Config e validações)
-      // Criar um modelo inicial síncrono para que o controller/route encontre /current imediatamente
+      // Modelo de configuraÃ§Ã£o por veÃ­culo (para a tela Config e validaÃ§Ãµes)
+      // Criar um modelo inicial sÃ­ncrono para que o controller/route encontre /current imediatamente
       var initialVehConf = createVehConfFromRanges(null);
       this.setModel(new JSONModel(initialVehConf), "vehConf");
       this.setModel(new JSONModel({}), "ranges");
@@ -177,7 +177,7 @@
       fetchJSON(toUrl(PATH_BASE + "/config/ranges_config.json")).then(function(data) {
         var vehConf = createVehConfFromRanges(data);
         that.setModel(new JSONModel(vehConf), "vehConf");
-        // também expõe o JSON cru para visualização direta
+        // tambÃ©m expÃµe o JSON cru para visualizaÃ§Ã£o direta
         that.setModel(new JSONModel(data || {}), "ranges");
       });
 
@@ -201,10 +201,10 @@
         }
       });
 
-      // Carregamento automático: últimos N meses (somente abastecimentos locais)
+      // Carregamento automÃ¡tico: Ãºltimos N meses (somente abastecimentos locais)
       const now = new Date();
       const start = new Date(now.getFullYear(), now.getMonth() - (MONTHS_BACK - 1), 1);
-      const end   = new Date(now.getFullYear(), now.getMonth(), 28); // dia pouco sensível
+      const end   = new Date(now.getFullYear(), now.getMonth(), 28); // dia pouco sensÃ­vel
 
       this.loadAllHistoryInRange(start, end).then(() => {
         this.getRouter().initialize();
@@ -238,9 +238,9 @@
     /**
      * Carrega e MERGEIA todos os meses entre start e end, sem limpar os acumulados.
      * A PARTIR DE AGORA:
-     *  - NÃO lê veiculos.json
-     *  - NÃO lê materiais.json
-     *  - **SOMENTE** lê abastecimentos.json
+     *  - NÃƒO lÃª veiculos.json
+     *  - NÃƒO lÃª materiais.json
+     *  - **SOMENTE** lÃª abastecimentos.json
      *
      * Aceita formatos de abastecimentos:
      *  - { abastecimentosPorVeiculo: {...} } OU Array plano com veiculoId/veiculo
@@ -254,8 +254,11 @@
       let abMap  = abModel.getProperty("/abastecimentosPorVeiculo") || {};
       const missingMonths = [];
 
-      // Força consumo remoto (Firebase Storage) em vez de arquivos locais
-      const useLocal = false;
+      // ForÃ§a consumo remoto (Firebase Storage) em vez de arquivos locais
+      const useLocal = (function(){
+        try { return /(?:[?&])useLocalAbastecimentos=1(?:[&#]|$)/.test(String(window.location && window.location.search || "")); }
+        catch(e){ return false; }
+      })();
 
       for (const { y, m } of months) {
         let aData = null;
@@ -265,14 +268,14 @@
         } else {
           try {
             aData = await new Promise(function(resolve){
-              sap.ui.require(["com/skysinc/frota/frota/services/FirebaseExportService"], function (svc) {
-                svc.fetchMonthlyFromStorage(y, m).then(function (d) { resolve(d); }).catch(function(){ resolve(null); });
+              sap.ui.require(["com/skysinc/frota/frota/services/FirebaseFirestoreService"], function (svc) {
+                svc.fetchMonthlyFromFirestore(y, m).then(function (d) { resolve(d); }).catch(function(){ resolve(null); });
               });
             });
           } catch (e) { aData = null; }
         }
 
-        // Sem fallback local: se remoto indisponível, mês ficará sem dados
+        // Sem fallback local: se remoto indisponÃ­vel, mÃªs ficarÃ¡ sem dados
 
         if (aData) {
           const map = aData.abastecimentosPorVeiculo
@@ -280,7 +283,7 @@
             : ensureMap(aData);
           abMap = mergeByVehicle(abMap, map);
         } else {
-          // marca mês como ausente no Storage remoto
+          // marca mÃªs como ausente no Storage remoto
           missingMonths.push(`${y}-${mm2(m)}`);
         }
       }
@@ -298,13 +301,13 @@
         } catch (e) { /* no-op */ }
       }
 
-      Log.info("[Component] Histórico de abastecimentos (local) carregado: " +
-        months.length + " mês(es)");
+      Log.info("[Component] HistÃ³rico de abastecimentos (local) carregado: " +
+        months.length + " mÃªs(es)");
     },
 
     /**
      * Compatibilidade: garante que (year, mm) esteja carregado e mesclado (abastecimentos).
-     * NÃO apaga dados anteriores; apenas adiciona se faltar.
+     * NÃƒO apaga dados anteriores; apenas adiciona se faltar.
      */
     setMockYM: async function (year, mm) {
       const y = Number(year);
@@ -329,3 +332,5 @@
 
   return Component;
 });
+
+

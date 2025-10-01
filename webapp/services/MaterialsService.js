@@ -1,4 +1,4 @@
-sap.ui.define([
+﻿sap.ui.define([
   "sap/ui/model/json/JSONModel",
   "sap/m/MessageToast",
   "com/skysinc/frota/frota/util/formatter",
@@ -93,7 +93,7 @@ sap.ui.define([
 
       const totalItens = materiais.length;
       const totalValor = materiais.reduce((acc, m) => acc + (Number(m.qtde||0) * Number(m.custoUnit||0)), 0);
-      const titulo = `Materiais — ${equnr}${desc ? " — " + desc : ""}`;
+      const titulo = `Materiais â€” ${equnr}${desc ? " â€” " + desc : ""}`;
 
       const dlg = await MaterialsCtl.open(oView, {
         titulo,
@@ -113,7 +113,7 @@ sap.ui.define([
   }
 
   function exportCsv(dlgModel, oDateRangeSelection) {
-    if (!dlgModel) { MessageToast.show("Abra o diálogo de materiais primeiro."); return; }
+    if (!dlgModel) { MessageToast.show("Abra o diÃ¡logo de materiais primeiro."); return; }
     const data = dlgModel.getData() || {};
     const rows = (data.materiais || []).map((m) => {
       const qtde  = Number(m.qtde || 0);
@@ -141,11 +141,11 @@ sap.ui.define([
         Recebedor: m.recebedor || "",
         Unid: m.unid || m.meins || "",
         Usuario: m.usuario || "",
-        Status: (formatter.isDevolucao && formatter.isDevolucao(m.qtde)) ? "DEVOLUÇÃO" : ""
+        Status: (formatter.isDevolucao && formatter.isDevolucao(m.qtde)) ? "DEVOLUÃ‡ÃƒO" : ""
       };
     });
 
-    if (!rows.length) { MessageToast.show("Sem materiais no período selecionado."); return; }
+    if (!rows.length) { MessageToast.show("Sem materiais no perÃ­odo selecionado."); return; }
 
     const d1 = oDateRangeSelection?.getDateValue();
     const d2 = oDateRangeSelection?.getSecondDateValue();

@@ -1,4 +1,4 @@
-sap.ui.define([
+﻿sap.ui.define([
   "sap/ui/model/odata/v2/ODataModel",
   "sap/m/MessageToast",
   "sap/m/MessageBox"
@@ -16,7 +16,7 @@ sap.ui.define([
   function loadMovtos(oComponent, startDate, endDate) {
     const oSvc = oComponent.getModel("svc");
     if (!oSvc || !(oSvc instanceof ODataModel)) {
-      MessageToast.show("OData não configurado (svc).");
+      MessageToast.show("OData nÃ£o configurado (svc).");
       return Promise.resolve({ results: [] });
     }
     const sFrom = _toABAPDateTimeString(startDate || new Date(), false);

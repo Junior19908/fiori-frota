@@ -1,4 +1,4 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:table="sap.ui.table">
+﻿<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:table="sap.ui.table">
   <Dialog id="dlgMateriais"
           icon="sap-icon://wrench"
           contentWidth="auto"
@@ -31,7 +31,7 @@
                      minAutoRowCount="10"
                      fixedColumnCount="2">
 
-          <!-- Item (nome) | alinhado à esquerda -->
+          <!-- Item (nome) | alinhado Ã  esquerda -->
           <table:Column width="24rem" sortProperty="nome" filterProperty="nome" hAlign="Begin">
             <Label text="Item" textAlign="Center" width="100%"/>
             <table:template>
@@ -50,7 +50,7 @@
             </table:template>
           </table:Column>
 
-          <!-- Qtde | numérico direita -->
+          <!-- Qtde | numÃ©rico direita -->
           <table:Column width="4rem" sortProperty="qtde" filterProperty="qtde" hAlign="End">
             <Label text="Qtde" textAlign="Center" width="100%"/>
             <table:template>
@@ -66,7 +66,7 @@
             </table:template>
           </table:Column>
 
-          <!-- Custo Unit. | numérico direita -->
+          <!-- Custo Unit. | numÃ©rico direita -->
           <table:Column width="6rem" sortProperty="custoUnit" filterProperty="custoUnit" hAlign="End">
             <Label text="Custo Unit." textAlign="Center" width="100%"/>
             <table:template>
@@ -74,7 +74,7 @@
             </table:template>
           </table:Column>
 
-          <!-- Total (R$) | numérico direita (usa totalItem calculado no controller) -->
+          <!-- Total (R$) | numÃ©rico direita (usa totalItem calculado no controller) -->
           <table:Column width="6rem" sortProperty="totalItem" filterProperty="totalItem" hAlign="End">
             <Label text="Total (R$)" textAlign="Center" width="100%"/>
             <table:template>
@@ -86,23 +86,23 @@
           <table:Column width="7rem" hAlign="Center">
             <Label text="Status" textAlign="Center" width="100%"/>
             <table:template>
-              <Text text="DEVOLUÇÃO"
+              <Text text="DEVOLUÃ‡ÃƒO"
                     visible="{path:'dlg>qtde', formatter:'.formatter.isDevolucao'}"
                     class="blinkingText"/>
             </table:template>
           </table:Column>
 
-          <!-- Cód. Material | texto monospac1e opcional (evita quebra) -->
+          <!-- CÃ³d. Material | texto monospac1e opcional (evita quebra) -->
           <table:Column width="4rem" sortProperty="codMaterial" filterProperty="codMaterial" hAlign="Center">
-            <Label text="Cód. Material" textAlign="Center" width="100%"/>
+            <Label text="CÃ³d. Material" textAlign="Center" width="100%"/>
             <table:template>
               <Text text="{dlg>codMaterial}" tooltip="{dlg>codMaterial}"/>
             </table:template>
           </table:Column>
 
-          <!-- Depósito | center -->
+          <!-- DepÃ³sito | center -->
           <table:Column width="4rem" sortProperty="deposito" filterProperty="deposito" hAlign="Center">
-            <Label text="Depósito" textAlign="Center" width="100%"/>
+            <Label text="DepÃ³sito" textAlign="Center" width="100%"/>
             <table:template>
               <Text text="{dlg>deposito}"/>
             </table:template>
@@ -124,7 +124,7 @@
             </table:template>
           </table:Column>
 
-          <!-- N. Ordem | direita para números longos -->
+          <!-- N. Ordem | direita para nÃºmeros longos -->
           <table:Column width="5rem" sortProperty="nOrdem" filterProperty="nOrdem" hAlign="End">
             <Label text="N. Ordem" textAlign="Center" width="100%"/>
             <table:template>
@@ -148,9 +148,9 @@
             </table:template>
           </table:Column>
 
-          <!-- Usuário | esquerda -->
+          <!-- UsuÃ¡rio | esquerda -->
           <table:Column width="7rem" sortProperty="usuario" filterProperty="usuario" hAlign="Begin">
-            <Label text="Usuário" textAlign="Center" width="100%"/>
+            <Label text="UsuÃ¡rio" textAlign="Center" width="100%"/>
             <table:template>
               <Text text="{dlg>usuario}" tooltip="{dlg>usuario}"/>
             </table:template>
@@ -163,11 +163,11 @@
           <ObjectStatus text="Total itens:"/>
           <ObjectNumber number="{dlg>/totalItens}"/>
           <ToolbarSeparator/>
-          <ObjectStatus text="Total materiais/serviços:"/>
+          <ObjectStatus text="Total materiais/serviÃ§os:"/>
           <ObjectNumber number="{path:'dlg>/totalValor', formatter:'.formatter.fmtBrl'}"/>
         </Toolbar>
 
-        <Text text="Sem materiais para este veículo no período"
+        <Text text="Sem materiais para este veÃ­culo no perÃ­odo"
               visible="{= ${dlg>/materiais}.length === 0 }"/>
       </VBox>
     </content>

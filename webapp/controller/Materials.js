@@ -1,4 +1,4 @@
-sap.ui.define([
+﻿sap.ui.define([
   "sap/ui/model/json/JSONModel",
   "sap/ui/core/Fragment",
   "com/skysinc/frota/frota/util/formatter",
@@ -9,14 +9,14 @@ sap.ui.define([
   const formatter = Object.assign({}, baseFormatter, {
     getTipoText: function (tipo) {
       const t = String(tipo || "").toUpperCase();
-      if (t === "SERVICO" || t === "SERVIÇO") return "Serviço";
-      if (t === "PECA" || t === "PEÇA") return "Peça";
-      return t || "—";
+      if (t === "SERVICO" || t === "SERVIÃ‡O") return "ServiÃ§o";
+      if (t === "PECA" || t === "PEÃ‡A") return "PeÃ§a";
+      return t || "â€”";
     },
     getTipoClass: function (tipo) {
       const t = String(tipo || "").toUpperCase();
-      if (t === "SERVICO" || t === "SERVIÇO") return "tipo-servico";
-      if (t === "PECA" || t === "PEÇA") return "tipo-peca";
+      if (t === "SERVICO" || t === "SERVIÃ‡O") return "tipo-servico";
+      if (t === "PECA" || t === "PEÃ‡A") return "tipo-peca";
       return "";
     },
     isDevolucao: function (qtde) {
@@ -33,7 +33,7 @@ sap.ui.define([
     const dlgModel = new JSONModel();
     let dialogRef = null;
 
-    // Comparadores (ainda úteis se quiser acionar sort programático)
+    // Comparadores (ainda Ãºteis se quiser acionar sort programÃ¡tico)
     const cmpNum = (a, b) => (Number(a) || 0) - (Number(b) || 0);
     const cmpStr = (a, b) => {
       const sa = (a ?? "").toString().toLowerCase();
@@ -68,7 +68,7 @@ sap.ui.define([
         dialogRef && dialogRef.close();
       },
 
-      // (opcional) ainda pode manter ordenação programática se quiser
+      // (opcional) ainda pode manter ordenaÃ§Ã£o programÃ¡tica se quiser
       onOpenSortMateriais: function () {
         const vsd = view.byId("vsdMateriais");
         if (vsd) vsd.open();
@@ -130,12 +130,12 @@ sap.ui.define([
             Recebedor: m.recebedor || "",
             Unid: m.unid || "",
             Usuario: m.usuario || "",
-            Status: (formatter.isDevolucao && formatter.isDevolucao(m.qtde)) ? "DEVOLUÇÃO" : ""
+            Status: (formatter.isDevolucao && formatter.isDevolucao(m.qtde)) ? "DEVOLUÃ‡ÃƒO" : ""
           };
         });
 
         if (!rows.length) {
-          sap.m.MessageToast.show("Sem materiais no período selecionado.");
+          sap.m.MessageToast.show("Sem materiais no perÃ­odo selecionado.");
           return;
         }
 
@@ -165,12 +165,12 @@ sap.ui.define([
           setTimeout(() => URL.revokeObjectURL(url), 1000);
           sap.m.MessageToast.show("CSV gerado com sucesso.");
         } catch (e) {
-          sap.m.MessageBox.error("Não foi possível gerar o CSV. Verifique permissões do navegador.");
+          sap.m.MessageBox.error("NÃ£o foi possÃ­vel gerar o CSV. Verifique permissÃµes do navegador.");
         }
       },
 
       onPrintMateriais: function () {
-        if (!dialogRef) { sap.m.MessageToast.show("Abra o diálogo primeiro."); return; }
+        if (!dialogRef) { sap.m.MessageToast.show("Abra o diÃ¡logo primeiro."); return; }
         const win = window.open("", "_blank", "noopener,noreferrer");
         if (!win) { sap.m.MessageBox.warning("Bloqueador de pop-up? Permita para imprimir."); return; }
 

@@ -85,8 +85,8 @@
 
     getTipoClass: function (tipo) {
       var t = (tipo || "").toString().toLowerCase();
-      if (t === "serviço" || t === "servico") return "blinkingTextServico";
-      if (t === "peça" || t === "peca")       return "blinkingTextPeca";
+      if (t === "serviÃ§o" || t === "servico") return "blinkingTextServico";
+      if (t === "peÃ§a" || t === "peca")       return "blinkingTextPeca";
       return "";
     },
 
@@ -237,3 +237,4 @@
     }
   };
 });
+

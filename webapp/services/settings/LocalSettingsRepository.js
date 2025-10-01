@@ -1,4 +1,4 @@
-sap.ui.define([
+﻿sap.ui.define([
   "com/skysinc/frota/frota/services/settings/SettingsRepository"
 ], function (SettingsRepository) {
   "use strict";
@@ -60,8 +60,8 @@ sap.ui.define([
     // Tenta gravar o arquivo no projeto via middleware local (dev)
     return postToLocalMiddleware(settings).catch(function (e) {
       // eslint-disable-next-line no-console
-      console.warn("/local/settings indisponível; apenas localStorage atualizado.", e);
-      // não falha a operação para manter a UX fluida em ambientes sem middleware
+      console.warn("/local/settings indisponÃ­vel; apenas localStorage atualizado.", e);
+      // nÃ£o falha a operaÃ§Ã£o para manter a UX fluida em ambientes sem middleware
     });
   };
 

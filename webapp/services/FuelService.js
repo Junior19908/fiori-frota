@@ -1,4 +1,4 @@
-sap.ui.define([
+﻿sap.ui.define([
   "sap/ui/model/json/JSONModel"
 ], function (JSONModel) {
   "use strict";
@@ -48,16 +48,16 @@ sap.ui.define([
     const hasMin = Number.isFinite(min);
     const hasMax = Number.isFinite(max);
     if (!hasMin && !hasMax) return "";
-    return `${label}: Mín.=${hasMin ? _fmt(min) : "–"} • Máx.=${hasMax ? _fmt(max) : "–"}`;
+    return `${label}: MÃ­n.=${hasMin ? _fmt(min) : "â€“"} â€¢ MÃ¡x.=${hasMax ? _fmt(max) : "â€“"}`;
   }
 
   function _hintText(min, max) {
     const hasMin = Number.isFinite(min);
     const hasMax = Number.isFinite(max);
-    if (!hasMin && !hasMax) return "Sem sugestão histórica";
-    if (hasMin && hasMax) return `Sugestão: ${_fmt(min)} a ${_fmt(max)}`;
-    if (hasMin) return `Sugestão: mínimo ${_fmt(min)}`;
-    return `Sugestão: máximo ${_fmt(max)}`;
+    if (!hasMin && !hasMax) return "Sem sugestÃ£o histÃ³rica";
+    if (hasMin && hasMax) return `SugestÃ£o: ${_fmt(min)} a ${_fmt(max)}`;
+    if (hasMin) return `SugestÃ£o: mÃ­nimo ${_fmt(min)}`;
+    return `SugestÃ£o: mÃ¡ximo ${_fmt(max)}`;
   }
 
   function _pickVehicleKey(v) {
@@ -162,30 +162,30 @@ sap.ui.define([
       const retroHr = hasHrPair && dHr <= 0;
 
       if (retroKm || retroHr) {
-        ev._statusText = "Retrocesso ou sem avanço, revisar medição";
+        ev._statusText = "Retrocesso ou sem avanÃ§o, revisar mediÃ§Ã£o";
         ev._statusState = "Error";
         ev._statusIcon = "sap-icon://error";
       } else if (tooHighKm || tooHighHr) {
-        ev._statusText = "Salto de numeração, possível erro";
+        ev._statusText = "Salto de numeraÃ§Ã£o, possÃ­vel erro";
         ev._statusState = "Error";
         ev._statusIcon = "sap-icon://error";
       } else if (tooLowKm || tooLowHr) {
-        ev._statusText = "Variação muito baixa, conferir leitura";
+        ev._statusText = "VariaÃ§Ã£o muito baixa, conferir leitura";
         ev._statusState = "Warning";
         ev._statusIcon = "sap-icon://alert";
       }
 
       const tooltipPieces = [];
       if (hasKmPair || Number.isFinite(minKm) || Number.isFinite(maxKm)) {
-        tooltipPieces.push(`Km=${_fmt(dKm)} (Mín.=${_fmt(minKm)}, Máx.=${_fmt(maxKm)})`);
+        tooltipPieces.push(`Km=${_fmt(dKm)} (MÃ­n.=${_fmt(minKm)}, MÃ¡x.=${_fmt(maxKm)})`);
       }
       if (hasHrPair || Number.isFinite(minHr) || Number.isFinite(maxHr)) {
-        tooltipPieces.push(`Hr=${hasHrPair ? _fmt(dHr) : "-"} (Mín.=${_fmt(minHr)}, Máx.=${_fmt(maxHr)})`);
+        tooltipPieces.push(`Hr=${hasHrPair ? _fmt(dHr) : "-"} (MÃ­n.=${_fmt(minHr)}, MÃ¡x.=${_fmt(maxHr)})`);
       }
       if (litrosOk || Number.isFinite(minLt) || Number.isFinite(maxLt)) {
-        tooltipPieces.push(`Litros=${_fmt(litros)} (Mín.=${_fmt(minLt)}, Máx.=${_fmt(maxLt)})`);
+        tooltipPieces.push(`Litros=${_fmt(litros)} (MÃ­n.=${_fmt(minLt)}, MÃ¡x.=${_fmt(maxLt)})`);
       }
-      ev._statusTooltip = tooltipPieces.join(" • ");
+      ev._statusTooltip = tooltipPieces.join(" â€¢ ");
 
       if (hasKmPair && dKm > 0 && litrosOk) {
         ev._kmPerc = dKm;
@@ -381,8 +381,8 @@ sap.ui.define([
     const vehKey = _pickVehicleKey(vehicleObj);
     const abModel = oController.getView().getModel("abastec") || oController.getView().getModel("abast");
 
-    // Se o modelo de abastecimentos ainda não tiver sido carregado (obj vazio),
-    // tentar carregar rapidamente o mês atual via Component (fallback).
+    // Se o modelo de abastecimentos ainda nÃ£o tiver sido carregado (obj vazio),
+    // tentar carregar rapidamente o mÃªs atual via Component (fallback).
     let abMap = abModel && abModel.getProperty("/abastecimentosPorVeiculo");
     if (abModel && (!abMap || Object.keys(abMap).length === 0)) {
       try {
@@ -514,8 +514,8 @@ sap.ui.define([
     state.limits.minHr = payload.limiteHrMinActive ? payload.limiteHrMin : null;
     state.limits.maxHr = payload.limiteHrActive ? payload.limiteHr : null;
 
-    // Removido: não persistir automaticamente a cada mudança.
-    // A persistência ocorrerá explicitamente via saveFuelLimits() ou ao fechar o diálogo.
+    // Removido: nÃ£o persistir automaticamente a cada mudanÃ§a.
+    // A persistÃªncia ocorrerÃ¡ explicitamente via saveFuelLimits() ou ao fechar o diÃ¡logo.
   }
 
   async function saveFuelLimits(oController, metadata) {
@@ -577,9 +577,89 @@ sap.ui.define([
     }
   }
 
+  /**
+   * Retorna eventos de abastecimento respeitando filtros informados.
+   * opts:
+   *  - range: [Date from, Date to] ou { from: Date, to: Date }
+   *  - vehicleKey: string (um veículo) ou string[] (múltiplos). Se ausente, retorna de todos.
+   *  - sort: 'asc' | 'desc' (padrão: 'asc')
+   */
+  async function getAbastecimentos(oController, opts) {
+    opts = opts || {};
+    const sortDir = (opts.sort === 'desc') ? 'desc' : 'asc';
+
+    const abModel = oController.getView().getModel("abastec") || oController.getView().getModel("abast");
+    let abMap = abModel && abModel.getProperty("/abastecimentosPorVeiculo");
+
+    // Fallback rápido: se vazio, tenta carregar mês atual via Component
+    if (abModel && (!abMap || Object.keys(abMap).length === 0)) {
+      try {
+        const comp = oController.getOwnerComponent && oController.getOwnerComponent();
+        if (comp && typeof comp.loadAllHistoryInRange === "function") {
+          const now = new Date();
+          const start = new Date(now.getFullYear(), now.getMonth(), 1);
+          const end = new Date(now.getFullYear(), now.getMonth(), 28);
+          await comp.loadAllHistoryInRange(start, end);
+          abMap = abModel.getProperty("/abastecimentosPorVeiculo");
+        }
+      } catch (e) {
+        /* no-op */
+      }
+    }
+
+    const keysWanted = (function(){
+      if (!opts.vehicleKey) return null; // todos
+      if (Array.isArray(opts.vehicleKey)) return opts.vehicleKey.map(String);
+      return [ String(opts.vehicleKey) ];
+    })();
+
+    const baseArrays = [];
+    const map = abMap || {};
+    Object.keys(map).forEach((veh) => {
+      if (keysWanted && keysWanted.indexOf(String(veh)) === -1) return;
+      const arr = Array.isArray(map[veh]) ? map[veh] : [];
+      if (arr.length) baseArrays.push(arr);
+    });
+
+    // Flatten
+    let all = [].concat.apply([], baseArrays);
+
+    // Filtra por range
+    let start = null, end = null;
+    if (Array.isArray(opts.range) && opts.range.length >= 1) {
+      start = opts.range[0] ? new Date(opts.range[0].getTime()) : null;
+      end = opts.range[1]
+        ? new Date(opts.range[1].getTime())
+        : opts.range[0]
+        ? new Date(opts.range[0].getTime())
+        : null;
+    } else if (opts.from || opts.to) {
+      start = opts.from ? new Date(opts.from.getTime()) : null;
+      end = opts.to   ? new Date(opts.to.getTime())   : null;
+    }
+    if (start) start.setHours(0, 0, 0, 0);
+    if (end) end.setHours(23, 59, 59, 999);
+
+    if (start || end) {
+      all = all.filter((a) => {
+        const ts = _orderTs(a);
+        return (!start || ts >= start.getTime()) && (!end || ts <= end.getTime());
+      });
+    }
+
+    // Ordena
+    all.sort((a, b) => {
+      const d = _orderTs(a) - _orderTs(b);
+      return sortDir === 'desc' ? -d : d;
+    });
+
+    return all;
+  }
+
   return {
     openFuelDialog,
     updateFuelLimits,
-    saveFuelLimits
+    saveFuelLimits,
+    getAbastecimentos
   };
 });

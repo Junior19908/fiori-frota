@@ -1,4 +1,4 @@
-<mvc:View
+﻿<mvc:View
   controllerName="com.skysinc.frota.frota.controller.IW38Preview"
   xmlns:mvc="sap.ui.core.mvc"
   xmlns="sap.m"
@@ -12,7 +12,7 @@
       <IconTabBar expandable="false">
         <items>
 
-          <!-- Aba DdsCabeç. -->
+          <!-- Aba DdsCabeÃ§. -->
           <IconTabFilter text="{i18n>iw38TabHeader}" key="cabec">
             <VBox class="sapUiSmallMargin">
               <form:SimpleForm editable="false" layout="ResponsiveGridLayout"
@@ -96,7 +96,7 @@
                       <table:Column width="4rem" hAlign="Center">
                         <Label text="{i18n>colEst}"/>
                         <table:template>
-                          <Text text="{= ${iw38>estoque} ? '✔' : '✖' }"/>
+                          <Text text="{= ${iw38>estoque} ? 'âœ”' : 'âœ–' }"/>
                         </table:template>
                       </table:Column>
 
@@ -142,17 +142,17 @@
 
                       <table:Column width="3rem" hAlign="Center">
                         <Label text="{i18n>colE}"/>
-                        <table:template><Text text="{= ${iw38>flagE} ? '✔' : '✖' }"/></table:template>
+                        <table:template><Text text="{= ${iw38>flagE} ? 'âœ”' : 'âœ–' }"/></table:template>
                       </table:Column>
 
                       <table:Column width="3rem" hAlign="Center">
                         <Label text="{i18n>colM}"/>
-                        <table:template><Text text="{= ${iw38>flagM} ? '✔' : '✖' }"/></table:template>
+                        <table:template><Text text="{= ${iw38>flagM} ? 'âœ”' : 'âœ–' }"/></table:template>
                       </table:Column>
 
                       <table:Column width="3rem" hAlign="Center">
                         <Label text="{i18n>colB}"/>
-                        <table:template><Text text="{= ${iw38>flagB} ? '✔' : '✖' }"/></table:template>
+                        <table:template><Text text="{= ${iw38>flagB} ? 'âœ”' : 'âœ–' }"/></table:template>
                       </table:Column>
 
                       <table:Column width="14rem">

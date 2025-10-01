@@ -1,4 +1,4 @@
-sap.ui.define([
+﻿sap.ui.define([
   "sap/ui/model/json/JSONModel",
   "com/skysinc/frota/frota/util/formatter"
 ], function (JSONModel, formatter) {
@@ -38,7 +38,7 @@ sap.ui.define([
   
 
   /**
-   * Recalcula e atualiza o model "kpi" a psartir do vm>/veiculos já agregados.
+   * Recalcula e atualiza o model "kpi" a psartir do vm>/veiculos jÃ¡ agregados.
    * @param {sap.ui.core.mvc.View} oView
    * @param {{vehicleKey?:string, categoryKey?:string}} [opts]
    */
@@ -57,7 +57,7 @@ sap.ui.define([
       resumoCombFmt: "Comb: " + formatter.fmtBrl(totComb),
       resumoLitrosFmt: "Litros: " + formatter.fmtLitros(totLitros),
       resumoMatFmt: "Mat/Serv: " + formatter.fmtBrl(totMat),
-      resumoPrecoFmt: "Preço Médio: " + formatter.fmtNum(precoMedio) + " R$/L"
+      resumoPrecoFmt: "PreÃ§o MÃ©dio: " + formatter.fmtNum(precoMedio) + " R$/L"
     }, true);
 
     return { totLitros, totComb, totMat, precoMedio, subsetCount: subset.length };

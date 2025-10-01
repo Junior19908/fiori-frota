@@ -1,4 +1,4 @@
-<mvc:View
+﻿<mvc:View
   controllerName="com.skysinc.frota.frota.controller.HistoricalPage"
   xmlns:mvc="sap.ui.core.mvc"
   xmlns="sap.m"
@@ -20,11 +20,11 @@
         <uxap:expandedHeading>
           <HBox alignItems="Center" renderType="Bare">
             <core:Icon src="sap-icon://insurance-car" size="1.5rem"/>
-            <Title text="Histórico do Veículo" level="H3" class="sapUiTinyMarginBegin"/>
+            <Title text="HistÃ³rico do VeÃ­culo" level="H3" class="sapUiTinyMarginBegin"/>
           </HBox>
         </uxap:expandedHeading>
         <uxap:snappedHeading>
-          <Title text="Histórico do Veículo" level="H4"/>
+          <Title text="HistÃ³rico do VeÃ­culo" level="H4"/>
         </uxap:snappedHeading>
       </uxap:ObjectPageDynamicHeaderTitle>
     </uxap:headerTitle>
@@ -32,8 +32,8 @@
     <uxap:headerContent>
       <HBox alignItems="Center" renderType="Bare" class="sapUiSmallMarginBottom">
 
-        <!-- Veícuslo -->
-        <GenericTag text="Veículo:" design="StatusIconHidden" status="Error" class="sapUiTinyMarginEnd">
+        <!-- VeÃ­cuslo -->
+        <GenericTag text="VeÃ­culo:" design="StatusIconHidden" status="Error" class="sapUiTinyMarginEnd">
           <ObjectNumber state="Error" emphasized="false" number="{detail>/veiculo}"/>
         </GenericTag>
 
@@ -42,19 +42,19 @@
           <ObjectNumber state="Success" emphasized="false" number="{detail>/categoria}"/>
         </GenericTag>
 
-        <!-- Descrição -->
-        <GenericTag text="Descrição:"  design="StatusIconHidden" status="Warning" class="sapUiTinyMarginEnd">
+        <!-- DescriÃ§Ã£o -->
+        <GenericTag text="DescriÃ§Ã£o:"  design="StatusIconHidden" status="Warning" class="sapUiTinyMarginEnd">
           <ObjectNumber state="Warning" emphasized="false" number="{detail>/descricao}"/>
         </GenericTag>
 
-        <!-- Status do dia: Em manutenção hoje / Operacional -->
+        <!-- Status do dia: Em manutenÃ§Ã£o hoje / Operacional -->
         <HBox alignItems="Center" class="sapUiTinyMarginBegin">
           <core:Icon
             visible="{detail>/manutencaoHoje}"
             src="sap-icon://action-settings"
             size="1.25rem"
             class="spin-anim sapUiTinyMarginEnd"
-            tooltip="Em manutenção hoje"/>
+            tooltip="Em manutenÃ§Ã£o hoje"/>
           <ObjectStatus
             text="{detail>/manutencaoTexto}"
             state="{detail>/manutencaoState}"
@@ -65,7 +65,7 @@
     </uxap:headerContent>
 
     <uxap:sections>
-      <uxap:ObjectPageSection title="Histórico Completo">
+      <uxap:ObjectPageSection title="HistÃ³rico Completo">
         <uxap:subSections>
           <uxap:ObjectPageSubSection title="Linha do tempo de custos">
             <uxap:blocks>
@@ -75,13 +75,13 @@
                                     containerQuery="true"
                                     equalSplit="false">
 
-                <!-- CONTEÚDO PRINCIPAL -->
+                <!-- CONTEÃšDO PRINCIPAL -->
                 <l:mainContent>
                   <VBox class="sapUiSmallMargin sapUiResponsiveContentPadding">
 
-                    <!-- ===== Filtros do hi1stórico ===== -->
+                    <!-- ===== Filtros do hi1stÃ³rico ===== -->
                     <OverflowToolbar>
-                      <Text text="Período:"/>
+                      <Text text="PerÃ­odo:"/>
                       <DateRangeSelection id="drsHist"
                                           displayFormat="long"
                                           width="17rem"
@@ -96,15 +96,15 @@
                                 selectionChange=".onFilterChangeHist">
                         <items>
                           <core:Item key="__ALL__" text="Todos"/>
-                          <core:Item key="Combustível" text="Combustível"/>
+                          <core:Item key="CombustÃ­vel" text="CombustÃ­vel"/>
                           <core:Item key="Material" text="Material"/>
-                          <core:Item key="Serviço" text="Serviço"/>
+                          <core:Item key="ServiÃ§o" text="ServiÃ§o"/>
                         </items>
                       </ComboBox>
                       <ToolbarSeparator/>
                       <SearchField id="qHist"
                                    width="20rem"
-                                   placeholder="Buscar descrição…"
+                                   placeholder="Buscar descriÃ§Ã£oâ€¦"
                                    value="{hfilter>/q}"
                                    liveChange=".onFilterChangeHist"/>
                       <ToolbarSpacer/>
@@ -114,8 +114,8 @@
 
                     <IconTabBar expandable="false" class="sapUiResponsiveContentPadding sapUiMediumMarginTop">
                       <items>
-                        <!-- ABA: COMBUSTÍVEIS -->
-                        <IconTabFilter text="Combustíveis" icon="sap-icon://mileage">
+                        <!-- ABA: COMBUSTÃVEIS -->
+                        <IconTabFilter text="CombustÃ­veis" icon="sap-icon://mileage">
                           <table:Table id="tblCombustiveis"
                                        rows="{path:'detail>/historicoComb'}"
                                        visibleRowCountMode="Auto"
@@ -131,7 +131,7 @@
                                 </table:template>
                               </table:Column>
                               <table:Column sortProperty="descricao" width="7rem">
-                                <Label text="Descrição"/>
+                                <Label text="DescriÃ§Ã£o"/>
                                 <table:template>
                                   <Text text="{detail>descricao}" wrapping="true" tooltip="{detail>descricao}"/>
                                 </table:template>
@@ -143,7 +143,7 @@
                                 </table:template>
                               </table:Column>
                               <table:Column sortProperty="custoUnit" width="7rem" hAlign="End">
-                                <Label text="Preço Médio"/>
+                                <Label text="PreÃ§o MÃ©dio"/>
                                 <table:template>
                                   <Text text="{path:'detail>custoUnit', formatter:'.formatter.fmtBrl'}"/>
                                 </table:template>
@@ -175,7 +175,7 @@
                                 </table:template>
                               </table:Column>
                               <table:Column sortProperty="descricao" width="22rem">
-                                <Label text="Descrição"/>
+                                <Label text="DescriÃ§Ã£o"/>
                                 <table:template>
                                   <Text text="{detail>descricao}" wrapping="true" tooltip="{detail>descricao}"/>
                                 </table:template>
@@ -202,8 +202,8 @@
                           </table:Table>
                         </IconTabFilter>
 
-                        <!-- ABA: SERVIÇOS -->
-                        <IconTabFilter text="Serviços" icon="sap-icon://wrench">
+                        <!-- ABA: SERVIÃ‡OS -->
+                        <IconTabFilter text="ServiÃ§os" icon="sap-icon://wrench">
                           <table:Table id="tblServicos"
                                        rows="{path:'detail>/historicoServicos'}"
                                        visibleRowCount="12"
@@ -218,7 +218,7 @@
                                 </table:template>
                               </table:Column>
                               <table:Column sortProperty="descricao" width="22rem">
-                                <Label text="Descrição"/>
+                                <Label text="DescriÃ§Ã£o"/>
                                 <table:template>
                                   <Text text="{detail>descricao}" wrapping="true" tooltip="{detail>descricao}"/>
                                 </table:template>
@@ -250,15 +250,15 @@
                   </VBox>
                 </l:mainContent>
 
-                <!-- KPI LATERAL + GRÁFICO COMPARATIVO COMPACTO -->
+                <!-- KPI LATERAL + GRÃFICO COMPARATIVO COMPACTO -->
                 <l:sideContent>
                   <VBox class="sapUiSmallMargin sapUiResponsiveContentPadding">
                     <Toolbar class="sapUiTinyMarginBottom">
-                      <ObjectStatus text="Preço médio R$/L" state="None"/>
+                      <ObjectStatus text="PreÃ§o mÃ©dio R$/L" state="None"/>
                       <Text text="{detail>/precoMedioFmt}" class="sapUiTinyMarginBegin"/>
                     </Toolbar>
                     <Toolbar>
-                      <ObjectStatus text="Total Combustível" state="Information"/>
+                      <ObjectStatus text="Total CombustÃ­vel" state="Information"/>
                       <ObjectNumber number="{detail>/totalCombustivelFmt}" class="sapUiTinyMarginBegin"/>
                     </Toolbar>
                     <Toolbar>
@@ -266,7 +266,7 @@
                       <ObjectNumber number="{detail>/totalMateriaisFmt}" class="sapUiTinyMarginBegin"/>
                     </Toolbar>
                     <Toolbar>
-                      <ObjectStatus text="Total Serviços" state="Warning"/>
+                      <ObjectStatus text="Total ServiÃ§os" state="Warning"/>
                       <ObjectNumber number="{detail>/totalServicosFmt}" class="sapUiTinyMarginBegin"/>
                     </Toolbar>
                     <Toolbar>
@@ -274,7 +274,7 @@
                       <ObjectNumber number="{detail>/totalGeralFmt}" class="sapUiTinyMarginBegin"/>
                     </Toolbar>
 
-                    <!-- Gráfico principal (tipo alternável) -->
+                    <!-- GrÃ¡fico principal (tipo alternÃ¡vel) -->
                     <VBox class="sapUiSmallMarginTop">
                       <Toolbar>
                         <Title text="Comparativo (Ano Atual x Ano Anterior)" level="H5"/>
@@ -296,7 +296,7 @@
                         <viz:dataset>
                           <viz.data:FlattenedDataset data="{history>/points}">
                             <viz.data:dimensions>
-                              <viz.data:DimensionDefinition name="Mês" value="{history>label}"/>
+                              <viz.data:DimensionDefinition name="MÃªs" value="{history>label}"/>
                             </viz.data:dimensions>
                             <viz.data:measures>
                               <viz.data:MeasureDefinition name="Ano Atual" value="{history>current}"/>
@@ -307,7 +307,7 @@
 
                         <viz:feeds>
                           <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Ano Atual,Ano Anterior"/>
-                          <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Mês"/>
+                          <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="MÃªs"/>
                         </viz:feeds>
                       </viz:VizFrame>
 

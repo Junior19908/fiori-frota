@@ -1,9 +1,9 @@
-sap.ui.define([], function () {
+﻿sap.ui.define([], function () {
   "use strict";
 
   /**
-   * Contrato de persistência de Settings.
-   * Implementações devem sobrescrever load() e save().
+   * Contrato de persistÃªncia de Settings.
+   * ImplementaÃ§Ãµes devem sobrescrever load() e save().
    */
   var SettingsRepository = function() {};
 

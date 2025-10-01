@@ -66,7 +66,7 @@ npm run start-noflp
 
 Notas sobre proxy/backend
 
-- O arquivo `ui5-local.yaml` contém configuração de proxy (fiori-tools-proxy) usada pelo comando `start-local`. No repositório atual a configuração aponta para `https://fiori.usga.com.br:8001` (veja `ui5-local.yaml`).
+- O arquivo `ui5-local.yaml` contém configuração de proxy (fiori-tools-proxy) usada pelo comando `start-local`. No reposit�rio atual a configuração aponta para `https://fiori.usga.com.br:8001` (veja `ui5-local.yaml`).
 - Se o backend usa certificado autoassinado, você pode ajustar `ignoreCertError` ou `strictSSL`, mas tenha atenção a riscos de segurança — preferencialmente instale o certificado raiz localmente.
 
 ## Scripts (resumo do `package.json`)
@@ -172,14 +172,58 @@ npm run build
 
 ## Licença
 
-Nenhum arquivo de licença (`LICENSE`) foi encontrado neste repositório. Se você pretende tornar o projeto público, adicione um arquivo de licença (por exemplo, MIT, Apache-2.0) conforme necessário.
+Nenhum arquivo de licença (`LICENSE`) foi encontrado neste reposit�rio. Se você pretende tornar o projeto público, adicione um arquivo de licença (por exemplo, MIT, Apache-2.0) conforme necessário.
 
 ## Contato / Suporte
 
-- Autor / repositório: Junior19908 (ver repositório local)
+- Autor / reposit�rio: Junior19908 (ver reposit�rio local)
 - Para dúvidas específicas sobre este projeto, inclua informações do ambiente e passos para reproduzir problemas em uma issue.
 
 ## Próximos passos sugeridos
 
 
+## Firebase Storage e CORS (necessário para baixar JSONs)
+
+- Este app baixa arquivos `abastecimentos.json` do Firebase Storage via navegador. O navegador exige CORS configurado no bucket para permitir o `Origin` do app.
+- Se você vê o JSON no navegador (colando a URL), mas no app aparece erro com status 0, é CORS.
+
+Passos
+
+- Crie o arquivo `webapp/services/settings/firebaseConfig.js` (o reposit�rio inclui um exemplo em `webapp/services/settings/firebaseConfig.sample.js`).
+  - Já incluímos um `firebaseConfig.js` local apontando para o bucket `sistemagsg.appspot.com`. Ajuste se necessário.
+- Aplique a pol�tica de CORS no seu bucket do Storage. Um arquivo `cors.json` foi adicionado na raiz:
+
+```
+[
+  {
+    "origin": [
+      "http://localhost:8080",
+      "http://127.0.0.1:8080",
+      "http://localhost:8081",
+      "http://127.0.0.1:8081"
+    ],
+    "method": ["GET", "HEAD", "OPTIONS"],
+    "responseHeader": ["Content-Type"],
+    "maxAgeSeconds": 3600
+  }
+]
+```
+
+Aplicando com gsutil
+
+```powershell
+# Requer Google Cloud SDK instalado e autenticado (gcloud auth login)
+scripts\apply-cors.ps1 -Bucket "sistemagsg.appspot.com" -CorsFile "cors.json"
+
+# Alternativa direta:
+gsutil cors set cors.json gs://sistemagsg.appspot.com
+```
+
+Notas
+
+- Alguns projetos Firebase usam bucket padrão `<project-id>.appspot.com`. Se for seu caso, troque o nome do bucket ao aplicar o CORS e em `firebaseConfig.js`.
+- O código agora detecta erros de status 0 e loga uma dica explícita sobre CORS no console.
+- Para continuar desenvolvendo enquanto ajusta CORS, abra a app com `?useLocalAbastecimentos=1` no URL para forçar o uso de dados locais.
+
 ---
+

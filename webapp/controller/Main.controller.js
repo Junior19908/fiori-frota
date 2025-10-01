@@ -56,7 +56,7 @@
         resumoCombFmt: "Comb: R$ 0,00",
         resumoLitrosFmt: "Litros: 0,00 L",
         resumoMatFmt: "Mat/Serv: R$ 0,00",
-        resumoPrecoFmt: "Preço Médio: 0,00 R$/L"
+        resumoPrecoFmt: "PreÃ§o MÃ©dio: 0,00 R$/L"
       });
       this.getView().setModel(this.oKpi, "kpi");
 
@@ -101,9 +101,9 @@
       });
     },
 
-    // ========= NOVO: Botão de Configuração =========
+    // ========= NOVO: BotÃ£o de ConfiguraÃ§Ã£o =========
     onOpenConfig: function () {
-      // Usa o veículo selecionado no ComboBox "inpVeiculo"
+      // Usa o veÃ­culo selecionado no ComboBox "inpVeiculo"
       const oVehCombo = this.byId("inpVeiculo");
       const sEqunr = oVehCombo && oVehCombo.getSelectedKey();
 
@@ -113,18 +113,18 @@
           if (sEqunr && sEqunr !== "__ALL__") {
             oRouter.navTo("config", { equnr: sEqunr });
           } else {
-            oRouter.navTo("config"); // sem parâmetro: usuário escolhe na tela
+            oRouter.navTo("config"); // sem parÃ¢metro: usuÃ¡rio escolhe na tela
           }
           return;
         }
       } catch (e) {
         // segue para fallback
       }
-      MessageToast.show("Rota 'config' não encontrada. Configure o routing no manifest.json.");
+      MessageToast.show("Rota 'config' nÃ£o encontrada. Configure o routing no manifest.json.");
     },
     // ========= FIM DO NOVO =========
 
-    // Abre página de Configurações (preferências do usuário)
+    // Abre pÃ¡gina de ConfiguraÃ§Ãµes (preferÃªncias do usuÃ¡rio)
     onOpenSettings: function () {
       try {
         const oRouter = this.getOwnerComponent().getRouter && this.getOwnerComponent().getRouter();
@@ -135,7 +135,7 @@
       } catch (e) {
         // fallback abaixo
       }
-      sap.m.MessageToast.show("Rota 'settings' não encontrada. Verifique o routing no manifest.json.");
+      sap.m.MessageToast.show("Rota 'settings' nÃ£o encontrada. Verifique o routing no manifest.json.");
     },
 
     onOpenHistorico: function (oEvent) {
@@ -144,11 +144,11 @@
       this.getOwnerComponent().getRouter().navTo("RouteHistorico", { id });
     },
 
-    // Abre a visualização/preview da IW38 (mock local por enquanto)
+    // Abre a visualizaÃ§Ã£o/preview da IW38 (mock local por enquanto)
     onOpenIW38Preview: function (oEvent) {
       try {
         const ctxObj = oEvent?.getSource?.()?.getBindingContext("vm")?.getObject?.();
-        // Usa alguma possível ordem vinda do contexto, senão um valor padrão do mock
+        // Usa alguma possÃ­vel ordem vinda do contexto, senÃ£o um valor padrÃ£o do mock
         const ordem = String(ctxObj?.ordem || ctxObj?.lastOrder || "4804378");
         const oRouter = this.getOwnerComponent().getRouter && this.getOwnerComponent().getRouter();
         if (oRouter && oRouter.navTo) {
@@ -158,7 +158,7 @@
       } catch (e) {
         // segue para fallback
       }
-      sap.m.MessageToast.show("Rota 'RouteIW38' não encontrada. Verifique o routing no manifest.json.");
+      sap.m.MessageToast.show("Rota 'RouteIW38' nÃ£o encontrada. Verifique o routing no manifest.json.");
     },
 
     onOpenMateriais: function (oEvent) {
@@ -171,7 +171,7 @@
     },
 
     onExportMateriais: function () {
-      if (!this._dlgModel) { MessageToast.show("Abra o diálogo de materiais primeiro."); return; }
+      if (!this._dlgModel) { MessageToast.show("Abra o diÃ¡logo de materiais primeiro."); return; }
       sap.ui.require(["com/skysinc/frota/frota/services/MaterialsService"], (Svc) => {
         Svc.exportCsv(this._dlgModel, this.byId("drs"));
       });
@@ -179,7 +179,7 @@
 
     onPrintMateriais: function () {
       const dlg = this.byId("dlgMateriais");
-      if (!dlg) { MessageToast.show("Abra o diálogo de materiais primeiro."); return; }
+      if (!dlg) { MessageToast.show("Abra o diÃ¡logo de materiais primeiro."); return; }
       const win = window.open("", "_blank", "noopener,noreferrer");
       if (!win) { MessageBox.warning("Bloqueador de pop-up? Permita para imprimir."); return; }
 
@@ -240,13 +240,13 @@
       const item = ctx && ctx.getObject ? ctx.getObject() : null;
 
       if (!item || !item.equnr) {
-        sap.m.MessageToast.show("Selecione um veículo válido.");
+        sap.m.MessageToast.show("Selecione um veÃ­culo vÃ¡lido.");
         return;
       }
 
       const drs = this.byId("drs");
       if (!drs) {
-        sap.m.MessageToast.show("Componente de período não encontrado.");
+        sap.m.MessageToast.show("Componente de perÃ­odo nÃ£o encontrado.");
         return;
       }
       const range = FilterUtil.currentRange(drs);
@@ -277,10 +277,10 @@
         FuelService.saveFuelLimits(this, { reason: "manual" })
           .then((ok) => {
             if (ok) MessageToast.show("Limites salvos.");
-            else MessageToast.show("Não foi possível salvar os limites.");
+            else MessageToast.show("NÃ£o foi possÃ­vel salvar os limites.");
           });
       } catch (e) {
-        MessageToast.show("Não foi possível salvar os limites.");
+        MessageToast.show("NÃ£o foi possÃ­vel salvar os limites.");
       }
     },
 
@@ -425,7 +425,7 @@
         resumoCombFmt: "Comb: " + this.formatter.fmtBrl(totCombR$),
         resumoLitrosFmt: "Litros: " + this.formatter.fmtLitros(totLitros),
         resumoMatFmt: "Mat/Serv: " + this.formatter.fmtBrl(totMatR$),
-        resumoPrecoFmt: "Preço Médio: " + this.formatter.fmtNum(precoMedio) + " R$/L"
+        resumoPrecoFmt: "PreÃ§o MÃ©dio: " + this.formatter.fmtNum(precoMedio) + " R$/L"
       }, true);
     },
 
@@ -489,3 +489,4 @@
     }
   });
 });
+

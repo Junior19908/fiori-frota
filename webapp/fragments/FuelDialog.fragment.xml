@@ -1,4 +1,4 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+﻿<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
   <Dialog id="dlgFuel"
           title="{fuel>/titulo}"
           icon="sap-icon://gas-station"
@@ -11,7 +11,7 @@
                items="{fuel>/eventos}"
                growing="true"
                growingScrollToLoad="true"
-               noDataText="Sem abastecimentos no período selecionado">
+               noDataText="Sem abastecimentos no perÃ­odo selecionado">
 
           <columns>
             <Column id="colData" width="7rem"><Label text="Data"/></Column>
@@ -57,7 +57,7 @@
                 <!-- Comboio/Posto -->
                 <Text text="{fuel>comboio}"/>
 
-                <!-- STATUS com ícone + tooltip -->
+                <!-- STATUS com Ã­cone + tooltip -->
                 <ObjectStatus
                   text="{fuel>_statusText}"
                   state="{fuel>_statusState}"
@@ -85,7 +85,7 @@
           </items>
         </Table>
 
-        <!-- Rodapé: totais/médias -->
+        <!-- RodapÃ©: totais/mÃ©dias -->
         <Toolbar class="sapUiTinyMarginTop">
           <ToolbarSpacer/>
           <ObjectStatus text="Total Litros:"/>
@@ -93,12 +93,12 @@
 
           <ToolbarSeparator/>
 
-          <ObjectStatus text="Média Km/L:"/>
+          <ObjectStatus text="MÃ©dia Km/L:"/>
           <ObjectNumber number="{path:'fuel>/mediaKmPorL', formatter:'.formatter.fmtNum'}"/>
 
           <ToolbarSeparator/>
 
-          <ObjectStatus text="Média L/Hr:"/>
+          <ObjectStatus text="MÃ©dia L/Hr:"/>
           <ObjectNumber number="{path:'fuel>/mediaLPorHr', formatter:'.formatter.fmtNum'}"/>
         </Toolbar>
 
@@ -126,8 +126,8 @@
           </HBox>
         </Toolbar>
 
-        <!-- Mensagem quando não há eventos -->
-        <Text text="Sem abastecimentos para este veículo no período"
+        <!-- Mensagem quando nÃ£o hÃ¡ eventos -->
+        <Text text="Sem abastecimentos para este veÃ­culo no perÃ­odo"
               visible="{= ${fuel>/eventos}.length === 0 }"/>
       </VBox>
     </content>

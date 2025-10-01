@@ -1,4 +1,4 @@
-// File: com/skysinc/frota/frota/services/ODataMaterials.js
+﻿// File: com/skysinc/frota/frota/services/ODataMaterials.js
 sap.ui.define([
   "sap/ui/model/odata/v2/ODataModel",
   "sap/m/MessageBox"
@@ -89,7 +89,7 @@ sap.ui.define([
   function loadMaterials(oComponent, { equnr, startDate, endDate }) {
     const oSvc = oComponent.getModel("svc");
     if (!oSvc || !(oSvc instanceof ODataModel)) {
-      MessageBox.error("OData 'svc' não configurado no manifest.");
+      MessageBox.error("OData 'svc' nÃ£o configurado no manifest.");
       return Promise.resolve([]);
     }
 
@@ -99,7 +99,7 @@ sap.ui.define([
     const start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
     const endNext = nextDay(new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()));
 
-    // Monta $filter como STRING para evitar conversão Date->UTC pelo ODataModel
+    // Monta $filter como STRING para evitar conversÃ£o Date->UTC pelo ODataModel
     const fEqunr = "equnr eq '" + equnr18 + "'";
     const fGe = "budat_mkpf ge datetime'" + ymd(start) + "T00:00:00'";
     const fLt = "budat_mkpf lt datetime'" + ymd(endNext) + "T00:00:00'";

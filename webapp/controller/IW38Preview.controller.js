@@ -1,4 +1,4 @@
-sap.ui.define([
+﻿sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/ui/model/json/JSONModel"
 ], function (Controller, JSONModel) {
@@ -7,7 +7,7 @@ sap.ui.define([
   return Controller.extend("com.skysinc.frota.frota.controller.IW38Preview", {
 
     onInit: function () {
-      // Força compact density (igual SAP GUI)
+      // ForÃ§a compact density (igual SAP GUI)
       this.getOwnerComponent().getRootControl().addStyleClass("sapUiSizeCompact");
 
       // Roteamento
@@ -20,11 +20,11 @@ sap.ui.define([
       var oData = {
         header: {
           ordem: "4804378",
-          status: "Em serviço",
-          titulo: "CONSERTO. MOTOR / INSTALAÇÃO ELÉTRICA",
+          status: "Em serviÃ§o",
+          titulo: "CONSERTO. MOTOR / INSTALAÃ‡ÃƒO ELÃ‰TRICA",
           centroTrabalho: "SGOFTRAI / USGA",
           grupoPlanej: "222 / USGA",
-          tipoAtv: "F05 – Manutenção Corretiva",
+          tipoAtv: "F05 â€“ ManutenÃ§Ã£o Corretiva",
           prioridade: "2 - Elevado",
           inicioBase: "2024-12-17T05:55",
           fimBase: "2024-12-17T23:59",
@@ -37,7 +37,7 @@ sap.ui.define([
         componentes: [
           {
             componente: "618964",
-            descricao: "PLACA 8W1749 F:08PG:363 PAT.CAT.12…",
+            descricao: "PLACA 8W1749 F:08PG:363 PAT.CAT.12â€¦",
             tipo: "T",
             qtdNecess: 4,
             um: "PC",
@@ -49,7 +49,7 @@ sap.ui.define([
             lote: "",
             ctgSuprimento: "Reserva para a ordem",
             item: "0000",
-            recebedor: "JOSÉ CÍCERO",
+            recebedor: "JOSÃ‰ CÃCERO",
             ptoDescarga: "410",
             flagE: false,
             flagM: true,

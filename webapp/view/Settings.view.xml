@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <mvc:View
   controllerName="com.skysinc.frota.frota.controller.Settings"
   xmlns:mvc="sap.ui.core.mvc"
@@ -79,16 +80,19 @@
           <Label text="Importar arquivo de configurações"/>
           <HBox alignItems="Center" justifyContent="Start" width="100%" wrap="Wrap">
             <unified:FileUploader id="settingsFileUploader"
-                                  buttonText="Selecionar arquivo"
+                                  buttonText="Selecionar arquivo(s)"
                                   fileType="json"
-                                  change=".onSettingsFileUpload"
+                                  change=".onSettingsFileUploadBatch"
+                                  multiple="true"
                                   width="100%"/>
+            <Button text="Salvar no Firestore" type="Emphasized" press=".onSaveImportedJson" class="sapUiTinyMarginBegin"/>
           </HBox>
 
           <Label text="Integração Firebase"/>
           <VBox class="sapUiSmallMarginBottom">
             <HBox>
               <Button text="Testar Conexão" type="Transparent" press=".onTestFirebase"/>
+              <Button text="Criar coleção TESTE" type="Transparent" press=".onCreateTestCollection" class="sapUiTinyMarginBegin"/>
             </HBox>
             <HBox class="sapUiTinyMarginTop" alignItems="Center">
               <Button text="Exportar Mês Atual" type="Emphasized" press=".onExportCurrentMonth"/>
@@ -104,6 +108,13 @@
               <Text text="Teste gs://" class="sapUiTinyMarginEnd"/>
               <Input id="inpGsUrl" width="100%" placeholder="Cole aqui o gs://.../abastecimentos/YYYY/MM/abastecimentos.json"/>
               <Button text="Baixar e exibir JSON" type="Transparent" press=".onFetchGsJson" class="sapUiTinyMarginBegin"/>
+              
+            </HBox>
+
+            <HBox class="sapUiTinyMarginTop" alignItems="Center" wrap="Wrap">
+              <Text text="Leitura direta (URL com token)" class="sapUiTinyMarginEnd"/>
+              <Input id="inpDirectUrl" width="100%" value="https://firebasestorage.googleapis.com/v0/b/sistemagsg.firebasestorage.app/o/abastecimentos%2F2025%2F09%2Fabastecimentos.json?alt=media&amp;token=1fdff8fd-0d37-4dcf-976e-dd710d524ac0"/>
+              <Button text="Ler JSON" type="Transparent" press=".onFetchDirectJson" class="sapUiTinyMarginBegin"/>
             </HBox>
           </VBox>
 

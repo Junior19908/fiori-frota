@@ -1,4 +1,4 @@
-sap.ui.define([], function () {
+﻿sap.ui.define([], function () {
   "use strict";
 
   function pad2(n){ return String(n).padStart(2, "0"); }
@@ -37,10 +37,10 @@ sap.ui.define([], function () {
   }
 
   function getFirebase() {
-    // Tenta carregar config local e SDK via CDN para evitar dependências de build
+    // Tenta carregar config local e SDK via CDN para evitar dependÃªncias de build
     return import("./settings/firebaseConfig.js").then(function (cfg) {
       if (cfg && cfg.storage) {
-        // Config fornece instâncias prontas
+        // Config fornece instÃ¢ncias prontas
         return Promise.all([
           import("https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js")
         ]).then(function (mods) {
@@ -54,7 +54,7 @@ sap.ui.define([], function () {
         });
       }
       var firebaseConfig = cfg && (cfg.firebaseConfig || cfg.default || null);
-      if (!firebaseConfig) throw new Error("firebaseConfig.js não encontrado ou inválido.");
+      if (!firebaseConfig) throw new Error("firebaseConfig.js nÃ£o encontrado ou invÃ¡lido.");
       return Promise.all([
         import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"),
         import("https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js")
@@ -78,15 +78,17 @@ sap.ui.define([], function () {
       if (cfg && cfg.firebaseConfig && cfg.firebaseConfig.storageBucket) {
         return cfg.firebaseConfig.storageBucket;
       }
-      // Se storage foi exportado, não há método simples para extrair o bucket
-      // então retornamos null e caímos no caminho do SDK.
+      // Se storage foi exportado, nÃ£o hÃ¡ mÃ©todo simples para extrair o bucket
+      // entÃ£o retornamos null e caÃ­mos no caminho do SDK.
       return null;
     });
   }
 
   function restDownloadJson(bucket, path) {
     if (!bucket) return Promise.resolve(null);
-    var url = "https://firebasestorage.googleapis.com/v0/b/" + encodeURIComponent(bucket) +
+    // Em dev, quando rodando via ui5-local.yaml, usamos proxy /storage para evitar CORS
+    var base = (function(){ try { return /localhost|127\.0\.0\.1/.test(window.location.host) ? "/storage" : "https://firebasestorage.googleapis.com"; } catch(e){ return "https://firebasestorage.googleapis.com"; } })();
+    var url = base + "/v0/b/" + encodeURIComponent(bucket) +
               "/o/" + encodeURIComponent(path) + "?alt=media";
     return new Promise(function (resolve) {
       jQuery.ajax({
@@ -97,11 +99,17 @@ sap.ui.define([], function () {
           try { resolve(JSON.parse(txt)); }
           catch (e) {
             try { resolve(typeof txt === 'string' ? JSON.parse(txt.trim()) : null); }
-            catch (_) { console.warn("[Firebase] Não foi possível parsear JSON:", url); resolve(null); }
+            catch (_) { console.warn("[Firebase] NÃ£o foi possÃ­vel parsear JSON:", url); resolve(null); }
           }
         },
         error: function (xhr) {
-          try { console.warn("[Firebase] Falha no GET:", url, xhr && xhr.status, xhr && xhr.statusText); } catch(_){}
+          try {
+            if (xhr && (xhr.status === 0 || xhr.readyState === 0)) {
+              console.warn("[Firebase] Falha no GET (possÃ­vel CORS). Verifique CORS do bucket e a origem do app.", url);
+            } else {
+              console.warn("[Firebase] Falha no GET:", url, xhr && xhr.status, xhr && xhr.statusText);
+            }
+          } catch(_){}
           resolve(null);
         }
       });
@@ -175,17 +183,33 @@ sap.ui.define([], function () {
             cache: false,
             success: function (txt) {
               try { resolve(JSON.parse(txt)); }
-              catch(_) { try { resolve(JSON.parse((txt||'').trim())); } catch(e2){ console.warn("[Firebase] JSON inválido em", url); resolve(null);} }
+              catch(_) { try { resolve(JSON.parse((txt||'').trim())); } catch(e2){ console.warn("[Firebase] JSON invÃ¡lido em", url); resolve(null);} }
             },
             error: function (xhr) {
-              try { console.warn("[Firebase] Falha no download URL:", url, xhr && xhr.status, xhr && xhr.statusText); } catch(_){}
+              try {
+                if (xhr && (xhr.status === 0 || xhr.readyState === 0)) {
+                  console.warn("[Firebase] Falha no download (possÃ­vel CORS):", url, xhr && xhr.status, xhr && xhr.statusText);
+                  console.warn("[Firebase] Dica: configure CORS no bucket do Storage para a origem deste app (ex.: http://localhost:8080)");
+                } else {
+                  console.warn("[Firebase] Falha no download URL:", url, xhr && xhr.status, xhr && xhr.statusText);
+                }
+              } catch(_){}
               resolve(null);
             }
           });
         });
       }).catch(function (e) {
-        try { console.warn("[Firebase] getDownloadURL falhou para", path, e && (e.code || e.message || e)); } catch(_){}
-        return null;
+        try {
+          var reason = (e && (e.code || e.message)) || e || "unknown";
+          var sr = e && (e.serverResponse || (e.customData && e.customData.serverResponse));
+          if (sr) reason += ": " + sr;
+          console.warn("[Firebase] getDownloadURL falhou para", path, reason);
+        } catch(_){}
+        // Fallback: tenta baixar via REST direto usando o bucket do config
+        return getBucketFromConfig().then(function (bucket) {
+          if (!bucket) return null;
+          return restDownloadJson(bucket, path);
+        });
       });
     });
   }

@@ -1,4 +1,4 @@
-sap.ui.define([
+﻿sap.ui.define([
   "sap/ui/core/Component"
 ], function (Component) {
   "use strict";
@@ -46,7 +46,7 @@ sap.ui.define([
     return new Promise(function (resolve, reject) {
       const oModel = resolveSvcModel(ctx);
       if (!oModel) {
-        return reject(new Error("Modelo OData 'svc' não encontrado. Verifique manifest/bootstrapping."));
+        return reject(new Error("Modelo OData 'svc' nÃ£o encontrado. Verifique manifest/bootstrapping."));
       }
 
       let fromYMD = ymd(dFrom);

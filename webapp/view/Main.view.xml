@@ -9,14 +9,14 @@
   <Page id="page" showHeader="false">
     <content>
 
-      <!-- Barra superior: título + filtro período + limpar + configuração -->
+      <!-- Barra superior: tÃ­tulo + filtro perÃ­odo + limpar + configuraÃ§Ã£o -->
       <OverflowToolbar>
         <core:Icon src="sap-icon://car-rental" size="1.5rem"/>
-        <Title text="Gestão de Frota" level="H3"/>
+        <Title text="GestÃ£o de Frota" level="H3"/>
         <ToolbarSpacer/>
 
-        <!-- Período (obrigatório no OData – o controller garante default = ontem) -->
-        <Label text="Período:">
+        <!-- PerÃ­odo (obrigatÃ³rio no OData â€“ o controller garante default = ontem) -->
+        <Label text="PerÃ­odo:">
           <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow"/>
           </layoutData>
@@ -40,7 +40,7 @@
       <Button
         id="btnSettings"
         icon="sap-icon://action-settings"
-        text="Configurações"
+        text="ConfiguraÃ§Ãµes"
         type="Transparent"
         press=".onOpenSettings">
         <layoutData>
@@ -51,16 +51,16 @@
 
       <!-- KPIs -->
       <OverflowToolbar width="100%">
-        <ObjectStatus text="Gasto em combustível" icon="sap-icon://expense-report" state="Information"/>
+        <ObjectStatus text="Gasto em combustÃ­vel" icon="sap-icon://expense-report" state="Information"/>
         <ObjectNumber number="{kpi>/gastoCombustivelFmt}" state="Information"/>
         <ToolbarSeparator/>
         <ObjectStatus text="Litros totais" icon="sap-icon://measure" state="Warning"/>
         <ObjectNumber number="{kpi>/totalLitrosFmt}" state="Warning"/>
         <ToolbarSeparator/>
-        <ObjectStatus text="Custo material/serviço" icon="sap-icon://wrench" state="Success"/>
+        <ObjectStatus text="Custo material/serviÃ§o" icon="sap-icon://wrench" state="Success"/>
         <ObjectNumber number="{kpi>/custoMateriaisFmt}" state="Success"/>
         <ToolbarSeparator/>
-        <ObjectStatus text="Preço médio" icon="sap-icon://expense-report" state="None"/>
+        <ObjectStatus text="PreÃ§o mÃ©dio" icon="sap-icon://expense-report" state="None"/>
         <ObjectNumber number="{kpi>/precoMedioFmt}" unit="R$/L" state="None"/>
       </OverflowToolbar>
 
@@ -79,7 +79,7 @@
           </items>
         </ComboBox>
 
-        <Text text="Filtro por Veículo:">
+        <Text text="Filtro por VeÃ­culo:">
           <layoutData>
             <OverflowToolbarLayoutData priority="NeverOverflow"/>
           </layoutData>
@@ -105,13 +105,13 @@
           enableColumnReordering="true"
           fixedColumnCount="4"
           width="100%"
-          noData="Sem dados para o período/filtragem."
+          noData="Sem dados para o perÃ­odo/filtragem."
           rows="{vm>/veiculos}">
 
         <table:columns>
 
           <table:Column sortProperty="equnr" width="5rem">
-            <Label text="Veículo"/>
+            <Label text="VeÃ­culo"/>
             <table:template>
               <Text text="{vm>equnr}"/>
             </table:template>
@@ -125,41 +125,41 @@
           </table:Column>
 
           <table:Column sortProperty="eqktx" width="10rem">
-            <Label text="Descrição do veículo"/>
+            <Label text="DescriÃ§Ã£o do veÃ­culo"/>
             <table:template>
               <Text text="{vm>eqktx}" maxLines="2"/>
             </table:template>
           </table:Column>
 
           <table:Column width="8rem" hAlign="Center">
-            <Label text="Ações"/>
+            <Label text="AÃ§Ãµes"/>
             <table:template>
               <HBox alignItems="Center" justifyContent="Center">
-                <Button icon="sap-icon://detail-view" type="Transparent" tooltip="Materiais/Serviços" press=".onOpenMateriais"/>
+                <Button icon="sap-icon://detail-view" type="Transparent" tooltip="Materiais/ServiÃ§os" press=".onOpenMateriais"/>
                 <Button icon="sap-icon://mileage" type="Transparent" tooltip="Abastecimentos" press=".onOpenAbastecimentos"/>
-                <Button icon="sap-icon://insurance-car" type="Transparent" tooltip="Histórico" press=".onOpenHistorico"/>
-                <Button icon="sap-icon://enablement" type="Transparent" tooltip="Odens de Serviço" press=".onOpenIW38Preview"/>
+                <Button icon="sap-icon://insurance-car" type="Transparent" tooltip="HistÃ³rico" press=".onOpenHistorico"/>
+                <Button icon="sap-icon://enablement" type="Transparent" tooltip="Odens de ServiÃ§o" press=".onOpenIW38Preview"/>
               </HBox>
             </table:template>
           </table:Column>
 
-          <!-- Agregados do período -->
+          <!-- Agregados do perÃ­odo -->
           <table:Column sortProperty="totalValor" width="7rem" hAlign="End">
-            <Label text="Custo material/serviço (R$)"/>
+            <Label text="Custo material/serviÃ§o (R$)"/>
             <table:template>
               <Text text="{ path: 'vm>totalValor', formatter: '.formatter.currencyBRL' }"/>
             </table:template>
           </table:Column>
 
           <table:Column sortProperty="combustivelLitrosAgg" width="7rem" hAlign="End">
-            <Label text="Combustível (L)"/>
+            <Label text="CombustÃ­vel (L)"/>
             <table:template>
               <Text text="{path:'vm>combustivelLitrosAgg', formatter:'.formatter.fmtLitros'}"/>
             </table:template>
           </table:Column>
 
           <table:Column sortProperty="combustivelValorAgg" width="7rem" hAlign="End">
-            <Label text="Combustível (R$)"/>
+            <Label text="CombustÃ­vel (R$)"/>
             <table:template>
               <Text text="{path:'vm>combustivelValorAgg', formatter:'.formatter.fmtBrl'}"/>
             </table:template>
@@ -189,9 +189,9 @@
             </table:template>
           </table:Column>
 
-          <!-- Média por veículo: km/L -->
+          <!-- MÃ©dia por veÃ­culo: km/L -->
           <table:Column width="6rem" hAlign="End">
-            <Label text="Média (km/L)"/>
+            <Label text="MÃ©dia (km/L)"/>
             <table:template>
               <Text text="{
                 parts: ['vm>kmRodadosAgg', 'vm>combustivelLitrosAgg'],
@@ -200,9 +200,9 @@
             </table:template>
           </table:Column>
 
-          <!-- Consumo por veículo: L/h -->
+          <!-- Consumo por veÃ­culo: L/h -->
           <table:Column width="6rem" hAlign="End">
-            <Label text="Média (L/h)"/>
+            <Label text="MÃ©dia (L/h)"/>
             <table:template>
               <Text text="{
                 parts: ['vm>combustivelLitrosAgg', 'vm>hrRodadosAgg'],
@@ -211,7 +211,7 @@
             </table:template>
           </table:Column>
 
-          <!-- Consumo por veículo: Disponibilidade -->
+          <!-- Consumo por veÃ­culo: Disponibilidade -->
           <table:Column width="9rem" hAlign="Center">
             <Label text="Disponibilidade (%)"/>
             <table:template>
@@ -221,7 +221,7 @@
             </table:template>
           </table:Column>
 
-          <!-- Consumo por veículo: Indisponibilidade -->
+          <!-- Consumo por veÃ­culo: Indisponibilidade -->
           <table:Column width="10rem" hAlign="Center">
             <Label text="Indisponibilidade (%)"/>
             <table:template>

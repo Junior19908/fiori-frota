@@ -1,4 +1,4 @@
-sap.ui.define([
+﻿sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/ui/model/json/JSONModel",
   "com/skysinc/frota/frota/util/formatter",
@@ -6,7 +6,7 @@ sap.ui.define([
 ], function (Controller, JSONModel, formatter, ODataMaterials) {
   "use strict";
 
-  // ===== helpers numéricos / formatação =====
+  // ===== helpers numÃ©ricos / formataÃ§Ã£o =====
   const toNum  = (v) => Number(v || 0);
   const fmtBrl = (v) => {
     try { return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(toNum(v)); }
@@ -33,7 +33,7 @@ sap.ui.define([
     m = str.match(/^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2}))?/);
     if (m) return new Date(+m[1], +m[2]-1, +m[3], +m[4], +m[5], +(m[6]||0), 0);
 
-    // Date já válido
+    // Date jÃ¡ vÃ¡lido
     if (s instanceof Date) return new Date(s.getTime());
     return null;
   }
@@ -47,7 +47,7 @@ sap.ui.define([
     return `${y}-${m}-${day}`;
   }
 
-  // Converte Date -> 'YYYY-MM-DD' em horário LOCAL (para strings locais)
+  // Converte Date -> 'YYYY-MM-DD' em horÃ¡rio LOCAL (para strings locais)
   function toYMD(d) {
     if (!(d instanceof Date)) return null;
     const y = d.getFullYear();
@@ -102,13 +102,13 @@ sap.ui.define([
         .getRoute("RouteHistorico")
         .attachPatternMatched(this._onRouteMatched, this);
 
-      // Filtros default: de 1 ano atrás até hoje (apenas no Historical)
+      // Filtros default: de 1 ano atrÃ¡s atÃ© hoje (apenas no Historical)
       const now = new Date();
       const d2 = now;
       const d1 = new Date(now); d1.setFullYear(now.getFullYear() - 1);
       this.getView().setModel(new JSONModel({ tipo:"__ALL__", q:"", d1, d2 }), "hfilter");
 
-      // Detail/KPIs + status manutenção de hoje
+      // Detail/KPIs + status manutenÃ§Ã£o de hoje
       this.getView().setModel(new JSONModel({
         veiculo:"", descricao:"", categoria:"",
         historico: [],
@@ -166,7 +166,7 @@ sap.ui.define([
       this._equnrRaw = String(argId);
       this._equnr = padEqunr(this._equnrRaw);
 
-      // Busca veículo no vm (se houver) ou no modelo global do Component
+      // Busca veÃ­culo no vm (se houver) ou no modelo global do Component
       const vmVeic = this.getView().getModel("vm")?.getProperty("/veiculos") || [];
       const comp   = this.getOwnerComponent();
       const baseVeic = comp.getModel()?.getProperty("/veiculos") || [];
@@ -184,7 +184,7 @@ sap.ui.define([
       detail.setProperty("/categoria",
         found?.CATEGORIA || found?.categoria || found?.Categoria || "");
 
-      // Carregar e montar histórico
+      // Carregar e montar histÃ³rico
       this.onRefresh();
     },
 
@@ -194,7 +194,7 @@ sap.ui.define([
       const from = startOfDay(hf.d1 || new Date());
       const to   = endOfDay(hf.d2 || hf.d1 || new Date());
 
-      // LOG: seleção e datas ABAP "date-only"
+      // LOG: seleÃ§Ã£o e datas ABAP "date-only"
       const abapStart = toABAPDateOnly(from);
       const abapEnd   = toABAPDateOnly(to);
 
@@ -204,10 +204,10 @@ sap.ui.define([
       ]).then(([matServ, abast]) => {
         const base = [];
 
-        // Materiais / Serviços (OData) — normaliza e soma +1 dia
+        // Materiais / ServiÃ§os (OData) â€” normaliza e soma +1 dia
         (matServ || []).forEach((r) => {
           const tipoU = String(r.tipo || r.TIPO || "").toUpperCase();
-          const isSrv = (tipoU === "SERVICO" || tipoU === "SERVIÇO" || r.isServico === true);
+          const isSrv = (tipoU === "SERVICO" || tipoU === "SERVIÃ‡O" || r.isServico === true);
 
           const desc = pickDescMaterial(r);
           const qt   = toNum(r.qtde || r.QTDE || r.menge || r.MENGE || 1);
@@ -226,7 +226,7 @@ sap.ui.define([
 
           base.push({
             data: dataYMD,           // YYYY-MM-DD (corrigido +1 dia)
-            tipo: isSrv ? "Serviço" : "Material",
+            tipo: isSrv ? "ServiÃ§o" : "Material",
             descricao: desc,
             qtde: qt,
             custoUnit: pUni,
@@ -234,7 +234,7 @@ sap.ui.define([
           });
         });
 
-        // Abastecimentos (local) — aplica +1 dia para alinhar com listas e filtros
+        // Abastecimentos (local) â€” aplica +1 dia para alinhar com listas e filtros
         (abast || []).forEach((a) => {
           const litros = toNum(a.litros || 0);
           const precoLinha = toNum(a.precoLitro ?? a.preco ?? a.precoUnit);
@@ -242,7 +242,7 @@ sap.ui.define([
 
           base.push({
             data: dAbast ? toYMD(addDays(dAbast, 1)) : null,  // YYYY-MM-DD (+1 dia)
-            tipo: "Combustível",
+            tipo: "CombustÃ­vel",
             descricao: a.descricao || "Abastecimento",
             qtde: litros,
             custoUnit: precoLinha || 0,
@@ -257,9 +257,9 @@ sap.ui.define([
           return dy - dx;
         });
 
-        const historicoComb      = base.filter(h=>h.tipo==="Combustível");
+        const historicoComb      = base.filter(h=>h.tipo==="CombustÃ­vel");
         const historicoMateriais = base.filter(h=>h.tipo==="Material");
-        const historicoServicos  = base.filter(h=>h.tipo==="Serviço");
+        const historicoServicos  = base.filter(h=>h.tipo==="ServiÃ§o");
 
         const detail = this.getView().getModel("detail");
         detail.setProperty("/historico", base);
@@ -268,10 +268,10 @@ sap.ui.define([
         detail.setProperty("/historicoServicos", historicoServicos);
         detail.setProperty("/_src/base", base);
 
-        // Atualiza “em manutenção hoje”
+        // Atualiza â€œem manutenÃ§Ã£o hojeâ€
         this._updateMaintenanceFlag(base);
 
-        // KPIs e gráfico
+        // KPIs e grÃ¡fico
         this._applyFiltersAndKpis();
         this._buildYearComparison();
         this._connectPopover();
@@ -283,14 +283,14 @@ sap.ui.define([
       const todayTo   = endOfDay(new Date());
 
       const hasToday = (base || []).some((r)=>{
-        if (!(r && (r.tipo === "Material" || r.tipo === "Serviço"))) return false;
+        if (!(r && (r.tipo === "Material" || r.tipo === "ServiÃ§o"))) return false;
         const d = r.data ? parseLocalDateTime(r.data) : null;
         return d && d >= todayFrom && d <= todayTo;
       });
 
       const detail = this.getView().getModel("detail");
       detail.setProperty("/manutencaoHoje", hasToday);
-      detail.setProperty("/manutencaoTexto", hasToday ? "Em manutenção hoje" : "Operacional");
+      detail.setProperty("/manutencaoTexto", hasToday ? "Em manutenÃ§Ã£o hoje" : "Operacional");
       detail.setProperty("/manutencaoState", hasToday ? "Error" : "Success");
     },
 
@@ -329,7 +329,7 @@ sap.ui.define([
       const hf = this.getView().getModel("hfilter").getData();
       console.log("[Hist] Data selecionada:",
         "De:", hf.d1 && hf.d1.toString(),
-        "| Até:", hf.d2 && hf.d2.toString()
+        "| AtÃ©:", hf.d2 && hf.d2.toString()
       );
       this._applyFiltersAndKpis();
       this._buildYearComparison();
@@ -362,9 +362,9 @@ sap.ui.define([
         return true;
       });
 
-      const historicoComb      = filt.filter(h=>h.tipo==="Combustível");
+      const historicoComb      = filt.filter(h=>h.tipo==="CombustÃ­vel");
       const historicoMateriais = filt.filter(h=>h.tipo==="Material");
-      const historicoServicos  = filt.filter(h=>h.tipo==="Serviço");
+      const historicoServicos  = filt.filter(h=>h.tipo==="ServiÃ§o");
 
       const totalComb = sum(historicoComb,      h=>h.valor);
       const totalMat  = sum(historicoMateriais, h=>h.valor);

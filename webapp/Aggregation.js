@@ -6,9 +6,9 @@
   const MS_PER_DAY = 24 * 60 * 60 * 1000;
   const MS_PER_HOUR = 60 * 60 * 1000;
   const HORA_REGEX = /^\d{2}:\d{2}:\d{2}$/;
-  // Penalidade por evento (em horas). Cada evento de downtime acrescentará esta quantidade
+  // Penalidade por evento (em horas). Cada evento de downtime acrescentarÃ¡ esta quantidade
   // ao tempo de indisponibilidade ao calcular a disponibilidade. Ajuste conforme necessidade.
-  const EVENT_PENALTY_HOURS = 1; // 1 hora por evento (padrão)
+  const EVENT_PENALTY_HOURS = 1; // 1 hora por evento (padrÃ£o)
   const EVENT_PENALTY_MS = EVENT_PENALTY_HOURS * MS_PER_HOUR;
 
   function sumDeltasFromAbastecimentos(abastecList) {
@@ -272,9 +272,9 @@
   // Converte para horas (raw)
   const downtimeHoursRaw = downtimeMs > 0 ? downtimeMs / MS_PER_HOUR : 0;
 
-  // Ajusta downtime somando uma penalidade por evento para priorizar veículos com
-  // muitos eventos mesmo que de curta duração. O valor é limitado ao windowMs
-  // (janela de análise) para evitar porcentagens negativas.
+  // Ajusta downtime somando uma penalidade por evento para priorizar veÃ­culos com
+  // muitos eventos mesmo que de curta duraÃ§Ã£o. O valor Ã© limitado ao windowMs
+  // (janela de anÃ¡lise) para evitar porcentagens negativas.
   const effectiveDowntimeMs = downtimeMs + (downtimeCount * EVENT_PENALTY_MS);
   const downtimeClamped = windowMs ? Math.min(effectiveDowntimeMs, windowMs) : effectiveDowntimeMs;
   const downtimeHours = downtimeClamped / MS_PER_HOUR;
