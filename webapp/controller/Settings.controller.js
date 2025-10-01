@@ -15,7 +15,7 @@
         var oModel = new JSONModel(data);
         that.getView().setModel(oModel, "settings");
       }).catch(function () {
-        MessageToast.show("Falha ao carregar configuraÃƒÂ§ÃƒÂµes. Usando defaults.");
+  MessageToast.show("Falha ao carregar configurações. Usando defaults.");
         var oModel = new JSONModel(SettingsService.DEFAULTS);
         that.getView().setModel(oModel, "settings");
       });
@@ -33,7 +33,7 @@
           return;
         }
         if (!/\.json$/i.test(file.name)) {
-          MessageToast.show("Apenas arquivos .json sÃƒÂ£o permitidos.");
+          MessageToast.show("Apenas arquivos .json são permitidos.");
           return;
         }
         var reader = new FileReader();
@@ -44,7 +44,7 @@
             json = JSON.parse(contents);
             try { that._lastImportedJson = json; that._lastImportedYm = "2025-09"; } catch(e){}
           } catch (err) {
-            MessageToast.show("Arquivo JSON invÃƒÂ¡lido.");
+            MessageToast.show("Arquivo JSON inválido.");
             return;
           }
           // Pergunta ao usuÃƒÂ¡rio o nome do arquivo no storage
@@ -84,9 +84,9 @@
     onSettingsFileUploadBatch: function (oEvent) {
       var that = this;
       const files = oEvent.getParameter("files");
-      if (!files || !files.length) { MessageToast.show("Selecione um ou mais arquivos JSON."); return; }
+  if (!files || !files.length) { MessageToast.show("Selecione um ou mais arquivos JSON."); return; }
       var arr = Array.from(files).filter(function(f){ return /\.json$/i.test(f && f.name); });
-      if (!arr.length) { MessageToast.show("Apenas arquivos .json sÃƒÂ£o permitidos."); return; }
+  if (!arr.length) { MessageToast.show("Apenas arquivos .json são permitidos."); return; }
 
       function detectYmFromName(name) {
         try {
@@ -142,14 +142,14 @@
                 new Text({ text: " (" + String(it.count||0) + " regs)", width: "10rem" }),
                 new Label({ text: "Ano", width: "3rem", design: "Bold" }),
                 new Input({ value: y, width: "6rem" }),
-                new Label({ text: "MÃƒÂªs", width: "3rem", design: "Bold" }),
+                new Label({ text: "Mês", width: "3rem", design: "Bold" }),
                 new Input({ value: m, width: "4rem" })
               ]});
               rows.push(row);
               vbox.addItem(row);
             });
             var dlg = new Dialog({
-              title: "Definir Ano/MÃƒÂªs por arquivo",
+              title: "Definir Ano/Mês por arquivo",
               contentWidth: "48rem",
               resizable: true,
               draggable: true,
@@ -177,7 +177,7 @@
                     } catch(e){ hasInvalid = true; }
                   });
                   if (hasInvalid) {
-                    try { MessageToast.show("Preencha Ano (YYYY) e MÃƒÂªs (MM) vÃƒÂ¡lidos para todos os arquivos."); } catch(e){}
+                    try { MessageToast.show("Preencha Ano (YYYY) e Mês (MM) válidos para todos os arquivos."); } catch(e){}
                     return;
                   }
                   dlg.close();
@@ -199,7 +199,7 @@
       /** Salva JSON no Firestore em abastecimentos/YYYY-MM */
       _uploadJsonToFirestore: function (ym, json) {
         var m = (ym || "").match(/^(\d{4})-(\d{2})$/);
-        if (!m) { MessageToast.show("Informe YYYY-MM vÃƒÂ¡lido."); return; }
+  if (!m) { MessageToast.show("Informe YYYY-MM válido."); return; }
         var y = Number(m[1]), mm = Number(m[2]);
         BusyIndicator.show(0);
         sap.ui.require(["com/skysinc/frota/frota/services/FirebaseFirestoreService"], function (svc) {
@@ -219,7 +219,7 @@
       _uploadJsonToFirebase: function (path, json) {
         var that = this;
         if (!path) {
-          MessageToast.show("Caminho de destino nÃƒÂ£o informado.");
+          MessageToast.show("Caminho de destino não informado.");
           return;
         }
         BusyIndicator.show(0);
@@ -271,7 +271,7 @@
       const m = this.getView().getModel("settings");
       m.setData(Object.assign({}, SettingsService.DEFAULTS));
       try { sap.ui.getCore().applyTheme(SettingsService.DEFAULTS.theme); } catch (e) {}
-      MessageToast.show("ConfiguraÃƒÂ§ÃƒÂµes restauradas.");
+  MessageToast.show("Configurações restauradas.");
     },
 
     onSave: async function () {
@@ -280,9 +280,9 @@
       BusyIndicator.show(0);
       try {
         await SettingsService.saveSettings(data);
-        MessageToast.show(data.saveLocal ? "ConfiguraÃƒÂ§ÃƒÂµes salvas localmente." : "ConfiguraÃƒÂ§ÃƒÂµes salvas remotamente.");
+  MessageToast.show(data.saveLocal ? "Configurações salvas localmente." : "Configurações salvas remotamente.");
       } catch (e) {
-        MessageToast.show("Falha ao salvar configuraÃƒÂ§ÃƒÂµes.");
+  MessageToast.show("Falha ao salvar configurações.");
         // eslint-disable-next-line no-console
         console.error(e);
       } finally {
@@ -346,7 +346,7 @@
           return that._showExportReport(report).then(function(){ return res; });
         });
       }).then(function (res) {
-        MessageToast.show(res && res.ok ? "MÃƒÂªs exportado para Firebase." : "Falha ao exportar mÃƒÂªs.");
+  MessageToast.show(res && res.ok ? "Mês exportado para Firebase." : "Falha ao exportar mês.");
       }).catch(function (e) {
         // eslint-disable-next-line no-console
         console.error(e);
@@ -386,7 +386,7 @@
         var title = "Resultado";
         if (/^gs:\/\//i.test(s)) {
           var gp = svc.parseGsUrl(s);
-          if (!gp) throw new Error("gs:// invÃƒÂ¡lido");
+          if (!gp) throw new Error("gs:// inválido");
           title = gp.bucket + "/" + gp.path;
           fetch = svc.restDownloadJson(gp.bucket, gp.path);
         } else if (/^https?:\/\//i.test(s)) {
@@ -411,7 +411,7 @@
           } else if (data && typeof data === 'object') {
             txt = JSON.stringify(data, null, 2);
           } else {
-            txt = "<vazio/nÃƒÂ£o encontrado>";
+            txt = "<vazio/não encontrado>";
           }
           return that._showTextDialog(title, txt);
         });
@@ -430,7 +430,7 @@
         var inp = new Input({ value: "2025-09", width: "100%", placeholder: "YYYY-MM" });
         var dlg = new Dialog({
           title: "Salvar no Firestore (abastecimentos/AAAA-MM)",
-          content: [ new Label({ text: "MÃƒÂªs (YYYY-MM)" }), inp ],
+          content: [ new Label({ text: "Mês (YYYY-MM)" }), inp ],
           beginButton: new Button({
             text: "Salvar",
             type: "Emphasized",
@@ -530,7 +530,7 @@
         var info  = new Text({ text: "Registros a enviar: " + String(countAbast(data)) });
         var dlg = new Dialog({
           title: "Confirmar envio ao Firestore",
-          content: [ new Label({ text: "MÃƒÂªs (YYYY-MM)" }), inpYm, info ],
+          content: [ new Label({ text: "Mês (YYYY-MM)" }), inpYm, info ],
           beginButton: new Button({
             text: "Enviar",
             type: "Emphasized",

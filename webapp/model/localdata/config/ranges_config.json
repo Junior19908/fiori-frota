@@ -3272,11 +3272,11 @@
       },
       "deltaHr": {
         "min": 1,
-        "max": 14
+        "max": 20
       },
       "_meta": {
         "source": "FuelDialog",
-        "savedAt": "2025-09-30T01:02:47.601Z",
+        "savedAt": "2025-10-01T17:51:44.312Z",
         "reason": "manual"
       }
     },

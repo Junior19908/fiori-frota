@@ -48,16 +48,16 @@
     const hasMin = Number.isFinite(min);
     const hasMax = Number.isFinite(max);
     if (!hasMin && !hasMax) return "";
-    return `${label}: MÃ­n.=${hasMin ? _fmt(min) : "â€“"} â€¢ MÃ¡x.=${hasMax ? _fmt(max) : "â€“"}`;
+    return `${label}: Mín.=${hasMin ? _fmt(min) : "–"} • Máx.=${hasMax ? _fmt(max) : "–"}`;
   }
 
   function _hintText(min, max) {
     const hasMin = Number.isFinite(min);
     const hasMax = Number.isFinite(max);
-    if (!hasMin && !hasMax) return "Sem sugestÃ£o histÃ³rica";
-    if (hasMin && hasMax) return `SugestÃ£o: ${_fmt(min)} a ${_fmt(max)}`;
-    if (hasMin) return `SugestÃ£o: mÃ­nimo ${_fmt(min)}`;
-    return `SugestÃ£o: mÃ¡ximo ${_fmt(max)}`;
+    if (!hasMin && !hasMax) return "Sem Sugestão histórica";
+    if (hasMin && hasMax) return `Sugestão: ${_fmt(min)} a ${_fmt(max)}`;
+    if (hasMin) return `Sugestão: mínimo ${_fmt(min)}`;
+    return `Sugestão: máximo ${_fmt(max)}`;
   }
 
   function _pickVehicleKey(v) {
@@ -103,12 +103,19 @@
     return Number.isFinite(baseValue) ? baseValue : null;
   }
 
-  function _decorateEvents(list, limits) {
+  // ===== DECORATOR COM SUPORTE AO "ANTERIOR FORA DO RANGE" =====
+  // opts.prevForFirst: evento imediatamente anterior ao início do período (não visível)
+  function _decorateEvents(list, limits, opts) {
+    opts = opts || {};
+    const prevForFirst = opts.prevForFirst || null;
+
     let totalLitros = 0;
+    // Acumuladores de média (somente pares 100% dentro do período)
     let somaKmValidos = 0;
     let somaLitrosKmL = 0;
     let somaHrValidos = 0;
     let somaLitrosLHr = 0;
+
     let hasAnyKm = false;
     let hasAnyHr = false;
 
@@ -123,7 +130,7 @@
       const ev = list[i];
       const litros = _readLt(ev);
       if (Number.isFinite(litros) && litros > 0) {
-        totalLitros += litros;
+        totalLitros += litros; // total do período (inclui a primeira linha)
       }
 
       const kmCur = _readKm(ev);
@@ -140,9 +147,17 @@
       ev._statusIcon = null;
       ev._statusTooltip = "";
 
-      if (i === 0) continue;
+      // Define "anterior" para cálculo de delta
+      let prev = null;
+      let cruzouLimitePeriodo = false; // se true, NÃO entra nos acumuladores de média
+      if (i === 0) {
+        prev = prevForFirst || null;       // pode vir de fora do período
+        cruzouLimitePeriodo = !!prev;      // se usamos prev externo, é um par cruzando o limite
+      } else {
+        prev = list[i - 1];                // sempre dentro do período
+      }
+      if (!prev) continue;
 
-      const prev = list[i - 1];
       const kmAnt = _readKm(prev);
       const hrAnt = _readHr(prev);
 
@@ -162,43 +177,51 @@
       const retroHr = hasHrPair && dHr <= 0;
 
       if (retroKm || retroHr) {
-        ev._statusText = "Retrocesso ou sem avanÃ§o, revisar mediÃ§Ã£o";
+        ev._statusText = "Retrocesso ou sem avanço, revisar medição";
         ev._statusState = "Error";
         ev._statusIcon = "sap-icon://error";
       } else if (tooHighKm || tooHighHr) {
-        ev._statusText = "Salto de numeraÃ§Ã£o, possÃ­vel erro";
+        ev._statusText = "Salto de numeração, possível erro";
         ev._statusState = "Error";
         ev._statusIcon = "sap-icon://error";
       } else if (tooLowKm || tooLowHr) {
-        ev._statusText = "VariaÃ§Ã£o muito baixa, conferir leitura";
+        ev._statusText = "Variação muito baixa, conferir leitura";
         ev._statusState = "Warning";
         ev._statusIcon = "sap-icon://alert";
       }
 
       const tooltipPieces = [];
       if (hasKmPair || Number.isFinite(minKm) || Number.isFinite(maxKm)) {
-        tooltipPieces.push(`Km=${_fmt(dKm)} (MÃ­n.=${_fmt(minKm)}, MÃ¡x.=${_fmt(maxKm)})`);
+        tooltipPieces.push(`Km=${_fmt(dKm)} (Mín.=${_fmt(minKm)}, Máx.=${_fmt(maxKm)})`);
       }
       if (hasHrPair || Number.isFinite(minHr) || Number.isFinite(maxHr)) {
-        tooltipPieces.push(`Hr=${hasHrPair ? _fmt(dHr) : "-"} (MÃ­n.=${_fmt(minHr)}, MÃ¡x.=${_fmt(maxHr)})`);
+        tooltipPieces.push(`Hr=${hasHrPair ? _fmt(dHr) : "-"} (Mín.=${_fmt(minHr)}, Máx.=${_fmt(maxHr)})`);
       }
       if (litrosOk || Number.isFinite(minLt) || Number.isFinite(maxLt)) {
-        tooltipPieces.push(`Litros=${_fmt(litros)} (MÃ­n.=${_fmt(minLt)}, MÃ¡x.=${_fmt(maxLt)})`);
+        tooltipPieces.push(`Litros=${_fmt(litros)} (Mín.=${_fmt(minLt)}, Máx.=${_fmt(maxLt)})`);
       }
-      ev._statusTooltip = tooltipPieces.join(" â€¢ ");
+      ev._statusTooltip = tooltipPieces.join(" • ");
 
+      // ----- Preencher os valores por linha (sempre) -----
       if (hasKmPair && dKm > 0 && litrosOk) {
         ev._kmPerc = dKm;
         ev._kmPorL = dKm / litros;
         ev._lPorKm = litros / dKm;
-        somaKmValidos += dKm;
-        somaLitrosKmL += litros;
       }
-
       if (hasHrPair && dHr > 0 && litrosOk) {
         ev._lPorHr = litros / dHr;
-        somaHrValidos += dHr;
-        somaLitrosLHr += litros;
+      }
+
+      // ----- Acumular para as MÉDIAS apenas se o par NÃO cruzou o limite do período -----
+      if (!cruzouLimitePeriodo) {
+        if (hasKmPair && dKm > 0 && litrosOk) {
+          somaKmValidos += dKm;
+          somaLitrosKmL += litros; // litros da linha (dentro do período)
+        }
+        if (hasHrPair && dHr > 0 && litrosOk) {
+          somaHrValidos += dHr;
+          somaLitrosLHr += litros;
+        }
       }
     }
 
@@ -219,7 +242,7 @@
     };
   }
 
-  function _buildFuelModelPayload(events, baseLimits, overrides, hintLimits) {
+  function _buildFuelModelPayload(events, baseLimits, overrides, hintLimits, opts) {
     const sanitizedBase = _sanitizeLimits(baseLimits);
     const sanitizedHints = _sanitizeLimits(hintLimits || baseLimits);
     const effectiveLimits = {
@@ -233,7 +256,7 @@
 
     const list = _cloneEvents(events);
     list.sort((a, b) => _orderTs(a) - _orderTs(b));
-    const decorated = _decorateEvents(list, effectiveLimits);
+    const decorated = _decorateEvents(list, effectiveLimits, opts);
 
     const limiteKmMinActive = Number.isFinite(effectiveLimits.minKm);
     const limiteKmActive = Number.isFinite(effectiveLimits.maxKm);
@@ -381,8 +404,7 @@
     const vehKey = _pickVehicleKey(vehicleObj);
     const abModel = oController.getView().getModel("abastec") || oController.getView().getModel("abast");
 
-    // Se o modelo de abastecimentos ainda nÃ£o tiver sido carregado (obj vazio),
-    // tentar carregar rapidamente o mÃªs atual via Component (fallback).
+    // Se o modelo de abastecimentos ainda não tiver sido carregado, tenta carregar mês atual via Component.
     let abMap = abModel && abModel.getProperty("/abastecimentosPorVeiculo");
     if (abModel && (!abMap || Object.keys(abMap).length === 0)) {
       try {
@@ -391,12 +413,10 @@
           const now = new Date();
           const start = new Date(now.getFullYear(), now.getMonth(), 1);
           const end = new Date(now.getFullYear(), now.getMonth(), 28);
-          // load only current month as a quick attempt to populate data
           await comp.loadAllHistoryInRange(start, end);
           abMap = abModel.getProperty("/abastecimentosPorVeiculo");
         }
       } catch (e) {
-        // swallow - we'll continue with whatever data we have
         /* no-op */
       }
     }
@@ -406,16 +426,36 @@
       vehicleObj.abastecimentos ||
       [];
 
+    // ===== range + "anterior oculto" =====
     let list = baseArr;
+    let prevBeforeStart = null;
+
+    let start = null, end = null;
     if (Array.isArray(range) && range.length >= 1) {
-      const start = range[0] ? new Date(range[0].getTime()) : null;
-      const end = range[1]
+      start = range[0] ? new Date(range[0].getTime()) : null;
+      end = range[1]
         ? new Date(range[1].getTime())
         : range[0]
         ? new Date(range[0].getTime())
         : null;
       if (start) start.setHours(0, 0, 0, 0);
       if (end) end.setHours(23, 59, 59, 999);
+    }
+
+    if (start || end) {
+      // Ordena todos para localizar o anterior
+      const orderedAll = baseArr.slice().sort((a, b) => _orderTs(a) - _orderTs(b));
+
+      if (start) {
+        for (let i = orderedAll.length - 1; i >= 0; i--) {
+          const ev = orderedAll[i];
+          const ts = _orderTs(ev);
+          if (isFinite(ts) && ts < start.getTime()) {
+            prevBeforeStart = ev;
+            break;
+          }
+        }
+      }
 
       list = baseArr.filter((a) => {
         const ts = _orderTs(a);
@@ -425,12 +465,18 @@
 
     const limits = _sanitizeLimits(_getVehRanges(vehKey));
     const baseEvents = _cloneEvents(list);
-    const payload = _buildFuelModelPayload(baseEvents, limits, {
-      limiteKm: limits.maxKm,
-      limiteKmMin: limits.minKm,
-      limiteHr: limits.maxHr,
-      limiteHrMin: limits.minHr
-    }, limits);
+    const payload = _buildFuelModelPayload(
+      baseEvents,
+      limits,
+      {
+        limiteKm: limits.maxKm,
+        limiteKmMin: limits.minKm,
+        limiteHr: limits.maxHr,
+        limiteHrMin: limits.minHr
+      },
+      limits,
+      { prevForFirst: prevBeforeStart } // usa o anterior oculto apenas para a 1ª linha (média ignora)
+    );
 
     const titulo = `Abastecimentos - ${vehicleObj.equnr || vehicleObj.veiculo || ""} - ${vehicleObj.eqktx || vehicleObj.descricao || ""}`;
 
@@ -464,7 +510,7 @@
     };
 
     return oController._openFragment(
-      "com/skysinc/frota/frota/fragments/FuelDialog",
+      "com/skysinc.frota/frota/fragments/FuelDialog",
       "dlgFuel",
       { fuel: oController._fuelModel }
     );
@@ -514,8 +560,7 @@
     state.limits.minHr = payload.limiteHrMinActive ? payload.limiteHrMin : null;
     state.limits.maxHr = payload.limiteHrActive ? payload.limiteHr : null;
 
-    // Removido: nÃ£o persistir automaticamente a cada mudanÃ§a.
-    // A persistÃªncia ocorrerÃ¡ explicitamente via saveFuelLimits() ou ao fechar o diÃ¡logo.
+    // persistência automática removida
   }
 
   async function saveFuelLimits(oController, metadata) {
@@ -587,44 +632,13 @@
   async function getAbastecimentos(oController, opts) {
     opts = opts || {};
     const sortDir = (opts.sort === 'desc') ? 'desc' : 'asc';
-
-    const abModel = oController.getView().getModel("abastec") || oController.getView().getModel("abast");
-    let abMap = abModel && abModel.getProperty("/abastecimentosPorVeiculo");
-
-    // Fallback rápido: se vazio, tenta carregar mês atual via Component
-    if (abModel && (!abMap || Object.keys(abMap).length === 0)) {
-      try {
-        const comp = oController.getOwnerComponent && oController.getOwnerComponent();
-        if (comp && typeof comp.loadAllHistoryInRange === "function") {
-          const now = new Date();
-          const start = new Date(now.getFullYear(), now.getMonth(), 1);
-          const end = new Date(now.getFullYear(), now.getMonth(), 28);
-          await comp.loadAllHistoryInRange(start, end);
-          abMap = abModel.getProperty("/abastecimentosPorVeiculo");
-        }
-      } catch (e) {
-        /* no-op */
-      }
-    }
-
-    const keysWanted = (function(){
-      if (!opts.vehicleKey) return null; // todos
-      if (Array.isArray(opts.vehicleKey)) return opts.vehicleKey.map(String);
-      return [ String(opts.vehicleKey) ];
-    })();
-
-    const baseArrays = [];
-    const map = abMap || {};
-    Object.keys(map).forEach((veh) => {
-      if (keysWanted && keysWanted.indexOf(String(veh)) === -1) return;
-      const arr = Array.isArray(map[veh]) ? map[veh] : [];
-      if (arr.length) baseArrays.push(arr);
+    // Busca sempre do Firebase
+    const FirebaseService = await new Promise((resolve, reject) => {
+      sap.ui.require([
+        "com/skysinc/frota/frota/services/FirebaseFirestoreService"
+      ], resolve);
     });
-
-    // Flatten
-    let all = [].concat.apply([], baseArrays);
-
-    // Filtra por range
+    // Determina range de datas
     let start = null, end = null;
     if (Array.isArray(opts.range) && opts.range.length >= 1) {
       start = opts.range[0] ? new Date(opts.range[0].getTime()) : null;
@@ -637,23 +651,41 @@
       start = opts.from ? new Date(opts.from.getTime()) : null;
       end = opts.to   ? new Date(opts.to.getTime())   : null;
     }
-    if (start) start.setHours(0, 0, 0, 0);
-    if (end) end.setHours(23, 59, 59, 999);
-
+    if (!start || !end) {
+      const now = new Date();
+      start = new Date(now.getFullYear(), now.getMonth(), 1);
+      end = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    }
+    const months = FirebaseService.exportRange ? FirebaseService.monthsBetween(start, end) : [];
+    const allEvents = [];
+    for (const m of months) {
+      const data = await FirebaseService.fetchMonthlyFromFirestore(m.y, m.m);
+      if (data && typeof data === 'object') {
+        Object.keys(data).forEach(vehKey => {
+          const arr = Array.isArray(data[vehKey]) ? data[vehKey] : [];
+          arr.forEach(ev => {
+            ev._vehicleKey = vehKey;
+            allEvents.push(ev);
+          });
+        });
+      }
+    }
+    let filtered = allEvents;
+    if (opts.vehicleKey) {
+      const keys = Array.isArray(opts.vehicleKey) ? opts.vehicleKey.map(String) : [String(opts.vehicleKey)];
+      filtered = filtered.filter(ev => keys.includes(String(ev._vehicleKey)));
+    }
     if (start || end) {
-      all = all.filter((a) => {
+      filtered = filtered.filter((a) => {
         const ts = _orderTs(a);
         return (!start || ts >= start.getTime()) && (!end || ts <= end.getTime());
       });
     }
-
-    // Ordena
-    all.sort((a, b) => {
+    filtered.sort((a, b) => {
       const d = _orderTs(a) - _orderTs(b);
       return sortDir === 'desc' ? -d : d;
     });
-
-    return all;
+    return filtered;
   }
 
   return {

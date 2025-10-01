@@ -50,7 +50,7 @@
             </table:template>
           </table:Column>
 
-          <!-- Qtde | numÃ©rico direita -->
+          <!-- Qtde | numérico direita -->
           <table:Column width="4rem" sortProperty="qtde" filterProperty="qtde" hAlign="End">
             <Label text="Qtde" textAlign="Center" width="100%"/>
             <table:template>
@@ -66,7 +66,7 @@
             </table:template>
           </table:Column>
 
-          <!-- Custo Unit. | numÃ©rico direita -->
+          <!-- Custo Unit. | numérico direita -->
           <table:Column width="6rem" sortProperty="custoUnit" filterProperty="custoUnit" hAlign="End">
             <Label text="Custo Unit." textAlign="Center" width="100%"/>
             <table:template>
@@ -74,7 +74,7 @@
             </table:template>
           </table:Column>
 
-          <!-- Total (R$) | numÃ©rico direita (usa totalItem calculado no controller) -->
+          <!-- Total (R$) | numérico direita (usa totalItem calculado no controller) -->
           <table:Column width="6rem" sortProperty="totalItem" filterProperty="totalItem" hAlign="End">
             <Label text="Total (R$)" textAlign="Center" width="100%"/>
             <table:template>
@@ -86,23 +86,23 @@
           <table:Column width="7rem" hAlign="Center">
             <Label text="Status" textAlign="Center" width="100%"/>
             <table:template>
-              <Text text="DEVOLUÃ‡ÃƒO"
+              <Text text="DEVOLUÇÃO"
                     visible="{path:'dlg>qtde', formatter:'.formatter.isDevolucao'}"
                     class="blinkingText"/>
             </table:template>
           </table:Column>
 
-          <!-- CÃ³d. Material | texto monospac1e opcional (evita quebra) -->
+          <!-- Cód. Material | texto monospac1e opcional (evita quebra) -->
           <table:Column width="4rem" sortProperty="codMaterial" filterProperty="codMaterial" hAlign="Center">
-            <Label text="CÃ³d. Material" textAlign="Center" width="100%"/>
+            <Label text="Cód. Material" textAlign="Center" width="100%"/>
             <table:template>
               <Text text="{dlg>codMaterial}" tooltip="{dlg>codMaterial}"/>
             </table:template>
           </table:Column>
 
-          <!-- DepÃ³sito | center -->
+          <!-- Depósito | center -->
           <table:Column width="4rem" sortProperty="deposito" filterProperty="deposito" hAlign="Center">
-            <Label text="DepÃ³sito" textAlign="Center" width="100%"/>
+            <Label text="Depósito" textAlign="Center" width="100%"/>
             <table:template>
               <Text text="{dlg>deposito}"/>
             </table:template>
@@ -148,9 +148,9 @@
             </table:template>
           </table:Column>
 
-          <!-- UsuÃ¡rio | esquerda -->
+          <!-- Usuário | esquerda -->
           <table:Column width="7rem" sortProperty="usuario" filterProperty="usuario" hAlign="Begin">
-            <Label text="UsuÃ¡rio" textAlign="Center" width="100%"/>
+            <Label text="Usuário" textAlign="Center" width="100%"/>
             <table:template>
               <Text text="{dlg>usuario}" tooltip="{dlg>usuario}"/>
             </table:template>
@@ -167,7 +167,7 @@
           <ObjectNumber number="{path:'dlg>/totalValor', formatter:'.formatter.fmtBrl'}"/>
         </Toolbar>
 
-        <Text text="Sem materiais para este veÃ­culo no perÃ­odo"
+        <Text text="Sem materiais para este veículo no período"
               visible="{= ${dlg>/materiais}.length === 0 }"/>
       </VBox>
     </content>
