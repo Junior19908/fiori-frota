@@ -55,7 +55,7 @@
           sap.ui.require(["sap/m/Dialog", "sap/m/Input", "sap/m/Button"], function(Dialog, Input, Button) {
             var inp = new Input({ value: "abastecimentos/2025/09/" + file.name, width: "100%" });
             var dlg = new Dialog({
-              title: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.dlg.saveFirestoreYm") : "Salvar no Firestore (YYYY-MM)"),
+              title: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? this.getView().getModel("i18n").getResourceBundle().getText("settings.dlg.saveFirestoreYm") : "Salvar no Firestore (YYYY-MM)"),
               content: [inp],
               beginButton: new Button({
                 text: "Enviar",
@@ -88,9 +88,9 @@
     onSettingsFileUploadBatch: function (oEvent) {
       var that = this;
       const files = oEvent.getParameter("files");
-  if (!files || !files.length) { MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.selectMultipleJson") : "Selecione um ou mais arquivos JSON.")); return; }
+  if (!files || !files.length) { MessageToast.show(((this.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? this.getView().getModel("i18n").getResourceBundle().getText("settings.selectMultipleJson") : "Selecione um ou mais arquivos JSON.")); return; }
       var arr = Array.from(files).filter(function(f){ return /\.json$/i.test(f && f.name); });
-  if (!arr.length) { MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.onlyJsonAllowed") : "Apenas arquivos .json são permitidos.")); return; }
+  if (!arr.length) { MessageToast.show(((this.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? this.getView().getModel("i18n").getResourceBundle().getText("settings.onlyJsonAllowed") : "Apenas arquivos .json são permitidos.")); return; }
 
       function detectYmFromName(name) {
         try {
@@ -129,7 +129,7 @@
         that._importBatch = (items || []).filter(Boolean);
         that._lastImportedJson = null; // usar batch quando presente
         if (!that._importBatch.length) {
-          MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.readFilesError") : "Falha ao ler os arquivos."));
+          MessageToast.show(((this.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? this.getView().getModel("i18n").getResourceBundle().getText("settings.readFilesError") : "Falha ao ler os arquivos."));
           return;
         }
         try {
@@ -153,7 +153,7 @@
               vbox.addItem(row);
             });
             var dlg = new Dialog({
-              title: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.dlg.setYearMonthPerFile") : "Definir Ano/Mês por arquivo"),
+              title: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? this.getView().getModel("i18n").getResourceBundle().getText("settings.dlg.setYearMonthPerFile") : "Definir Ano/Mês por arquivo"),
               contentWidth: "48rem",
               resizable: true,
               draggable: true,
@@ -181,11 +181,11 @@
                     } catch(e){ hasInvalid = true; }
                   });
                   if (hasInvalid) {
-                    try { MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.fillYearMonthAll") : "Preencha Ano (YYYY) e Mês (MM) válidos para todos os arquivos.")); } catch(e){}
+                    try { MessageToast.show(((this.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? this.getView().getModel("i18n").getResourceBundle().getText("settings.fillYearMonthAll") : "Preencha Ano (YYYY) e Mês (MM) válidos para todos os arquivos.")); } catch(e){}
                     return;
                   }
                   dlg.close();
-                  try { MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.filesReadyClickSave") : "Arquivos prontos. Clique em 'Salvar no Firestore'.")); } catch(e){}
+                  try { MessageToast.show(((this.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? this.getView().getModel("i18n").getResourceBundle().getText("settings.filesReadyClickSave") : "Arquivos prontos. Clique em 'Salvar no Firestore'.")); } catch(e){}
                 }
               }),
               endButton: new Button({ text: "Cancelar", press: function(){ dlg.close(); } }),
@@ -195,7 +195,7 @@
             dlg.open();
           });
         } catch(e) {
-          (function(__n){ var __rb = that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle(); MessageToast.show(__rb ? __rb.getText("settings.filesLoadedClickSaveN", [String(__n)]) : (__n + " arquivo(s) carregado(s). Clique em 'Salvar no Firestore'.")); })(that._importBatch.length);
+          (function(__n){ var __rb = this.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle(); MessageToast.show(__rb ? __rb.getText("settings.filesLoadedClickSaveN", [String(__n)]) : (__n + " arquivo(s) carregado(s). Clique em 'Salvar no Firestore'.")); })(that._importBatch.length);
         }
       });
     },
@@ -203,14 +203,14 @@
       /** Salva JSON no Firestore em abastecimentos/YYYY-MM */
       _uploadJsonToFirestore: function (ym, json) {
         var m = (ym || "").match(/^(\d{4})-(\d{2})$/);
-  if (!m) { MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.informYmValid") : "Informe YYYY-MM válido.")); return; }
+  if (!m) { MessageToast.show(((this.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? this.getView().getModel("i18n").getResourceBundle().getText("settings.informYmValid") : "Informe YYYY-MM válido.")); return; }
         var y = Number(m[1]), mm = Number(m[2]);
         BusyIndicator.show(0);
         sap.ui.require(["com/skysinc/frota/frota/services/FirebaseFirestoreService"], function (svc) {
           svc.saveMonthlyToFirestore(y, mm, json).then(function (res) {
-            (function(__res){ var __rb = that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle(); MessageToast.show(__res && __res.ok ? (__rb ? __rb.getText("settings.savedFirestoreOk") : "JSON salvo no Firestore.") : (__rb ? __rb.getText("settings.failWithReason", [String(__res && __res.reason || "")]) : ("Falha: " + String(__res && __res.reason || "")))); })(res);
+            (function(__res){ var __rb = this.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle(); MessageToast.show(__res && __res.ok ? (__rb ? __rb.getText("settings.savedFirestoreOk") : "JSON salvo no Firestore.") : (__rb ? __rb.getText("settings.failWithReason", [String(__res && __res.reason || "")]) : ("Falha: " + String(__res && __res.reason || "")))); })(res);
           }).catch(function (e) {
-            MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.saveFirestoreError") : "Erro ao salvar no Firestore."));
+            MessageToast.show(((this.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? this.getView().getModel("i18n").getResourceBundle().getText("settings.saveFirestoreError") : "Erro ao salvar no Firestore."));
             // eslint-disable-next-line no-console
             console.error(e);
           }).finally(function(){ BusyIndicator.hide(); });
@@ -231,8 +231,8 @@
       const m = this.getView().getModel("settings");
       m.setData(Object.assign({}, SettingsService.DEFAULTS));
       try { sap.ui.getCore().applyTheme(SettingsService.DEFAULTS.theme); } catch (e) {}
-  MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.restored") : "Configurações restauradas."));
-    },
+      var rb1 = this.getView() && this.getView().getModel("i18n") && this.getView().getModel("i18n").getResourceBundle();
+      MessageToast.show(rb1 ? rb1.getText("settings.restored") : "Configurações restauradas.");
 
     onSave: async function () {
       const m = this.getView().getModel("settings");
@@ -240,14 +240,14 @@
       BusyIndicator.show(0);
       try {
         await SettingsService.saveSettings(data);
-  (function(){ var __rb = that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle(); MessageToast.show(__rb ? __rb.getText("settings.savedRemote") : "Configurações salvas remotamente."); })();
+        await SettingsService.saveSettings(data);
+        var rb2 = this.getView() && this.getView().getModel("i18n") && this.getView().getModel("i18n").getResourceBundle();
+        MessageToast.show(rb2 ? rb2.getText("settings.savedRemote") : "Configurações salvas remotamente.");
       } catch (e) {
-  MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.saveFailed") : "Falha ao salvar configurações."));
+        var rb3 = this.getView() && this.getView().getModel("i18n") && this.getView().getModel("i18n").getResourceBundle();
+        MessageToast.show(rb3 ? rb3.getText("settings.saveFailed") : "Falha ao salvar configurações.");
         // eslint-disable-next-line no-console
         console.error(e);
-      } finally {
-      BusyIndicator.hide();
-      }
     },
 
     _showExportReport: function (items) {
@@ -274,7 +274,7 @@
           });
 
           var dlg = new Dialog({
-            title: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.dlg.exportReport") : "Relatório de Exportação"),
+            title: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? this.getView().getModel("i18n").getResourceBundle().getText("settings.dlg.exportReport") : "Relatório de Exportação"),
             contentWidth: "32rem",
             contentHeight: "20rem",
             resizable: true,
@@ -306,11 +306,11 @@
           return that._showExportReport(report).then(function(){ return res; });
         });
       }).then(function (res) {
-  (function(__res){ var __rb = that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle(); MessageToast.show(__res && __res.ok ? (__rb ? __rb.getText("settings.exportMonthOk") : "Mês exportado para Firestore.") : (__rb ? __rb.getText("settings.exportMonthFail") : "Falha ao exportar mês.")); })(res);
+  (function(__res){ var __rb = this.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle(); MessageToast.show(__res && __res.ok ? (__rb ? __rb.getText("settings.exportMonthOk") : "Mês exportado para Firestore.") : (__rb ? __rb.getText("settings.exportMonthFail") : "Falha ao exportar mês.")); })(res);
       }).catch(function (e) {
         // eslint-disable-next-line no-console
         console.error(e);
-        MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.exportError") : "Erro ao exportar para Firestore."));
+        MessageToast.show(((this.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? this.getView().getModel("i18n").getResourceBundle().getText("settings.exportError") : "Erro ao exportar para Firestore."));
       }).finally(function(){ BusyIndicator.hide(); });
     },
 
@@ -320,7 +320,7 @@
         sap.ui.require(["sap/m/Dialog", "sap/m/TextArea", "sap/m/Button"], function (Dialog, TextArea, Button) {
           var ta = new TextArea({ value: text || "", editable: false, width: "100%", rows: 20, growing: true, growingMaxLines: 30 });
           var dlg = new Dialog({
-            title: title || (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.dlg.preview") : "Pré-visualização"),
+            title: title || (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? this.getView().getModel("i18n").getResourceBundle().getText("settings.dlg.preview") : "Pré-visualização"),
             contentWidth: "40rem",
             resizable: true,
             draggable: true,
@@ -337,13 +337,13 @@
 
     onSaveFetchedJson: function () {
       var data = this._lastFetchedJson;
-      if (!data || typeof data !== 'object') { MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.previewDownloadFirst") : "Baixe/visualize um JSON primeiro.")); return; }
+      if (!data || typeof data !== 'object') { MessageToast.show(((this.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? this.getView().getModel("i18n").getResourceBundle().getText("settings.previewDownloadFirst") : "Baixe/visualize um JSON primeiro.")); return; }
       var that = this;
       sap.ui.require(["sap/m/Dialog", "sap/m/Input", "sap/m/Label", "sap/m/Button"], function(Dialog, Input, Label, Button) {
-        var inp = new Input({ value: "2025-09", width: "100%", placeholder: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.placeholder.ym") : "YYYY-MM") });
+        var inp = new Input({ value: "2025-09", width: "100%", placeholder: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? this.getView().getModel("i18n").getResourceBundle().getText("settings.placeholder.ym") : "YYYY-MM") });
         var dlg = new Dialog({
-            title: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.dlg.saveFirestoreBatch") : "Salvar no Firestore (abastecimentos/AAAA-MM)"),
-          content: [ new Label({ text: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.label.monthYm") : "Mês (YYYY-MM)") }), inp ],
+            title: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? this.getView().getModel("i18n").getResourceBundle().getText("settings.dlg.saveFirestoreBatch") : "Salvar no Firestore (abastecimentos/AAAA-MM)"),
+          content: [ new Label({ text: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? this.getView().getModel("i18n").getResourceBundle().getText("settings.label.monthYm") : "Mês (YYYY-MM)") }), inp ],
           beginButton: new Button({
             text: "Salvar",
             type: "Emphasized",
@@ -367,12 +367,12 @@
       if (batch) {
         sap.ui.require(["sap/m/Dialog", "sap/m/Input", "sap/m/Label", "sap/m/Text", "sap/m/Button"], function(Dialog, Input, Label, Text, Button){
           var missing = batch.filter(function(it){ return !it.ym; }).length;
-          var inpYmFallback = new Input({ value: (that._lastImportedYm || "2025-09"), placeholder: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.placeholder.ymFallback") : "YYYY-MM (fallback)") });
+          var inpYmFallback = new Input({ value: (that._lastImportedYm || "2025-09"), placeholder: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? this.getView().getModel("i18n").getResourceBundle().getText("settings.placeholder.ymFallback") : "YYYY-MM (fallback)") });
           var totalRegs = batch.reduce(function(a,b){ return a + Number(b && b.count || 0); }, 0);
           var info  = new Text({ text: batch.length + " arquivo(s). Registros totais: " + String(totalRegs) + (missing? (" | Sem mÃªs: "+missing):"") });
           var dlg = new Dialog({
-            title: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.dlg.confirmBatch") : "Confirmar envio (lote)"),
-            content: [ new Label({ text: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.label.ymDefaultForItems") : "YYYY-MM padrão para itens sem mês") }), inpYmFallback, info ],
+            title: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? this.getView().getModel("i18n").getResourceBundle().getText("settings.dlg.confirmBatch") : "Confirmar envio (lote)"),
+            content: [ new Label({ text: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? this.getView().getModel("i18n").getResourceBundle().getText("settings.label.ymDefaultForItems") : "YYYY-MM padrão para itens sem mês") }), inpYmFallback, info ],
             beginButton: new Button({
               text: "Enviar todos",
               type: "Emphasized",
@@ -399,7 +399,7 @@
         return;
       }
       var data = this._lastImportedJson;
-      if (!data || typeof data !== 'object') { MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.selectJsonFirst") : "Selecione um arquivo JSON primeiro.")); return; }
+      if (!data || typeof data !== 'object') { MessageToast.show(((this.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? this.getView().getModel("i18n").getResourceBundle().getText("settings.selectJsonFirst") : "Selecione um arquivo JSON primeiro.")); return; }
       var that = this;
       function countAbast(d){
         if (!d) return 0;
@@ -410,11 +410,11 @@
         return 0;
       }
       sap.ui.require(["sap/m/Dialog", "sap/m/Input", "sap/m/Label", "sap/m/Text", "sap/m/Button"], function(Dialog, Input, Label, Text, Button){
-        var inpYm = new Input({ value: (that._lastImportedYm || "2025-09"), placeholder: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.placeholder.ym") : "YYYY-MM"), width: "100%" });
+        var inpYm = new Input({ value: (that._lastImportedYm || "2025-09"), placeholder: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? this.getView().getModel("i18n").getResourceBundle().getText("settings.placeholder.ym") : "YYYY-MM"), width: "100%" });
         var info  = new Text({ text: "Registros a enviar: " + String(countAbast(data)) });
         var dlg = new Dialog({
-            title: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.dlg.confirmSendFirestore") : "Confirmar envio ao Firestore"),
-          content: [ new Label({ text: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.label.monthYm") : "Mês (YYYY-MM)") }), inp ],
+            title: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? this.getView().getModel("i18n").getResourceBundle().getText("settings.dlg.confirmSendFirestore") : "Confirmar envio ao Firestore"),
+          content: [ new Label({ text: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? this.getView().getModel("i18n").getResourceBundle().getText("settings.label.monthYm") : "Mês (YYYY-MM)") }), inp ],
           beginButton: new Button({
             text: "Enviar",
             type: "Emphasized",
@@ -437,9 +437,9 @@
       BusyIndicator.show(0);
       sap.ui.require(["com/skysinc/frota/frota/services/FirebaseFirestoreService"], function (svc) {
         svc.createTestDoc({ source: "settings", note: "ping" }).then(function (res) {
-          (function(__res){ var __rb = that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle(); MessageToast.show(__res && __res.ok ? (__rb ? __rb.getText("settings.testCreated", [String(__res.id)]) : ("TESTE criado: " + String(__res.id))) : (__rb ? __rb.getText("settings.failWithReason", [String(__res && __res.reason || "")]) : ("Falha: " + String(__res && __res.reason || "")))); })(res);
+          (function(__res){ var __rb = this.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle(); MessageToast.show(__res && __res.ok ? (__rb ? __rb.getText("settings.testCreated", [String(__res.id)]) : ("TESTE criado: " + String(__res.id))) : (__rb ? __rb.getText("settings.failWithReason", [String(__res && __res.reason || "")]) : ("Falha: " + String(__res && __res.reason || "")))); })(res);
         }).catch(function (e) {
-          MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.errorCreatingTest") : "Erro ao criar TESTE."));
+          MessageToast.show(((this.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? this.getView().getModel("i18n").getResourceBundle().getText("settings.errorCreatingTest") : "Erro ao criar TESTE."));
         }).finally(function(){ BusyIndicator.hide(); });
       });
     },
@@ -460,11 +460,11 @@
         }.bind(this));
       }).then(function (list) {
         const ok = Array.isArray(list) && list.some(function (it) { return it && it.result && it.result.ok; });
-        (function(__ok){ var __rb = that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle(); MessageToast.show(__ok ? (__rb ? __rb.getText("settings.exportDone") : "Exportação concluída (alguns meses podem ter falhado).") : (__rb ? __rb.getText("settings.exportNotPossible") : "Não foi possível exportar.")); })(ok);
+        (function(__ok){ var __rb = this.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle(); MessageToast.show(__ok ? (__rb ? __rb.getText("settings.exportDone") : "Exportação concluída (alguns meses podem ter falhado).") : (__rb ? __rb.getText("settings.exportNotPossible") : "Não foi possível exportar.")); })(ok);
       }).catch(function (e) {
         // eslint-disable-next-line no-console
         console.error(e);
-        MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.exportError") : "Erro ao exportar para Firestore."));
+        MessageToast.show(((this.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? this.getView().getModel("i18n").getResourceBundle().getText("settings.exportError") : "Erro ao exportar para Firestore."));
       }).finally(function(){ BusyIndicator.hide(); });
     },
 
@@ -482,6 +482,7 @@
     }
   });
 });
+
 
 
 

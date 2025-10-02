@@ -165,10 +165,10 @@
       try {
         const ctxObj = oEvent?.getSource?.()?.getBindingContext("vm")?.getObject?.();
         // Usa alguma possÃ­vel ordem vinda do contexto, senÃ£o um valor padrÃ£o do mock
-        const ordem = String(ctxObj?.ordem || ctxObj?.lastOrder || "4804378");
+        const equnr = String(ctxObj?.equnr || ctxObj?.veiculo || "");
         const oRouter = this.getOwnerComponent().getRouter && this.getOwnerComponent().getRouter();
         if (oRouter && oRouter.navTo) {
-          oRouter.navTo("RouteIW38", { ordem });
+          oRouter.navTo("RouteIW38", { equnr });
           return;
         }
       } catch (e) {
@@ -525,6 +525,7 @@
     }
   });
 });
+
 
 
 

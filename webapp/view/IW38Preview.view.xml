@@ -11,6 +11,39 @@
     <content>
       <IconTabBar expandable="false">
         <items>
+          <!-- Aba Lista de OS com downtime -->
+          <IconTabFilter text="{i18n>iw38TabList}" key="list">
+            <table:Table id="tblOsList"
+                         rows="{iw38>/ordens}"
+                         selectionMode="None"
+                         visibleRowCountMode="Auto"
+                         minAutoRowCount="8"
+                         enableColumnReordering="false">
+              <table:columns>
+                <table:Column width="7rem"><Label text="{i18n>colVeiculo}"/>
+                  <table:template><Text text="{iw38>veiculo}"/></table:template>
+                </table:Column>
+                <table:Column width="8rem"><Label text="{i18n>colOrdem}"/>
+                  <table:template><Text text="{iw38>ordem}"/></table:template>
+                </table:Column>
+                <table:Column width="18rem"><Label text="{i18n>colTitulo}"/>
+                  <table:template><Text text="{iw38>titulo}" maxLines="2"/></table:template>
+                </table:Column>
+                <table:Column width="10rem"><Label text="{i18n>colInicio}"/>
+                  <table:template><Text text="{iw38>inicio}"/></table:template>
+                </table:Column>
+                <table:Column width="10rem"><Label text="{i18n>colFim}"/>
+                  <table:template><Text text="{iw38>fim}"/></table:template>
+                </table:Column>
+                <table:Column width="8rem" hAlign="Center"><Label text="{i18n>colParada}"/>
+                  <table:template><ObjectStatus text="{= ${iw38>parada} ? 'Sim' : 'Não' }" state="{= ${iw38>parada} ? 'Error' : 'Success' }"/></table:template>
+                </table:Column>
+                <table:Column width="10rem" hAlign="End"><Label text="{i18n>colTempoInatividade}"/>
+                  <table:template><Text text="{iw38>downtimeFmt}"/></table:template>
+                </table:Column>
+              </table:columns>
+            </table:Table>
+          </IconTabFilter>
 
           <!-- Aba DdsCabeÃ§. -->
           <IconTabFilter text="{i18n>iw38TabHeader}" key="cabec">
@@ -96,9 +129,9 @@
                       <table:Column width="4rem" hAlign="Center">
                         <Label text="{i18n>colEst}"/>
                         <table:template>
-                          <Text text="{= ${iw38>estoque} ? 'âœ”' : 'âœ–' }"/>
+                        <table:template>
+                          <Text text="{= ${iw38>estoque} ? 'Sim' : 'Não' }"/>
                         </table:template>
-                      </table:Column>
 
                       <table:Column width="6rem" hAlign="Center">
                         <Label text="{i18n>colDep}"/>
@@ -215,3 +248,6 @@
     </content>
   </Page>
 </mvc:View>
+
+
+
