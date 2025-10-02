@@ -58,21 +58,37 @@
         resumoMatFmt: "Mat/Serv: R$ 0,00",
         resumoPrecoFmt: "PreÃ§o MÃ©dio: 0,00 R$/L"
       });
+      try {
+        const router = this.getOwnerComponent().getRouter && this.getOwnerComponent().getRouter();
+        if (router && router.getRoute) {
+          const r = router.getRoute("RouteMain");
+          if (r && r.attachPatternMatched) { r.attachPatternMatched(() => { this._applyMainDatePref(); this.onFilterChange(); }); }
+        }
+      } catch(e){}
+      try {
+        const s = this.getOwnerComponent().getModel && this.getOwnerComponent().getModel("settings");
+        if (s && s.attachPropertyChange) {
+          s.attachPropertyChange((ev)=>{
+            try {
+              const path = ev && ev.getParameter && ev.getParameter("path");
+              if (path === "/mainDatePref") { this._applyMainDatePref(); this.onFilterChange(); }
+            } catch(__){}
+          });
+        }
+      } catch(e){}
       this.getView().setModel(this.oKpi, "kpi");
 
       this._eventBus = sap.ui.getCore().getEventBus();
       if (this._eventBus && this._eventBus.subscribe) {
         this._eventBus.subscribe("downtime", "ready", this._onDowntimeReady, this);
       }
-
-      this._setDefaultYesterdayOnDRS();
+      this._applyMainDatePref();
       this._reloadDistinctOnly().then(() => {
         this._ensureVehiclesCombo();
         this._ensureCategoriasCombo();
         this._recalcAndRefresh();
       });
     },
-
     onFilterChange: function () {
       this._reloadDistinctOnly().then(() => {
         this._ensureVehiclesCombo();
@@ -84,7 +100,7 @@
     },
 
     onClearFilters: function () {
-      this._setDefaultYesterdayOnDRS();
+      this._applyMainDatePref();
 
       const inpVeh = this.byId("inpVeiculo");
       inpVeh?.setSelectedKey("__ALL__");
@@ -456,9 +472,29 @@
       KpiService.recalc(this.getView(), { vehicleKey: vKey, categoryKey: cKey });
     },
 
+    _todayPair: function () {
+      const now = new Date();
+      const t = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 0, 0, 0);
+      return [t, t];
+    },
+
+    _applyMainDatePref: function () {
+      try {
+        const drs = this.byId("drs");
+        if (!drs) return;
+        const s = this.getOwnerComponent().getModel && this.getOwnerComponent().getModel("settings");
+        const pref = s && s.getProperty ? s.getProperty("/mainDatePref") : null;
+        let d1d2;
+        if (pref === "today") d1d2 = this._todayPair();
+        else d1d2 = this._yesterdayPair();
+        drs.setDateValue(d1d2[0]);
+        drs.setSecondDateValue(d1d2[1]);
+      } catch(e){}
+    },
+
     _yesterdayPair: function () {
       const now = new Date();
-      const y = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+      const y = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, 12, 0, 0, 0);
       return [y, y];
     },
 
@@ -489,4 +525,11 @@
     }
   });
 });
+
+
+
+
+
+
+
 

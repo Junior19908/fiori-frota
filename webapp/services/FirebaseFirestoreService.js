@@ -127,8 +127,39 @@
 
   function probe() { return getFirebase().then(function(){ return true; }); }
 
+  function getAuthUid() {
+    return import("./settings/firebaseConfig.js").then(function (cfg) {
+      var firebaseConfig = cfg && (cfg.firebaseConfig || cfg.default || null);
+      if (!firebaseConfig && cfg && cfg.db) {
+        // App já fornecido externamente; ainda assim tentaremos auth com config ausente
+        return Promise.resolve("anon");
+      }
+      return Promise.all([
+        import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"),
+        import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js")
+      ]).then(function (mods) {
+        var appMod = mods[0];
+        var authMod = mods[1];
+        var app;
+        try {
+          app = appMod.getApps && appMod.getApps().length ? appMod.getApp() : appMod.initializeApp(firebaseConfig);
+        } catch (e) {
+          app = appMod.initializeApp(firebaseConfig);
+        }
+        var auth = authMod.getAuth(app);
+        if (auth && auth.currentUser && auth.currentUser.uid) {
+          return auth.currentUser.uid;
+        }
+        return authMod.signInAnonymously(auth).then(function (cred) {
+          return (cred && cred.user && cred.user.uid) || "anon";
+        }).catch(function(){ return "anon"; });
+      });
+    });
+  }
+
   return {
     getFirebase: getFirebase,
+    getAuthUid: getAuthUid,
     fetchMonthlyFromFirestore: fetchMonthlyFromFirestore,
     saveMonthlyToFirestore: saveMonthlyToFirestore,
     createTestDoc: createTestDoc,

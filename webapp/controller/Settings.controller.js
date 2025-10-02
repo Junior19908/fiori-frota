@@ -15,25 +15,28 @@
         var oModel = new JSONModel(data);
         that.getView().setModel(oModel, "settings");
       }).catch(function () {
-  MessageToast.show("Falha ao carregar configurações. Usando defaults.");
+        var rb = that.getView() && that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle();
+        MessageToast.show(rb ? rb.getText("settings.loadError") : "Falha ao carregar configurações. Usando defaults.");
         var oModel = new JSONModel(SettingsService.DEFAULTS);
         that.getView().setModel(oModel, "settings");
       });
     },
 
       /**
-       * Envia o arquivo selecionado para o Storage do Firebase
+       * Envia o arquivo selecionado para processamento
        */
     onSettingsFileUpload: function (oEvent) {
         var that = this;
         const files = oEvent.getParameter("files");
         const file = files && files[0];
         if (!file) {
-          MessageToast.show("Selecione um arquivo JSON.");
+          var rb = that.getView() && that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle();
+          MessageToast.show(rb ? rb.getText("settings.selectJson") : "Selecione um arquivo JSON.");
           return;
         }
         if (!/\.json$/i.test(file.name)) {
-          MessageToast.show("Apenas arquivos .json são permitidos.");
+          var rb = that.getView() && that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle();
+          MessageToast.show(rb ? rb.getText("settings.onlyJsonAllowed") : "Apenas arquivos .json são permitidos.");
           return;
         }
         var reader = new FileReader();
@@ -44,14 +47,15 @@
             json = JSON.parse(contents);
             try { that._lastImportedJson = json; that._lastImportedYm = "2025-09"; } catch(e){}
           } catch (err) {
-            MessageToast.show("Arquivo JSON inválido.");
+            var rb = that.getView() && that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle();
+            MessageToast.show(rb ? rb.getText("settings.invalidJson") : "Arquivo JSON inválido.");
             return;
           }
           // Pergunta ao usuÃƒÂ¡rio o nome do arquivo no storage
           sap.ui.require(["sap/m/Dialog", "sap/m/Input", "sap/m/Button"], function(Dialog, Input, Button) {
             var inp = new Input({ value: "abastecimentos/2025/09/" + file.name, width: "100%" });
             var dlg = new Dialog({
-              title: "Salvar no Firestore (YYYY-MM)",
+              title: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.dlg.saveFirestoreYm") : "Salvar no Firestore (YYYY-MM)"),
               content: [inp],
               beginButton: new Button({
                 text: "Enviar",
@@ -84,9 +88,9 @@
     onSettingsFileUploadBatch: function (oEvent) {
       var that = this;
       const files = oEvent.getParameter("files");
-  if (!files || !files.length) { MessageToast.show("Selecione um ou mais arquivos JSON."); return; }
+  if (!files || !files.length) { MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.selectMultipleJson") : "Selecione um ou mais arquivos JSON.")); return; }
       var arr = Array.from(files).filter(function(f){ return /\.json$/i.test(f && f.name); });
-  if (!arr.length) { MessageToast.show("Apenas arquivos .json são permitidos."); return; }
+  if (!arr.length) { MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.onlyJsonAllowed") : "Apenas arquivos .json são permitidos.")); return; }
 
       function detectYmFromName(name) {
         try {
@@ -125,7 +129,7 @@
         that._importBatch = (items || []).filter(Boolean);
         that._lastImportedJson = null; // usar batch quando presente
         if (!that._importBatch.length) {
-          MessageToast.show("Falha ao ler os arquivos.");
+          MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.readFilesError") : "Falha ao ler os arquivos."));
           return;
         }
         try {
@@ -149,7 +153,7 @@
               vbox.addItem(row);
             });
             var dlg = new Dialog({
-              title: "Definir Ano/Mês por arquivo",
+              title: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.dlg.setYearMonthPerFile") : "Definir Ano/Mês por arquivo"),
               contentWidth: "48rem",
               resizable: true,
               draggable: true,
@@ -177,11 +181,11 @@
                     } catch(e){ hasInvalid = true; }
                   });
                   if (hasInvalid) {
-                    try { MessageToast.show("Preencha Ano (YYYY) e Mês (MM) válidos para todos os arquivos."); } catch(e){}
+                    try { MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.fillYearMonthAll") : "Preencha Ano (YYYY) e Mês (MM) válidos para todos os arquivos.")); } catch(e){}
                     return;
                   }
                   dlg.close();
-                  try { MessageToast.show("Arquivos prontos. Clique em 'Salvar no Firestore'."); } catch(e){}
+                  try { MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.filesReadyClickSave") : "Arquivos prontos. Clique em 'Salvar no Firestore'.")); } catch(e){}
                 }
               }),
               endButton: new Button({ text: "Cancelar", press: function(){ dlg.close(); } }),
@@ -191,7 +195,7 @@
             dlg.open();
           });
         } catch(e) {
-          MessageToast.show(that._importBatch.length + " arquivo(s) carregado(s). Clique em 'Salvar no Firestore'.");
+          (function(__n){ var __rb = that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle(); MessageToast.show(__rb ? __rb.getText("settings.filesLoadedClickSaveN", [String(__n)]) : (__n + " arquivo(s) carregado(s). Clique em 'Salvar no Firestore'.")); })(that._importBatch.length);
         }
       });
     },
@@ -199,46 +203,22 @@
       /** Salva JSON no Firestore em abastecimentos/YYYY-MM */
       _uploadJsonToFirestore: function (ym, json) {
         var m = (ym || "").match(/^(\d{4})-(\d{2})$/);
-  if (!m) { MessageToast.show("Informe YYYY-MM válido."); return; }
+  if (!m) { MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.informYmValid") : "Informe YYYY-MM válido.")); return; }
         var y = Number(m[1]), mm = Number(m[2]);
         BusyIndicator.show(0);
         sap.ui.require(["com/skysinc/frota/frota/services/FirebaseFirestoreService"], function (svc) {
           svc.saveMonthlyToFirestore(y, mm, json).then(function (res) {
-            MessageToast.show(res && res.ok ? "JSON salvo no Firestore." : ("Falha: " + (res && res.reason)));
+            (function(__res){ var __rb = that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle(); MessageToast.show(__res && __res.ok ? (__rb ? __rb.getText("settings.savedFirestoreOk") : "JSON salvo no Firestore.") : (__rb ? __rb.getText("settings.failWithReason", [String(__res && __res.reason || "")]) : ("Falha: " + String(__res && __res.reason || "")))); })(res);
           }).catch(function (e) {
-            MessageToast.show("Erro ao salvar no Firestore.");
+            MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.saveFirestoreError") : "Erro ao salvar no Firestore."));
             // eslint-disable-next-line no-console
             console.error(e);
           }).finally(function(){ BusyIndicator.hide(); });
         });
       },
 
-      /**
-       * Faz upload de um objeto JSON para o Firebase Storage
-       */
-      _uploadJsonToFirebase: function (path, json) {
-        var that = this;
-        if (!path) {
-          MessageToast.show("Caminho de destino não informado.");
-          return;
-        }
-        BusyIndicator.show(0);
-        sap.ui.require(["com/skysinc/frota/frota/services/FirebaseFirestoreService"], function (svc) {
-          svc.getFirebase().then(function (f) {
-            var sref = f.ref(f.storage, path);
-            var blob = new Blob([JSON.stringify(json, null, 2)], { type: "application/json" });
-            return f.uploadBytes(sref, blob, { contentType: "application/json" });
-          }).then(function () {
-            MessageToast.show("Arquivo enviado para o Storage com sucesso.");
-          }).catch(function (e) {
-            MessageToast.show("Falha ao enviar arquivo: " + (e && (e.message || e.code || e)));
-          }).finally(function () {
-            BusyIndicator.hide();
-          });
-        });
-      },
 
-    onLiveChange: function () {},
+    onLiveChange: function () { try { const m = this.getView().getModel("settings"); if (!m) return; const data = m.getData(); try { if (data && data.theme) { sap.ui.getCore().applyTheme(data.theme); } } catch(e){} try { sap.ui.require(["com/skysinc/frota/frota/services/settings/SettingsService"], function (svc) { svc.saveSettings(data); }); } catch(e){} } catch (_) {} },
     onAutoLoadToggle: function () {},
     onSaveLocalToggle: function () {},
 
@@ -247,31 +227,11 @@
       try { sap.ui.getCore().applyTheme(sKey); } catch (e) {}
     },
 
-    onAvatarUpload: function (oEvent) {
-      const files = oEvent.getParameter("files");
-      const f = files && files[0];
-      if (!f) { MessageToast.show("Selecione um arquivo de imagem."); return; }
-      const reader = new FileReader();
-      reader.onload = () => {
-        const m = this.getView().getModel("settings");
-        m.setProperty("/avatarSrc", reader.result);
-        m.setProperty("/avatarInitials", "");
-        MessageToast.show("Avatar atualizado.");
-      };
-      reader.readAsDataURL(f);
-    },
-
-    onAvatarClear: function () {
-      const m = this.getView().getModel("settings");
-      m.setProperty("/avatarSrc", "");
-      if (!m.getProperty("/avatarInitials")) m.setProperty("/avatarInitials", "CJ");
-    },
-
-    onRestoreDefaults: function () {
+            onRestoreDefaults: function () {
       const m = this.getView().getModel("settings");
       m.setData(Object.assign({}, SettingsService.DEFAULTS));
       try { sap.ui.getCore().applyTheme(SettingsService.DEFAULTS.theme); } catch (e) {}
-  MessageToast.show("Configurações restauradas.");
+  MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.restored") : "Configurações restauradas."));
     },
 
     onSave: async function () {
@@ -280,9 +240,9 @@
       BusyIndicator.show(0);
       try {
         await SettingsService.saveSettings(data);
-  MessageToast.show(data.saveLocal ? "Configurações salvas localmente." : "Configurações salvas remotamente.");
+  (function(){ var __rb = that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle(); MessageToast.show(__rb ? __rb.getText("settings.savedRemote") : "Configurações salvas remotamente."); })();
       } catch (e) {
-  MessageToast.show("Falha ao salvar configurações.");
+  MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.saveFailed") : "Falha ao salvar configurações."));
         // eslint-disable-next-line no-console
         console.error(e);
       } finally {
@@ -314,7 +274,7 @@
           });
 
           var dlg = new Dialog({
-            title: "RelatÃƒÂ³rio de ExportaÃƒÂ§ÃƒÂ£o",
+            title: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.dlg.exportReport") : "Relatório de Exportação"),
             contentWidth: "32rem",
             contentHeight: "20rem",
             resizable: true,
@@ -346,11 +306,11 @@
           return that._showExportReport(report).then(function(){ return res; });
         });
       }).then(function (res) {
-  MessageToast.show(res && res.ok ? "Mês exportado para Firebase." : "Falha ao exportar mês.");
+  (function(__res){ var __rb = that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle(); MessageToast.show(__res && __res.ok ? (__rb ? __rb.getText("settings.exportMonthOk") : "Mês exportado para Firestore.") : (__rb ? __rb.getText("settings.exportMonthFail") : "Falha ao exportar mês.")); })(res);
       }).catch(function (e) {
         // eslint-disable-next-line no-console
         console.error(e);
-        MessageToast.show("Erro ao exportar para Firebase.");
+        MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.exportError") : "Erro ao exportar para Firestore."));
       }).finally(function(){ BusyIndicator.hide(); });
     },
 
@@ -360,7 +320,7 @@
         sap.ui.require(["sap/m/Dialog", "sap/m/TextArea", "sap/m/Button"], function (Dialog, TextArea, Button) {
           var ta = new TextArea({ value: text || "", editable: false, width: "100%", rows: 20, growing: true, growingMaxLines: 30 });
           var dlg = new Dialog({
-            title: title || "PrÃƒÂ©-visualizaÃƒÂ§ÃƒÂ£o",
+            title: title || (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.dlg.preview") : "Pré-visualização"),
             contentWidth: "40rem",
             resizable: true,
             draggable: true,
@@ -374,63 +334,16 @@
       });
     },
 
-    onFetchGsJson: function () {
-      var that = this;
-      var s = this.byId("inpGsUrl") && this.byId("inpGsUrl").getValue();
-      if (!s) { MessageToast.show("Informe um gs:// ou URL."); return; }
-      BusyIndicator.show(0);
-      Promise.resolve().then(function(){
-        return new Promise(function(resolve){ sap.ui.require(["com/skysinc/frota/frota/services/FirebaseFirestoreService"], function (svc) { resolve(svc); }); });
-      }).then(function (svc) {
-        var fetch;
-        var title = "Resultado";
-        if (/^gs:\/\//i.test(s)) {
-          var gp = svc.parseGsUrl(s);
-          if (!gp) throw new Error("gs:// inválido");
-          title = gp.bucket + "/" + gp.path;
-          fetch = svc.restDownloadJson(gp.bucket, gp.path);
-        } else if (/^https?:\/\//i.test(s)) {
-          // Se for URL direta do Firebase Storage e estivermos em localhost, use o proxy /storage
-          try {
-            var isLocal2 = /localhost|127\.0\.0\.1/.test(String(window.location && window.location.host || ""));
-            if (isLocal2 && /^https:\/\/firebasestorage\.googleapis\.com\//i.test(s)) {
-              s = s.replace(/^https:\/\/firebasestorage\.googleapis\.com/i, "/storage");
-            }
-          } catch(e){}
-          fetch = new Promise(function (resolve) {
-            jQuery.ajax({ url: s, dataType: "text", cache: false, success: function (txt){ resolve(txt); }, error: function(){ resolve(null); } });
-          });
-        } else {
-          throw new Error("Entrada deve comeÃƒÂ§ar com gs:// ou http(s)://");
-        }
-        return fetch.then(function (data) {
-          var txt;
-          if (typeof data === 'string') {
-            txt = data;
-            try { var obj = JSON.parse(data); txt = JSON.stringify(obj, null, 2); } catch (_) {}
-          } else if (data && typeof data === 'object') {
-            txt = JSON.stringify(data, null, 2);
-          } else {
-            txt = "<vazio/não encontrado>";
-          }
-          return that._showTextDialog(title, txt);
-        });
-      }).catch(function (e) {
-        // eslint-disable-next-line no-console
-        console.error(e);
-        MessageToast.show("Falha ao baixar.");
-      }).finally(function(){ BusyIndicator.hide(); });
-    },
 
     onSaveFetchedJson: function () {
       var data = this._lastFetchedJson;
-      if (!data || typeof data !== 'object') { MessageToast.show("Baixe/visualize um JSON primeiro."); return; }
+      if (!data || typeof data !== 'object') { MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.previewDownloadFirst") : "Baixe/visualize um JSON primeiro.")); return; }
       var that = this;
       sap.ui.require(["sap/m/Dialog", "sap/m/Input", "sap/m/Label", "sap/m/Button"], function(Dialog, Input, Label, Button) {
-        var inp = new Input({ value: "2025-09", width: "100%", placeholder: "YYYY-MM" });
+        var inp = new Input({ value: "2025-09", width: "100%", placeholder: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.placeholder.ym") : "YYYY-MM") });
         var dlg = new Dialog({
-          title: "Salvar no Firestore (abastecimentos/AAAA-MM)",
-          content: [ new Label({ text: "Mês (YYYY-MM)" }), inp ],
+            title: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.dlg.saveFirestoreBatch") : "Salvar no Firestore (abastecimentos/AAAA-MM)"),
+          content: [ new Label({ text: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.label.monthYm") : "Mês (YYYY-MM)") }), inp ],
           beginButton: new Button({
             text: "Salvar",
             type: "Emphasized",
@@ -447,35 +360,6 @@
         dlg.open();
       });
     },
-    onFetchDirectJson: function () {
-      var that = this;
-      var s = this.byId("inpDirectUrl") && this.byId("inpDirectUrl").getValue();
-      if (!s) { MessageToast.show("Informe a URL."); return; }
-      // Em dev, se for URL do firebasestorage, use o proxy /storage para evitar CORS
-      try {
-        var isLocal = /localhost|127\.0\.0\.1/.test(String(window.location && window.location.host || ""));
-        if (isLocal && /^https:\/\/firebasestorage\.googleapis\.com\//i.test(s)) {
-          s = s.replace(/^https:\/\/firebasestorage\.googleapis\.com/i, "/storage");
-        }
-      } catch(e){}
-      BusyIndicator.show(0);
-      jQuery.ajax({
-        url: s,
-        dataType: "text",
-        cache: false,
-        success: function (txt) {
-          var out = txt;
-          try { out = JSON.stringify(JSON.parse(txt), null, 2); } catch(_){}
-          that._showTextDialog("PrÃƒÂ©-visualizaÃƒÂ§ÃƒÂ£o", out);
-        },
-        error: function (xhr) {
-          MessageToast.show("Falha ao baixar (verifique CORS/token).");
-          // eslint-disable-next-line no-console
-          try { console.warn("[Settings] Falha no GET:", s, xhr && xhr.status, xhr && xhr.statusText); } catch(_){}
-        },
-        complete: function(){ BusyIndicator.hide(); }
-      });
-    },
 
     onSaveImportedJson: function () {
       var batch = Array.isArray(this._importBatch) && this._importBatch.length ? this._importBatch : null;
@@ -483,12 +367,12 @@
       if (batch) {
         sap.ui.require(["sap/m/Dialog", "sap/m/Input", "sap/m/Label", "sap/m/Text", "sap/m/Button"], function(Dialog, Input, Label, Text, Button){
           var missing = batch.filter(function(it){ return !it.ym; }).length;
-          var inpYmFallback = new Input({ value: (that._lastImportedYm || "2025-09"), placeholder: "YYYY-MM (fallback)" });
+          var inpYmFallback = new Input({ value: (that._lastImportedYm || "2025-09"), placeholder: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.placeholder.ymFallback") : "YYYY-MM (fallback)") });
           var totalRegs = batch.reduce(function(a,b){ return a + Number(b && b.count || 0); }, 0);
           var info  = new Text({ text: batch.length + " arquivo(s). Registros totais: " + String(totalRegs) + (missing? (" | Sem mÃªs: "+missing):"") });
           var dlg = new Dialog({
-            title: "Confirmar envio (lote)",
-            content: [ new Label({ text: "YYYY-MM padrÃ£o para itens sem mÃªs" }), inpYmFallback, info ],
+            title: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.dlg.confirmBatch") : "Confirmar envio (lote)"),
+            content: [ new Label({ text: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.label.ymDefaultForItems") : "YYYY-MM padrão para itens sem mês") }), inpYmFallback, info ],
             beginButton: new Button({
               text: "Enviar todos",
               type: "Emphasized",
@@ -515,7 +399,7 @@
         return;
       }
       var data = this._lastImportedJson;
-      if (!data || typeof data !== 'object') { MessageToast.show("Selecione um arquivo JSON primeiro."); return; }
+      if (!data || typeof data !== 'object') { MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.selectJsonFirst") : "Selecione um arquivo JSON primeiro.")); return; }
       var that = this;
       function countAbast(d){
         if (!d) return 0;
@@ -526,11 +410,11 @@
         return 0;
       }
       sap.ui.require(["sap/m/Dialog", "sap/m/Input", "sap/m/Label", "sap/m/Text", "sap/m/Button"], function(Dialog, Input, Label, Text, Button){
-        var inpYm = new Input({ value: (that._lastImportedYm || "2025-09"), placeholder: "YYYY-MM", width: "100%" });
+        var inpYm = new Input({ value: (that._lastImportedYm || "2025-09"), placeholder: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.placeholder.ym") : "YYYY-MM"), width: "100%" });
         var info  = new Text({ text: "Registros a enviar: " + String(countAbast(data)) });
         var dlg = new Dialog({
-          title: "Confirmar envio ao Firestore",
-          content: [ new Label({ text: "Mês (YYYY-MM)" }), inpYm, info ],
+            title: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.dlg.confirmSendFirestore") : "Confirmar envio ao Firestore"),
+          content: [ new Label({ text: (that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle() ? that.getView().getModel("i18n").getResourceBundle().getText("settings.label.monthYm") : "Mês (YYYY-MM)") }), inp ],
           beginButton: new Button({
             text: "Enviar",
             type: "Emphasized",
@@ -553,9 +437,9 @@
       BusyIndicator.show(0);
       sap.ui.require(["com/skysinc/frota/frota/services/FirebaseFirestoreService"], function (svc) {
         svc.createTestDoc({ source: "settings", note: "ping" }).then(function (res) {
-          MessageToast.show(res && res.ok ? ("TESTE criado: " + res.id) : ("Falha: " + (res && res.reason)));
+          (function(__res){ var __rb = that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle(); MessageToast.show(__res && __res.ok ? (__rb ? __rb.getText("settings.testCreated", [String(__res.id)]) : ("TESTE criado: " + String(__res.id))) : (__rb ? __rb.getText("settings.failWithReason", [String(__res && __res.reason || "")]) : ("Falha: " + String(__res && __res.reason || "")))); })(res);
         }).catch(function (e) {
-          MessageToast.show("Erro ao criar TESTE.");
+          MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.errorCreatingTest") : "Erro ao criar TESTE."));
         }).finally(function(){ BusyIndicator.hide(); });
       });
     },
@@ -576,11 +460,11 @@
         }.bind(this));
       }).then(function (list) {
         const ok = Array.isArray(list) && list.some(function (it) { return it && it.result && it.result.ok; });
-        MessageToast.show(ok ? "ExportaÃƒÂ§ÃƒÂ£o concluÃƒÂ­da (alguns meses podem ter falhado)." : "NÃƒÂ£o foi possÃƒÂ­vel exportar.");
+        (function(__ok){ var __rb = that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle(); MessageToast.show(__ok ? (__rb ? __rb.getText("settings.exportDone") : "Exportação concluída (alguns meses podem ter falhado).") : (__rb ? __rb.getText("settings.exportNotPossible") : "Não foi possível exportar.")); })(ok);
       }).catch(function (e) {
         // eslint-disable-next-line no-console
         console.error(e);
-        MessageToast.show("Erro ao exportar para Firebase.");
+        MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.exportError") : "Erro ao exportar para Firestore."));
       }).finally(function(){ BusyIndicator.hide(); });
     },
 
@@ -591,13 +475,17 @@
       }).then(function (svc) {
         return svc.probe();
       }).then(function (ok) {
-        MessageToast.show(ok ? "Firebase OK (acesso ao Storage)." : "Firebase indisponÃƒÂ­vel ou sem permissÃƒÂ£o.");
+        var rb = this.getView().getModel("i18n") && this.getView().getModel("i18n").getResourceBundle(); MessageToast.show(ok ? (rb ? rb.getText("settings.firebase.ok") : "Firebase OK (Firestore).") : (rb ? rb.getText("settings.firebase.unavailable") : "Firebase indisponível ou sem permissão."));
       }).catch(function () {
-        MessageToast.show("Firebase nÃƒÂ£o configurado.");
+        var rb = this.getView().getModel("i18n") && this.getView().getModel("i18n").getResourceBundle(); MessageToast.show(rb ? rb.getText("settings.firebase.notConfigured") : "Firebase não configurado.");
       }).finally(function(){ BusyIndicator.hide(); });
     }
   });
 });
+
+
+
+
 
 
 

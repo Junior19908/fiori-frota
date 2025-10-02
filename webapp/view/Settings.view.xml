@@ -8,7 +8,7 @@
   xmlns:unified="sap.ui.unified"
   displayBlock="true">
 
-  <Page id="settingsPage" title="Configurações" class="sapUiContentPadding" showFooter="true">
+  <Page id="settingsPage" title="{i18n>settings.title}" class="sapUiContentPadding" showFooter="true">
     <content>
       <VBox width="100%" renderType="Bare">
         <f:SimpleForm editable="true"
@@ -18,104 +18,80 @@
           adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
           columnsXL="2" columnsL="1" columnsM="1">
 
-          <Label text="Exibir todas as Ordens de Serviço?"/>
+          <Label text="{i18n>settings.showAllOS}"/>
           <HBox>
             <Switch id="swShowAll" state="{settings>/showAllOS}" change=".onLiveChange"/>
-            <Text id="txShowAll" text="&#160;&#160;{= ${settings>/showAllOS} ? 'Sim' : 'Não' }"/>
+            <Text id="txShowAll" text="&#160;&#160;{= ${settings>/showAllOS} ? ${i18n>common.yes} : ${i18n>common.no} }"/>
           </HBox>
 
-          <Label text="Tipos de OS"/>
+          <Label text="{i18n>settings.osTypes}"/>
           <MultiComboBox id="mcOsTypes" width="100%" selectionChange=".onLiveChange" selectedKeys="{settings>/osTypes}">
             <core:Item key="ZF1" text="ZF1"/>
             <core:Item key="ZF2" text="ZF2"/>
             <core:Item key="ZF3" text="ZF3"/>
           </MultiComboBox>
 
-          <Label text="Carregar a tela principal automaticamente?"/>
+          <Label text="{i18n>settings.autoLoadMain}"/>
           <HBox>
             <Switch id="swAutoLoad" state="{settings>/autoLoadMain}" change=".onAutoLoadToggle"/>
-            <Text id="txAutoLoad" text="&#160;&#160;{= ${settings>/autoLoadMain} ? 'Sim' : 'Não' }"/>
+            <Text id="txAutoLoad" text="&#160;&#160;{= ${settings>/autoLoadMain} ? ${i18n>common.yes} : ${i18n>common.no} }"/>
           </HBox>
 
-          <Label text="Intervalo para atualização automática (segundos)"/>
+          <Label text="{i18n>settings.autoLoadInterval}"/>
           <HBox id="hbInterval" visible="{settings>/autoLoadMain}">
             <StepInput id="stepInterval" value="{settings>/autoLoadIntervalSec}" min="5" max="3600" step="5" change=".onLiveChange"/>
-            <Text text="&#160;s"/>
+            <Text text="&#160;{i18n>common.secondsShort}"/>
           </HBox>
 
-          <Label text="Filtro principal (data inicial)"/>
+          <Label text="{i18n>settings.mainDatePref}"/>
           <SegmentedButton id="sbDatePref" selectedKey="{settings>/mainDatePref}" selectionChange=".onLiveChange">
             <items>
-              <SegmentedButtonItem key="today" text="Hoje"/>
-              <SegmentedButtonItem key="yesterday" text="Ontem"/>
+              <SegmentedButtonItem key="today" text="{i18n>date.today}"/>
+              <SegmentedButtonItem key="yesterday" text="{i18n>date.yesterday}"/>
             </items>
           </SegmentedButton>
 
-          <Label text="Salvar informações localmente? (se Não, usar remoto)"/>
           <HBox>
-            <Switch id="swSaveLocal" state="{settings>/saveLocal}" change=".onSaveLocalToggle"/>
-            <Text id="txSaveLocal" text="&#160;&#160;{= ${settings>/saveLocal} ? 'Local' : 'Remoto' }"/>
           </HBox>
 
-          <Label text="Tema do Fiori"/>
+          <Label text="{i18n>settings.theme}"/>
           <Select id="selTheme" selectedKey="{settings>/theme}" change=".onThemeChange" width="100%">
-            <core:Item key="sap_horizon" text="Horizon (Claro)"/>
-            <core:Item key="sap_horizon_dark" text="Horizon (Escuro)"/>
-            <core:Item key="sap_horizon_hcb" text="Alto Contraste Black"/>
-            <core:Item key="sap_horizon_hcw" text="Alto Contraste White"/>
-            <core:Item key="sap_fiori_3" text="Fiori 3 (Claro)"/>
-            <core:Item key="sap_fiori_3_dark" text="Fiori 3 (Escuro)"/>
+            <core:Item key="sap_horizon" text="{i18n>theme.horizon}"/>
+            <core:Item key="sap_horizon_dark" text="{i18n>theme.horizon_dark}"/>
+            <core:Item key="sap_horizon_hcb" text="{i18n>theme.hcb}"/>
+            <core:Item key="sap_horizon_hcw" text="{i18n>theme.hcw}"/>
+            <core:Item key="sap_fiori_3" text="{i18n>theme.fiori3}"/>
+            <core:Item key="sap_fiori_3_dark" text="{i18n>theme.fiori3_dark}"/>
           </Select>
 
-          <Label text="Avatar do usuário"/>
-          <HBox alignItems="Center" justifyContent="Start" width="100%" wrap="Wrap">
-            <Avatar id="avatar" displaySize="L" src="{settings>/avatarSrc}" initials="{settings>/avatarInitials}" class="sapUiSmallMarginEnd"/>
-            <unified:FileUploader id="uploader"
-                                  buttonText="Selecionar imagem"
-                                  fileType="jpg,png,jpeg"
-                                  change=".onAvatarUpload"/>
-            <Button id="btnClearAvatar" text="Limpar" type="Transparent" press=".onAvatarClear" class="sapUiTinyMarginBegin"/>
-          </HBox>
-
-          <Label text="Importar arquivo de configurações"/>
+          <Label text="{i18n>settings.import}"/>
           <HBox alignItems="Center" justifyContent="Start" width="100%" wrap="Wrap">
             <unified:FileUploader id="settingsFileUploader"
-                                  buttonText="Selecionar arquivo(s)"
+                                  buttonText="{i18n>settings.import.selectFiles}"
                                   fileType="json"
                                   change=".onSettingsFileUploadBatch"
                                   multiple="true"
                                   width="100%"/>
-            <Button text="Salvar no Firestore" type="Emphasized" press=".onSaveImportedJson" class="sapUiTinyMarginBegin"/>
+            <Button text="{i18n>settings.import.saveToFirestore}" type="Emphasized" press=".onSaveImportedJson" class="sapUiTinyMarginBegin"/>
           </HBox>
 
-          <Label text="Integração Firebase"/>
+          <Label text="{i18n>settings.firebase}"/>
           <VBox class="sapUiSmallMarginBottom">
             <HBox>
-              <Button text="Testar Conexão" type="Transparent" press=".onTestFirebase"/>
-              <Button text="Criar coleção TESTE" type="Transparent" press=".onCreateTestCollection" class="sapUiTinyMarginBegin"/>
+              <Button text="{i18n>settings.firebase.test}" type="Transparent" press=".onTestFirebase"/>
+              <Button text="{i18n>settings.firebase.createTestCollection}" type="Transparent" press=".onCreateTestCollection" class="sapUiTinyMarginBegin"/>
             </HBox>
             <HBox class="sapUiTinyMarginTop" alignItems="Center">
-              <Button text="Exportar Mês Atual" type="Emphasized" press=".onExportCurrentMonth"/>
+              <Button text="{i18n>settings.firebase.exportCurrentMonth}" type="Emphasized" press=".onExportCurrentMonth"/>
             </HBox>
             <HBox class="sapUiTinyMarginTop" alignItems="Center">
-              <Text text="Exportar últimos"/>
+              <Text text="{i18n>settings.firebase.exportLast}"/>
               <StepInput id="stepExportN" min="1" max="36" step="1" value="6" class="sapUiTinyMarginBegin"/>
-              <Text text="meses" class="sapUiTinyMarginBegin"/>
-              <Button text="Exportar" type="Transparent" press=".onExportLastNMonths" class="sapUiTinyMarginBegin"/>
+              <Text text="{i18n>settings.firebase.months}" class="sapUiTinyMarginBegin"/>
+              <Button text="{i18n>settings.firebase.export}" type="Transparent" press=".onExportLastNMonths" class="sapUiTinyMarginBegin"/>
             </HBox>
 
-            <HBox class="sapUiTinyMarginTop" alignItems="Center" wrap="Wrap">
-              <Text text="Teste gs://" class="sapUiTinyMarginEnd"/>
-              <Input id="inpGsUrl" width="100%" placeholder="Cole aqui o gs://.../abastecimentos/YYYY/MM/abastecimentos.json"/>
-              <Button text="Baixar e exibir JSON" type="Transparent" press=".onFetchGsJson" class="sapUiTinyMarginBegin"/>
-              
-            </HBox>
-
-            <HBox class="sapUiTinyMarginTop" alignItems="Center" wrap="Wrap">
-              <Text text="Leitura direta (URL com token)" class="sapUiTinyMarginEnd"/>
-              <Input id="inpDirectUrl" width="100%" value="https://firebasestorage.googleapis.com/v0/b/sistemagsg.firebasestorage.app/o/abastecimentos%2F2025%2F09%2Fabastecimentos.json?alt=media&amp;token=1fdff8fd-0d37-4dcf-976e-dd710d524ac0"/>
-              <Button text="Ler JSON" type="Transparent" press=".onFetchDirectJson" class="sapUiTinyMarginBegin"/>
-            </HBox>
+            
           </VBox>
 
         </f:SimpleForm>
@@ -125,9 +101,15 @@
     <footer>
       <Toolbar>
         <ToolbarSpacer/>
-        <Button id="btnRestore" text="Restaurar Padrões" type="Transparent" press=".onRestoreDefaults"/>
-        <Button id="btnSave" text="Salvar" type="Emphasized" press=".onSave"/>
+        <Button id="btnRestore" text="{i18n>common.restoreDefaults}" type="Transparent" press=".onRestoreDefaults"/>
+        <Button id="btnSave" text="{i18n>common.save}" type="Emphasized" press=".onSave"/>
       </Toolbar>
     </footer>
   </Page>
 </mvc:View>
+
+
+
+
+
+

@@ -12,7 +12,7 @@
     autoLoadMain: false,
     autoLoadIntervalSec: 30,
     mainDatePref: "yesterday",
-    saveLocal: true,
+    saveLocal: false,
     theme: "sap_horizon",
     avatarSrc: "",
     avatarInitials: "CJ"
@@ -20,18 +20,15 @@
 
   function parseOr(v, d) { try { return JSON.parse(v); } catch (e) { return d; } }
 
-  function getRepository(saveLocal) {
-    if (saveLocal === false) {
-      return new FirebaseSettingsRepository();
-    }
-    return new LocalSettingsRepository();
+  function getRepository(/* saveLocal */) {
+    // Força uso do Firestore para salvar/ler configurações
+    return new FirebaseSettingsRepository();
   }
 
   function loadSettings() {
     // PersistÃªncia de preferÃªncia de local/remote em localStorage
     var persisted = parseOr(window.localStorage.getItem(STORAGE_KEY), null) || {};
-    var saveLocal = (typeof persisted.saveLocal === "boolean") ? persisted.saveLocal : true;
-    var repo = getRepository(saveLocal);
+    var repo = getRepository(false);
     return repo.load().then(function (obj) {
       var merged = Object.assign({}, DEFAULTS, obj || {});
       try { sap.ui.getCore().applyTheme(merged.theme); } catch (e) {}
@@ -56,4 +53,3 @@
     saveSettings: saveSettings
   };
 });
-

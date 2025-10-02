@@ -29,11 +29,4 @@ server:
       afterMiddleware: compression
       configuration:
         ignoreCertError: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
-    - name: ui5-middleware-simpleproxy
-      afterMiddleware: fiori-tools-proxy
-      mountPath: /storage
-      configuration:
-        baseUri: https://firebasestorage.googleapis.com
-        strictSSL: true
-        username: ~
-        password: ~
+    

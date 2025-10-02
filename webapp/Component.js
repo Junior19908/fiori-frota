@@ -220,7 +220,7 @@
             autoLoadMain: false,
             autoLoadIntervalSec: 30,
             mainDatePref: "yesterday",
-            saveLocal: true,
+            saveLocal: false,
             theme: "sap_horizon",
             avatarSrc: "",
             avatarInitials: "CJ"
@@ -254,7 +254,7 @@
       let abMap  = abModel.getProperty("/abastecimentosPorVeiculo") || {};
       const missingMonths = [];
 
-      // ForÃ§a consumo remoto (Firebase Storage) em vez de arquivos locais
+      // ForÃ§a consumo remoto (Firestore) em vez de arquivos locais
       const useLocal = (function(){
         try { return /(?:[?&])useLocalAbastecimentos=1(?:[&#]|$)/.test(String(window.location && window.location.search || "")); }
         catch(e){ return false; }
@@ -283,7 +283,7 @@
             : ensureMap(aData);
           abMap = mergeByVehicle(abMap, map);
         } else {
-          // marca mÃªs como ausente no Storage remoto
+          // marca mÃªs como ausente no Firestore remoto
           missingMonths.push(`${y}-${mm2(m)}`);
         }
       }
@@ -332,5 +332,7 @@
 
   return Component;
 });
+
+
 
 
