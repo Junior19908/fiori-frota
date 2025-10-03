@@ -233,13 +233,13 @@
       try { sap.ui.getCore().applyTheme(SettingsService.DEFAULTS.theme); } catch (e) {}
       var rb1 = this.getView() && this.getView().getModel("i18n") && this.getView().getModel("i18n").getResourceBundle();
       MessageToast.show(rb1 ? rb1.getText("settings.restored") : "Configurações restauradas.");
+    },
 
     onSave: async function () {
       const m = this.getView().getModel("settings");
       const data = m.getData();
       BusyIndicator.show(0);
       try {
-        await SettingsService.saveSettings(data);
         await SettingsService.saveSettings(data);
         var rb2 = this.getView() && this.getView().getModel("i18n") && this.getView().getModel("i18n").getResourceBundle();
         MessageToast.show(rb2 ? rb2.getText("settings.savedRemote") : "Configurações salvas remotamente.");
@@ -248,6 +248,9 @@
         MessageToast.show(rb3 ? rb3.getText("settings.saveFailed") : "Falha ao salvar configurações.");
         // eslint-disable-next-line no-console
         console.error(e);
+      } finally {
+        BusyIndicator.hide();
+      }
     },
 
     _showExportReport: function (items) {

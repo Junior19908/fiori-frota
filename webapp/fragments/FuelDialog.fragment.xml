@@ -11,7 +11,7 @@
                items="{fuel>/eventos}"
                growing="true"
                growingScrollToLoad="true"
-               noDataText="Sem abastecimentos no período selecionado">
+               noDataText="Sem abastecimentos no perÃ­odo selecionado">
 
           <columns>
             <Column id="colData" width="7rem"><Label text="Data"/></Column>
@@ -57,12 +57,23 @@
                 <!-- Comboio/Posto -->
                 <Text text="{fuel>comboio}"/>
 
-                <!-- STATUS com Ícone + tooltip -->
-                <ObjectStatus
-                  text="{fuel>_statusText}"
-                  state="{fuel>_statusState}"
-                  icon="{fuel>_statusIcon}"
-                  tooltip="{fuel>_statusTooltip}"/>
+                <!-- STATUS: erro/alerta + badge 'Leitura anterior' quando usar prev externo -->
+                <HBox justifyContent="Start" alignItems="Center">
+                  <ObjectStatus
+                    text="{fuel>_statusText}"
+                    state="{fuel>_statusState}"
+                    icon="{= ${fuel>_statusIcon} || '' }"
+                    tooltip="{fuel>_statusTooltip}"
+                    visible="{= !!${fuel>_statusText} }"/>
+
+                  <ObjectStatus
+                    class="sapUiTinyMarginBegin"
+                    text="{= ${fuel>_prevBadgeText} || 'Leitura anterior' }"
+                    state="Information"
+                    icon="sap-icon://hint"
+                    tooltip="{fuel>_prevBadgeTooltip}"
+                    visible="{fuel>_usesPrev}"/>
+                </HBox>
 
                 <!-- Km -->
                 <ObjectNumber number="{path:'fuel>km', formatter:'.formatter.fmtKm'}"/>
@@ -85,7 +96,7 @@
           </items>
         </Table>
 
-        <!-- RodapÃ©: totais/médias -->
+        <!-- RodapÃ©: totais/mÃ©dias -->
         <Toolbar class="sapUiTinyMarginTop">
           <ToolbarSpacer/>
           <ObjectStatus text="Total Litros:"/>
@@ -93,12 +104,24 @@
 
           <ToolbarSeparator/>
 
-          <ObjectStatus text="Média Km/L:"/>
+
+          <!-- Totais de deslocamento no perÃ­odo -->
+          <ObjectStatus text="Total Km:" visible="{fuel>/limiteKmVisible}"/>
+          <ObjectNumber number="{path:'fuel>/totalKm', formatter:'.formatter.fmtNum'}" visible="{fuel>/limiteKmVisible}"/>
+
+          <ToolbarSeparator visible="{= ${fuel>/limiteKmVisible} &amp;&amp; ${fuel>/limiteHrVisible} }"/>
+
+          <ObjectStatus text="Total Hr:" visible="{fuel>/limiteHrVisible}"/>
+          <ObjectNumber number="{path:'fuel>/totalHr', formatter:'.formatter.fmtNum'}" visible="{fuel>/limiteHrVisible}"/>
+
+          <ToolbarSeparator/>
+
+          <ObjectStatus text="MÃ©dia Km/L:"/>
           <ObjectNumber number="{path:'fuel>/mediaKmPorL', formatter:'.formatter.fmtNum'}"/>
 
           <ToolbarSeparator/>
 
-          <ObjectStatus text="Média L/Hr:"/>
+          <ObjectStatus text="MÃ©dia L/Hr:"/>
           <ObjectNumber number="{path:'fuel>/mediaLPorHr', formatter:'.formatter.fmtNum'}"/>
         </Toolbar>
 
@@ -107,10 +130,10 @@
           <ToolbarSpacer/>
           <HBox alignItems="Center" visible="{fuel>/limiteKmVisible}">
             <Label text="Km:"/>
-            <Text text="Mín." class="sapUiTinyMarginBegin"/>
-            <StepInput value="{fuel>/limiteKmMin}" min="0" max="999999" step="10" change=".onLimiteKmMinChange" enabled="{fuel>/limiteKmEnabled}" valueLiveUpdate="true" displayValuePrecision="0" width="6rem" class="sapUiTinyMarginBegin"/>
-            <Text text="Máx." class="sapUiTinyMarginBegin"/>
-            <StepInput value="{fuel>/limiteKm}" min="0" max="999999" step="10" change=".onLimiteKmChange" enabled="{fuel>/limiteKmEnabled}" valueLiveUpdate="true" displayValuePrecision="0" width="6rem" class="sapUiTinyMarginBegin"/>
+            <Text text="MÃ­n." class="sapUiTinyMarginBegin"/>
+            <StepInput value="{fuel>/limiteKmMin}" min="0" max="999999" step="10" change=".onLimiteKmMinChange" enabled="{fuel>/limiteKmEnabled}" displayValuePrecision="0" width="6rem" class="sapUiTinyMarginBegin"/>
+            <Text text="MÃ¡x." class="sapUiTinyMarginBegin"/>
+            <StepInput value="{fuel>/limiteKm}" min="0" max="999999" step="10" change=".onLimiteKmChange" enabled="{fuel>/limiteKmEnabled}" displayValuePrecision="0" width="6rem" class="sapUiTinyMarginBegin"/>
             <Text text="{fuel>/limiteKmHint}" class="sapUiSmallMarginBegin"/>
           </HBox>
 
@@ -118,16 +141,15 @@
 
           <HBox alignItems="Center" visible="{fuel>/limiteHrVisible}">
             <Label text="Hr:"/>
-            <Text text="Mín." class="sapUiTinyMarginBegin"/>
-            <StepInput value="{fuel>/limiteHrMin}" min="0" max="9999" step="1" change=".onLimiteHrMinChange" enabled="{fuel>/limiteHrEnabled}" valueLiveUpdate="true" displayValuePrecision="0" width="5rem" class="sapUiTinyMarginBegin"/>
-            <Text text="Máx." class="sapUiTinyMarginBegin"/>
-            <StepInput value="{fuel>/limiteHr}" min="0" max="9999" step="1" change=".onLimiteHrChange" enabled="{fuel>/limiteHrEnabled}" valueLiveUpdate="true" displayValuePrecision="0" width="5rem" class="sapUiTinyMarginBegin"/>
+            <Text text="MÃ­n." class="sapUiTinyMarginBegin"/>
+            <StepInput value="{fuel>/limiteHrMin}" min="0" max="9999" step="1" change=".onLimiteHrMinChange" enabled="{fuel>/limiteHrEnabled}" displayValuePrecision="0" width="5rem" class="sapUiTinyMarginBegin"/>
+            <Text text="MÃ¡x." class="sapUiTinyMarginBegin"/>
+            <StepInput value="{fuel>/limiteHr}" min="0" max="9999" step="1" change=".onLimiteHrChange" enabled="{fuel>/limiteHrEnabled}" displayValuePrecision="0" width="5rem" class="sapUiTinyMarginBegin"/>
             <Text text="{fuel>/limiteHrHint}" class="sapUiSmallMarginBegin"/>
           </HBox>
         </Toolbar>
 
-        <!-- Mensagem quando nÃ£o hÃ¡ eventos -->
-        <Text text="Sem abastecimentos para este veículo no período"
+        <Text text="Sem abastecimentos para este veÃ­culo no perÃ­odo"
               visible="{= ${fuel>/eventos}.length === 0 }"/>
       </VBox>
     </content>
@@ -138,3 +160,4 @@
     </buttons>
   </Dialog>
 </core:FragmentDefinition>
+
