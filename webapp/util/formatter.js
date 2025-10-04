@@ -234,6 +234,17 @@
     fmtKm: function (v) {
       try { return `${Number(v || 0).toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} Km`; }
       catch (e) { return v; }
+    },
+
+    fmtDisponibilidade: function(pctDisp, pctIndisp){
+      if (!isFinite(pctDisp) || !isFinite(pctIndisp)) return "";
+      return `${Number(pctDisp).toFixed(1)}% disponível | ${Number(pctIndisp).toFixed(1)}% indisponível`;
+    },
+    stateDisponibilidade: function(pctDisp){
+      const d = Number(pctDisp) || 0;
+      if (d >= 90) return "Success";
+      if (d >= 70) return "Warning";
+      return "Error";
     }
   };
 });

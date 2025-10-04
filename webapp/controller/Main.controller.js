@@ -82,24 +82,35 @@
       if (this._eventBus && this._eventBus.subscribe) {
         this._eventBus.subscribe("downtime", "ready", this._onDowntimeReady, this);
       }
-      this._applyMainDatePref();
-      this._reloadDistinctOnly().then(() => {
-        this._ensureVehiclesCombo();
-        this._ensureCategoriasCombo();
-        this._recalcAndRefresh();
-      });
+      const doInitAsync = async () => {
+        try {
+          this._applyMainDatePref();
+          await this._reloadDistinctOnly();
+          const range = FilterUtil.currentRange(this.byId("drs"));
+          await Aggregation.recalcAggByRange(this.getView(), range);
+          this._ensureVehiclesCombo();
+          this._ensureCategoriasCombo();
+          this._recalcAndRefresh();
+        } catch (e) {
+          try { sap.m.MessageToast.show("Falha na inicialização assíncrona."); } catch(_){}
+        }
+      };
+      void doInitAsync();
     },
-    onFilterChange: function () {
-      this._reloadDistinctOnly().then(() => {
+    onFilterChange: async function () {
+      try {
+        await this._reloadDistinctOnly();
+        const range = FilterUtil.currentRange(this.byId("drs"));
+        await Aggregation.recalcAggByRange(this.getView(), range);
         this._ensureVehiclesCombo();
         this._ensureCategoriasCombo();
         this._recalcAndRefresh();
-      }).catch(() => {
+      } catch (e) {
         MessageToast.show("Falha ao recarregar.");
-      });
+      }
     },
 
-    onClearFilters: function () {
+    onClearFilters: async function () {
       this._applyMainDatePref();
 
       const inpVeh = this.byId("inpVeiculo");
@@ -110,11 +121,12 @@
       inpCat?.setSelectedKey("__ALL__");
       inpCat?.setValue("");
 
-      this._reloadDistinctOnly().then(() => {
-        this._ensureVehiclesCombo();
-        this._ensureCategoriasCombo();
-        this._recalcAndRefresh();
-      });
+      await this._reloadDistinctOnly();
+      const range = FilterUtil.currentRange(this.byId("drs"));
+      await Aggregation.recalcAggByRange(this.getView(), range);
+      this._ensureVehiclesCombo();
+      this._ensureCategoriasCombo();
+      this._recalcAndRefresh();
     },
 
     // ========= NOVO: BotÃ£o de ConfiguraÃ§Ã£o =========
@@ -158,6 +170,20 @@
       const obj = oEvent.getSource().getBindingContext("vm").getObject();
       const id = String(obj.equnr || obj.veiculo || "");
       this.getOwnerComponent().getRouter().navTo("RouteHistorico", { id });
+    },
+
+    // Novo: abre o diálogo de OS (substitui a tela IW38)
+    onOpenOSDialog: function (oEvent) {
+      try {
+        const ctxObj = oEvent?.getSource?.()?.getBindingContext("vm")?.getObject?.();
+        const equnr = String(ctxObj?.equnr || ctxObj?.veiculo || "");
+        const range = FilterUtil.currentRange(this.byId("drs"));
+        sap.ui.require(["com/skysinc/frota/frota/controller/OSDialog"], (OSDlg) => {
+          OSDlg.open(this.getView(), { equnr, range, titulo: equnr ? ("OS — " + equnr) : "OS" });
+        });
+      } catch (e) {
+        MessageToast.show("Falha ao abrir OS.");
+      }
     },
 
     // Abre a visualizaÃ§Ã£o/preview da IW38 (mock local por enquanto)
@@ -460,10 +486,6 @@
     },
 
     _recalcAndRefresh: function () {
-      const drs   = this.byId("drs");
-      const range = FilterUtil.currentRange(drs);
-      Aggregation.recalcAggByRange(this.getView(), range);
-
       this._applyTableFilters();
       this.byId("tbl")?.getBinding("rows")?.refresh(true);
 

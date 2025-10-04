@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mvc:View
+  controllerName="com.skysinc.frota.frota.controller.ImportOS"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:unified="sap.ui.unified"
+  displayBlock="true">
+
+  <Page id="importOSPage" title="Importar OS (Excel)" class="sapUiContentPadding" showNavButton="true" navButtonPress="onNavBack">
+    <content>
+      <VBox width="100%" renderType="Bare" class="sapUiTinyMarginTop">
+        <Text text="Selecione um arquivo .xlsx contendo a aba 'Planilha1' com os dados das Ordens de Serviço."/>
+        <HBox class="sapUiSmallMarginTop" alignItems="Center" justifyContent="Start" width="100%">
+          <unified:FileUploader id="fuExcel"
+                                buttonText="Upload Excel (.xlsx)"
+                                fileType="xlsx"
+                                sameFilenameAllowed="true"
+                                change="onExcelSelected"
+                                width="100%"/>
+          <Button id="btnProcess" text="Processar e Enviar" type="Emphasized" press="onProcess" class="sapUiTinyMarginBegin"/>
+        </HBox>
+        <Text id="txSummary" class="sapUiSmallMarginTop" text=""/>
+        <List id="lstPreview" growing="true" width="100%" class="sapUiSmallMarginTop">
+        </List>
+      </VBox>
+    </content>
+  </Page>
+</mvc:View>
+

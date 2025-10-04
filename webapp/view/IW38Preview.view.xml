@@ -18,7 +18,8 @@
                          selectionMode="None"
                          visibleRowCountMode="Auto"
                          minAutoRowCount="8"
-                         enableColumnReordering="false">
+                         enableColumnReordering="false"
+                         noDataText="{i18n>iw38NoData}">
               <table:columns>
                 <table:Column width="7rem"><Label text="{i18n>colVeiculo}"/>
                   <table:template><Text text="{iw38>veiculo}"/></table:template>

@@ -27,7 +27,16 @@
             getDoc: fs.getDoc,
             setDoc: fs.setDoc,
             updateDoc: fs.updateDoc,
-            collection: fs.collection
+            collection: fs.collection,
+            getDocs: fs.getDocs,
+            query: fs.query,
+            where: fs.where,
+            orderBy: fs.orderBy,
+            limit: fs.limit,
+            startAfter: fs.startAfter,
+            startAt: fs.startAt,
+            endBefore: fs.endBefore,
+            documentId: fs.documentId
           };
         });
       }
@@ -39,7 +48,13 @@
       ]).then(function (mods) {
         var appMod = mods[0];
         var fs = mods[1];
-        var app = appMod.initializeApp(firebaseConfig);
+        var app;
+        try {
+          app = appMod.getApps && appMod.getApps().length ? appMod.getApp() : appMod.initializeApp(firebaseConfig);
+        } catch (e) {
+          // Fallback para ambientes sem getApps/getApp
+          try { app = appMod.initializeApp(firebaseConfig); } catch(_) { app = appMod.getApp ? appMod.getApp() : null; }
+        }
         var db = fs.getFirestore(app);
         return {
           db: db,
@@ -47,7 +62,16 @@
           getDoc: fs.getDoc,
           setDoc: fs.setDoc,
           updateDoc: fs.updateDoc,
-          collection: fs.collection
+          collection: fs.collection,
+          getDocs: fs.getDocs,
+          query: fs.query,
+          where: fs.where,
+          orderBy: fs.orderBy,
+          limit: fs.limit,
+          startAfter: fs.startAfter,
+          startAt: fs.startAt,
+          endBefore: fs.endBefore,
+          documentId: fs.documentId
         };
       });
     });
@@ -125,7 +149,181 @@
     return chain.then(function(){ return results; });
   }
 
+  // Lista todas as OS da coleção 'ordensServico'
+  function listAllOrders() {
+    return getFirebase().then(function (f) {
+      var cref = f.collection(f.db, "ordensServico");
+      if (!f.getDocs) {
+        try { console.warn("[Firestore] getDocs indisponível no SDK carregado"); } catch(_){}
+        return Promise.resolve([]);
+      }
+      return f.getDocs(cref).then(function (snap) {
+        var arr = [];
+        try {
+          if (snap && Array.isArray(snap.docs)) {
+            snap.docs.forEach(function (d) {
+              var data = (d && d.data && d.data()) || {};
+              data._id = d && d.id || data._id || "";
+              arr.push(data);
+            });
+          } else if (snap && typeof snap.forEach === 'function') {
+            snap.forEach(function (d) {
+              var data = (d && d.data && d.data()) || {};
+              data._id = d && d.id || data._id || "";
+              arr.push(data);
+            });
+          }
+        } catch (e) {
+          try { console.warn("[Firestore] Erro ao iterar snapshot", e && (e.code || e.message || e)); } catch(_){}
+        }
+        return arr;
+      }).catch(function (e) {
+        try { console.warn("[Firestore] Falha ao listar ordensServico", e && (e.code || e.message || e)); } catch(_){}
+        return [];
+      });
+    });
+  }
+
+  // ===== Leitura filtrada e cache =====
+  const _ordersCache = new Map(); // key -> { ts, data }
+  const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutos
+
+  function _cacheGet(key) {
+    const e = _ordersCache.get(key);
+    if (!e) return null;
+    if ((Date.now() - e.ts) > CACHE_TTL_MS) { _ordersCache.delete(key); return null; }
+    return e.data;
+  }
+  function _cacheSet(key, data) { _ordersCache.set(key, { ts: Date.now(), data }); }
+
+  // Consulta por veículo e período, com limite e duas queries (abertura/fechamento) para cobrir intervalos
+  function listOrdersByVehicleAndRange(params) {
+    const equnr = String(params && (params.equnr || params.vehicle || "")).trim();
+    const start = (params && (params.start || params.from)) || null;
+    const end   = (params && (params.end   || params.to))   || null;
+    const limitN = Number((params && params.limit) || 500);
+
+    if (!equnr || !(start instanceof Date)) {
+      return Promise.resolve([]);
+    }
+
+    const sDate = new Date(start.getFullYear(), start.getMonth(), start.getDate(), 0,0,0,0);
+    const eDate = end instanceof Date
+      ? new Date(end.getFullYear(), end.getMonth(), end.getDate(), 23,59,59,999)
+      : new Date(sDate.getFullYear(), sDate.getMonth(), sDate.getDate(), 23,59,59,999);
+
+    const cacheKey = [equnr, sDate.getTime(), eDate.getTime(), limitN].join("|");
+    const cached = _cacheGet(cacheKey);
+    if (cached) return Promise.resolve(cached);
+
+    return getFirebase().then(function (f) {
+      const cref = f.collection(f.db, "ordensServico");
+
+      function runQ(field) {
+        try {
+          const q = f.query(
+            cref,
+            f.where('Equipamento', '==', equnr),
+            f.orderBy(field),
+            f.where(field, '>=', sDate),
+            f.where(field, '<=', eDate),
+            f.limit(limitN)
+          );
+          return f.getDocs(q).then(function (snap) {
+            const arr = [];
+            try {
+              if (snap && Array.isArray(snap.docs)) {
+                snap.docs.forEach(function (d) { var data = (d && d.data && d.data()) || {}; data._id = (d && d.id) || data._id || ""; arr.push(data); });
+              } else if (snap && typeof snap.forEach === 'function') {
+                snap.forEach(function (d) { var data = (d && d.data && d.data()) || {}; data._id = (d && d.id) || data._id || ""; arr.push(data); });
+              }
+            } catch(_) {}
+            return arr;
+          });
+        } catch (e) {
+          try { console.warn("[Firestore] Falha query por", field, e && (e.code || e.message || e)); } catch(_){}
+          return Promise.resolve([]);
+        }
+      }
+
+      return Promise.all([ runQ('DataAbertura'), runQ('DataFechamento') ]).then(function (lists) {
+        const map = new Map();
+        lists.forEach(function (arr) { (arr || []).forEach(function (it) { if (it && (it._id || it.NumeroOS)) map.set(it._id || it.NumeroOS, it); }); });
+        const out = Array.from(map.values());
+        _cacheSet(cacheKey, out);
+        return out;
+      });
+    });
+  }
+
   function probe() { return getFirebase().then(function(){ return true; }); }
+
+  // Página de OS por veículo e período, ordenado por DataAbertura asc
+  // params: { equnr, start:Date, end:Date, limit?:number, after?: { date: Date, id: string } }
+  function listOrdersByVehicleAndRangePage(params) {
+    const equnr = String(params && (params.equnr || params.vehicle || "")).trim();
+    const start = (params && (params.start || params.from)) || null;
+    const end   = (params && (params.end   || params.to))   || null;
+    const limitN = Math.max(1, Math.min(1000, Number((params && params.limit) || 200)));
+    const after  = params && params.after ? params.after : null;
+
+    if (!equnr || !(start instanceof Date)) {
+      return Promise.resolve({ items: [], last: null });
+    }
+
+    const sDate = new Date(start.getFullYear(), start.getMonth(), start.getDate(), 0,0,0,0);
+    const eDate = end instanceof Date
+      ? new Date(end.getFullYear(), end.getMonth(), end.getDate(), 23,59,59,999)
+      : new Date(sDate.getFullYear(), sDate.getMonth(), sDate.getDate(), 23,59,59,999);
+
+    const afterKey = after ? (Number(new Date(after.date).getTime()) + ":" + String(after.id || "")) : "";
+    const cacheKey = [equnr, sDate.getTime(), eDate.getTime(), limitN, afterKey].join("|");
+    const cached = _cacheGet(cacheKey);
+    if (cached) return Promise.resolve(cached);
+
+    return getFirebase().then(function (f) {
+      const cref = f.collection(f.db, "ordensServico");
+      const parts = [
+        cref,
+        f.where('Equipamento', '==', equnr),
+        f.where('DataAbertura', '>=', sDate),
+        f.where('DataAbertura', '<=', eDate),
+        f.orderBy('DataAbertura', 'asc'),
+        f.orderBy(f.documentId(), 'asc')
+      ];
+      if (after && after.date) {
+        const dt = new Date(after.date);
+        parts.push(f.startAfter(dt, String(after.id || "")));
+      }
+      parts.push(f.limit(limitN));
+      const q = f.query.apply(null, parts);
+      return f.getDocs(q).then(function (snap) {
+        const items = [];
+        let last = null;
+        try {
+          const iter = (snap && Array.isArray(snap.docs)) ? snap.docs : null;
+          if (iter) {
+            iter.forEach(function (d) {
+              const data = (d && d.data && d.data()) || {};
+              data._id = d && d.id || data._id || "";
+              items.push(data);
+            });
+            const ld = iter[iter.length - 1];
+            if (ld) {
+              const dv = (ld.data && ld.data()) ? ld.data() : {};
+              last = { id: ld.id, date: dv && dv.DataAbertura ? dv.DataAbertura : null };
+            }
+          }
+        } catch(_) {}
+        const result = { items, last };
+        _cacheSet(cacheKey, result);
+        return result;
+      }).catch(function (e) {
+        try { console.warn('[Firestore] Falha paginação OS', e && (e.code || e.message || e)); } catch(_){}
+        return { items: [], last: null };
+      });
+    });
+  }
 
   function getAuthUid() {
     return import("./settings/firebaseConfig.js").then(function (cfg) {
@@ -165,6 +363,9 @@
     createTestDoc: createTestDoc,
     exportMonth: exportMonth,
     exportRange: exportRange,
+    listAllOrders: listAllOrders,
+    listOrdersByVehicleAndRange: listOrdersByVehicleAndRange,
+    listOrdersByVehicleAndRangePage: listOrdersByVehicleAndRangePage,
     probe: probe
   };
 });

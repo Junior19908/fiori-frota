@@ -138,7 +138,7 @@
                 <Button icon="sap-icon://detail-view" type="Transparent" tooltip="Materiais/serviços" press=".onOpenMateriais"/>
                 <Button icon="sap-icon://mileage" type="Transparent" tooltip="Abastecimentos" press=".onOpenAbastecimentos"/>
                 <Button icon="sap-icon://insurance-car" type="Transparent" tooltip="HistÃ³rico" press=".onOpenHistorico"/>
-                <Button icon="sap-icon://enablement" type="Transparent" tooltip="Odens de serviço" press=".onOpenIW38Preview"/>
+                <Button icon="sap-icon://enablement" type="Transparent" tooltip="Odens de serviço" press=".onOpenOSDialog"/>
               </HBox>
             </table:template>
           </table:Column>
@@ -188,7 +188,6 @@
               <Text text="{path:'vm>hrRodadosAgg', formatter:'.formatter.fmtNum'}"/>
             </table:template>
           </table:Column>
-
           <!-- Média por Veículo: km/L -->
           <table:Column width="6rem" hAlign="End">
             <Label text="Média (km/L)"/>
@@ -211,23 +210,16 @@
             </table:template>
           </table:Column>
 
-          <!-- Consumo por Veículo: Disponibilidade -->
-          <table:Column width="9rem" hAlign="Center">
-            <Label text="Disponibilidade (%)"/>
+          <table:Column sortProperty="pctDisp" width="16rem" hAlign="Center">
+            <Label text="Disponibilidade"/>
             <table:template>
               <ObjectStatus
-                text="{path:'vm>disponibilidadePerc', formatter:'.formatter.fmtPercent'}"
-                state="{path:'vm>disponibilidadePerc', formatter:'.formatter.disponibilidadeState'}"/>
-            </table:template>
-          </table:Column>
-
-          <!-- Consumo por Veículo: Indisponibilidade -->
-          <table:Column width="10rem" hAlign="Center">
-            <Label text="Indisponibilidade (%)"/>
-            <table:template>
-              <ObjectStatus
-                text="{path:'vm>indisponibilidadePerc', formatter:'.formatter.fmtPercent'}"
-                state="{path:'vm>indisponibilidadePerc', formatter:'.formatter.indisponibilidadeState'}"/>
+                text="{
+        parts:['vm>pctDisp','vm>pctIndisp'],
+        formatter: '.formatter.fmtDisponibilidade'
+      }"
+                state="{ path:'vm>pctDisp', formatter:'.formatter.stateDisponibilidade' }"
+                tooltip="Disponibilidade calculada no período selecionado"/>
             </table:template>
           </table:Column>
 

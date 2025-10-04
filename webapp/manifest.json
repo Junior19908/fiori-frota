@@ -67,7 +67,9 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "com.skysinc.frota.frota.i18n.i18n"
+          "bundleName": "com.skysinc.frota.frota.i18n.i18n",
+          "supportedLocales": [""],
+          "fallbackLocale": ""
         }
       },
       "svc": {
@@ -135,11 +137,17 @@
           "name": "settings",
           "pattern": "settings",
           "target": ["Settings"]
+        }
+        ,
+        {
+          "name": "ImportOS",
+          "pattern": "import-os",
+          "target": ["ImportOS"]
         },
         {
-          "name": "RouteIW38",
-          "pattern": "iw38/{equnr}",
-          "target": ["IW38Preview"]
+          "name": "ImportAbastecimentos",
+          "pattern": "import-abastecimentos",
+          "target": ["ImportAbastecimentos"]
         }
       ],
       "targets": {
@@ -162,12 +170,8 @@
           "id": "Settings",
           "name": "Settings"
         },
-          "IW38Preview": {
-          "id": "IW38Preview",
-          "name": "IW38Preview",
-          "viewType": "XML",
-          "viewId": "IW38Preview"
-        }
+        "ImportOS": { "id": "ImportOS", "name": "ImportOS" },
+        "ImportAbastecimentos": { "id": "ImportAbastecimentos", "name": "ImportAbastecimentos" }
       }
     },
     "rootView": {

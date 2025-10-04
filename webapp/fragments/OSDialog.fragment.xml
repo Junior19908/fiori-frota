@@ -1,0 +1,130 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:table="sap.ui.table">
+  <Dialog id="dlgOS"
+          icon="sap-icon://activity-items"
+          contentWidth="auto"
+          horizontalScrolling="false">
+
+    <customHeader>
+      <Bar>
+        <contentLeft>
+          <core:Icon src="sap-icon://activity-items" size="1.5rem"/>
+          <Title text="{osDlg>/titulo}" level="H2"/>
+        </contentLeft>
+        <contentRight>
+          <Button icon="sap-icon://decline" type="Transparent" press=".onCloseOS"/>
+        </contentRight>
+      </Bar>
+    </customHeader>
+
+    <content>
+      <VBox renderType="Bare">
+        <Toolbar>
+          <Button text="Concluir selecionadas" icon="sap-icon://accept" type="Emphasized"
+                  enabled="{= ${osDlg>/os}.length > 0 }"
+                  press=".onCloseSelectedOS"/>
+          <Button text="Definir tipo" icon="sap-icon://edit" type="Transparent"
+                  enabled="{= ${osDlg>/os}.length > 0 }"
+                  press=".onSetTypeSelectedOS"/>
+          <ToolbarSpacer/>
+          <Button text="Anterior" icon="sap-icon://navigation-left-arrow" type="Transparent"
+                  enabled="{osDlg>/page/hasPrev}"
+                  press=".onPrevPage"/>
+          <Text text="{osDlg>/page/pageText}"/>
+          <Button text="Próxima" icon="sap-icon://navigation-right-arrow" type="Transparent"
+                  enabled="{osDlg>/page/hasNext}"
+                  press=".onNextPage"/>
+          <ToolbarSeparator/>
+          <SearchField width="22rem" placeholder="Filtrar por veículo, ordem ou título"
+                       liveChange=".onLiveSearch"/>
+        </Toolbar>
+
+        <table:Table id="tblOSGrid"
+                     rows="{osDlg>/os}"
+                     selectionMode="MultiToggle"
+                     enableColumnReordering="true"
+                     enableBusyIndicator="true"
+                     rowHeight="32"
+                     columnHeaderHeight="36"
+                     width="100%"
+                     visibleRowCountMode="Auto"
+                     minAutoRowCount="10"
+                     fixedColumnCount="2">
+
+          <table:Column width="7rem" sortProperty="veiculo" filterProperty="veiculo" hAlign="Begin">
+            <Label text="Veículo" textAlign="Center" width="100%"/>
+            <table:template>
+              <Text text="{osDlg>veiculo}" tooltip="{osDlg>veiculo}"/>
+            </table:template>
+          </table:Column>
+
+          <table:Column width="8rem" sortProperty="ordem" filterProperty="ordem" hAlign="End">
+            <Label text="Ordem" textAlign="Center" width="100%"/>
+            <table:template>
+              <Text text="{osDlg>ordem}" tooltip="{osDlg>ordem}"/>
+            </table:template>
+          </table:Column>
+
+          <table:Column width="22rem" sortProperty="titulo" filterProperty="titulo" hAlign="Begin">
+            <Label text="Título" textAlign="Center" width="100%"/>
+            <table:template>
+              <Text text="{osDlg>titulo}" tooltip="{osDlg>titulo}" wrapping="true"/>
+            </table:template>
+          </table:Column>
+
+          <table:Column width="10rem" sortProperty="inicio" hAlign="Center">
+            <Label text="Início" textAlign="Center" width="100%"/>
+            <table:template>
+              <Text text="{osDlg>inicio}"/>
+            </table:template>
+          </table:Column>
+
+          <table:Column width="10rem" sortProperty="fim" hAlign="Center">
+            <Label text="Fim" textAlign="Center" width="100%"/>
+            <table:template>
+              <Text text="{osDlg>fim}"/>
+            </table:template>
+          </table:Column>
+
+          <table:Column width="8rem" hAlign="Center">
+            <Label text="Parada" textAlign="Center" width="100%"/>
+            <table:template>
+              <ObjectStatus text="{= ${osDlg>parada} ? 'Sim' : 'Não' }"
+                            state="{= ${osDlg>parada} ? 'Error' : 'Success' }"/>
+            </table:template>
+          </table:Column>
+
+          <table:Column width="9rem" hAlign="End">
+            <Label text="Inatividade (h)" textAlign="Center" width="100%"/>
+            <table:template>
+              <ObjectNumber number="{osDlg>downtimeFmt}"/>
+            </table:template>
+          </table:Column>
+
+          <table:Column width="10rem" sortProperty="tipoManual" filterProperty="tipoManual" hAlign="Center">
+            <Label text="Tipo (manual)" textAlign="Center" width="100%"/>
+            <table:template>
+              <Text text="{osDlg>tipoManual}"/>
+            </table:template>
+          </table:Column>
+
+        </table:Table>
+
+        <Toolbar class="sapUiTinyMarginTop">
+          <ToolbarSpacer/>
+          <ObjectStatus text="Total OS:"/>
+          <ObjectNumber number="{osDlg>/total}"/>
+        </Toolbar>
+
+        <Text text="Sem OS para o filtro"
+              visible="{= ${osDlg>/os}.length === 0 }"/>
+      </VBox>
+    </content>
+
+    <buttons>
+      <Button text="Exportar CSV" type="Emphasized"
+              press=".onExportOS"
+              enabled="{= ${osDlg>/os}.length > 0 }"/>
+      <Button text="Fechar" type="Transparent" press=".onCloseOS"/>
+    </buttons>
+  </Dialog>
+</core:FragmentDefinition>

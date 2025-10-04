@@ -139,25 +139,108 @@
       if (effEnd > rangeEndMs) { effEnd = rangeEndMs; }
     }
 
-    const delta = effEnd - effStart;
-    return delta > 0 ? delta : 0;
+  const delta = effEnd - effStart;
+  return delta > 0 ? delta : 0;
   }
 
-  function recalcAggByRange(oView, range) {
+  function _toRangeObj(range) {
+    if (!range) return null;
+    if (Array.isArray(range)) {
+      const a = range[0] instanceof Date ? range[0] : null;
+      const b = range[1] instanceof Date ? range[1] : (a || null);
+      return (a && b) ? { from: a, to: b } : null;
+    }
+    if (range.from instanceof Date && range.to instanceof Date) return { from: range.from, to: range.to };
+    return null;
+  }
+
+  function _parseISOZ(s) {
+    if (!s) return null;
+    try { const d = new Date(String(s)); return isNaN(d) ? null : d; } catch(e){ return null; }
+  }
+
+  function calcDisponibilidade(osList, range, now = new Date()) {
+    const r = _toRangeObj(range);
+    if (!r) return { tempoTotalH: 0.0167, indispH: 0, pctDisp: 100.0, pctIndisp: 0.0 };
+
+    const from = r.from, to = r.to;
+    let tempoTotalH = Math.max(0, (to.getTime() - from.getTime()) / 3600000);
+    if (tempoTotalH <= 0) tempoTotalH = 0.0167;
+
+    const intervals = [];
+    const list = Array.isArray(osList) ? osList : [];
+    for (let i = 0; i < list.length; i++) {
+      const os = list[i] || {};
+      const status = String(os.Status || os.status || "").toUpperCase();
+      if (status === "CANCELADA") continue;
+      const ab = _parseISOZ(os.DataAbertura || os.dataAbertura);
+      if (!ab) continue;
+      let fe = _parseISOZ(os.DataFechamento || os.dataFechamento);
+      if (!fe) fe = new Date(Math.min(to.getTime(), now.getTime()));
+      const ini = new Date(Math.max(ab.getTime(), from.getTime()));
+      const fim = new Date(Math.min(fe.getTime(), to.getTime()));
+      if (fim.getTime() <= ini.getTime()) continue;
+      intervals.push({ ini, fim });
+    }
+
+    if (!intervals.length) return { tempoTotalH, indispH: 0, pctDisp: 100.0, pctIndisp: 0.0 };
+
+    intervals.sort((a, b) => a.ini.getTime() - b.ini.getTime());
+    const merged = [];
+    for (let j = 0; j < intervals.length; j++) {
+      const cur = intervals[j];
+      if (!merged.length) { merged.push({ ini: cur.ini, fim: cur.fim }); continue; }
+      const last = merged[merged.length - 1];
+      if (cur.ini.getTime() <= last.fim.getTime()) {
+        if (cur.fim.getTime() > last.fim.getTime()) last.fim = cur.fim;
+      } else {
+        merged.push({ ini: cur.ini, fim: cur.fim });
+      }
+    }
+
+    let indispMs = 0;
+    for (let k = 0; k < merged.length; k++) indispMs += Math.max(0, merged[k].fim.getTime() - merged[k].ini.getTime());
+    const indispH = indispMs / 3600000;
+    let pctDisp = Math.max(0, Math.min(100, ((tempoTotalH - indispH) / tempoTotalH) * 100));
+    let pctIndisp = Math.max(0, Math.min(100, 100 - pctDisp));
+    pctDisp = Number(pctDisp.toFixed(1));
+    pctIndisp = Number(pctIndisp.toFixed(1));
+    return { tempoTotalH, indispH, pctDisp, pctIndisp };
+  }
+
+  async function recalcAggByRange(oView, range) {
     const vm       = oView.getModel("vm");
     const matModel = oView.getModel("materiais");
     const abModel  = oView.getModel("abast");
     const downModel = oView.getModel("downtime");
     if (!vm) return;
 
-    const start = Array.isArray(range) && range[0] instanceof Date ? range[0] : null;
-    const end   = Array.isArray(range) && range[1] instanceof Date ? range[1] : null;
+    const rObj = _toRangeObj(range);
+    const start = rObj ? rObj.from : null;
+    const end   = rObj ? rObj.to   : null;
     const hasRange = !!(start && end);
     const totalDaysRange = hasRange ? Math.max(1, Math.round((end.getTime() - start.getTime()) / MS_PER_DAY) + 1) : null;
     const rangeStartMs = hasRange ? start.getTime() : NaN;
     const rangeEndMs = hasRange ? end.getTime() : NaN;
 
     const vlist = vm.getProperty("/veiculos") || [];
+
+    // Busca OS por veículo no Firestore e monta mapa
+    let __osMap = new Map();
+    try {
+      if (vlist.length && hasRange) {
+        const service = await new Promise(function(resolve){
+          sap.ui.require(["com/skysinc/frota/frota/services/AvailabilityService"], function (svc) { resolve(svc); });
+        });
+        const ids = vlist.map(function(v){ return v.id || v.veiculo || v.equnr || v.Equipamento || ""; }).filter(Boolean);
+        if (ids.length && service && service.fetchOsByVehiclesAndRange) {
+          __osMap = await service.fetchOsByVehiclesAndRange(ids, { from: start, to: end });
+        }
+      }
+    } catch (e) {
+      try { console.warn("[Aggregation] fetchOsByVehiclesAndRange falhou", e && (e.code || e.message || e)); } catch(_){}
+      __osMap = new Map();
+    }
 
     vlist.forEach((v) => {
       const key = v.id || v.veiculo || v.equnr;
@@ -310,10 +393,21 @@
   v.downtimeHorasRange = Number(downtimeHours.toFixed(2));
   v.uptimeHorasRange = windowMs ? Number(Math.max(0, uptimeHours).toFixed(2)) : 0;
   v.downtimeEventosRange = downtimeCount;
+
+      // Disponibilidade baseada em OS
+      try {
+        const keyOs = v.id || v.veiculo || v.equnr || v.Equipamento;
+        const osList = (keyOs && __osMap && __osMap.get && __osMap.get(String(keyOs))) || [];
+        const { pctDisp, pctIndisp } = calcDisponibilidade(osList, { from: start, to: end });
+        v.pctDisp = pctDisp;
+        v.pctIndisp = pctIndisp;
+      } catch (e) {
+        v.pctDisp = 100.0; v.pctIndisp = 0.0;
+      }
     });
 
     vm.setProperty("/veiculos", vlist);
   }
 
-  return { sumDeltasFromAbastecimentos, recalcAggByRange };
+  return { sumDeltasFromAbastecimentos, recalcAggByRange, calcDisponibilidade };
 });

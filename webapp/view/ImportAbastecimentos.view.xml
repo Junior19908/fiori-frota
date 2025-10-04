@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mvc:View
+  controllerName="com.skysinc.frota.frota.controller.ImportAbastecimentos"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:unified="sap.ui.unified"
+  displayBlock="true">
+
+  <Page id="importAbastPage" title="Importar Abastecimentos (Excel)" class="sapUiContentPadding" showNavButton="true" navButtonPress="onNavBack">
+    <content>
+      <VBox width="100%" renderType="Bare" class="sapUiTinyMarginTop">
+        <Text text="Selecione o Excel com a aba 'Monitor POSTO' (cabeçalho na linha 3). Informe o mês alvo (YYYY-MM)."/>
+        <HBox class="sapUiSmallMarginTop" alignItems="Center" justifyContent="Start" width="100%">
+          <unified:FileUploader id="fuExcel"
+                                buttonText="Upload Excel (.xlsx)"
+                                fileType="xlsx"
+                                sameFilenameAllowed="true"
+                                change="onExcelSelected"
+                                width="100%"/>
+        </HBox>
+        <HBox class="sapUiSmallMarginTop" alignItems="Center" width="100%" justifyContent="Start">
+          <Label text="Aba" width="4rem"/>
+          <Input id="inpSheet" value="Monitor POSTO" width="16rem"/>
+          <Label text="Mês (YYYY-MM)" class="sapUiTinyMarginBegin" width="9rem"/>
+          <Input id="inpMonth" placeholder="2024-05" width="10rem"/>
+          <Label text="Preço/Litro (fallback)" class="sapUiTinyMarginBegin" width="12rem"/>
+          <Input id="inpPreco" type="Number" width="10rem"/>
+          <Button id="btnProcess" text="Processar e Enviar" type="Emphasized" press="onProcess" class="sapUiTinyMarginBegin"/>
+        </HBox>
+        <Text id="txSummary" class="sapUiSmallMarginTop" text=""/>
+        <List id="lstPreview" growing="true" width="100%" class="sapUiSmallMarginTop">
+        </List>
+      </VBox>
+    </content>
+  </Page>
+</mvc:View>
+

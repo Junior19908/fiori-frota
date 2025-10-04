@@ -11,6 +11,10 @@
     "dotenv": "^17.2.1",
     "ui5-middleware-simpleproxy": "^3.4.3"
   },
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "firebase-admin": "^12.5.0"
+  },
   "scripts": {
     "start": "fiori run --open \"test/flp.html?sap-ui-language=pt-BR#app-preview\"",
     "start-local": "fiori run --config ./ui5-local.yaml --open \"test/flp.html?sap-ui-language=pt-BR#app-preview\"",
@@ -19,7 +23,8 @@
     "deploy-config": "fiori add deploy-config",
     "start-noflp": "fiori run --open \"/index.html?sap-ui-xx-viewCache=false&sap-ui-language=pt-BR\"",
     "int-test": "fiori run --open 'test/integration/opaTests.qunit.html?sap-ui-language=pt-BR'",
-    "start-variants-management": "fiori run --open \"/preview.html?sap-ui-language=pt-BR#app-preview\""
+    "start-variants-management": "fiori run --open \"/preview.html?sap-ui-language=pt-BR#app-preview\"",
+    "import:abastecimentos": "node tools/import-abastecimentos.js"
   },
   "sapuxLayer": "CUSTOMER_BASE",
   "overrides": {

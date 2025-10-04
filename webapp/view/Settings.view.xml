@@ -91,7 +91,10 @@
               <Button text="{i18n>settings.firebase.export}" type="Transparent" press=".onExportLastNMonths" class="sapUiTinyMarginBegin"/>
             </HBox>
 
-            
+            <HBox class="sapUiTinyMarginTop" alignItems="Center">
+              <Button text="Importar OS (Excel)" type="Transparent" press=".onOpenImportOS"/>
+              <Button text="Importar Abastecimentos (Excel)" type="Transparent" press=".onOpenImportAbast"/>
+            </HBox>
           </VBox>
 
         </f:SimpleForm>
