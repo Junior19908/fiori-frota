@@ -2748,7 +2748,12 @@
       },
       "deltaHr": {
         "min": 1,
-        "max": 13
+        "max": 20
+      },
+      "_meta": {
+        "source": "FuelDialog",
+        "savedAt": "2025-10-04T23:58:56.064Z",
+        "reason": "manual"
       }
     },
     {

@@ -94,6 +94,7 @@
             <HBox class="sapUiTinyMarginTop" alignItems="Center">
               <Button text="Importar OS (Excel)" type="Transparent" press=".onOpenImportOS"/>
               <Button text="Importar Abastecimentos (Excel)" type="Transparent" press=".onOpenImportAbast"/>
+              <Button text="Gerenciar Abastecimentos" type="Transparent" press=".onOpenManageAbast"/>
             </HBox>
           </VBox>
 

@@ -61,9 +61,10 @@
           doc: fs.doc,
           getDoc: fs.getDoc,
           setDoc: fs.setDoc,
-          updateDoc: fs.updateDoc,
-          collection: fs.collection,
           getDocs: fs.getDocs,
+          collection: fs.collection,
+          updateDoc: fs.updateDoc,
+          deleteDoc: fs.deleteDoc,
           query: fs.query,
           where: fs.where,
           orderBy: fs.orderBy,
@@ -100,6 +101,167 @@
       var dref = f.doc(f.db, "abastecimentos", id);
       return f.setDoc(dref, json).then(function(){ return { ok: true, id: id }; })
         .catch(function (e) { return { ok: false, reason: (e && (e.code || e.message)) || String(e) }; });
+    });
+  }
+
+  function mergeMonthlyFields(y, m, partial) {
+    if (!partial || typeof partial !== 'object') return Promise.resolve({ ok: false, reason: 'empty' });
+    return getFirebase().then(function (f) {
+      var id = docIdOf(y, m);
+      var dref = f.doc(f.db, "abastecimentos", id);
+      return f.setDoc(dref, partial, { merge: true }).then(function(){ return { ok: true, id: id }; })
+        .catch(function (e) { return { ok: false, reason: (e && (e.code || e.message)) || String(e) }; });
+    });
+  }
+
+  function deleteMonthlyFromFirestore(y, m) {
+    return getFirebase().then(function (f) {
+      var id = docIdOf(y, m);
+      var dref = f.doc(f.db, "abastecimentos", id);
+      return import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js").then(function (fs) {
+        return fs.deleteDoc(dref).then(function(){ return { ok: true, id: id }; })
+          .catch(function (e) { return { ok: false, reason: (e && (e.code || e.message)) || String(e) }; });
+      });
+    });
+  }
+
+  // ---------------- V2 (paginado em subcoleções) ----------------
+  function appendVehicleEventsPaged(y, m, veiculo, events, pageSize) {
+    pageSize = Math.max(1, Number(pageSize || 500));
+    events = Array.isArray(events) ? events : [];
+    if (!veiculo || !events.length) return Promise.resolve({ ok: true, empty: true });
+    return getFirebase().then(function (f) {
+      var id = docIdOf(y, m);
+      var monthRef = f.doc(f.db, "abastecimentos", id);
+      var pagesCol = f.collection(f.db, "abastecimentos", id, "veiculos", String(veiculo), "pages");
+      return f.getDocs(pagesCol).then(function (snap) {
+        var all = [];
+        try {
+          var docs = snap && snap.docs ? snap.docs : [];
+          docs.forEach(function (d) { var data = d && d.data && d.data() || {}; var arr = Array.isArray(data.items) ? data.items : []; all = all.concat(arr); });
+        } catch(_) {}
+        var map = new Map();
+        all.forEach(function (e) { if (e && e.idEvento) map.set(e.idEvento, e); });
+        events.forEach(function (e) { if (e && e.idEvento) map.set(e.idEvento, e); });
+        var merged = Array.from(map.values()).sort(function(a,b){ return (a.sequencia||0)-(b.sequencia||0); });
+        // split into pages and write
+        var writes = [];
+        for (var i=0;i<merged.length;i+=pageSize) {
+          var pageItems = merged.slice(i, i+pageSize);
+          var pageId = String(Math.floor(i/pageSize)+1).padStart(4,'0');
+          var pref = f.doc(f.db, "abastecimentos", id, "veiculos", String(veiculo), "pages", pageId);
+          writes.push(f.setDoc(pref, { items: pageItems }));
+        }
+        // mark metadata on month
+        writes.push(f.setDoc(monthRef, { schema: 'v2', vehicles: (function(){ var o={}; o[String(veiculo)]=true; return o; })() }, { merge: true }));
+        return Promise.all(writes).then(function(){ return { ok: true, pages: Math.ceil(merged.length/pageSize) }; });
+      });
+    });
+  }
+
+  function fetchMonthlyEventsV2(y, m) {
+    return getFirebase().then(function (f) {
+      var id = docIdOf(y, m);
+      var monthRef = f.doc(f.db, "abastecimentos", id);
+      return f.getDoc(monthRef).then(function (snap) {
+        var data = snap && (snap.data ? snap.data() : null) || {};
+        var vehicles = Object.keys(data && data.vehicles || {});
+        if (!vehicles.length) return [];
+        var allPromises = vehicles.map(function (veh) {
+          var col = f.collection(f.db, "abastecimentos", id, "veiculos", String(veh), "pages");
+          return f.getDocs(col).then(function (psnap) {
+            var arr = [];
+            try { (psnap.docs||[]).forEach(function (d) { var v = d && d.data && d.data() || {}; var items = Array.isArray(v.items) ? v.items : []; items.forEach(function (it){ arr.push(Object.assign({ veiculo: veh }, it)); }); }); } catch(_){}
+            return arr;
+          });
+        });
+        return Promise.all(allPromises).then(function (lists) { return lists.flat(); });
+      });
+    });
+  }
+
+  function migrateMonthV1toV2(y, m, pageSize) {
+    pageSize = Math.max(1, Number(pageSize || 500));
+    return fetchMonthlyFromFirestore(y, m).then(function (data) {
+      data = data || {};
+      var map = data.abastecimentosPorVeiculo || {};
+      var vehicles = Object.keys(map);
+      if (!vehicles.length) return { ok: true, migrated: 0 };
+      return getFirebase().then(function (f) {
+        var id = docIdOf(y, m);
+        var dref = f.doc(f.db, "abastecimentos", id);
+        var ops = [];
+        var vset = {};
+        vehicles.forEach(function (veh) {
+          var arr = Array.isArray(map[veh]) ? map[veh] : [];
+          if (!arr.length) return;
+          vset[String(veh)] = true;
+          ops.push(appendVehicleEventsPaged(y, m, veh, arr, pageSize));
+        });
+        return Promise.all(ops).then(function(){
+          // substitui o doc do mês por metadados V2
+          return f.setDoc(dref, { schema: 'v2', vehicles: vset });
+        }).then(function(){ return { ok: true, migrated: vehicles.length }; });
+      });
+    });
+  }
+
+  function removeVehicleEventsPaged(y, m, veiculo, eventIds, pageSize) {
+    pageSize = Math.max(1, Number(pageSize || 500));
+    eventIds = Array.isArray(eventIds) ? eventIds : [];
+    if (!veiculo || !eventIds.length) return Promise.resolve({ ok: true, empty: true });
+    var idSet = new Set(eventIds.filter(Boolean));
+    return getFirebase().then(function (f) {
+      var id = docIdOf(y, m);
+      var pagesCol = f.collection(f.db, "abastecimentos", id, "veiculos", String(veiculo), "pages");
+      return f.getDocs(pagesCol).then(function (snap) {
+        var all = [];
+        var existingPageIds = [];
+        try {
+          var docs = snap && snap.docs ? snap.docs : [];
+          docs.forEach(function (d) { existingPageIds.push(d && d.id); var data = d && d.data && d.data() || {}; var arr = Array.isArray(data.items) ? data.items : []; all = all.concat(arr); });
+        } catch(_) {}
+        var kept = all.filter(function (e) { return !(e && e.idEvento && idSet.has(e.idEvento)); });
+        // Rewrite pages
+        var writes = [];
+        // Delete all existing pages first
+        existingPageIds.forEach(function (pid) { var pref = f.doc(f.db, "abastecimentos", id, "veiculos", String(veiculo), "pages", pid); writes.push(f.deleteDoc(pref)); });
+        for (var i=0;i<kept.length;i+=pageSize) {
+          var pageItems = kept.slice(i, i+pageSize);
+          var pageId = String(Math.floor(i/pageSize)+1).padStart(4,'0');
+          var pref2 = f.doc(f.db, "abastecimentos", id, "veiculos", String(veiculo), "pages", pageId);
+          writes.push(f.setDoc(pref2, { items: pageItems }));
+        }
+        return Promise.all(writes).then(function(){ return { ok: true, removed: eventIds.length, remainingPages: Math.ceil(kept.length/pageSize) }; });
+      });
+    });
+  }
+
+  function deleteMonthlyDeep(y, m) {
+    return getFirebase().then(function (f) {
+      var id = docIdOf(y, m);
+      var monthRef = f.doc(f.db, "abastecimentos", id);
+      return f.getDoc(monthRef).then(function (snap) {
+        var data = snap && (snap.data ? snap.data() : null) || {};
+        var vehicles = Object.keys(data.vehicles || {});
+        if (!vehicles.length) {
+          return f.deleteDoc(monthRef).then(function(){ return { ok: true, id: id, vehicles: 0 }; });
+        }
+        var deletions = [];
+        vehicles.forEach(function (veh) {
+          var pagesCol = f.collection(f.db, "abastecimentos", id, "veiculos", String(veh), "pages");
+          deletions.push(
+            f.getDocs(pagesCol).then(function (snapP) {
+              var dd = [];
+              (snapP.docs||[]).forEach(function (d) { var pref = f.doc(f.db, "abastecimentos", id, "veiculos", String(veh), "pages", d.id); dd.push(f.deleteDoc(pref)); });
+              var vdoc = f.doc(f.db, "abastecimentos", id, "veiculos", String(veh));
+              dd.push(f.deleteDoc(vdoc));
+              return Promise.all(dd);
+            })
+          );
+        });
+        return Promise.all(deletions).then(function(){ return f.deleteDoc(monthRef).then(function(){ return { ok: true, id: id, vehicles: vehicles.length }; }); });
+      });
     });
   }
 
@@ -360,6 +522,13 @@
     getAuthUid: getAuthUid,
     fetchMonthlyFromFirestore: fetchMonthlyFromFirestore,
     saveMonthlyToFirestore: saveMonthlyToFirestore,
+    mergeMonthlyFields: mergeMonthlyFields,
+    appendVehicleEventsPaged: appendVehicleEventsPaged,
+    fetchMonthlyEventsV2: fetchMonthlyEventsV2,
+    removeVehicleEventsPaged: removeVehicleEventsPaged,
+    deleteMonthlyDeep: deleteMonthlyDeep,
+    migrateMonthV1toV2: migrateMonthV1toV2,
+    deleteMonthlyFromFirestore: deleteMonthlyFromFirestore,
     createTestDoc: createTestDoc,
     exportMonth: exportMonth,
     exportRange: exportRange,

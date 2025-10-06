@@ -19,14 +19,14 @@ sap.ui.define([
       os: [],
       _base: [],
       total: 0,
-      page: { index: 1, size: 200, hasPrev: false, hasNext: false, pageText: "Página 1" }
+      page: { index: 1, size: 200, hasPrev: false, hasNext: false, pageText: "Pǭgina 1" }
     });
     let dialogRef = null;
-    // Estado de paginação
+    // Estado de pagina��ǜo
     let pageIndex = 0; // 0-based
     let limit = 200;
     let cursors = [ null ]; // cada item: { date, id } usado como startAfter
-    let lastCursor = null;  // cursor retornado da página atual
+    let lastCursor = null;  // cursor retornado da pǭgina atual
 
     function toLoc(val){ try { return val ? new Date(val).toLocaleString() : ""; } catch(_) { return String(val||""); } }
     function hoursBetween(a,b){ try { const A = a ? new Date(a).getTime() : 0; const B = b ? new Date(b).getTime() : 0; return (A && B && B>A) ? (B-A)/36e5 : 0; } catch(_) { return 0; } }
@@ -59,7 +59,7 @@ sap.ui.define([
           Titulo: o.titulo || "",
           Inicio: o.inicio || "",
           Fim: o.fim || "",
-          Parada: o.parada ? "Sim" : "Não",
+          Parada: o.parada ? "Sim" : "Nǜo",
           Inatividade_h: String(o.downtimeFmt || ""),
           TipoManual: o.tipoManual || ""
         }));
@@ -86,7 +86,8 @@ sap.ui.define([
           setTimeout(() => URL.revokeObjectURL(url), 1000);
           MessageToast.show("CSV gerado com sucesso.");
         } catch (e) {
-          MessageBox.error("Não foi possível gerar o CSV.");
+          console.error("[OSDialog.onExportOS] Falha ao gerar CSV", e);
+          MessageBox.error("Nǜo foi poss��vel gerar o CSV.");
         }
       },
 
@@ -99,7 +100,7 @@ sap.ui.define([
           const data = dlgModel.getData() || {};
           const list = data.os || [];
           const sel = idxs.map(i => list[i]).filter(Boolean);
-          if (!sel.length) { MessageToast.show("Seleção vazia."); return; }
+          if (!sel.length) { MessageToast.show("Sele��ǜo vazia."); return; }
 
           const nowIso = new Date().toISOString();
           const fb = await FirebaseFS.getFirebase();
@@ -121,8 +122,9 @@ sap.ui.define([
           const results = await Promise.all(updates);
           const ok = results.filter(r => r.ok).length;
           dlgModel.refresh(true);
-          MessageToast.show(ok + " OS concluída(s).");
+          MessageToast.show(ok + " OS conclu��da(s).");
         } catch (e) {
+          console.error("[OSDialog.onCloseSelectedOS] Erro ao concluir OS selecionadas", e);
           MessageBox.error("Falha ao concluir OS selecionadas.");
         }
       },
@@ -158,6 +160,7 @@ sap.ui.define([
             dlgModel.refresh(true);
             MessageToast.show(ok + " OS atualizada(s).");
           } catch (e) {
+            console.error("[OSDialog.onSetTypeSelectedOS] Erro ao atualizar tipo manual", e);
             MessageBox.error("Falha ao atualizar tipo.");
           } finally {
             dlg.close();
@@ -182,7 +185,10 @@ sap.ui.define([
           pageIndex += 1;
           cursors[pageIndex] = lastCursor;
           await _loadPage(veh, start, end, cursors[pageIndex]);
-        } catch (e) { MessageToast.show("Falha ao paginar."); }
+        } catch (e) { 
+          console.error("[OSDialog.onNextPage] Falha ao paginar (next)", { error: e, veh, start, end, pageIndex, lastCursor });
+          MessageToast.show("Falha ao paginar."); 
+        }
       },
 
       onPrevPage: async function () {
@@ -199,7 +205,10 @@ sap.ui.define([
           pageIndex -= 1;
           const cursor = cursors[pageIndex] || null;
           await _loadPage(veh, start, end, cursor);
-        } catch (e) { MessageToast.show("Falha ao paginar."); }
+        } catch (e) { 
+          console.error("[OSDialog.onPrevPage] Falha ao paginar (prev)", { error: e, veh, start, end, pageIndex });
+          MessageToast.show("Falha ao paginar."); 
+        }
       }
     };
 
@@ -267,12 +276,12 @@ sap.ui.define([
       const start = Array.isArray(range) ? range[0] : (range?.from || null);
       const end   = Array.isArray(range) ? range[1] : (range?.to   || null);
 
-      if (!veh) { MessageToast.show("Selecione um veículo para listar as OS."); return; }
+      if (!veh) { MessageToast.show("Selecione um ve��culo para listar as OS."); return; }
 
       const list = await FirebaseFS.listOrdersByVehicleAndRange({ equnr: veh, start, end, limit: 200 });
       const mapped = _mapToView(list);
       st.dlgModel.setData({
-        titulo: payload?.titulo || ("Ordens de Serviço" + (veh ? (" — " + veh) : "")),
+        titulo: payload?.titulo || ("Ordens de Servi��o" + (veh ? (" - " + veh) : "")),
         os: mapped,
         _base: mapped.slice(),
         total: mapped.length
@@ -294,24 +303,36 @@ sap.ui.define([
       dlg.open();
       return dlg;
     } catch (e) {
+      try {
+        const vehDbg = String((payload && (payload.equnr || payload.veiculo)) || "").trim();
+        const rangeDbg = payload && (payload.range || null);
+        const startDbg = Array.isArray(rangeDbg) ? rangeDbg[0] : (rangeDbg && rangeDbg.from || null);
+        const endDbg   = Array.isArray(rangeDbg) ? rangeDbg[1] : (rangeDbg && rangeDbg.to   || null);
+        console.error("[OSDialog.open] Falha ao abrir OS", { error: e, veh: vehDbg, start: startDbg, end: endDbg, payload });
+      } catch (logErr) {
+        console.error("[OSDialog.open] Falha ao abrir OS (log)", e);
+      }
       MessageToast.show("Falha ao abrir OS.");
     }
   }
 
   async function _loadPage(veh, start, end, after) {
-    const res = await FirebaseFS.listOrdersByVehicleAndRangePage({ equnr: veh, start, end, limit, after });
-    const mapped = _mapToView(res.items);
-    lastCursor = res.last || null;
-    const hasNext = !!(lastCursor && mapped.length >= limit);
-    const hasPrev = pageIndex > 0;
-    const pageText = "Página " + String(pageIndex + 1);
-    dlgModel.setProperty("/os", mapped);
-    dlgModel.setProperty("/_base", mapped.slice());
-    dlgModel.setProperty("/total", mapped.length);
-    dlgModel.setProperty("/page", { index: pageIndex + 1, size: limit, hasPrev, hasNext, pageText });
+    try {
+      const res = await FirebaseFS.listOrdersByVehicleAndRangePage({ equnr: veh, start, end, limit, after });
+      const mapped = _mapToView(res.items);
+      lastCursor = res.last || null;
+      const hasNext = !!(lastCursor && mapped.length >= limit);
+      const hasPrev = pageIndex > 0;
+      const pageText = "Pǭgina " + String(pageIndex + 1);
+      dlgModel.setProperty("/os", mapped);
+      dlgModel.setProperty("/_base", mapped.slice());
+      dlgModel.setProperty("/total", mapped.length);
+      dlgModel.setProperty("/page", { index: pageIndex + 1, size: limit, hasPrev, hasNext, pageText });
+    } catch (e) {
+      console.error("[OSDialog._loadPage] Erro ao carregar página", { error: e, veh, start, end, after, pageIndex, limit });
+      throw e;
     }
   }
 
   return { open };
 });
-

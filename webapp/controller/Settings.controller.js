@@ -494,6 +494,10 @@
 
     onOpenImportAbast: function () {
       try { this.getOwnerComponent().getRouter().navTo("ImportAbastecimentos"); } catch (e) { MessageToast.show("Navegação indisponível."); }
+    },
+
+    onOpenManageAbast: function () {
+      try { this.getOwnerComponent().getRouter().navTo("ManageAbastecimentos"); } catch (e) { MessageToast.show("Navegação indisponível."); }
     }
   });
 });

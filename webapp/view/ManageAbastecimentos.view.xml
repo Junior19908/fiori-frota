@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mvc:View
+  controllerName="com.skysinc.frota.frota.controller.ManageAbastecimentos"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  displayBlock="true">
+  <Page id="manageAbastPage" title="Gerenciar Abastecimentos" class="sapUiContentPadding" showNavButton="true" navButtonPress="onNavBack">
+    <customHeader>
+      <Toolbar>
+        <ToolbarSpacer/>
+        <Label text="Mês (YYYY-MM)"/>
+        <Input id="inpMonth" width="10rem" placeholder="2025-02"/>
+        <Button text="Carregar" type="Emphasized" press="onLoad"/>
+        <ToolbarSpacer/>
+        <ObjectStatus text="{= ${ab>/schema} ? ('Schema: ' + ${ab>/schema}) : 'Schema: v1'}" state="None"/>
+        <Button text="Migrar p/ V2" type="Attention" press="onMigrateToV2" visible="{= ${ab>/schema} !== 'v2' }"/>
+        <ToolbarSpacer/>
+      </Toolbar>
+    </customHeader>
+    <content>
+      <Toolbar design="Auto">
+        <Button id="btnDeleteSel" text="Excluir selecionados" type="Reject" press="onDeleteSelected" enabled="{= ${ab>/items}.length > 0 }"/>
+        <ToolbarSpacer/>
+        <Button id="btnDeleteMonth" text="Excluir mês inteiro" type="Reject" press="onDeleteMonth"/>
+      </Toolbar>
+      <Table id="tblEvents" mode="MultiSelect" items="{ab>/items}">
+        <columns>
+          <Column><Text text="Veículo"/></Column>
+          <Column><Text text="Data"/></Column>
+          <Column><Text text="Hora"/></Column>
+          <Column><Text text="KM"/></Column>
+          <Column><Text text="HR"/></Column>
+          <Column><Text text="Litros"/></Column>
+          <Column><Text text="Comboio"/></Column>
+          <Column><Text text="idEvento"/></Column>
+        </columns>
+        <items>
+          <ColumnListItem type="Inactive">
+            <cells>
+              <Text text="{ab>veiculo}"/>
+              <Text text="{ab>data}"/>
+              <Text text="{ab>hora}"/>
+              <Text text="{ab>km}"/>
+              <Text text="{ab>hr}"/>
+              <Text text="{ab>litros}"/>
+              <Text text="{ab>comboio}"/>
+              <Text text="{ab>idEvento}"/>
+            </cells>
+          </ColumnListItem>
+        </items>
+      </Table>
+    </content>
+  </Page>
+</mvc:View>

@@ -112,12 +112,14 @@ sap.ui.define([
     onInit: function () {
       this._events = [];
       this._progressModel = new JSONModel({ total: 0, current: 0, created: 0, updated: 0, skipped: 0, errors: 0, percent: 0, text: "" });
+      try { this._showErrorsDialog = this._showErrorsDialogCSV.bind(this); } catch(_){}
     },
 
     onNavBack: function(){ try { this.getOwnerComponent().getRouter().navTo("settings"); } catch(_){} },
 
-    _ensureProgressDialog: function () {
-      if (this._dlgProgress) return this._dlgProgress;
+    _ensureProgressDialog: function (autoOpen) {
+      if (this._dlgProgress && !this._dlgProgress.bIsDestroyed) return this._dlgProgress;
+      this._dlgProgress = null;
       var that = this;
       sap.ui.require(["sap/m/Dialog", "sap/m/ProgressIndicator", "sap/m/Text", "sap/m/Button", "sap/m/VBox"], function (Dialog, ProgressIndicator, Text, Button, VBox) {
         var pi = new ProgressIndicator({
@@ -133,19 +135,19 @@ sap.ui.define([
           contentWidth: "26rem",
           content: [box],
           endButton: new Button({ text: "Fechar", enabled: false, press: function(){ dlg.close(); } }),
-          afterClose: function(){ try { dlg.destroy(); } catch(_){} }
+          afterClose: function(){ try { dlg.destroy(); } catch(_){} try { that._dlgProgress = null; } catch(_){} }
         });
         that.getView().addDependent(dlg);
         dlg.setModel(that._progressModel, "progress");
         that._dlgProgress = dlg;
+        try { if (autoOpen && dlg.open) dlg.open(); } catch(_){}
       });
       return this._dlgProgress;
     },
 
     _openProgress: function (total) {
       this._progressModel.setData({ total: total, current: 0, created: 0, updated: 0, skipped: 0, errors: 0, percent: 0, text: "0% (0/" + total + ")" });
-      var dlg = this._ensureProgressDialog();
-      if (dlg && dlg.open) dlg.open();
+      this._ensureProgressDialog(true);
     },
 
     _updateProgress: function (patch) {
@@ -164,6 +166,44 @@ sap.ui.define([
         try { this._dlgProgress.getEndButton().setEnabled(true); } catch (_) {}
         setTimeout(function(){ try { this._dlgProgress.close(); } catch(_){} }.bind(this), 800);
       }
+    },
+
+    _errorsToCSV: function (errors) {
+      var lines = ["linha,motivo"]; (errors||[]).forEach(function(e){ lines.push([String(e.line||""), '"'+String(e.reason||"").replace(/"/g,'""')+'"'].join(',')); });
+      return lines.join("\r\n");
+    },
+
+    _downloadErrorsCSV: function (errors, name) {
+      try {
+        var csv = this._errorsToCSV(errors || []);
+        var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a'); a.href = url; a.download = name || 'erros_importacao.csv'; document.body.appendChild(a); a.click(); setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); }, 0);
+      } catch(_){}
+    },
+
+    _showErrorsDialogCSV: function (errors, title) {
+      if (!Array.isArray(errors) || !errors.length) return;
+      var top = errors.slice(0, 20);
+      var that = this;
+      sap.ui.require(["sap/m/Dialog", "sap/m/List", "sap/m/StandardListItem", "sap/m/Button", "sap/m/Text"], function (Dialog, List, SLI, Button, Text) {
+        var list = new List({ inset: false, growing: true });
+        top.forEach(function (e) {
+          list.addItem(new SLI({ title: "Linha " + String(e.line || "?"), description: String(e.reason || "Erro"), type: "Inactive" }));
+        });
+        var more = errors.length - top.length;
+        var txt = more > 0 ? new Text({ text: "+ " + more + " linha(s) com erro não exibidas." }) : null;
+        var dlg = new Dialog({
+          title: title || "Erros na Importação",
+          contentWidth: "36rem",
+          content: txt ? [list, txt] : [list],
+          beginButton: new Button({ text: "Baixar CSV", type: "Emphasized", press: function(){ that._downloadErrorsCSV(errors, 'erros_importacao.csv'); } }),
+          endButton: new Button({ text: "Fechar", press: function(){ dlg.close(); } }),
+          afterClose: function(){ try { dlg.destroy(); } catch(_){} }
+        });
+        that.getView().addDependent(dlg);
+        dlg.open();
+      });
     },
 
     _showErrorsDialog: function (errors, title) {
@@ -200,7 +240,7 @@ sap.ui.define([
         } catch(_){}
         next();
         function next(){ import("https://cdn.sheetjs.com/xlsx-0.20.2/package/xlsx.mjs").then(function(esm){ var s=shape(esm); if(s) return resolve(s); fallbackGlobal(); }).catch(function(){ fallbackGlobal(); }); }
-        function fallbackGlobal(){ if (window.XLSX && window.XLSX.read) return resolve(window.XLSX); var url="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"; jQuery.sap.includeScript(url, "sheetjs-xlsx", function(){ if (window.XLSX && window.XLSX.read) resolve(window.XLSX); else reject(new Error("Falha XLSX")); }, function(e){ reject(e||new Error("Falha XLSX")); }); }
+        function fallbackGlobal(){ if (window.XLSX && window.XLSX.read) return resolve(window.XLSX); var url="https://cdn.sheetjs.com/xlsx-0.20.2/package/xlsx.full.min.js"; jQuery.sap.includeScript(url, "sheetjs-xlsx", function(){ if (window.XLSX && window.XLSX.read) resolve(window.XLSX); else reject(new Error("Falha XLSX")); }, function(e){ reject(e||new Error("Falha XLSX")); }); }
       });
     },
 
@@ -308,6 +348,64 @@ sap.ui.define([
             arr.forEach(function (e) { if (e && e.idEvento) im.set(e.idEvento, e); });
             prevIndex[veh] = im;
             resultMap[veh] = arr.slice();
+          });
+
+          // Novo: processa em lotes de até 3000 linhas e salva a cada lote
+          var CHUNK = 3000;
+          function processChunk(start) {
+            if (start >= filtered.length) { return Promise.resolve(); }
+            var end = Math.min(start + CHUNK, filtered.length);
+            var changedVeh = new Set();
+            for (var i = start; i < end; i++) {
+              var r = filtered[i];
+              try {
+                seq += 1; var idEvt = mkId('A', counters, r.dataObj);
+                var evt = {
+                  data: r.dataObj ? r.dataObj.toISOString().slice(0,10) : null,
+                  hora: r.hora || null,
+                  km: Number.isFinite(r.km) ? r.km : 0,
+                  hr: Number.isFinite(r.hr) ? r.hr : 0,
+                  litros: Number.isFinite(r.litros) ? Math.round(r.litros*100)/100 : null,
+                  precoLitro: Number.isFinite(precoFallback) ? precoFallback : null,
+                  comboio: r.comboio,
+                  sequencia: seq,
+                  idEvento: idEvt
+                };
+                var veh = r.veiculo;
+                if (!resultMap[veh]) { resultMap[veh] = []; prevIndex[veh] = new Map(); }
+                if (prevIndex[veh].has(idEvt)) {
+                  var arr = resultMap[veh];
+                  var pos = arr.findIndex(function (e) { return e && e.idEvento === idEvt; });
+                  if (pos >= 0) arr[pos] = evt; else arr.push(evt);
+                  prevIndex[veh].set(idEvt, evt);
+                  updated++;
+                } else {
+                  resultMap[veh].push(evt);
+                  prevIndex[veh].set(idEvt, evt);
+                  created++;
+                }
+                changedVeh.add(veh);
+              } catch (e) {
+                errors.push({ line: r.line, reason: (e && (e.message || e)) || "Erro ao montar evento" });
+                skipped++;
+              }
+              that._updateProgress({ current: i + 1, created: created, updated: updated, skipped: skipped, errors: errors.length });
+            }
+            var writes = [];
+            changedVeh.forEach(function (veh) { var list = resultMap[veh]; writes.push(svc.appendVehicleEventsPaged(y, mm, veh, list, 500)); });
+            return Promise.all(writes).then(function(){ return processChunk(end); });
+          }
+
+          return processChunk(0).then(function(){
+            that._finishProgress();
+            var msg = "Importa��ǜo: Criadas " + created + ", Atualizadas " + updated + ", Ignoradas " + skipped + (warns ? ", Avisos (sem hora) " + warns : "");
+            MessageToast.show(msg);
+            if (errors.length) { that._showErrorsDialog(errors, "Erros na Importa��ǜo"); }
+          }).catch(function(e){
+            that._finishProgress();
+            // eslint-disable-next-line no-console
+            console.error(e);
+            MessageToast.show("Erro ao salvar no Firestore.");
           });
 
           // Processa cada linha

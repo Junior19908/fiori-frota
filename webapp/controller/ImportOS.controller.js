@@ -192,9 +192,9 @@ sap.ui.define([
         }
 
         function fallbackGlobal() {
-          // 3) Global via includeScript
+          // 3) Global via includeScript (versão alinhada)
           if (window.XLSX && typeof window.XLSX.read === 'function') return resolve(window.XLSX);
-          var url = "https://cdn.jsdelivr.net/npm/xlsx@0.19.3/dist/xlsx.full.min.js";
+          var url = "https://cdn.sheetjs.com/xlsx-0.20.2/package/xlsx.full.min.js";
           jQuery.sap.includeScript(url, "sheetjs-xlsx", function () {
             if (window.XLSX && typeof window.XLSX.read === 'function') resolve(window.XLSX);
             else reject(new Error("Falha ao carregar XLSX"));

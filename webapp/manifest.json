@@ -148,6 +148,11 @@
           "name": "ImportAbastecimentos",
           "pattern": "import-abastecimentos",
           "target": ["ImportAbastecimentos"]
+        },
+        {
+          "name": "ManageAbastecimentos",
+          "pattern": "manage-abastecimentos",
+          "target": ["ManageAbastecimentos"]
         }
       ],
       "targets": {
@@ -171,7 +176,8 @@
           "name": "Settings"
         },
         "ImportOS": { "id": "ImportOS", "name": "ImportOS" },
-        "ImportAbastecimentos": { "id": "ImportAbastecimentos", "name": "ImportAbastecimentos" }
+        "ImportAbastecimentos": { "id": "ImportAbastecimentos", "name": "ImportAbastecimentos" },
+        "ManageAbastecimentos": { "id": "ManageAbastecimentos", "name": "ManageAbastecimentos" }
       }
     },
     "rootView": {
