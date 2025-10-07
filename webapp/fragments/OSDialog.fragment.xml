@@ -78,10 +78,25 @@
             </table:template>
           </table:Column>
 
+          <table:Column width="7rem" sortProperty="horaInicio" hAlign="Center">
+            <Label text="Hora Início" textAlign="Center" width="100%"/>
+            <table:template>
+              <Text text="{osDlg>horaInicio}"/>
+            </table:template>
+          </table:Column>
+
           <table:Column width="10rem" sortProperty="fim" hAlign="Center">
             <Label text="Fim" textAlign="Center" width="100%"/>
             <table:template>
               <Text text="{osDlg>fim}"/>
+            </table:template>
+          </table:Column>
+
+          <table:Column width="7rem" sortProperty="horaFim" hAlign="Center">
+            <Label text="Hora Fim" textAlign="Center" width="100%"/>
+            <table:template>
+              <Text text="{osDlg>horaFim}"
+                    visible="{= !!${osDlg>horaFim} && ${osDlg>horaFim} !== '00:00' }"/>
             </table:template>
           </table:Column>
 
@@ -94,9 +109,16 @@
           </table:Column>
 
           <table:Column width="9rem" hAlign="End">
-            <Label text="Inatividade (h)" textAlign="Center" width="100%"/>
+            <Label text="Inatividade" textAlign="Center" width="100%"/>
             <table:template>
-              <ObjectNumber number="{osDlg>downtimeFmt}"/>
+              <Text text="{osDlg>downtimeFmt}"/>
+            </table:template>
+          </table:Column>
+
+          <table:Column width="10rem" sortProperty="tipoLabel" filterProperty="tipoLabel" hAlign="Center">
+            <Label text="Tipo OS" textAlign="Center" width="100%"/>
+            <table:template>
+              <Text text="{osDlg>tipoLabel}"/>
             </table:template>
           </table:Column>
 

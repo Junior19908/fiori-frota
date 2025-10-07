@@ -1,0 +1,51 @@
+          const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a"); a.href = url; a.download = nome;
+          document.body.appendChild(a); a.click(); document.body.removeChild(a);
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
+          MessageToast.show("CSV gerado com sucesso.");
+        } catch (e) {
+          console.error("[OSDialog.onExportOS] Falha ao gerar CSV", e);
+          MessageBox.error("Nǜo foi poss��vel gerar o CSV.");
+        }
+      },
+
+      onCloseSelectedOS: async function () {
+        try {
+          const tbl = view.byId("tblOSGrid");
+          const idxs = tbl?.getSelectedIndices?.() || [];
+          if (!idxs.length) { MessageToast.show("Selecione ao menos uma OS."); return; }
+
+          const data = dlgModel.getData() || {};
+          const list = data.os || [];
+          const sel = idxs.map(i => list[i]).filter(Boolean);
+          if (!sel.length) { MessageToast.show("Sele��ǜo vazia."); return; }
+
+          const nowIso = new Date().toISOString();
+          const nowYmd = nowIso.substring(0,10);
+          const fb = await FirebaseFS.getFirebase();
+
+          const updates = sel.map(async (o) => {
+            if (!o._id) return { ok: false, reason: "no-id" };
+            const dref = fb.doc(fb.db, "ordensServico", o._id);
+            try {
+              await fb.updateDoc(dref, { DataFechamento: nowYmd });
+              o.fim = toLoc(nowYmd);
+              o.downtime = hoursBetween(o._abertura, nowIso);
+              o.downtimeFmt = (o.downtime || 0).toFixed(2);
+              o.parada = (o.downtime || 0) > 0;
+              return { ok: true };
+            } catch (e) {
+              return { ok: false, reason: e && (e.code || e.message) };
+            }
+          });
+          const results = await Promise.all(updates);
+          const ok = results.filter(r => r.ok).length;
+          dlgModel.refresh(true);
+          MessageToast.show(ok + " OS conclu��da(s).");
+        } catch (e) {
+          console.error("[OSDialog.onCloseSelectedOS] Erro ao concluir OS selecionadas", e);
+          MessageBox.error("Falha ao concluir OS selecionadas.");
+        }
+      },
+

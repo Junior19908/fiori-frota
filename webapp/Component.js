@@ -216,7 +216,7 @@ sap.ui.define([
           const STORAGE_KEY = "frota.settings.v1";
           const defaults = {
             showAllOS: false,
-            osTypes: ["ZF1","ZF2","ZF3"],
+            osTypes: ["ZF01","ZF02","ZF03"],
             autoLoadMain: false,
             autoLoadIntervalSec: 30,
             mainDatePref: "yesterday",

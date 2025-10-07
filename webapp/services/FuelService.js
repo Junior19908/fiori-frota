@@ -270,14 +270,23 @@
     const mediaKmPorL = (adjLtKm > 0 && adjKm > 0) ? (adjKm / adjLtKm) : 0;
     const mediaLPorHr = (adjLtHr > 0 && adjHr > 0) ? (adjLtHr / adjHr) : 0;
 
+    // Opção A: alinhar totais à mesma base das médias (período puro)
+    const firstLitros = Math.max(Number(firstKmLitros || 0), Number(firstHrLitros || 0));
+    const totalLitrosPuro = Math.max(0, totalLitros - firstLitros);
+    const totalKmPuro = adjKm;
+    const totalHrPuro = adjHr;
+
     return {
       eventos: list,
-      totalLitros,
+      totalLitros: totalLitrosPuro,
       mediaKmPorL,
       mediaLPorHr,
-      // Totais: Km e Hr incluem a primeira linha (usando a leitura anterior)
-      totalKm: somaKmTodos,
-      totalHr: somaHrTodos,
+      totalKm: totalKmPuro,
+      totalHr: totalHrPuro,
+      // Totais brutos para depuração
+      rawTotalLitros: totalLitros,
+      rawTotalKm: somaKmTodos,
+      rawTotalHr: somaHrTodos,
       hasAnyKm,
       hasAnyHr
     };

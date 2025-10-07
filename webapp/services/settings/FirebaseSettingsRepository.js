@@ -3,7 +3,7 @@ sap.ui.define([], function () {
 
   var DEFAULTS = {
     showAllOS: false,
-    osTypes: ["ZF1", "ZF2", "ZF3"],
+    osTypes: ["ZF01", "ZF02", "ZF03"],
     autoLoadMain: false,
     autoLoadIntervalSec: 30,
     mainDatePref: "yesterday",

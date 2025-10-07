@@ -282,6 +282,30 @@
         }
       });
 
+      // Ajuste: alinhar litros ao fragment (ignora a 1ª linha quando existe leitura anterior)
+      if (hasRange && Array.isArray(abastec) && abInRange.length > 0) {
+        // Verifica se existe algum abastecimento ANTES do início do período
+        const hasPrevBeforeStart = abastec.some(function (a) {
+          const d = parseAbastecimentoDateTime(a);
+          return d && d.getTime() < start.getTime();
+        });
+        if (hasPrevBeforeStart) {
+          // Encontra o primeiro evento dentro do período (por data/hora)
+          const ordered = abInRange.slice().sort(function (a, b) {
+            const da = parseAbastecimentoDateTime(a);
+            const db = parseAbastecimentoDateTime(b);
+            const ta = da ? da.getTime() : 0;
+            const tb = db ? db.getTime() : 0;
+            return ta - tb;
+          });
+          const first = ordered[0];
+          const firstLt = FilterUtil.numBR(first && first.litros);
+          if (firstLt > 0) {
+            litrosAgg = Math.max(0, litrosAgg - firstLt);
+          }
+        }
+      }
+
       const deltas = sumDeltasFromAbastecimentos(abInRange);
 
       const maxTs = Math.max(

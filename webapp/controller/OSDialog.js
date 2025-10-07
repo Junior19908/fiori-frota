@@ -33,7 +33,7 @@ sap.ui.define([
         if (v instanceof Date) return v.getTime();
         const s = String(v);
         if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
-          const d = new Date(s + 'T00:00:00Z');
+          const d = new Date(s + 'T00:00:00');
           return d.getTime();
         }
         const d2 = new Date(s);
@@ -113,6 +113,15 @@ sap.ui.define([
           Inatividade_h: String(o.downtimeFmt || ""),
           TipoManual: o.tipoManual || ""
         }));
+        try {
+          const src = (data.os || []);
+          rows.forEach((r, i) => {
+            const o = src[i] || {};
+            r.HoraInicio = o.horaInicio || "";
+            r.HoraFim = o.horaFim || "";
+            r.TipoOS = o.tipoLabel || "";
+          });
+        } catch(_) {}
         if (!rows.length) { MessageToast.show("Sem OS no filtro atual."); return; }
 
         const headers = Object.keys(rows[0]);
@@ -163,7 +172,7 @@ sap.ui.define([
               await fb.updateDoc(dref, { DataFechamento: nowYmd });
               o.fim = toLoc(nowYmd);
               o.downtime = hoursBetween(o._abertura, nowIso);
-              o.downtimeFmt = (o.downtime || 0).toFixed(2);
+              o.downtimeFmt = formatDowntime(o.downtime || 0);
               o.parada = (o.downtime || 0) > 0;
               return { ok: true };
             } catch (e) {
@@ -294,9 +303,46 @@ sap.ui.define([
     });
   }
 
+  function typeLabel(code) {
+    try {
+      const c = String(code || '').toUpperCase();
+      if (c === 'ZF01') return 'Projeto / Melhoria / Reforma';
+      if (c === 'ZF02') return 'Corretiva';
+      if (c === 'ZF03') return 'Preventiva Básica/Mecânica';
+      return c || '';
+    } catch (_) { return String(code||''); }
+  }
+
+  // Converte horas decimais em string "HhMM" (ex.: 1.95 -> "1h57")
+  function formatDowntime(hours) {
+    try {
+      const totalMin = Math.max(0, Math.round((Number(hours) || 0) * 60));
+      const h = Math.floor(totalMin / 60);
+      const m = totalMin % 60;
+      return String(h) + 'h' + String(m).padStart(2, '0');
+    } catch (_) {
+      return '0h00';
+    }
+  }
+
+  function _combineDateTime(dateStr, timeStr, fallbackStart) {
+    try {
+      const ds = String(dateStr || '').trim();
+      if (!ds) return null;
+      const ts = String(timeStr || '').trim();
+      const hhmm = /^\d{1,2}:\d{2}$/;
+      const time = hhmm.test(ts) ? ts : (fallbackStart ? '00:00' : '23:59');
+      const d = new Date(ds + 'T' + time);
+      return isNaN(d.getTime()) ? null : d;
+    } catch (_) { return null; }
+  }
+
   function _mapToView(list) {
     return (list || []).map(function (o) {
-      const downtime = hoursBetween(o.DataAbertura, o.DataFechamento);
+      const ab = _combineDateTime(o.DataAbertura, o.HoraInicio, true) || (o.DataAbertura ? new Date(o.DataAbertura) : null);
+      const fe = _combineDateTime(o.DataFechamento, o.HoraFim, false) || (o.DataFechamento ? new Date(o.DataFechamento) : null);
+      const downtime = (ab && fe && fe.getTime() > ab.getTime()) ? ((fe.getTime() - ab.getTime())/36e5) : 0;
+      const categoria = String(o.Categoria || o.categoria || '').toUpperCase();
       return {
         _id: String(o._id || ""),
         ordem: String(o.NumeroOS || ""),
@@ -304,12 +350,16 @@ sap.ui.define([
         titulo: String(o.Descricao || ""),
         inicio: toLoc(o.DataAbertura),
         fim: toLoc(o.DataFechamento),
-        _abertura: o.DataAbertura || null,
-        _fechamento: o.DataFechamento || null,
+        horaInicio: String(o.HoraInicio || ''),
+        horaFim: String(o.HoraFim || ''),
+        _abertura: ab || (o.DataAbertura || null),
+        _fechamento: fe || (o.DataFechamento || null),
         parada: downtime > 0,
         downtime: downtime,
-        downtimeFmt: (Number(downtime) || 0).toFixed(2),
-        tipoManual: String(o.TipoManual || "")
+        downtimeFmt: formatDowntime(Number(downtime) || 0),
+        tipoManual: String(o.TipoManual || ""),
+        categoria: categoria,
+        tipoLabel: typeLabel(categoria)
       };
     }).sort(function(a,b){
       if (a.veiculo === b.veiculo) {
@@ -340,17 +390,38 @@ sap.ui.define([
 
       const name = "com.skysinc.frota.frota.fragments.OSDialog";
       const id   = view.getId();
-      const load = st.dialogRef
-        ? Promise.resolve(st.dialogRef)
-        : Fragment.load({ name, id, controller: st.fragController }).then(function (dlg) {
-            st.dialogRef = dlg;
-            view.addDependent(dlg);
-            dlg.setModel(st.dlgModel, "osDlg");
-            return dlg;
-          });
-
-      const dlg = await load;
-      dlg.setModel(st.dlgModel, "osDlg");
+      // Load (or reuse) the dialog fragment and normalize the result
+      let loaded = st.dialogRef;
+      if (!loaded) {
+        loaded = await Fragment.load({ name, id, controller: st.fragController });
+      }
+      // Normalize: Fragment.load may return a single control or an array
+      let dlg = Array.isArray(loaded)
+        ? (loaded.find && loaded.find(c => c && c.isA && c.isA("sap.m.Dialog"))) || loaded[0]
+        : loaded;
+      // Persist normalized dialog for reuse
+      st.dialogRef = dlg;
+      if (dlg && dlg.addDependent) {
+        view.addDependent(dlg);
+      }
+      if (dlg && dlg.setModel) {
+        dlg.setModel(st.dlgModel, "osDlg");
+      } else {
+        throw new TypeError("OSDialog fragment did not resolve to a Dialog control");
+      }
+      try {
+        const sModel = view.getModel && view.getModel('settings');
+        const showAll = !!(sModel && sModel.getProperty && sModel.getProperty('/showAllOS'));
+        const allowed = (sModel && sModel.getProperty && sModel.getProperty('/osTypes')) || [];
+        if (!showAll && Array.isArray(allowed) && allowed.length) {
+          const set = new Set(allowed.map((x)=> String(x).toUpperCase()));
+          const arr = st.dlgModel.getProperty('/os') || [];
+          const filtered = arr.filter((o)=> !o.categoria || set.has(String(o.categoria || '').toUpperCase()));
+          st.dlgModel.setProperty('/os', filtered);
+          st.dlgModel.setProperty('/_base', filtered.slice());
+          st.dlgModel.setProperty('/total', filtered.length);
+        }
+      } catch(_) {}
       dlg.open();
       return dlg;
     } catch (e) {

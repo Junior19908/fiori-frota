@@ -26,9 +26,9 @@
 
           <Label text="{i18n>settings.osTypes}"/>
           <MultiComboBox id="mcOsTypes" width="100%" selectionChange=".onLiveChange" selectedKeys="{settings>/osTypes}">
-            <core:Item key="ZF1" text="ZF1"/>
-            <core:Item key="ZF2" text="ZF2"/>
-            <core:Item key="ZF3" text="ZF3"/>
+            <core:Item key="ZF01" text="ZF01 - Projeto / Melhoria / Reforma"/>
+            <core:Item key="ZF02" text="ZF02 - Corretiva"/>
+            <core:Item key="ZF03" text="ZF03 - Preventiva Básica/Mecânica"/>
           </MultiComboBox>
 
           <Label text="{i18n>settings.autoLoadMain}"/>
