@@ -376,22 +376,19 @@
 
     const cacheKey = [equnr, sDate.getTime(), eDate.getTime(), limitN].join("|");
     const cached = _cacheGet(cacheKey);
-    if (cached) return Promise.resolve(cached);
+    if (cached && Array.isArray(cached.items) && cached.items.length) return Promise.resolve(cached);
 
     return getFirebase().then(function (f) {
       const cref = f.collection(f.db, "ordensServico");
 
-      function runQ(field) {
-        try {
-          const q = f.query(
-            cref,
-            f.where('Equipamento', '==', equnr),
-            f.orderBy(field),
-            f.where(field, '>=', sDate),
-            f.where(field, '<=', eDate),
-            f.limit(limitN)
-          );
-          return f.getDocs(q).then(function (snap) {
+      async function runQ(field) {
+        const sIso = sDate.toISOString();
+        const eIso = eDate.toISOString();
+
+        async function run(parts) {
+          try {
+            const q = f.query.apply(null, parts);
+            const snap = await f.getDocs(q);
             const arr = [];
             try {
               if (snap && Array.isArray(snap.docs)) {
@@ -401,14 +398,82 @@
               }
             } catch(_) {}
             return arr;
-          });
-        } catch (e) {
-          try { console.warn("[Firestore] Falha query por", field, e && (e.code || e.message || e)); } catch(_){}
-          return Promise.resolve([]);
+          } catch (e) { return []; }
         }
+
+        // 1) Date/Timestamp
+        let arr = await run([cref, f.where('Equipamento','==',equnr), f.orderBy(field), f.where(field,'>=',sDate), f.where(field,'<=',eDate), f.limit(limitN)]);
+        if (arr.length) return arr;
+        // 2) String ISO completa
+        arr = await run([cref, f.where('Equipamento','==',equnr), f.orderBy(field), f.where(field,'>=',sIso), f.where(field,'<=',eIso), f.limit(limitN)]);
+        if (arr.length) return arr;
+        // 3) Somente data YYYY-MM-DD
+        const sY = sIso.substring(0,10), eY = eIso.substring(0,10);
+        arr = await run([cref, f.where('Equipamento','==',equnr), f.orderBy(field), f.where(field,'>=',sY), f.where(field,'<=',eY), f.limit(limitN)]);
+        return arr;
       }
 
-      return Promise.all([ runQ('DataAbertura'), runQ('DataFechamento') ]).then(function (lists) {
+      // Busca OS ainda abertas: DataFechamento vazio/null e DataAbertura <= fim do período
+      async function runOpen() {
+        const sIso = sDate.toISOString();
+        const eIso = eDate.toISOString();
+        const sY = sIso.substring(0,10);
+        const eY = eIso.substring(0,10);
+
+        async function pull(whereCloseEq) {
+          // Date/Timestamp
+          let arr = await (async () => {
+            try {
+              const parts = [cref,
+                f.where('Equipamento','==',equnr),
+                f.orderBy('DataAbertura'),
+                f.where('DataAbertura','<=',eDate),
+                f.where('DataFechamento','==', whereCloseEq)
+              ];
+              const q = f.query.apply(null, parts);
+              return await getDocsSafe(q);
+            } catch(_) { return []; }
+          })();
+          if (arr.length) return arr;
+          // ISO completo
+          arr = await (async () => {
+            try {
+              const parts = [cref,
+                f.where('Equipamento','==',equnr),
+                f.orderBy('DataAbertura'),
+                f.where('DataAbertura','<=',eIso),
+                f.where('DataFechamento','==', whereCloseEq)
+              ];
+              const q = f.query.apply(null, parts);
+              return await getDocsSafe(q);
+            } catch(_) { return []; }
+          })();
+          if (arr.length) return arr;
+          // YYYY-MM-DD
+          arr = await (async () => {
+            try {
+              const parts = [cref,
+                f.where('Equipamento','==',equnr),
+                f.orderBy('DataAbertura'),
+                f.where('DataAbertura','<=',eY),
+                f.where('DataFechamento','==', whereCloseEq)
+              ];
+              const q = f.query.apply(null, parts);
+              return await getDocsSafe(q);
+            } catch(_) { return []; }
+          })();
+          return arr;
+        }
+
+        const a1 = await pull("");
+        const a2 = await pull(null);
+        // de-dup por id
+        const map = new Map();
+        [...a1, ...a2].forEach((it)=>{ if (it && (it._id || it.NumeroOS)) map.set(it._id || it.NumeroOS, it); });
+        return Array.from(map.values());
+      }
+
+      return Promise.all([ runQ('DataAbertura'), runQ('DataFechamento'), runOpen() ]).then(function (lists) {
         const map = new Map();
         lists.forEach(function (arr) { (arr || []).forEach(function (it) { if (it && (it._id || it.NumeroOS)) map.set(it._id || it.NumeroOS, it); }); });
         const out = Array.from(map.values());
@@ -477,12 +542,73 @@
             }
           }
         } catch(_) {}
+        if (!items.length) { throw { code: '__EMPTY__' }; }
         const result = { items, last };
         _cacheSet(cacheKey, result);
         return result;
       }).catch(function (e) {
         try { console.warn('[Firestore] Falha paginação OS', e && (e.code || e.message || e)); } catch(_){}
-        return { items: [], last: null };
+        // Fallback com consulta por strings ISO
+        try {
+          const parts2 = [
+            cref,
+            f.where('Equipamento', '==', equnr),
+            f.where('DataAbertura', '>=', sDate.toISOString()),
+            f.where('DataAbertura', '<=', eDate.toISOString()),
+            f.orderBy('DataAbertura', 'asc'),
+            f.orderBy(f.documentId(), 'asc')
+          ];
+          if (after && after.date) { parts2.push(f.startAfter(String(after.date || ''), String(after.id || ''))); }
+          parts2.push(f.limit(limitN));
+          const q2 = f.query.apply(null, parts2);
+          return f.getDocs(q2).then(function (snap) {
+            const items = [];
+            let last = null;
+            try {
+              const iter = (snap && Array.isArray(snap.docs)) ? snap.docs : null;
+              if (iter) {
+                iter.forEach(function (d) { const data = (d && d.data && d.data()) || {}; data._id = d && d.id || data._id || ''; items.push(data); });
+                const ld = iter[iter.length - 1];
+                if (ld) { const dv = (ld.data && ld.data()) ? ld.data() : {}; last = { id: ld.id, date: dv && dv.DataAbertura ? dv.DataAbertura : null }; }
+              }
+            } catch(_) {}
+            const result = { items, last };
+            _cacheSet(cacheKey, result);
+            return result;
+          }).catch(function () {
+            // Segundo fallback: datas como 'YYYY-MM-DD'
+            try {
+              const parts3 = [
+                cref,
+                f.where('Equipamento', '==', equnr),
+                f.where('DataAbertura', '>=', sDate.toISOString().substring(0,10)),
+                f.where('DataAbertura', '<=', eDate.toISOString().substring(0,10)),
+                f.orderBy('DataAbertura', 'asc'),
+                f.orderBy(f.documentId(), 'asc')
+              ];
+              if (after && after.date) { parts3.push(f.startAfter(String(after.date || ''), String(after.id || ''))); }
+              parts3.push(f.limit(limitN));
+              const q3 = f.query.apply(null, parts3);
+              return f.getDocs(q3).then(function (snap3) {
+                const items = [];
+                let last = null;
+                try {
+                  const iter = (snap3 && Array.isArray(snap3.docs)) ? snap3.docs : null;
+                  if (iter) {
+                    iter.forEach(function (d) { const data = (d && d.data && d.data()) || {}; data._id = d && d.id || data._id || ''; items.push(data); });
+                    const ld = iter[iter.length - 1];
+                    if (ld) { const dv = (ld.data && ld.data()) ? ld.data() : {}; last = { id: ld.id, date: dv && dv.DataAbertura ? dv.DataAbertura : null }; }
+                  }
+                } catch(_) {}
+                const result = { items, last };
+                _cacheSet(cacheKey, result);
+                return result;
+              }).catch(function(){ return { items: [], last: null }; });
+            } catch(_) { return { items: [], last: null }; }
+          });
+        } catch(_) {
+          return { items: [], last: null };
+        }
       });
     });
   }

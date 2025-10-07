@@ -10,6 +10,42 @@ sap.ui.define([
 
   const _byViewId = new Map();
 
+  // Helpers no escopo do módulo (usados por _mapToView e pelo controller)
+  function toLoc(val){
+    try {
+      if (!val) return "";
+      if (val instanceof Date) {
+        const d = new Date(Date.UTC(val.getFullYear(), val.getMonth(), val.getDate()));
+        return d.toISOString().substring(0,10); // YYYY-MM-DD
+      }
+      const s = String(val);
+      if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s; // já está no formato
+      const d2 = new Date(s);
+      if (!isNaN(d2.getTime())) return d2.toISOString().substring(0,10);
+      return s;
+    } catch(_) { return String(val||""); }
+  }
+
+  function hoursBetween(a, b) {
+    try {
+      const parse = (v) => {
+        if (!v) return 0;
+        if (v instanceof Date) return v.getTime();
+        const s = String(v);
+        if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
+          const d = new Date(s + 'T00:00:00Z');
+          return d.getTime();
+        }
+        const d2 = new Date(s);
+        return isNaN(d2.getTime()) ? 0 : d2.getTime();
+      };
+      const A = parse(a);
+      const B = parse(b);
+      if (!A || !B || B <= A) return 0;
+      return (B - A) / 36e5;
+    } catch (_) { return 0; }
+  }
+
   function _ensure(view) {
     const vid = view.getId();
     if (_byViewId.has(vid)) return _byViewId.get(vid);
@@ -28,7 +64,21 @@ sap.ui.define([
     let cursors = [ null ]; // cada item: { date, id } usado como startAfter
     let lastCursor = null;  // cursor retornado da pǭgina atual
 
-    function toLoc(val){ try { return val ? new Date(val).toLocaleString() : ""; } catch(_) { return String(val||""); } }
+    function toLoc(val){
+      try {
+        if (!val) return "";
+        if (val instanceof Date) {
+          const d = new Date(Date.UTC(val.getFullYear(), val.getMonth(), val.getDate()));
+          return d.toISOString().substring(0,10); // YYYY-MM-DD
+        }
+        const s = String(val);
+        // Se já estiver no formato YYYY-MM-DD, retorna direto
+        if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+        const d2 = new Date(s);
+        if (!isNaN(d2.getTime())) return d2.toISOString().substring(0,10);
+        return s;
+      } catch(_) { return String(val||""); }
+    }
     function hoursBetween(a,b){ try { const A = a ? new Date(a).getTime() : 0; const B = b ? new Date(b).getTime() : 0; return (A && B && B>A) ? (B-A)/36e5 : 0; } catch(_) { return 0; } }
 
     const fragController = {
@@ -103,14 +153,15 @@ sap.ui.define([
           if (!sel.length) { MessageToast.show("Sele��ǜo vazia."); return; }
 
           const nowIso = new Date().toISOString();
+          const nowYmd = nowIso.substring(0,10);
           const fb = await FirebaseFS.getFirebase();
 
           const updates = sel.map(async (o) => {
             if (!o._id) return { ok: false, reason: "no-id" };
             const dref = fb.doc(fb.db, "ordensServico", o._id);
             try {
-              await fb.updateDoc(dref, { DataFechamento: nowIso });
-              o.fim = toLoc(nowIso);
+              await fb.updateDoc(dref, { DataFechamento: nowYmd });
+              o.fim = toLoc(nowYmd);
               o.downtime = hoursBetween(o._abertura, nowIso);
               o.downtimeFmt = (o.downtime || 0).toFixed(2);
               o.parada = (o.downtime || 0) > 0;

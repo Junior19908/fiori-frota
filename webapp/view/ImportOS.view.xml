@@ -20,10 +20,18 @@
           <Button id="btnProcess" text="Processar e Enviar" type="Emphasized" press="onProcess" class="sapUiTinyMarginBegin"/>
         </HBox>
         <Text id="txSummary" class="sapUiSmallMarginTop" text=""/>
-        <List id="lstPreview" growing="true" width="100%" class="sapUiSmallMarginTop">
-        </List>
+        <Table id="tblPreview" growing="true" width="100%" class="sapUiSmallMarginTop">
+          <columns>
+            <Column><Text text="OS"/></Column>
+            <Column><Text text="Equipamento"/></Column>
+            <Column hAlign="Center"><Text text="Data Início"/></Column>
+            <Column hAlign="Center"><Text text="Hora Início"/></Column>
+            <Column hAlign="Center"><Text text="Data Fim"/></Column>
+            <Column hAlign="Center"><Text text="Hora Fim"/></Column>
+            <Column width="40%"><Text text="Texto breve"/></Column>
+          </columns>
+        </Table>
       </VBox>
     </content>
   </Page>
 </mvc:View>
-

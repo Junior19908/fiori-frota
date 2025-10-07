@@ -2,9 +2,10 @@ sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/m/MessageToast",
   "sap/ui/core/BusyIndicator",
-  "sap/m/StandardListItem",
+  "sap/m/ColumnListItem",
+  "sap/m/Text",
   "sap/ui/model/json/JSONModel"
-], function (Controller, MessageToast, BusyIndicator, StandardListItem, JSONModel) {
+], function (Controller, MessageToast, BusyIndicator, ColumnListItem, MText, JSONModel) {
   "use strict";
 
   function normalizeHeader(s) {
@@ -44,6 +45,8 @@ sap.ui.define([
     map.Descricao = find("descricao", "descrição", "texto", "texto breve", "resumo");
     map.DataAbertura = find("data abertura", "abertura", "inicio", "data inicio", "data de abertura");
     map.DataFechamento = find("data fechamento", "fechamento", "fim", "data fim", "data de fechamento");
+    map.HoraInicio = find("hora inicio", "hora de inicio", "hora inicial", "hora inicio sap", "hora inicio (sap)");
+    map.HoraFim = find("hora fim", "hora final", "hora de fim", "hora termino", "hora fim sap", "hora fim (sap)");
     map.Status = find("status", "situacao", "situação");
     map.Prioridade = find("prioridade", "prio");
     map.CentroDeCusto = find("centro de custo", "cc", "centro custo", "kostl");
@@ -63,31 +66,66 @@ sap.ui.define([
   }
 
   function parseDateCell(v) {
+    // Converte várias entradas para string somente data: YYYY-MM-DD
+    function ymd(d) {
+      var y = d.getUTCFullYear();
+      var m = String(d.getUTCMonth() + 1).padStart(2, "0");
+      var day = String(d.getUTCDate()).padStart(2, "0");
+      return y + "-" + m + "-" + day;
+    }
     if (!v) return "";
-    if (v instanceof Date) return v.toISOString();
+    if (v instanceof Date) return ymd(new Date(Date.UTC(v.getFullYear(), v.getMonth(), v.getDate())));
     var s = String(v).trim();
-    // Try Excel serial (number)
+    // Excel serial (número)
     var num = Number(s);
     if (Number.isFinite(num) && num > 20000) {
       // Excel epoch 1899-12-30
       var d = new Date(Date.UTC(1899, 11, 30));
       d.setUTCDate(d.getUTCDate() + Math.floor(num));
-      return d.toISOString();
+      return ymd(d);
     }
-    // Try ISO-like dd/mm/yyyy or yyyy-mm-dd
+    // yyyy-mm-dd (ou yyyy/mm/dd)
     var m1 = s.match(/^(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})/);
     if (m1) {
       var d1 = new Date(Date.UTC(Number(m1[1]), Number(m1[2]) - 1, Number(m1[3])));
-      return d1.toISOString();
+      return ymd(d1);
     }
+    // dd/mm/yyyy
     var m2 = s.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})/);
     if (m2) {
       var d2 = new Date(Date.UTC(Number(m2[3]), Number(m2[2]) - 1, Number(m2[1])));
-      return d2.toISOString();
+      return ymd(d2);
     }
     // Fallback: Date.parse
     var dt = new Date(s);
-    return isNaN(dt.getTime()) ? "" : dt.toISOString();
+    if (isNaN(dt.getTime())) return "";
+    return ymd(new Date(Date.UTC(dt.getFullYear(), dt.getMonth(), dt.getDate())));
+  }
+
+  function parseTimeCell(v) {
+    function hhmm(h, m) {
+      var hh = String(Math.max(0, Math.min(23, h || 0))).padStart(2, "0");
+      var mm = String(Math.max(0, Math.min(59, m || 0))).padStart(2, "0");
+      return hh + ":" + mm;
+    }
+    if (!v && v !== 0) return "";
+    if (v instanceof Date) {
+      return hhmm(v.getUTCHours(), v.getUTCMinutes());
+    }
+    var num = Number(v);
+    if (Number.isFinite(num)) {
+      var frac = num % 1; if (frac < 0) frac = 0;
+      var totalSec = Math.round(frac * 24 * 60 * 60);
+      var h = Math.floor(totalSec / 3600) % 24;
+      var m = Math.floor((totalSec % 3600) / 60);
+      return hhmm(h, m);
+    }
+    var s = String(v).trim();
+    var m1 = s.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
+    if (m1) return hhmm(Number(m1[1]), Number(m1[2]));
+    var dt = new Date(s);
+    if (!isNaN(dt.getTime())) return hhmm(dt.getUTCHours(), dt.getUTCMinutes());
+    return "";
   }
 
   function asNumber(v) {
@@ -236,6 +274,8 @@ sap.ui.define([
                 Descricao: String(row[hmap.Descricao] || "").trim(),
                 DataAbertura: parseDateCell(row[hmap.DataAbertura] || ""),
                 DataFechamento: parseDateCell(row[hmap.DataFechamento] || ""),
+                HoraInicio: parseTimeCell(row[hmap.HoraInicio] || ""),
+                HoraFim: parseTimeCell(row[hmap.HoraFim] || ""),
                 Status: String(row[hmap.Status] || "").trim(),
                 Prioridade: String(row[hmap.Prioridade] || "").trim(),
                 CentroDeCusto: String(row[hmap.CentroDeCusto] || "").trim(),
@@ -269,14 +309,22 @@ sap.ui.define([
     },
 
     _renderPreview: function () {
-      var list = this.byId("lstPreview");
-      if (!list) return;
-      list.destroyItems();
+      var table = this.byId("tblPreview");
+      if (!table) return;
+      table.destroyItems();
       var rows = this._rows || [];
       rows.slice(0, 50).forEach(function (o) {
-        var title = (o.NumeroOS || "(sem OS)") + " - " + (o.Equipamento || "");
-        var desc = (o.Descricao || "") + (o.DataAbertura ? (" | Abertura: " + o.DataAbertura.substring(0, 10)) : "");
-        list.addItem(new StandardListItem({ title: title, description: desc }));
+        table.addItem(new ColumnListItem({
+          cells: [
+            new MText({ text: o.NumeroOS || "(sem OS)" }),
+            new MText({ text: o.Equipamento || "" }),
+            new MText({ text: (o.DataAbertura || "").substring(0, 10) }),
+            new MText({ text: o.HoraInicio || "" }),
+            new MText({ text: (o.DataFechamento || "").substring(0, 10) }),
+            new MText({ text: o.HoraFim || "" }),
+            new MText({ text: o.Descricao || "" })
+          ]
+        }));
       });
       var txt = this.byId("txSummary");
       if (txt) txt.setText("Linhas prontas: " + rows.length + ". Exibindo primeiras " + Math.min(rows.length, 50) + ".");
