@@ -498,6 +498,10 @@
 
     onOpenManageAbast: function () {
       try { this.getOwnerComponent().getRouter().navTo("ManageAbastecimentos"); } catch (e) { MessageToast.show("Navegação indisponível."); }
+    },
+
+    onOpenManageOS: function () {
+      try { this.getOwnerComponent().getRouter().navTo("ManageOS"); } catch (e) { MessageToast.show("Navegação indisponível."); }
     }
   });
 });

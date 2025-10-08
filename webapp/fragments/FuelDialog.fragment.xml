@@ -96,7 +96,7 @@
           </items>
         </Table>
 
-        <!-- RodapÃ©: totais/mÃ©dias -->
+        <!-- RodapÃ©: totais/Médias -->
         <Toolbar class="sapUiTinyMarginTop">
           <ToolbarSpacer/>
           <ObjectStatus text="Total Litros:"/>
@@ -116,12 +116,12 @@
 
           <ToolbarSeparator/>
 
-          <ObjectStatus text="MÃ©dia Km/L:"/>
+          <ObjectStatus text="Média Km/L:"/>
           <ObjectNumber number="{path:'fuel>/mediaKmPorL', formatter:'.formatter.fmtNum'}"/>
 
           <ToolbarSeparator/>
 
-          <ObjectStatus text="MÃ©dia L/Hr:"/>
+          <ObjectStatus text="Média L/Hr:"/>
           <ObjectNumber number="{path:'fuel>/mediaLPorHr', formatter:'.formatter.fmtNum'}"/>
         </Toolbar>
 
@@ -130,9 +130,9 @@
           <ToolbarSpacer/>
           <HBox alignItems="Center" visible="{fuel>/limiteKmVisible}">
             <Label text="Km:"/>
-            <Text text="MÃ­n." class="sapUiTinyMarginBegin"/>
+            <Text text="Mín." class="sapUiTinyMarginBegin"/>
             <StepInput value="{fuel>/limiteKmMin}" min="0" max="999999" step="10" change=".onLimiteKmMinChange" enabled="{fuel>/limiteKmEnabled}" displayValuePrecision="0" width="6rem" class="sapUiTinyMarginBegin"/>
-            <Text text="MÃ¡x." class="sapUiTinyMarginBegin"/>
+            <Text text="Máx." class="sapUiTinyMarginBegin"/>
             <StepInput value="{fuel>/limiteKm}" min="0" max="999999" step="10" change=".onLimiteKmChange" enabled="{fuel>/limiteKmEnabled}" displayValuePrecision="0" width="6rem" class="sapUiTinyMarginBegin"/>
             <Text text="{fuel>/limiteKmHint}" class="sapUiSmallMarginBegin"/>
           </HBox>
@@ -141,15 +141,15 @@
 
           <HBox alignItems="Center" visible="{fuel>/limiteHrVisible}">
             <Label text="Hr:"/>
-            <Text text="MÃ­n." class="sapUiTinyMarginBegin"/>
+            <Text text="Mín.." class="sapUiTinyMarginBegin"/>
             <StepInput value="{fuel>/limiteHrMin}" min="0" max="9999" step="1" change=".onLimiteHrMinChange" enabled="{fuel>/limiteHrEnabled}" displayValuePrecision="0" width="5rem" class="sapUiTinyMarginBegin"/>
-            <Text text="MÃ¡x." class="sapUiTinyMarginBegin"/>
+            <Text text="Máx." class="sapUiTinyMarginBegin"/>
             <StepInput value="{fuel>/limiteHr}" min="0" max="9999" step="1" change=".onLimiteHrChange" enabled="{fuel>/limiteHrEnabled}" displayValuePrecision="0" width="5rem" class="sapUiTinyMarginBegin"/>
             <Text text="{fuel>/limiteHrHint}" class="sapUiSmallMarginBegin"/>
           </HBox>
         </Toolbar>
 
-        <Text text="Sem abastecimentos para este veÃ­culo no perÃ­odo"
+        <Text text="Sem abastecimentos para este veículo no período"
               visible="{= ${fuel>/eventos}.length === 0 }"/>
       </VBox>
     </content>

@@ -153,6 +153,11 @@
           "name": "ManageAbastecimentos",
           "pattern": "manage-abastecimentos",
           "target": ["ManageAbastecimentos"]
+        },
+        {
+          "name": "ManageOS",
+          "pattern": "manage-os",
+          "target": ["ManageOS"]
         }
       ],
       "targets": {
@@ -177,7 +182,8 @@
         },
         "ImportOS": { "id": "ImportOS", "name": "ImportOS" },
         "ImportAbastecimentos": { "id": "ImportAbastecimentos", "name": "ImportAbastecimentos" },
-        "ManageAbastecimentos": { "id": "ManageAbastecimentos", "name": "ManageAbastecimentos" }
+        "ManageAbastecimentos": { "id": "ManageAbastecimentos", "name": "ManageAbastecimentos" },
+        "ManageOS": { "id": "ManageOS", "name": "ManageOS" }
       }
     },
     "rootView": {
