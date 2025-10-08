@@ -377,5 +377,45 @@ sap.ui.define([
         });
       });
     }
+    ,
+    onReplaceProcess: function () {
+      var that = this;
+      var rows = this._rows || [];
+      if (!rows.length) { MessageToast.show("Carregue um Excel primeiro."); return; }
+      BusyIndicator.hide();
+      this._openProgress(rows.length);
+      sap.ui.require(["com/skysinc/frota/frota/services/FirebaseFirestoreService"], function (svc) {
+        svc.getFirebase().then(async function (f) {
+          var total = rows.length, gravados = 0, substituidos = 0;
+          for (var i = 0; i < rows.length; i++) {
+            var o = rows[i];
+            var keyBase = (o.NumeroOS || "") + "|" + (o.Equipamento || "") + "|" + (o.DataAbertura || "");
+            var docId = await sha1Hex(keyBase);
+            try {
+              var dref = f.doc(f.db, "ordensServico", docId);
+              var existed = false;
+              try {
+                var snap = await f.getDoc(dref);
+                existed = !!(snap && (snap.exists ? snap.exists() : (snap.exists === true)));
+              } catch (_) { existed = false; }
+              try { if (f.deleteDoc) { await f.deleteDoc(dref); } } catch (_) {}
+              await f.setDoc(dref, o); // sobrescreve por completo
+              if (existed) substituidos++; else gravados++;
+            } catch (e) {
+              // eslint-disable-next-line no-console
+              console.warn("Falha ao substituir doc", docId, e && (e.code || e.message || e));
+            }
+            that._updateProgress({ current: i + 1, created: gravados, updated: substituidos, skipped: 0 });
+          }
+          that._finishProgress();
+          MessageToast.show("Importação concluída (substituição). Lidas: " + total + ", Novas: " + gravados + ", Substituídas: " + substituidos + ".");
+        }).catch(function (e) {
+          that._finishProgress();
+          // eslint-disable-next-line no-console
+          console.error(e);
+          MessageToast.show("Firebase indisponível ou não configurado.");
+        });
+      });
+    }
   });
 });

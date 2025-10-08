@@ -27,6 +27,7 @@
             getDoc: fs.getDoc,
             setDoc: fs.setDoc,
             updateDoc: fs.updateDoc,
+            deleteDoc: fs.deleteDoc,
             collection: fs.collection,
             getDocs: fs.getDocs,
             query: fs.query,

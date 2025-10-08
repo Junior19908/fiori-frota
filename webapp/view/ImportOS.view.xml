@@ -18,6 +18,7 @@
                                 change="onExcelSelected"
                                 width="100%"/>
           <Button id="btnProcess" text="Processar e Enviar" type="Emphasized" press="onProcess" class="sapUiTinyMarginBegin"/>
+          <Button id="btnReplace" text="Substituir existentes" type="Transparent" press="onReplaceProcess" class="sapUiTinyMarginBegin"/>
         </HBox>
         <Text id="txSummary" class="sapUiSmallMarginTop" text=""/>
         <Table id="tblPreview" growing="true" width="100%" class="sapUiSmallMarginTop">
