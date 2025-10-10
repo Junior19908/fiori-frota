@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <mvc:View
   controllerName="com.skysinc.frota.frota.controller.ManageOS"
   xmlns:mvc="sap.ui.core.mvc"
@@ -8,7 +8,7 @@
     <customHeader>
       <Toolbar>
         <ToolbarSpacer/>
-        <Label text="Período"/>
+        <Label text="Perï¿½ï¿½odo"/>
         <DateRangeSelection id="drs" displayFormat="yyyy-MM-dd" delimiter=" a "/>
         <Button text="Carregar" type="Emphasized" press="onLoad"/>
         <ToolbarSpacer/>
@@ -20,27 +20,27 @@
         <ToolbarSpacer/>
         <Button id="btnDeleteFilter" text="Excluir por filtro" type="Reject" press="onDeleteFilteredConfirm"/>
         <ToolbarSeparator/>
-        <Button id="btnExportPage" text="Exportar página" type="Transparent" press="onExportPage"/>
+        <Button id="btnExportPage" text="Exportar pÇ­gina" type="Transparent" press="onExportPage"/>
       </Toolbar>
       <Toolbar design="Auto">
         <Button id="btnPrev" text="Anterior" type="Transparent" press="onPrevPage" enabled="{= ${os>/page/hasPrev} }"/>
-        <Text text="{= ${os>/page/pageText} || 'Página 1'}" class="sapUiTinyMarginBegin sapUiTinyMarginEnd"/>
+        <Text text="{= ${os>/page/pageText} || 'PÇ­gina 1'}" class="sapUiTinyMarginBegin sapUiTinyMarginEnd"/>
         <Text text="{= ${os>/page/totalPages} ? ('de ' + ${os>/page/totalPages}) : '' }" class="sapUiTinyMarginEnd"/>
-        <Button id="btnNext" text="Próxima" type="Transparent" press="onNextPage" enabled="{= ${os>/page/hasNext} }"/>
+        <Button id="btnNext" text="Prï¿½ï¿½xima" type="Transparent" press="onNextPage" enabled="{= ${os>/page/hasNext} }"/>
         <ToolbarSpacer/>
-        <ObjectStatus text="{= 'Itens na página: ' + (${os>/total} || 0) + '  |  Página: ' + ((${os>/page/index}||1)) + ' de ' + ((${os>/page/totalPages} || '?')) + '  (tam. ' + ((${os>/page/size}||100)) + ')' }"/>
+        <ObjectStatus text="{= 'Itens na pÇ­gina: ' + (${os>/total} || 0) + '  |  PÇ­gina: ' + ((${os>/page/index}||1)) + ' de ' + ((${os>/page/totalPages} || '?')) + '  (tam. ' + ((${os>/page/size}||100)) + ')' }"/>
       </Toolbar>
       <Table id="tblOS" mode="MultiSelect" items="{os>/items}">
         <columns>
-          <Column><Text text="Veículo"/></Column>
+          <Column><Text text="Veï¿½ï¿½culo"/></Column>
           <Column><Text text="OS"/></Column>
-          <Column width="20rem"><Text text="Título"/></Column>
+          <Column width="20rem"><Text text="Tï¿½ï¿½tulo"/></Column>
           <Column><Text text="Abertura"/></Column>
-          <Column><Text text="Hora Início"/></Column>
+          <Column><Text text="Hora Inï¿½ï¿½cio"/></Column>
           <Column><Text text="Fechamento"/></Column>
           <Column><Text text="Hora Fim"/></Column>
           <Column><Text text="Tipo Manual"/></Column>
-          <Column hAlign="End"><Text text="Ações"/></Column>
+          <Column hAlign="End"><Text text="Aï¿½ï¿½ï¿½ï¿½es"/></Column>
         </columns>
         <items>
           <ColumnListItem type="Inactive">
@@ -62,4 +62,5 @@
   </Page>
   
 </mvc:View>
+
 

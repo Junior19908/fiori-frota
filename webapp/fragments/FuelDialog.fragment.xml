@@ -1,4 +1,4 @@
-﻿<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
   <Dialog id="dlgFuel"
           title="{fuel>/titulo}"
           icon="sap-icon://gas-station"
@@ -11,7 +11,7 @@
                items="{fuel>/eventos}"
                growing="true"
                growingScrollToLoad="true"
-               noDataText="Sem abastecimentos no perÃ­odo selecionado">
+               noDataText="Sem abastecimentos no período selecionado">
 
           <columns>
             <Column id="colData" width="7rem"><Label text="Data"/></Column>
@@ -96,7 +96,7 @@
           </items>
         </Table>
 
-        <!-- RodapÃ©: totais/Médias -->
+        <!-- Rodapé: totais/Médias -->
         <Toolbar class="sapUiTinyMarginTop">
           <ToolbarSpacer/>
           <ObjectStatus text="Total Litros:"/>
@@ -104,8 +104,7 @@
 
           <ToolbarSeparator/>
 
-
-          <!-- Totais de deslocamento no perÃ­odo -->
+          <!-- Totais de deslocamento no período -->
           <ObjectStatus text="Total Km:" visible="{fuel>/limiteKmVisible}"/>
           <ObjectNumber number="{path:'fuel>/totalKm', formatter:'.formatter.fmtNum'}" visible="{fuel>/limiteKmVisible}"/>
 
@@ -141,7 +140,7 @@
 
           <HBox alignItems="Center" visible="{fuel>/limiteHrVisible}">
             <Label text="Hr:"/>
-            <Text text="Mín.." class="sapUiTinyMarginBegin"/>
+            <Text text="Mín." class="sapUiTinyMarginBegin"/>
             <StepInput value="{fuel>/limiteHrMin}" min="0" max="9999" step="1" change=".onLimiteHrMinChange" enabled="{fuel>/limiteHrEnabled}" displayValuePrecision="0" width="5rem" class="sapUiTinyMarginBegin"/>
             <Text text="Máx." class="sapUiTinyMarginBegin"/>
             <StepInput value="{fuel>/limiteHr}" min="0" max="9999" step="1" change=".onLimiteHrChange" enabled="{fuel>/limiteHrEnabled}" displayValuePrecision="0" width="5rem" class="sapUiTinyMarginBegin"/>

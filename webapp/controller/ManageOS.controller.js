@@ -1,4 +1,4 @@
-sap.ui.define([
+﻿sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/ui/model/json/JSONModel",
   "sap/m/MessageToast",
@@ -26,7 +26,7 @@ sap.ui.define([
     fmtYmd: _fmtYmd,
 
     onInit: function () {
-      this.getView().setModel(new JSONModel({ items: [], total: 0, page: { index: 1, size: 100, hasPrev: false, hasNext: false, pageText: "Pgina 1" } }), "os");
+      this.getView().setModel(new JSONModel({ items: [], total: 0, page: { index: 1, size: 100, hasPrev: false, hasNext: false, pageText: "Página 1" } }), "os");
       this._pg = { limit: 100, pageIndex: 0, cursors: [ null ], last: null, meta: { start: null, end: null } };
     },
 
@@ -43,7 +43,7 @@ sap.ui.define([
       var f = this._getFilters();
       var hasStart = f.start instanceof Date;
       var hasEnd = f.end instanceof Date;
-      if (!hasStart && !hasEnd) { MessageToast.show("Informe perodo."); return; }
+      if (!hasStart && !hasEnd) { MessageToast.show("Informe período."); return; }
       var sEff = hasStart ? f.start : new Date(1970,0,1);
       var eEff = hasEnd ? f.end : new Date(2100,0,1);
       this._pg.meta = { start: hasStart ? f.start : null, end: hasEnd ? f.end : null };
@@ -84,7 +84,7 @@ sap.ui.define([
                 var data = model.getData();
                 data.items = (data.items || []).filter(function (o) { return ids.indexOf(String(o._id||"")) < 0; });
                 model.setData(data); model.refresh(true);
-                MessageToast.show("OS excludas.");
+                MessageToast.show("OS excluídas.");
               })
               .catch(function(e){ console.error(e); MessageToast.show("Falha ao excluir."); })
               .finally(function(){ BusyIndicator.hide(); });
@@ -99,7 +99,7 @@ sap.ui.define([
       var ids = items.map(function (o) { return String(o._id || ""); }).filter(Boolean);
       var f = this._getFilters();
       var hasLoaded = ids.length > 0;
-      if (!hasLoaded && !(f.start instanceof Date) && !(f.end instanceof Date)) { MessageToast.show("Informe perodo para excluso por filtro."); return; }
+      if (!hasLoaded && !(f.start instanceof Date) && !(f.end instanceof Date)) { MessageToast.show("Informe período para exclusão por filtro."); return; }
       var that = this;
       BusyIndicator.show(0);
       sap.ui.require(["com/skysinc/frota/frota/services/OSService"], function (OS) {
@@ -111,8 +111,8 @@ sap.ui.define([
           var pages = Math.max(1, Math.ceil(total / that._pg.limit));
           var desc = hasLoaded
             ? ("itens carregados: " + ids.length)
-            : ((f.start instanceof Date ? ("perodo=" + _fmtYmd(f.start) + (f.end instanceof Date ? (" a " + _fmtYmd(f.end)) : "")) : (f.end instanceof Date ? ("at " + _fmtYmd(f.end)) : "")));
-          var msg = "Isto excluira " + total + " OS (em " + pages + " pdgina(s)).\nFiltro: " + desc + "\nDeseja continuar?";
+            : ((f.start instanceof Date ? ("período=" + _fmtYmd(f.start) + (f.end instanceof Date ? (" a " + _fmtYmd(f.end)) : "")) : (f.end instanceof Date ? ("atí " + _fmtYmd(f.end)) : "")));
+          var msg = "Isto excluiráa " + total + " OS (em " + pages + " pádgina(s)).\nFiltro: " + desc + "\nDeseja continuar?";
           MessageBox.error(msg, {
             actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
             onClose: function (act) {
@@ -142,7 +142,7 @@ sap.ui.define([
                   }
                   p = p.then(function run(){ return stepDate().then(function (cont){ return cont ? run() : null; }); });
                 }
-                p.then(function(){ model.setData({ items: [], total: 0, page: { index: 1, size: that._pg.limit, hasPrev: false, hasNext: false, pageText: 'Pdgina 1' } }); model.refresh(true); MessageToast.show("OS excludas."); })
+                p.then(function(){ model.setData({ items: [], total: 0, page: { index: 1, size: that._pg.limit, hasPrev: false, hasNext: false, pageText: 'Pádgina 1' } }); model.refresh(true); MessageToast.show("OS excluídas."); })
                   .catch(function(e){ console.error(e); MessageToast.show("Falha ao excluir por filtro."); })
                   .finally(function(){ BusyIndicator.hide(); });
               });
@@ -166,7 +166,7 @@ sap.ui.define([
           TipoManual: o.TipoManual || ""
         };
       });
-      if (!rows.length) { MessageToast.show("Sem dados na pdgina atual."); return; }
+      if (!rows.length) { MessageToast.show("Sem dados na pádgina atual."); return; }
       var headers = Object.keys(rows[0]);
       function esc(v){ var s = (v==null?"":String(v)); if (/[",;\n]/.test(s)) return '"' + s.replace(/"/g,'""') + '"'; return s; }
       var lines = [];
@@ -179,7 +179,7 @@ sap.ui.define([
         var a = document.createElement("a"); a.href = url; a.download = "os_pagina.csv";
         document.body.appendChild(a); a.click(); document.body.removeChild(a);
         setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
-        MessageToast.show("CSV da pdgina gerado.");
+        MessageToast.show("CSV da pádgina gerado.");
       } catch (e) { MessageToast.show("Falha ao exportar CSV."); }
     },
 
@@ -215,18 +215,20 @@ sap.ui.define([
           that._pg.last = res && res.last ? res.last : null;
           var hasNext = !!(that._pg.last && items.length >= that._pg.limit);
           var hasPrev = that._pg.pageIndex > 0;
-          var pageText = "Pdgina " + String(that._pg.pageIndex + 1);
+          var pageText = "Pádgina " + String(that._pg.pageIndex + 1);
           var model = that.getView().getModel("os");
           var d = model.getData();
           var totalPages = d && d.page && d.page.totalPages || undefined;
           model.setData({ items: items, total: items.length, page: { index: that._pg.pageIndex + 1, size: that._pg.limit, hasPrev: hasPrev, hasNext: hasNext, pageText: pageText, totalPages: totalPages } });
           model.refresh(true);
-          MessageToast.show(items.length + " OS na pdgina.");
+          MessageToast.show(items.length + " OS na pádgina.");
         }).catch(function (e) {
-          console.error(e); MessageToast.show("Falha ao carregar pdgina.");
+          console.error(e); MessageToast.show("Falha ao carregar pádgina.");
         }).finally(function(){ if (showBusy) BusyIndicator.hide(); });
       });
     }
   });
 });
+
+
 

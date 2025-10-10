@@ -1,4 +1,4 @@
-﻿<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:table="sap.ui.table">
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:table="sap.ui.table">
   <Dialog id="dlgMateriais"
           icon="sap-icon://wrench"
           contentWidth="auto"
@@ -31,7 +31,7 @@
                      minAutoRowCount="10"
                      fixedColumnCount="2">
 
-          <!-- Item (nome) | alinhado Ã  esquerda -->
+          <!-- Item (nome) | alinhado à esquerda -->
           <table:Column width="24rem" sortProperty="nome" filterProperty="nome" hAlign="Begin">
             <Label text="Item" textAlign="Center" width="100%"/>
             <table:template>
@@ -92,7 +92,7 @@
             </table:template>
           </table:Column>
 
-          <!-- Cód. Material | texto monospac1e opcional (evita quebra) -->
+          <!-- Cód. Material | texto monospace opcional (evita quebra) -->
           <table:Column width="4rem" sortProperty="codMaterial" filterProperty="codMaterial" hAlign="Center">
             <Label text="Cód. Material" textAlign="Center" width="100%"/>
             <table:template>
@@ -124,7 +124,7 @@
             </table:template>
           </table:Column>
 
-          <!-- N. Ordem | direita para nÃºmeros longos -->
+          <!-- N. Ordem | direita para números longos -->
           <table:Column width="5rem" sortProperty="nOrdem" filterProperty="nOrdem" hAlign="End">
             <Label text="N. Ordem" textAlign="Center" width="100%"/>
             <table:template>
@@ -163,7 +163,7 @@
           <ObjectStatus text="Total itens:"/>
           <ObjectNumber number="{dlg>/totalItens}"/>
           <ToolbarSeparator/>
-          <ObjectStatus text="Total materiais/serviÃ§os:"/>
+          <ObjectStatus text="Total materiais/serviços:"/>
           <ObjectNumber number="{path:'dlg>/totalValor', formatter:'.formatter.fmtBrl'}"/>
         </Toolbar>
 
@@ -180,3 +180,4 @@
     </buttons>
   </Dialog>
 </core:FragmentDefinition>
+

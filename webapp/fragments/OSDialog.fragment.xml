@@ -1,4 +1,4 @@
-﻿<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:table="sap.ui.table">
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:table="sap.ui.table">
   <Dialog id="dlgOS"
           icon="sap-icon://activity-items"
           contentWidth="auto"
@@ -30,7 +30,7 @@
                   enabled="{osDlg>/page/hasPrev}"
                   press=".onPrevPage"/>
           <Text text="{osDlg>/page/pageText}"/>
-          <Button text="PrÃ³xima" icon="sap-icon://navigation-right-arrow" type="Transparent"
+          <Button text="Próxima" icon="sap-icon://navigation-right-arrow" type="Transparent"
                   enabled="{osDlg>/page/hasNext}"
                   press=".onNextPage"/>
           <ToolbarSeparator/>
@@ -50,107 +50,108 @@
                      minAutoRowCount="10"
                      fixedColumnCount="2">
 
-          <!-- AÃ§Ã£o: Detalhes da OS -->
-          <table:Column width="3rem" hAlign="Center">
-            <Label text=""/>
-            <table:template>
-              <Button icon="sap-icon://inspect" type="Transparent" tooltip="Detalhes"
-                      press=".onShowOSDetails"/>
-            </table:template>
-          </table:Column>
+          <table:columns>
+            <!-- Ação: Detalhes da OS -->
+            <table:Column width="3rem" hAlign="Center">
+              <Label text=""/>
+              <table:template>
+                <Button icon="sap-icon://inspect" type="Transparent" tooltip="Detalhes"
+                        press=".onShowOSDetails"/>
+              </table:template>
+            </table:Column>
 
-          <table:Column width="7rem" sortProperty="veiculo" filterProperty="veiculo" hAlign="Begin">
-            <Label text="VeÃ­culo" textAlign="Center" width="100%"/>
-            <table:template>
-              <Text text="{osDlg>veiculo}" tooltip="{osDlg>veiculo}"/>
-            </table:template>
-          </table:Column>
+            <table:Column width="7rem" sortProperty="veiculo" filterProperty="veiculo" hAlign="Begin">
+              <Label text="Veículo" textAlign="Center" width="100%"/>
+              <table:template>
+                <Text text="{osDlg>veiculo}" tooltip="{osDlg>veiculo}"/>
+              </table:template>
+            </table:Column>
 
-          <table:Column width="8rem" sortProperty="ordem" filterProperty="ordem" hAlign="End">
-            <Label text="Ordem" textAlign="Center" width="100%"/>
-            <table:template>
-              <Text text="{osDlg>ordem}" tooltip="{osDlg>ordem}"/>
-            </table:template>
-          </table:Column>
+            <table:Column width="8rem" sortProperty="ordem" filterProperty="ordem" hAlign="End">
+              <Label text="Ordem" textAlign="Center" width="100%"/>
+              <table:template>
+                <Text text="{osDlg>ordem}" tooltip="{osDlg>ordem}"/>
+              </table:template>
+            </table:Column>
 
-          <table:Column width="22rem" sortProperty="titulo" filterProperty="titulo" hAlign="Begin">
-            <Label text="TÃ­tulo" textAlign="Center" width="100%"/>
-            <table:template>
-              <Text text="{osDlg>titulo}" tooltip="{osDlg>titulo}" wrapping="true"/>
-            </table:template>
-          </table:Column>
+            <table:Column width="22rem" sortProperty="titulo" filterProperty="titulo" hAlign="Begin">
+              <Label text="Título" textAlign="Center" width="100%"/>
+              <table:template>
+                <Text text="{osDlg>titulo}" tooltip="{osDlg>titulo}" wrapping="true"/>
+              </table:template>
+            </table:Column>
 
-          <table:Column width="10rem" sortProperty="inicio" hAlign="Center">
-            <Label text="InÃ­cio" textAlign="Center" width="100%"/>
-            <table:template>
-              <Text text="{osDlg>inicio}"/>
-            </table:template>
-          </table:Column>
+            <table:Column width="10rem" sortProperty="inicio" hAlign="Center">
+              <Label text="Início" textAlign="Center" width="100%"/>
+              <table:template>
+                <Text text="{osDlg>inicio}"/>
+              </table:template>
+            </table:Column>
 
-          <table:Column width="7rem" sortProperty="horaInicio" hAlign="Center">
-            <Label text="Hora InÃ­cio" textAlign="Center" width="100%"/>
-            <table:template>
-              <Text text="{osDlg>horaInicio}"/>
-            </table:template>
-          </table:Column>
+            <table:Column width="7rem" sortProperty="horaInicio" hAlign="Center">
+              <Label text="Hora Início" textAlign="Center" width="100%"/>
+              <table:template>
+                <Text text="{osDlg>horaInicio}"/>
+              </table:template>
+            </table:Column>
 
-          <table:Column width="10rem" sortProperty="fim" hAlign="Center">
-            <Label text="Fim" textAlign="Center" width="100%"/>
-            <table:template>
-              <Text text="{osDlg>fim}"/>
-            </table:template>
-          </table:Column>
+            <table:Column width="10rem" sortProperty="fim" hAlign="Center">
+              <Label text="Fim" textAlign="Center" width="100%"/>
+              <table:template>
+                <Text text="{osDlg>fim}"/>
+              </table:template>
+            </table:Column>
 
-          <table:Column width="7rem" sortProperty="horaFim" hAlign="Center">
-            <Label text="Hora Fim" textAlign="Center" width="100%"/>
-            <table:template>
-              <Text text="{osDlg>horaFim}"
-                    visible="{= !!${osDlg>horaFim} && ${osDlg>horaFim} !== '00:00' }"/>
-            </table:template>
-          </table:Column>
+            <table:Column width="7rem" sortProperty="horaFim" hAlign="Center">
+              <Label text="Hora Fim" textAlign="Center" width="100%"/>
+              <table:template>
+                <Text text="{osDlg>horaFim}"
+                      visible="{= !!${osDlg>horaFim} && ${osDlg>horaFim} !== '00:00' }"/>
+              </table:template>
+            </table:Column>
 
-          <table:Column width="8rem" hAlign="Center">
-            <Label text="Parada" textAlign="Center" width="100%"/>
-            <table:template>
-              <ObjectStatus text="{= ${osDlg>parada} ? 'Sim' : 'NÃ£o' }"
-                            state="{= ${osDlg>parada} ? 'Error' : 'Success' }"/>
-            </table:template>
-          </table:Column>
+            <table:Column width="8rem" hAlign="Center">
+              <Label text="Parada" textAlign="Center" width="100%"/>
+              <table:template>
+                <ObjectStatus text="{= ${osDlg>parada} ? 'Sim' : 'Não' }"
+                              state="{= ${osDlg>parada} ? 'Error' : 'Success' }"/>
+              </table:template>
+            </table:Column>
 
-          <table:Column width="9rem" hAlign="End">
-            <Label text="Inatividade" textAlign="Center" width="100%"/>
-            <table:template>
-              <Text text="{osDlg>downtimeFmt}"/>
-            </table:template>
-          </table:Column>
+            <table:Column width="9rem" hAlign="End">
+              <Label text="Inatividade" textAlign="Center" width="100%"/>
+              <table:template>
+                <Text text="{osDlg>downtimeFmt}"/>
+              </table:template>
+            </table:Column>
 
-          <!-- Linha do Tempo -->
-          <table:Column width="22rem" hAlign="Center">
-            <Label text="Linha do Tempo" textAlign="Center" width="100%"/>
-            <table:template>
-              <VBox width="100%">
-                <HBox width="100%" class="osBarWrap" alignItems="Center">
-                  <Text text="" width="{ parts: [ {path:'osDlg>_abertura'}, {path:'osDlg>_fechamento'}, {path:'osDlg>/__meta/start'}, {path:'osDlg>/__meta/end'} ], formatter: '.fmtBarLeft' }"/>
-                  <Text text="" width="{ parts: [ {path:'osDlg>_abertura'}, {path:'osDlg>_fechamento'}, {path:'osDlg>/__meta/start'}, {path:'osDlg>/__meta/end'} ], formatter: '.fmtBarWidth' }" class="{ parts: [ {path:'osDlg>tipoLabel'}, {path:'osDlg>parada'} ], formatter: '.fmtBarCss' }" tooltip="{ parts: [ {path:'osDlg>inicio'}, {path:'osDlg>horaInicio'}, {path:'osDlg>fim'}, {path:'osDlg>horaFim'}, {path:'osDlg>downtimeFmt'} ], formatter: '.fmtBarTooltip' }"/>
-                </HBox>
-              </VBox>
-            </table:template>
-          </table:Column>
+            <!-- Linha do Tempo -->
+            <table:Column width="22rem" hAlign="Center">
+              <Label text="Linha do Tempo" textAlign="Center" width="100%"/>
+              <table:template>
+                <VBox width="100%">
+                  <HBox width="100%" class="osBarWrap" alignItems="Center">
+                    <Text text="" width="{ parts: [ {path:'osDlg>_abertura'}, {path:'osDlg>_fechamento'}, {path:'osDlg>/__meta/start'}, {path:'osDlg>/__meta/end'} ], formatter: '.fmtBarLeft' }"/>
+                    <Text text="" width="{ parts: [ {path:'osDlg>_abertura'}, {path:'osDlg>_fechamento'}, {path:'osDlg>/__meta/start'}, {path:'osDlg>/__meta/end'} ], formatter: '.fmtBarWidth' }" class="{ parts: [ {path:'osDlg>tipoLabel'}, {path:'osDlg>parada'} ], formatter: '.fmtBarCss' }" tooltip="{ parts: [ {path:'osDlg>inicio'}, {path:'osDlg>horaInicio'}, {path:'osDlg>fim'}, {path:'osDlg>horaFim'}, {path:'osDlg>downtimeFmt'} ], formatter: '.fmtBarTooltip' }"/>
+                  </HBox>
+                </VBox>
+              </table:template>
+            </table:Column>
 
-          <table:Column width="10rem" sortProperty="tipoLabel" filterProperty="tipoLabel" hAlign="Center">
-            <Label text="Tipo OS" textAlign="Center" width="100%"/>
-            <table:template>
-              <Text text="{osDlg>tipoLabel}"/>
-            </table:template>
-          </table:Column>
+            <table:Column width="10rem" sortProperty="tipoLabel" filterProperty="tipoLabel" hAlign="Center">
+              <Label text="Tipo OS" textAlign="Center" width="100%"/>
+              <table:template>
+                <Text text="{osDlg>tipoLabel}"/>
+              </table:template>
+            </table:Column>
 
-          <table:Column width="10rem" sortProperty="tipoManual" filterProperty="tipoManual" hAlign="Center">
-            <Label text="Tipo (manual)" textAlign="Center" width="100%"/>
-            <table:template>
-              <Text text="{osDlg>tipoManual}"/>
-            </table:template>
-          </table:Column>
-
+            <table:Column width="10rem" sortProperty="tipoManual" filterProperty="tipoManual" hAlign="Center">
+              <Label text="Tipo (manual)" textAlign="Center" width="100%"/>
+              <table:template>
+                <Text text="{osDlg>tipoManual}"/>
+              </table:template>
+            </table:Column>
+          </table:columns>
         </table:Table>
 
         <Toolbar class="sapUiTinyMarginTop">
@@ -172,7 +173,3 @@
     </buttons>
   </Dialog>
 </core:FragmentDefinition>
-
-
-
-
