@@ -502,6 +502,30 @@
 
     onOpenManageOS: function () {
       try { this.getOwnerComponent().getRouter().navTo("ManageOS"); } catch (e) { MessageToast.show("Navegação indisponível."); }
+    },
+
+    // Teste de conexão com MySQL/MariaDB via middleware local
+    onMysqlPing: function () {
+      var that = this;
+      BusyIndicator.show(0);
+      fetch("/local/mysql-ping", { method: "POST" })
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          var rb = that.getView() && that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle();
+          if (j && j.ok) {
+            var msg = (rb ? rb.getText("settings.mysql.ok") : "MySQL OK.") + " (" + String(j.db || "") + "." + String(j.table || "") + ")";
+            try { if (typeof j.count === "number") { msg += " | registros: " + String(j.count); } } catch(_) {}
+            MessageToast.show(msg);
+          } else {
+            var reason = j && j.reason ? String(j.reason) : "";
+            MessageToast.show(rb ? rb.getText("settings.mysql.error", [reason]) : ("Falha no MySQL: " + reason));
+          }
+        })
+        .catch(function (e) {
+          var rb = that.getView() && that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle();
+          MessageToast.show(rb ? rb.getText("settings.mysql.error", [String(e && e.message || e)]) : ("Falha no MySQL: " + String(e && e.message || e)));
+        })
+        .finally(function(){ BusyIndicator.hide(); });
     }
   });
 });

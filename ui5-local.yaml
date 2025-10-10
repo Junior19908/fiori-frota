@@ -29,4 +29,15 @@ server:
       afterMiddleware: compression
       configuration:
         ignoreCertError: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
-    
+    - name: mysql-ping
+      afterMiddleware: fiori-tools-preview
+      configuration:
+        endpoint: /local/mysql-ping
+---
+specVersion: "3.1"
+kind: extension
+type: server-middleware
+metadata:
+  name: mysql-ping
+middleware:
+  path: middleware/mysqlPing.js

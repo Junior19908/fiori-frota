@@ -99,6 +99,13 @@
             </HBox>
           </VBox>
 
+          <Label text="{i18n>settings.mysql}"/>
+          <VBox class="sapUiSmallMarginBottom">
+            <HBox>
+              <Button text="{i18n>settings.mysql.test}" type="Transparent" press=".onMysqlPing"/>
+            </HBox>
+          </VBox>
+
         </f:SimpleForm>
       </VBox>
     </content>

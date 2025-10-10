@@ -190,4 +190,21 @@ Nenhum arquivo de licença (`LICENSE`) foi encontrado neste repositório. Se voc
 - Adicionar arquivo de licença.
 
 
+## Teste de conexão MySQL/MariaDB (dev)
+
+Um middleware simples (`middleware/mysqlPing.js`) permite testar uma futura migração do Firestore para MySQL/MariaDB:
+
+- Copie `.env.example` para `.env` e ajuste `MYSQL_HOST`, `MYSQL_USER`, `MYSQL_PASSWORD`, `MYSQL_DATABASE`.
+- Instale dependências (inclui `mysql2`):
+
+```bash
+npm install
+```
+
+- Inicie o app (`npm start` ou `npm run start-local`).
+- Abra a tela de Configurações, seção “Integração MySQL”, e clique em “Testar conexão (criar tabela ping)”.
+- O endpoint `/local/mysql-ping` irá criar o banco (se não existir), a tabela `ping_test` e inserir um registro com `pong`.
+- Você verá um toast com o resultado e poderá conferir a tabela no phpMyAdmin.
+
+
 

@@ -102,13 +102,13 @@
         .getRoute("RouteHistorico")
         .attachPatternMatched(this._onRouteMatched, this);
 
-      // Filtros default: de 1 ano atrÃ¡s atÃ© hoje (apenas no Historical)
+      // Filtros default: de 1 ano atrás até hoje (apenas no Historical)
       const now = new Date();
       const d2 = now;
       const d1 = new Date(now); d1.setFullYear(now.getFullYear() - 1);
       this.getView().setModel(new JSONModel({ tipo:"__ALL__", q:"", d1, d2 }), "hfilter");
 
-      // Detail/KPIs + status manutenÃ§Ã£o de hoje
+      // Detail/KPIs + status manutenção de hoje
       this.getView().setModel(new JSONModel({
         veiculo:"", descricao:"", categoria:"",
         historico: [],
@@ -204,10 +204,10 @@
       ]).then(([matServ, abast]) => {
         const base = [];
 
-        // Materiais / ServiÃ§os (OData) â€” normaliza e soma +1 dia
+        // Materiais / Serviços (OData) â€” normaliza e soma +1 dia
         (matServ || []).forEach((r) => {
           const tipoU = String(r.tipo || r.TIPO || "").toUpperCase();
-          const isSrv = (tipoU === "SERVICO" || tipoU === "SERVIÃ‡O" || r.isServico === true);
+          const isSrv = (tipoU === "SERVICO" || tipoU === "SERVIÇO" || r.isServico === true);
 
           const desc = pickDescMaterial(r);
           const qt   = toNum(r.qtde || r.QTDE || r.menge || r.MENGE || 1);
@@ -226,7 +226,7 @@
 
           base.push({
             data: dataYMD,           // YYYY-MM-DD (corrigido +1 dia)
-            tipo: isSrv ? "ServiÃ§o" : "Material",
+            tipo: isSrv ? "Serviço" : "Material",
             descricao: desc,
             qtde: qt,
             custoUnit: pUni,
@@ -242,7 +242,7 @@
 
           base.push({
             data: dAbast ? toYMD(addDays(dAbast, 1)) : null,  // YYYY-MM-DD (+1 dia)
-            tipo: "CombustÃ­vel",
+            tipo: "Combustível",
             descricao: a.descricao || "Abastecimento",
             qtde: litros,
             custoUnit: precoLinha || 0,
@@ -257,9 +257,9 @@
           return dy - dx;
         });
 
-        const historicoComb      = base.filter(h=>h.tipo==="CombustÃ­vel");
+        const historicoComb      = base.filter(h=>h.tipo==="Combustível");
         const historicoMateriais = base.filter(h=>h.tipo==="Material");
-        const historicoServicos  = base.filter(h=>h.tipo==="ServiÃ§o");
+        const historicoServicos  = base.filter(h=>h.tipo==="Serviço");
 
         const detail = this.getView().getModel("detail");
         detail.setProperty("/historico", base);
@@ -268,7 +268,7 @@
         detail.setProperty("/historicoServicos", historicoServicos);
         detail.setProperty("/_src/base", base);
 
-        // Atualiza â€œem manutenÃ§Ã£o hojeâ€
+        // Atualiza â€œem manutenção hojeâ€
         this._updateMaintenanceFlag(base);
 
         // KPIs e grÃ¡fico
@@ -283,14 +283,14 @@
       const todayTo   = endOfDay(new Date());
 
       const hasToday = (base || []).some((r)=>{
-        if (!(r && (r.tipo === "Material" || r.tipo === "ServiÃ§o"))) return false;
+        if (!(r && (r.tipo === "Material" || r.tipo === "Serviço"))) return false;
         const d = r.data ? parseLocalDateTime(r.data) : null;
         return d && d >= todayFrom && d <= todayTo;
       });
 
       const detail = this.getView().getModel("detail");
       detail.setProperty("/manutencaoHoje", hasToday);
-      detail.setProperty("/manutencaoTexto", hasToday ? "Em manutenÃ§Ã£o hoje" : "Operacional");
+      detail.setProperty("/manutencaoTexto", hasToday ? "Em manutenção hoje" : "Operacional");
       detail.setProperty("/manutencaoState", hasToday ? "Error" : "Success");
     },
 
@@ -329,7 +329,7 @@
       const hf = this.getView().getModel("hfilter").getData();
       console.log("[Hist] Data selecionada:",
         "De:", hf.d1 && hf.d1.toString(),
-        "| AtÃ©:", hf.d2 && hf.d2.toString()
+        "| até:", hf.d2 && hf.d2.toString()
       );
       this._applyFiltersAndKpis();
       this._buildYearComparison();
@@ -362,9 +362,9 @@
         return true;
       });
 
-      const historicoComb      = filt.filter(h=>h.tipo==="CombustÃ­vel");
+      const historicoComb      = filt.filter(h=>h.tipo==="Combustível");
       const historicoMateriais = filt.filter(h=>h.tipo==="Material");
-      const historicoServicos  = filt.filter(h=>h.tipo==="ServiÃ§o");
+      const historicoServicos  = filt.filter(h=>h.tipo==="Serviço");
 
       const totalComb = sum(historicoComb,      h=>h.valor);
       const totalMat  = sum(historicoMateriais, h=>h.valor);
@@ -435,3 +435,5 @@
     }
   });
 });
+
+

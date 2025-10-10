@@ -103,3 +103,24 @@ html.sap-desktop body.sapUiSizeCompact .f-form .sapMLabel {
 /* Ícone girando (manutenção hoje) */
 .spin-anim { animation: spin 1.1s linear infinite; }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* ===== OS Timeline bar ===== */
+.osBarWrap {
+  height: 0.5rem;
+  width: 100%;
+  background: var(--sapList_Background);
+  border: 1px solid var(--sapList_BorderColor);
+  border-radius: var(--sapElement_BorderCornerRadius);
+  overflow: hidden;
+}
+/* The fill is rendered using a Text control with this class */
+.sapMText.osBarFill {
+  display: block;
+  height: 0.5rem;
+  margin: 0;
+  padding: 0;
+  background: var(--sapPositiveColor);
+}
+.sapMText.osBarFillCorretiva { background: var(--sapNegativeColor); }
+.sapMText.osBarFillPreventiva { background: var(--sapInformativeColor); }
+.sapMText.osBarFillProjeto    { background: var(--sapAccentColor7); }
