@@ -8,7 +8,7 @@ sap.ui.define([
   // === CONFIGURAÇÕES ===
   const PATH_BASE   = "com/skysinc/frota/frota/model/localdata"; // ajuste se seu caminho mudar
   const DOWNTIME_FILE = PATH_BASE + "/downtime.json";
-  const MONTHS_BACK = 18; // quantos meses para trás carregar automaticamente
+  const MONTHS_BACK = 1; // quantos meses para trás carregar automaticamente (apenas mês atual)
 
   function mm2(m) { return String(m).padStart(2, "0"); }
 
@@ -204,7 +204,7 @@ sap.ui.define([
       // Carregamento automático: últimos N meses (somente abastecimentos locais)
       const now = new Date();
       const start = new Date(now.getFullYear(), now.getMonth() - (MONTHS_BACK - 1), 1);
-      const end   = new Date(now.getFullYear(), now.getMonth(), 28); // dia pouco sensível
+      const end   = new Date(now.getFullYear(), now.getMonth() + 1, 0); // último dia do mês atual
 
       this.loadAllHistoryInRange(start, end).then(() => {
         this.getRouter().initialize();

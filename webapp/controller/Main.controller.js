@@ -87,6 +87,17 @@
           this._applyMainDatePref();
           await this._reloadDistinctOnly();
           const range = FilterUtil.currentRange(this.byId("drs"));
+          try {
+            const comp = this.getOwnerComponent && this.getOwnerComponent();
+            if (comp && typeof comp.loadAllHistoryInRange === "function" && Array.isArray(range)) {
+              const months = this._monthsSpan(range[0], range[1]);
+              if (months > 12) {
+                sap.m.MessageToast.show(`Período selecionado muito grande (${months} meses). Máximo: 12.`);
+              } else {
+                await comp.loadAllHistoryInRange(range[0], range[1]);
+              }
+            }
+          } catch(_){}
           await Aggregation.recalcAggByRange(this.getView(), range);
           this._ensureVehiclesCombo();
           this._ensureCategoriasCombo();
@@ -101,6 +112,17 @@
       try {
         await this._reloadDistinctOnly();
         const range = FilterUtil.currentRange(this.byId("drs"));
+        try {
+          const comp = this.getOwnerComponent && this.getOwnerComponent();
+          if (comp && typeof comp.loadAllHistoryInRange === "function" && Array.isArray(range)) {
+            const months = this._monthsSpan(range[0], range[1]);
+            if (months > 12) {
+              sap.m.MessageToast.show(`Período selecionado muito grande (${months} meses). Máximo: 12.`);
+            } else {
+              await comp.loadAllHistoryInRange(range[0], range[1]);
+            }
+          }
+        } catch(_){}
         await Aggregation.recalcAggByRange(this.getView(), range);
         this._ensureVehiclesCombo();
         this._ensureCategoriasCombo();
@@ -123,6 +145,17 @@
 
       await this._reloadDistinctOnly();
       const range = FilterUtil.currentRange(this.byId("drs"));
+      try {
+        const comp = this.getOwnerComponent && this.getOwnerComponent();
+        if (comp && typeof comp.loadAllHistoryInRange === "function" && Array.isArray(range)) {
+          const months = this._monthsSpan(range[0], range[1]);
+          if (months > 12) {
+            sap.m.MessageToast.show(`Período selecionado muito grande (${months} meses). Máximo: 12.`);
+          } else {
+            await comp.loadAllHistoryInRange(range[0], range[1]);
+          }
+        }
+      } catch(_){}
       await Aggregation.recalcAggByRange(this.getView(), range);
       this._ensureVehiclesCombo();
       this._ensureCategoriasCombo();
@@ -535,6 +568,15 @@
       const [y1, y2] = this._yesterdayPair();
       const range = { from: d1 || y1, to: d2 || d1 || y2 };
       return range;
+    },
+
+    _monthsSpan: function (d1, d2) {
+      if (!(d1 instanceof Date) || !(d2 instanceof Date)) return 0;
+      const y1 = d1.getFullYear();
+      const m1 = d1.getMonth(); // 0..11
+      const y2 = d2.getFullYear();
+      const m2 = d2.getMonth(); // 0..11
+      return (y2 - y1) * 12 + (m2 - m1) + 1; // inclusivo
     },
 
     _reloadDistinctOnly: function () {
