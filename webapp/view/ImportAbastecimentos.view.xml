@@ -25,7 +25,7 @@
           <Input id="inpMonth" placeholder="2024-05" width="10rem"/>
           <Label text="Preço/Litro (fallback)" class="sapUiTinyMarginBegin" width="12rem"/>
           <Input id="inpPreco" type="Number" width="10rem"/>
-          <Button id="btnProcess" text="Processar e Enviar" type="Emphasized" press="onProcess" class="sapUiTinyMarginBegin"/>
+          <Button id="btnProcess" text="Processar e Baixar JSON" type="Emphasized" press="onProcess" class="sapUiTinyMarginBegin"/>
         </HBox>
         <Text id="txSummary" class="sapUiSmallMarginTop" text=""/>
         <List id="lstPreview" growing="true" width="100%" class="sapUiSmallMarginTop">

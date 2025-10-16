@@ -6,9 +6,10 @@ sap.ui.define([
   "use strict";
 
   // === CONFIGURAÇÕES ===
-  const PATH_BASE   = "com/skysinc/frota/frota/model/localdata"; // ajuste se seu caminho mudar
-  const DOWNTIME_FILE = PATH_BASE + "/downtime.json";
-  const MONTHS_BACK = 1; // quantos meses para trás carregar automaticamente (apenas mês atual)
+  const PATH_BASE   = "com/skysinc/frota/frota/model/localdata/abastecimento"; // leitura local apenas (sem Firestore)
+  const PATH_BASE_CONF   = "com/skysinc/frota/frota/model/localdata"; // leitura local apenas (sem Firestore)
+  const DOWNTIME_FILE = PATH_BASE_CONF + "/downtime.json";
+  const MONTHS_BACK = 18; // quantos meses para trás carregar automaticamente (apenas mês atual)
 
   function mm2(m) { return String(m).padStart(2, "0"); }
 
@@ -174,7 +175,7 @@ sap.ui.define([
 
       var that = this;
       // Carrega e substitui assincronamente
-      fetchJSON(toUrl(PATH_BASE + "/config/ranges_config.json")).then(function(data) {
+      fetchJSON(toUrl(PATH_BASE_CONF + "/config/ranges_config.json")).then(function(data) {
         var vehConf = createVehConfFromRanges(data);
         that.setModel(new JSONModel(vehConf), "vehConf");
         // também expõe o JSON cru para visualização direta
@@ -254,51 +255,23 @@ sap.ui.define([
       let abMap  = abModel.getProperty("/abastecimentosPorVeiculo") || {};
       const missingMonths = [];
 
-      // Força consumo remoto (Firestore) em vez de arquivos locais
-      const useLocal = (function(){
-        try { return /(?:[?&])useLocalAbastecimentos=1(?:[&#]|$)/.test(String(window.location && window.location.search || "")); }
-        catch(e){ return false; }
-      })();
-
       for (const { y, m } of months) {
+        // Leitura sempre local com fallback para caminho antigo sem subpasta
         let aData = null;
-        if (useLocal) {
-          const aUrl  = toUrl(`${PATH_BASE}/${y}/${mm2(m)}/abastecimentos.json`);
-          aData = await fetchJSON(aUrl);
-        } else {
-          try {
-            aData = await new Promise(function(resolve){
-              sap.ui.require(["com/skysinc/frota/frota/services/FirebaseFirestoreService"], function (svc) {
-                svc.fetchMonthlyFromFirestore(y, m).then(function (d) { resolve(d); }).catch(function(){ resolve(null); });
-              });
-            });
-          } catch (e) { aData = null; }
+        const aUrl1  = toUrl(`${PATH_BASE}/${y}/${mm2(m)}/abastecimentos.json`);
+        aData = await fetchJSON(aUrl1);
+        if (!aData) {
+          const aUrl2 = toUrl(`com/skysinc/frota/frota/model/localdata/abastecimento/${y}/${mm2(m)}/abastecimentos.json`);
+          aData = await fetchJSON(aUrl2);
         }
 
-        // Sem fallback local: se remoto indisponível, mês ficará sem dados
-
         if (aData) {
-          if (aData.schema === 'v2') {
-            try {
-              const listV2 = await new Promise(function(resolve){
-                sap.ui.require(["com/skysinc/frota/frota/services/FirebaseFirestoreService"], function (svc) {
-                  svc.fetchMonthlyEventsV2(y, m).then(function (arr) { resolve(Array.isArray(arr) ? arr : []); }).catch(function(){ resolve([]); });
-                });
-              });
-              const m2 = {};
-              (listV2 || []).forEach(function (ev) {
-                const veh = String(ev && (ev.veiculo || ev.equnr || ev.veiculoId || '')).trim();
-                if (!veh) return; if (!m2[veh]) m2[veh] = []; m2[veh].push(ev);
-              });
-              aData = { abastecimentosPorVeiculo: m2 };
-            } catch (e) { /* no-op, cai no caminho antigo */ }
-          }
           const map = aData.abastecimentosPorVeiculo
             ? aData.abastecimentosPorVeiculo
             : ensureMap(aData);
           abMap = mergeByVehicle(abMap, map);
         } else {
-          // marca mês como ausente no Firestore remoto
+          // marca mês como ausente no storage local
           missingMonths.push(`${y}-${mm2(m)}`);
         }
       }
@@ -311,7 +284,7 @@ sap.ui.define([
           sap.ui.require(["sap/m/MessageToast"], function (MessageToast) {
             const list = missingMonths.slice(0, 6).join(", ");
             const extra = missingMonths.length > 6 ? ` +${missingMonths.length - 6}` : "";
-            MessageToast.show(`Meses sem dados no Firebase: ${list}${extra}`);
+            MessageToast.show(`Meses sem dados locais: ${list}${extra}`);
           });
         } catch (e) { /* no-op */ }
       }

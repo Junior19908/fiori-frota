@@ -29,7 +29,7 @@ sap.ui.define([
         var n = normalizeHeader(args[j]);
         if (n in idx) return idx[n];
       }
-      // 2) fuzzy: contém/é contido
+      // 2) fuzzy: contÃ©m/Ã© contido
       for (var k = 0; k < args.length; k++) {
         var q = normalizeHeader(args[k]);
         for (var i = 0; i < normHeaders.length; i++) {
@@ -42,18 +42,18 @@ sap.ui.define([
     }
     map.NumeroOS = find("numero os", "n os", "numero da os", "ordem", "os", "num os");
     map.Equipamento = find("equipamento", "equnr", "equip", "equipam", "maquina", "veiculo");
-    map.Descricao = find("descricao", "descrição", "texto", "texto breve", "resumo");
+    map.Descricao = find("descricao", "descriÃ§Ã£o", "texto", "texto breve", "resumo");
     map.DataAbertura = find("data abertura", "abertura", "inicio", "data inicio", "data de abertura");
     map.DataFechamento = find("data fechamento", "fechamento", "fim", "data fim", "data de fechamento");
     map.HoraInicio = find("hora inicio", "hora de inicio", "hora inicial", "hora inicio sap", "hora inicio (sap)");
     map.HoraFim = find("hora fim", "hora final", "hora de fim", "hora termino", "hora fim sap", "hora fim (sap)");
-    map.Status = find("status", "situacao", "situação");
+    map.Status = find("status", "situacao", "situaÃ§Ã£o");
     map.Prioridade = find("prioridade", "prio");
     map.CentroDeCusto = find("centro de custo", "cc", "centro custo", "kostl");
-    map.Responsavel = find("responsavel", "responsável", "executor", "tecnico");
+    map.Responsavel = find("responsavel", "responsÃ¡vel", "executor", "tecnico");
     map.Categoria = find("categoria", "tipo", "classe", "tipo de ordem");
     map.CustoTotal = find("custo total", "custo", "valor", "total");
-    map.Observacoes = find("observacoes", "observações", "obs", "comentarios", "comentários", "descricao os");
+    map.Observacoes = find("observacoes", "observaÃ§Ãµes", "obs", "comentarios", "comentÃ¡rios", "descricao os");
     return map;
   }
 
@@ -66,7 +66,7 @@ sap.ui.define([
   }
 
   function parseDateCell(v) {
-    // Converte várias entradas para string somente data: YYYY-MM-DD
+    // Converte vÃ¡rias entradas para string somente data: YYYY-MM-DD
     function ymd(d) {
       var y = d.getUTCFullYear();
       var m = String(d.getUTCMonth() + 1).padStart(2, "0");
@@ -76,7 +76,7 @@ sap.ui.define([
     if (!v) return "";
     if (v instanceof Date) return ymd(new Date(Date.UTC(v.getFullYear(), v.getMonth(), v.getDate())));
     var s = String(v).trim();
-    // Excel serial (número)
+    // Excel serial (nÃºmero)
     var num = Number(s);
     if (Number.isFinite(num) && num > 20000) {
       // Excel epoch 1899-12-30
@@ -110,7 +110,8 @@ sap.ui.define([
     }
     if (!v && v !== 0) return "";
     if (v instanceof Date) {
-      return hhmm(v.getUTCHours(), v.getUTCMinutes());
+      // Usa hora/minuto locais para evitar deslocamentos históricos de fuso (ex.: 1899-12-30)
+      return hhmm(v.getHours(), v.getMinutes());
     }
     var num = Number(v);
     if (Number.isFinite(num)) {
@@ -152,7 +153,7 @@ sap.ui.define([
         var stats = new Text({ text: "{= 'Criadas: ' + ${progress>/created} + '  |  Atualizadas: ' + ${progress>/updated} + '  |  Ignoradas: ' + ${progress>/skipped} }" });
         var box = new VBox({ items: [pi, stats] });
         var dlg = new Dialog({
-          title: "Enviando OS para Firestore",
+          title: "Gerando JSON de OS",
           contentWidth: "24rem",
           content: [box],
           endButton: new Button({ text: "Fechar", enabled: false, press: function(){ dlg.close(); } }),
@@ -195,7 +196,7 @@ sap.ui.define([
     },
 
     _ensureXLSX: function () {
-      // Tenta em ordem: AMD ('xlsx'), ESM dinâmico, global window.XLSX via includeScript
+      // Tenta em ordem: AMD ('xlsx'), ESM dinÃ¢mico, global window.XLSX via includeScript
       return new Promise(function (resolve, reject) {
         function shape(mod) {
           if (!mod) return null;
@@ -206,7 +207,7 @@ sap.ui.define([
         }
 
         try {
-          // 1) AMD: alguns builds do xlsx registram-se como módulo 'xlsx'
+          // 1) AMD: alguns builds do xlsx registram-se como mÃ³dulo 'xlsx'
           if (sap && sap.ui && sap.ui.require) {
             sap.ui.require(["xlsx"], function (amdMod) {
               var s = shape(amdMod);
@@ -221,7 +222,7 @@ sap.ui.define([
         next();
 
         function next() {
-          // 2) ESM dinâmico oficial (SheetJS)
+          // 2) ESM dinÃ¢mico oficial (SheetJS)
           import("https://cdn.sheetjs.com/xlsx-0.20.2/package/xlsx.mjs").then(function (esm) {
             var s = shape(esm);
             if (s) return resolve(s);
@@ -230,7 +231,7 @@ sap.ui.define([
         }
 
         function fallbackGlobal() {
-          // 3) Global via includeScript (versão alinhada)
+          // 3) Global via includeScript (versÃ£o alinhada)
           if (window.XLSX && typeof window.XLSX.read === 'function') return resolve(window.XLSX);
           var url = "https://cdn.sheetjs.com/xlsx-0.20.2/package/xlsx.full.min.js";
           jQuery.sap.includeScript(url, "sheetjs-xlsx", function () {
@@ -245,7 +246,7 @@ sap.ui.define([
       var files = oEvent.getParameter("files");
       var file = files && files[0];
       if (!file) { MessageToast.show("Selecione um arquivo .xlsx."); return; }
-      if (!/\.xlsx$/i.test(file.name)) { MessageToast.show("Apenas arquivos .xlsx são permitidos."); return; }
+      if (!/\.xlsx$/i.test(file.name)) { MessageToast.show("Apenas arquivos .xlsx sÃ£o permitidos."); return; }
       var that = this;
       BusyIndicator.show(0);
       this._ensureXLSX().then(function (XLSX) {
@@ -255,9 +256,9 @@ sap.ui.define([
             var data = new Uint8Array(e.target.result);
             var wb = XLSX.read(data, { type: 'array', cellDates: true, cellNF: false, cellText: false });
             var sheetName = wb.SheetNames && wb.SheetNames.find(function (n) { return String(n).toLowerCase() === 'planilha1'; }) || wb.SheetNames[0];
-            if (!sheetName) { throw new Error("Planilha não encontrada"); }
+            if (!sheetName) { throw new Error("Planilha nÃ£o encontrada"); }
             if (String(sheetName).toLowerCase() !== 'planilha1') {
-              // Apenas Planilha1 é considerada
+              // Apenas Planilha1 Ã© considerada
             }
             var ws = wb.Sheets[sheetName];
             var rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "" });
@@ -330,19 +331,41 @@ sap.ui.define([
       if (txt) txt.setText("Linhas prontas: " + rows.length + ". Exibindo primeiras " + Math.min(rows.length, 50) + ".");
     },
 
-    onProcess: function () {
+    /* onDownloadJson removed per request */
+    /*onDownloadJson: function () {
+      var rows = this._rows || [];
+      if (!rows.length) { MessageToast.show("Carregue um Excel primeiro."); return; }
+      this._openProgress(rows.length);
+      try {
+        var json = JSON.stringify(rows, null, 2);
+        var blob = new Blob([json], { type: "application/json" });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url; a.download = "os-import.json";
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 500);
+        MessageToast.show("JSON de OS gerado.");
+      } catch (e) {
+        MessageToast.show("Falha ao gerar JSON de OS.");
+      } finally {
+        this._finishProgress();
+      }
+    },*/
+
+    /* onUploadToFirestore removed per request */
+    /*onUploadToFirestore: function () {
       var that = this;
       var rows = this._rows || [];
       if (!rows.length) { MessageToast.show("Carregue um Excel primeiro."); return; }
       BusyIndicator.hide();
       this._openProgress(rows.length);
-      // Usa serviço Firebase já existente no app
-      sap.ui.require(["com/skysinc/frota/frota/services/FirebaseFirestoreService"], function (svc) {
-        svc.getFirebase().then(async function (f) {
-          var total = rows.length, gravados = 0, atualizados = 0, ignorados = 0;
-          for (var i = 0; i < rows.length; i++) {
+      sap.ui.require(["com/skysinc/frota/frota/services/FirebaseFirestoreService"], function (FB) {
+        Promise.resolve(FB.ensure()).then(async function (f) {
+          var total = rows.length;
+          var gravados = 0, atualizados = 0, ignorados = 0;
+          for (var i = 0; i < total; i++) {
             var o = rows[i];
-            var keyBase = (o.NumeroOS || "") + "|" + (o.Equipamento || "") + "|" + (o.DataAbertura || "");
+            var keyBase = [o.NumeroOS || "", o.Equipamento || "", o.DataAbertura || "", o.HoraInicio || "", o.DataFechamento || "", o.HoraFim || "", o.Descricao || ""].join("|");
             var docId = await sha1Hex(keyBase);
             try {
               var dref = f.doc(f.db, "ordensServico", docId);
@@ -350,8 +373,8 @@ sap.ui.define([
               var existingData = null;
               try {
                 var snap = await f.getDoc(dref);
-                exists = !!(snap && (snap.exists ? snap.exists() : (snap.exists === true)));
-                existingData = snap && (snap.data ? snap.data() : (snap.get ? snap.get() : null));
+                exists = !!(snap && ((typeof snap.exists === 'function') ? snap.exists() : (snap.exists === true)));
+                existingData = snap && (typeof snap.data === 'function' ? snap.data() : (snap.data || null));
               } catch (_) { exists = false; existingData = null; }
               var incomingHasClose = !!(o && o.DataFechamento);
               var existingHasClose = !!(existingData && existingData.DataFechamento);
@@ -377,6 +400,91 @@ sap.ui.define([
         });
       });
     }
+    ,*/
+    /* onReplaceUploadToFirestore removed per request */
+    /*onReplaceUploadToFirestore: function () {
+      var that = this;
+      var rows = this._rows || [];
+      if (!rows.length) { MessageToast.show("Carregue um Excel primeiro."); return; }
+      BusyIndicator.hide();
+      this._openProgress(rows.length);
+      sap.ui.require(["com/skysinc/frota/frota/services/FirebaseFirestoreService"], function (FB) {
+        Promise.resolve(FB.ensure()).then(async function (f) {
+          var total = rows.length;
+          var gravados = 0, substituidos = 0;
+          for (var i = 0; i < total; i++) {
+            var o = rows[i];
+            var keyBase = [o.NumeroOS || "", o.Equipamento || "", o.DataAbertura || "", o.HoraInicio || "", o.DataFechamento || "", o.HoraFim || "", o.Descricao || ""].join("|");
+            var docId = await sha1Hex(keyBase);
+            try {
+              var dref = f.doc(f.db, "ordensServico", docId);
+              var existed = false;
+              try {
+                var snap = await f.getDoc(dref);
+                existed = !!(snap && ((typeof snap.exists === 'function') ? snap.exists() : (snap.exists === true)));
+              } catch (_) { existed = false; }
+              try { if (f.deleteDoc) { await f.deleteDoc(dref); } } catch (_) {}
+              await f.setDoc(dref, o);
+              if (existed) substituidos++; else gravados++;
+            } catch (e) {
+              // eslint-disable-next-line no-console
+              console.warn("Falha ao substituir doc", docId, e && (e.code || e.message || e));
+            }
+            that._updateProgress({ current: i + 1, created: gravados, updated: substituidos, skipped: 0 });
+          }
+          that._finishProgress();
+          MessageToast.show("Importação concluída (substituição). Lidas: " + total + ", Novas: " + gravados + ", Substituídas: " + substituidos + ".");
+        }).catch(function (e) {
+          that._finishProgress();
+          // eslint-disable-next-line no-console
+          console.error(e);
+          MessageToast.show("Firebase indisponível ou não configurado.");
+        });
+      });
+    }*/
+    onProcess: function () {
+      var that = this;
+      var rows = this._rows || [];
+      if (!rows.length) { MessageToast.show("Carregue um Excel primeiro."); return; }
+      BusyIndicator.hide();
+      this._openProgress(rows.length);
+      // Usa serviÃ§o Firebase jÃ¡ existente no app
+      (function(){ try{ var json = JSON.stringify(rows, null, 2); var blob = new Blob([json], {type:"application/json"}); var url = URL.createObjectURL(blob); var a=document.createElement("a"); a.href=url; a.download="os-import.json"; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(function(){ URL.revokeObjectURL(url); }, 500); MessageToast.show("JSON de OS gerado."); } catch(e){ MessageToast.show("Falha ao gerar JSON de OS."); } finally { that._finishProgress(); } })();
+/*          var docId = await sha1Hex(keyBase);
+            try {
+              var dref = f.doc(f.db, "ordensServico", docId);
+              var exists = false;
+              var existingData = null;
+              try {
+                var snap = await f.getDoc(dref);
+                exists = !!(snap && (snap.exists ? snap.exists() : (snap.exists === true)));
+                existingData = snap && (snap.data ? snap.data() : (snap.get ? snap.get() : null));
+              } catch (_) { exists = false; existingData = null; }
+              var incomingHasClose = !!(o && o.DataFechamento);
+              var existingHasClose = !!(existingData && existingData.DataFechamento);
+              if (exists && existingHasClose && !incomingHasClose) {
+                ignorados++;
+              } else {
+                await f.setDoc(dref, o, { merge: true });
+                if (exists) atualizados++; else gravados++;
+              }
+            } catch (e) {
+              // eslint-disable-next-line no-console
+              console.warn("Falha ao gravar doc", docId, e && (e.code || e.message || e));
+            }
+            that._updateProgress({ current: i + 1, created: gravados, updated: atualizados, skipped: ignorados });
+          }
+          that._finishProgress();
+          MessageToast.show("ImportaÃ§Ã£o concluÃ­da. Lidas: " + total + ", Gravadas: " + gravados + ", Atualizadas: " + atualizados + ".");
+        }).catch(function (e) {
+          that._finishProgress();
+          // eslint-disable-next-line no-console
+          console.error(e);
+          MessageToast.show("Firebase indisponÃ­vel ou nÃ£o configurado.");
+        });
+      });
+*/
+    }
     ,
     onReplaceProcess: function () {
       var that = this;
@@ -384,13 +492,8 @@ sap.ui.define([
       if (!rows.length) { MessageToast.show("Carregue um Excel primeiro."); return; }
       BusyIndicator.hide();
       this._openProgress(rows.length);
-      sap.ui.require(["com/skysinc/frota/frota/services/FirebaseFirestoreService"], function (svc) {
-        svc.getFirebase().then(async function (f) {
-          var total = rows.length, gravados = 0, substituidos = 0;
-          for (var i = 0; i < rows.length; i++) {
-            var o = rows[i];
-            var keyBase = (o.NumeroOS || "") + "|" + (o.Equipamento || "") + "|" + (o.DataAbertura || "");
-            var docId = await sha1Hex(keyBase);
+      (function(){ try{ var json = JSON.stringify(rows, null, 2); var blob = new Blob([json], {type:"application/json"}); var url = URL.createObjectURL(blob); var a=document.createElement("a"); a.href=url; a.download="os-import.json"; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(function(){ URL.revokeObjectURL(url); }, 500); MessageToast.show("JSON de OS gerado."); } catch(e){ MessageToast.show("Falha ao gerar JSON de OS."); } finally { that._finishProgress(); } })();
+/*          var docId = await sha1Hex(keyBase);
             try {
               var dref = f.doc(f.db, "ordensServico", docId);
               var existed = false;
@@ -408,14 +511,17 @@ sap.ui.define([
             that._updateProgress({ current: i + 1, created: gravados, updated: substituidos, skipped: 0 });
           }
           that._finishProgress();
-          MessageToast.show("Importação concluída (substituição). Lidas: " + total + ", Novas: " + gravados + ", Substituídas: " + substituidos + ".");
+          MessageToast.show("ImportaÃ§Ã£o concluÃ­da (substituiÃ§Ã£o). Lidas: " + total + ", Novas: " + gravados + ", SubstituÃ­das: " + substituidos + ".");
         }).catch(function (e) {
           that._finishProgress();
           // eslint-disable-next-line no-console
           console.error(e);
-          MessageToast.show("Firebase indisponível ou não configurado.");
+          MessageToast.show("Firebase indisponÃ­vel ou nÃ£o configurado.");
         });
       });
+*/
     }
   });
 });
+
+

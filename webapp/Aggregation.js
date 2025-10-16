@@ -1,4 +1,4 @@
-﻿sap.ui.define([
+sap.ui.define([
   "com/skysinc/frota/frota/util/FilterUtil"
 ], function (FilterUtil) {
   "use strict";

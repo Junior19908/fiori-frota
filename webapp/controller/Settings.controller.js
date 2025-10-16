@@ -1,11 +1,11 @@
-﻿sap.ui.define([
+sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/ui/model/json/JSONModel",
   "sap/m/MessageToast",
   "sap/ui/core/BusyIndicator",
   "sap/ui/unified/FileUploader",
   "com/skysinc/frota/frota/services/settings/SettingsService"
-], function (Controller, JSONModel, MessageToast, BusyIndicator, /* preload */ FileUploader, SettingsService) {
+], function (Controller, JSONModel, MessageToast, BusyIndicator, _FileUploader, SettingsService) {
   "use strict";
 
   return Controller.extend("com.skysinc.frota.frota.controller.Settings", {
@@ -201,23 +201,7 @@
     },
 
       /** Salva JSON no Firestore em abastecimentos/YYYY-MM */
-      _uploadJsonToFirestore: function (ym, json) {
-        var that = this;
-        var m = (ym || "").match(/^(\d{4})-(\d{2})$/);
-        if (!m) { var __rb = that.getView() && that.getView().getModel("i18n") && that.getView().getModel("i18n").getResourceBundle(); MessageToast.show(__rb ? __rb.getText("settings.informYmValid") : "Informe YYYY-MM válido."); return; }
-  if (!m) { MessageToast.show(((this.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? this.getView().getModel("i18n").getResourceBundle().getText("settings.informYmValid") : "Informe YYYY-MM válido.")); return; }
-        var y = Number(m[1]), mm = Number(m[2]);
-        BusyIndicator.show(0);
-        sap.ui.require(["com/skysinc/frota/frota/services/FirebaseFirestoreService"], function (svc) {
-          svc.saveMonthlyToFirestore(y, mm, json).then(function (res) {
-            (function(__res){ var __rb = that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle(); MessageToast.show(__res && __res.ok ? (__rb ? __rb.getText("settings.savedFirestoreOk") : "JSON salvo no Firestore.") : (__rb ? __rb.getText("settings.failWithReason", [String(__res && __res.reason || "")]) : ("Falha: " + String(__res && __res.reason || "")))); })(res);
-          }).catch(function (e) {
-            MessageToast.show(((that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? that.getView().getModel("i18n").getResourceBundle().getText("settings.saveFirestoreError") : "Erro ao salvar no Firestore."));
-            // eslint-disable-next-line no-console
-            console.error(e);
-          }).finally(function(){ BusyIndicator.hide(); });
-        });
-      },
+      _uploadJsonToFirestore: function (ym, json) { var m = String(ym||'').match(/^(\\d{4})-(\\d{2})$/); if(!m){ sap.m.MessageToast.show('Informe YYYY-MM válido.'); return; } var y=Number(m[1]), mm=Number(m[2]); try{ var blob=new Blob([JSON.stringify(json||{}, null, 2)],{type:'application/json'}); var url=URL.createObjectURL(blob); var a=document.createElement('a'); var fname='abastecimentos-'+String(y)+'-'+String(mm).padStart(2,'0')+'.json'; a.href=url; a.download=fname; document.body.appendChild(a); a.click(); setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); },0); sap.m.MessageToast.show('JSON baixado: '+fname); }catch(e){ console.error(e); sap.m.MessageToast.show('Falha ao gerar JSON.'); } },
 
 
     onLiveChange: function () { try { const m = this.getView().getModel("settings"); if (!m) return; const data = m.getData(); try { if (data && data.theme) { sap.ui.getCore().applyTheme(data.theme); } } catch(e){} try { sap.ui.require(["com/skysinc/frota/frota/services/settings/SettingsService"], function (svc) { svc.saveSettings(data); }); } catch(e){} } catch (_) {} },
@@ -300,7 +284,7 @@
       var that = this;
       BusyIndicator.show(0);
       Promise.resolve().then(function(){
-        const svcPath = "com/skysinc/frota/frota/services/FirebaseFirestoreService";
+        const svcPath = "com/skysinc/frota/frota/services/FirebaseExportService";
         return new Promise(function(resolve){ sap.ui.require([svcPath], function (svc) { resolve(svc); }); });
       }).then(function (svc) {
         const now = new Date();
@@ -315,7 +299,7 @@
       }).catch(function (e) {
         // eslint-disable-next-line no-console
         console.error(e);
-        MessageToast.show(((this.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? this.getView().getModel("i18n").getResourceBundle().getText("settings.exportError") : "Erro ao exportar para Firestore."));
+        MessageToast.show(((this.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? this.getView().getModel("i18n").getResourceBundle().getText("settings.exportError") : "Erro ao exportar."));
       }).finally(function(){ BusyIndicator.hide(); });
     },
 
@@ -441,7 +425,7 @@
     onCreateTestCollection: function () {
       var that = this;
       BusyIndicator.show(0);
-      sap.ui.require(["com/skysinc/frota/frota/services/FirebaseFirestoreService"], function (svc) {
+      sap.ui.require(["com/skysinc/frota/frota/services/FirebaseExportService"], function (svc) {
         svc.createTestDoc({ source: "settings", note: "ping" }).then(function (res) {
           (function(__res){ var __rb = that.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle(); MessageToast.show(__res && __res.ok ? (__rb ? __rb.getText("settings.testCreated", [String(__res.id)]) : ("TESTE criado: " + String(__res.id))) : (__rb ? __rb.getText("settings.failWithReason", [String(__res && __res.reason || "")]) : ("Falha: " + String(__res && __res.reason || "")))); })(res);
         }).catch(function (e) {
@@ -452,11 +436,12 @@
 
     onExportLastNMonths: function () {
       var that = this;
-      var N = Number(this.byId("stepExportN")?.getValue?.() || 6);
+      var __ctrl = this.byId("stepExportN");
+      var N = Number((__ctrl && typeof __ctrl.getValue === "function" && __ctrl.getValue()) || 6);
       if (!Number.isFinite(N) || N <= 0) N = 6;
       BusyIndicator.show(0);
       Promise.resolve().then(function(){
-        const svcPath = "com/skysinc/frota/frota/services/FirebaseFirestoreService";
+        const svcPath = "com/skysinc/frota/frota/services/FirebaseExportService";
         return new Promise(function(resolve){ sap.ui.require([svcPath], function (svc) { resolve(svc); }); });
       }).then(function (svc) {
         const now = new Date();
@@ -471,22 +456,11 @@
       }).catch(function (e) {
         // eslint-disable-next-line no-console
         console.error(e);
-        MessageToast.show(((this.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? this.getView().getModel("i18n").getResourceBundle().getText("settings.exportError") : "Erro ao exportar para Firestore."));
+        MessageToast.show(((this.getView()&&that.getView().getModel("i18n")&&that.getView().getModel("i18n").getResourceBundle()) ? this.getView().getModel("i18n").getResourceBundle().getText("settings.exportError") : "Erro ao exportar."));
       }).finally(function(){ BusyIndicator.hide(); });
     },
 
-    onTestFirebase: function () {
-      BusyIndicator.show(0);
-      Promise.resolve().then(function(){
-        return new Promise(function(resolve){ sap.ui.require(["com/skysinc/frota/frota/services/FirebaseFirestoreService"], function (svc) { resolve(svc); }); });
-      }).then(function (svc) {
-        return svc.probe();
-      }).then(function (ok) {
-        var rb = this.getView().getModel("i18n") && this.getView().getModel("i18n").getResourceBundle(); MessageToast.show(ok ? (rb ? rb.getText("settings.firebase.ok") : "Firebase OK (Firestore).") : (rb ? rb.getText("settings.firebase.unavailable") : "Firebase indisponível ou sem permissão."));
-      }).catch(function () {
-        var rb = this.getView().getModel("i18n") && this.getView().getModel("i18n").getResourceBundle(); MessageToast.show(rb ? rb.getText("settings.firebase.notConfigured") : "Firebase não configurado.");
-      }).finally(function(){ BusyIndicator.hide(); });
-    },
+    onTestFirebase: function () { var rb = this.getView().getModel("i18n") && this.getView().getModel("i18n").getResourceBundle(); sap.m.MessageToast.show(rb ? rb.getText("settings.firebase.notConfigured") : "Firebase não configurado."); },
 
     onOpenImportOS: function () {
       try { this.getOwnerComponent().getRouter().navTo("ImportOS"); } catch (e) { MessageToast.show("Navegação indisponível."); }
@@ -529,6 +503,7 @@
     }
   });
 });
+
 
 
 

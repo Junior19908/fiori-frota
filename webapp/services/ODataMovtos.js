@@ -1,4 +1,4 @@
-﻿sap.ui.define([
+sap.ui.define([
   "sap/ui/model/odata/v2/ODataModel",
   "sap/m/MessageToast",
   "sap/m/MessageBox"

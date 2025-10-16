@@ -7,7 +7,6 @@
 
 const fs = require("fs");
 const path = require("path");
-const admin = require("firebase-admin");
 const ExcelJS = require("exceljs");
 
 // ---------------------- Util ----------------------
@@ -314,11 +313,37 @@ async function mergeWrite(db, monthDocId, byVehicle) {
   await ref.set({ abastecimentosPorVeiculo: resultMap }, { merge: true });
 }
 
+// ---------------------- Local JSON output ----------------------
+function writeMonthToLocal(outBaseDir, monthDocId, byVehicle) {
+  // monthDocId = 'YYYY-MM' ou 'sem-data'
+  let dir;
+  if (String(monthDocId) === 'sem-data') {
+    dir = path.join(outBaseDir, 'sem-data');
+  } else {
+    const [year, month] = String(monthDocId).split("-");
+    dir = path.join(outBaseDir, year, month);
+  }
+  fs.mkdirSync(dir, { recursive: true });
+
+  // Build plain object { veic: [events...] }
+  const resultMap = {};
+  for (const [veh, events] of byVehicle.entries()) {
+    if (!veh) continue;
+    const ordered = Array.from(events).sort((a, b) => (a.sequencia || 0) - (b.sequencia || 0));
+    resultMap[veh] = ordered;
+  }
+
+  const payload = { abastecimentosPorVeiculo: resultMap };
+  const target = path.join(dir, "abastecimentos.json");
+  fs.writeFileSync(target, JSON.stringify(payload, null, 2), "utf8");
+  return target;
+}
+
 // ---------------------- Main ----------------------
 async function main() {
   const args = parseArgs();
   if (!args.file) {
-    console.error("Uso: node tools/import-abastecimentos.js --file <excel> [--sheet <nome>] [--precoLitro <num>] [--creds <serviceAccount.json>] [--date YYYY-MM-DD | --month YYYY-MM]");
+    console.error("Uso: node tools/import-abastecimentos.js --file <excel> [--sheet <nome>] [--precoLitro <num>] [--date YYYY-MM-DD | --month YYYY-MM] [--outDir webapp/model/localdata/abastecimento]");
     process.exit(1);
   }
 
@@ -365,14 +390,34 @@ async function main() {
     }
   }
 
-  const db = initFirestore(args.creds);
-  let written = 0;
-  for (const [month, vehMap] of byMonth.entries()) {
-    await mergeWrite(db, month, vehMap);
-    written += Array.from(vehMap.values()).reduce((acc, arr) => acc + arr.length, 0);
+  // Garante bucket 'sem-data' para eventos sem data
+  if (!byMonth.has('sem-data')) {
+    for (const [veh, evts] of byVehicle.entries()) {
+      for (const e of evts) {
+        if (e && !e.data) {
+          if (!byMonth.has('sem-data')) byMonth.set('sem-data', new Map());
+          const m = byMonth.get('sem-data');
+          if (!m.has(veh)) m.set(veh, []);
+          m.get(veh).push(e);
+        }
+      }
+    }
   }
 
-  console.log(JSON.stringify({ months: Array.from(byMonth.keys()), eventsWritten: written }, null, 2));
+  // Write to local filesystem grouped by YYYY/MM under outDir
+  const outBase = path.isAbsolute(args.outDir || "")
+    ? (args.outDir || "")
+    : path.join(process.cwd(), args.outDir || path.join("webapp", "model", "localdata", "abastecimento"));
+
+  let eventsWritten = 0;
+  const writtenFiles = [];
+  for (const [month, vehMap] of byMonth.entries()) {
+    const p = writeMonthToLocal(outBase, month, vehMap);
+    writtenFiles.push(p);
+    eventsWritten += Array.from(vehMap.values()).reduce((acc, arr) => acc + arr.length, 0);
+  }
+
+  console.log(JSON.stringify({ months: Array.from(byMonth.keys()), eventsWritten, files: writtenFiles }, null, 2));
 }
 
 main().catch((err) => {

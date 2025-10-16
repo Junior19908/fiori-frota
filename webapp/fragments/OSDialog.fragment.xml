@@ -84,28 +84,28 @@
             <table:Column width="10rem" sortProperty="inicio" hAlign="Center">
               <Label text="Início" textAlign="Center" width="100%"/>
               <table:template>
-                <Text text="{osDlg>inicio}"/>
+                <Text text="{ parts: [ {path:'osDlg>inicio'}, {path:'osDlg>horaInicio'} ], formatter: '.formatter.fmtDateTime' }"/>
               </table:template>
             </table:Column>
 
-            <table:Column width="7rem" sortProperty="horaInicio" hAlign="Center">
+            <table:Column width="7rem" sortProperty="horaInicio" hAlign="Center" visible="false">
               <Label text="Hora Início" textAlign="Center" width="100%"/>
               <table:template>
-                <Text text="{osDlg>horaInicio}"/>
+                <Text text="{ path: 'osDlg>horaInicio', formatter: '.formatter.fmtHora' }"/>
               </table:template>
             </table:Column>
 
             <table:Column width="10rem" sortProperty="fim" hAlign="Center">
               <Label text="Fim" textAlign="Center" width="100%"/>
               <table:template>
-                <Text text="{osDlg>fim}"/>
+                <Text text="{ parts: [ {path:'osDlg>fim'}, {path:'osDlg>horaFim'} ], formatter: '.formatter.fmtDateTime' }"/>
               </table:template>
             </table:Column>
 
-            <table:Column width="7rem" sortProperty="horaFim" hAlign="Center">
+            <table:Column width="7rem" sortProperty="horaFim" hAlign="Center" visible="false">
               <Label text="Hora Fim" textAlign="Center" width="100%"/>
               <table:template>
-                <Text text="{osDlg>horaFim}"
+                <Text text="{ path: 'osDlg>horaFim', formatter: '.formatter.fmtHora' }"
                       visible="{= !!${osDlg>horaFim} && ${osDlg>horaFim} !== '00:00' }"/>
               </table:template>
             </table:Column>
@@ -125,23 +125,22 @@
               </table:template>
             </table:Column>
 
-            <!-- Linha do Tempo -->
-            <table:Column width="22rem" hAlign="Center">
-              <Label text="Linha do Tempo" textAlign="Center" width="100%"/>
+            <!-- Duração (Progress Bar) -->
+            <table:Column width="18rem" hAlign="Center">
+              <Label text="Duração" textAlign="Center" width="100%"/>
               <table:template>
-                <VBox width="100%">
-                  <HBox width="100%" class="osBarWrap" alignItems="Center">
-                    <Text text="" width="{ parts: [ {path:'osDlg>_abertura'}, {path:'osDlg>_fechamento'}, {path:'osDlg>/__meta/start'}, {path:'osDlg>/__meta/end'} ], formatter: '.fmtBarLeft' }"/>
-                    <Text text="" width="{ parts: [ {path:'osDlg>_abertura'}, {path:'osDlg>_fechamento'}, {path:'osDlg>/__meta/start'}, {path:'osDlg>/__meta/end'} ], formatter: '.fmtBarWidth' }" class="{ parts: [ {path:'osDlg>tipoLabel'}, {path:'osDlg>parada'} ], formatter: '.fmtBarCss' }" tooltip="{ parts: [ {path:'osDlg>inicio'}, {path:'osDlg>horaInicio'}, {path:'osDlg>fim'}, {path:'osDlg>horaFim'}, {path:'osDlg>downtimeFmt'} ], formatter: '.fmtBarTooltip' }"/>
-                  </HBox>
-                </VBox>
+                <ProgressIndicator width="100%"
+                                   percentValue="{ parts: [ {path:'osDlg>downtime'}, {path:'osDlg>/__stats/max'} ], formatter: '.formatter.hoursPctOfMax' }"
+                                   displayValue="{osDlg>downtimeFmt}"
+                                   state="{ path:'osDlg>categoria', formatter: '.formatter.osTypeState' }"/>
               </table:template>
             </table:Column>
 
-            <table:Column width="10rem" sortProperty="tipoLabel" filterProperty="tipoLabel" hAlign="Center">
+            <table:Column width="12rem" sortProperty="tipoLabel" filterProperty="tipoLabel" hAlign="Center">
               <Label text="Tipo OS" textAlign="Center" width="100%"/>
               <table:template>
-                <Text text="{osDlg>tipoLabel}"/>
+                <ObjectStatus text="{osDlg>tipoLabel}"
+                              state="{ path:'osDlg>categoria', formatter: '.formatter.osTypeState' }"/>
               </table:template>
             </table:Column>
 

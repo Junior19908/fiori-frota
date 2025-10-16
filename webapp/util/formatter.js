@@ -1,4 +1,4 @@
-﻿sap.ui.define([], function () {
+sap.ui.define([], function () {
   "use strict";
 
   function toNum(v) { return Number(v || 0); }
@@ -34,6 +34,37 @@
     if (n < 0) return 0;
     if (n > 100) return 100;
     return n;
+  }
+
+  // Internal date formatter used by multiple exports (no reliance on `this`).
+  function fmtDateInner(v) {
+    if (!v) return "";
+
+    if (v instanceof Date && !isNaN(v)) {
+      const y = v.getUTCFullYear();
+      const m = v.getUTCMonth() + 1;
+      const d = v.getUTCDate();
+      return _ddmmyyyy_from(y, m, d);
+    }
+
+    const s = String(v).trim();
+
+    let m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s);
+    if (m) return s;
+
+    m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s);
+    if (m) {
+      const y = +m[1], mon = +m[2], d = +m[3];
+      return _ddmmyyyy_from(y, mon, d);
+    }
+
+    try {
+      const d2 = new Date(s);
+      if (isNaN(d2)) return s;
+      return _ddmmyyyy_from(d2.getUTCFullYear(), d2.getUTCMonth() + 1, d2.getUTCDate());
+    } catch {
+      return s;
+    }
   }
 
   return {
@@ -90,35 +121,7 @@
       return "";
     },
 
-    fmtDate: function (v) {
-      if (!v) return "";
-
-      if (v instanceof Date && !isNaN(v)) {
-        const y = v.getUTCFullYear();
-        const m = v.getUTCMonth() + 1;
-        const d = v.getUTCDate();
-        return _ddmmyyyy_from(y, m, d);
-      }
-
-      const s = String(v).trim();
-
-      let m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s);
-      if (m) return s;
-
-      m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s);
-      if (m) {
-        const y = +m[1], mon = +m[2], d = +m[3];
-        return _ddmmyyyy_from(y, mon, d);
-      }
-
-      try {
-        const d2 = new Date(s);
-        if (isNaN(d2)) return s;
-        return _ddmmyyyy_from(d2.getUTCFullYear(), d2.getUTCMonth() + 1, d2.getUTCDate());
-      } catch {
-        return s;
-      }
-    },
+    fmtDate: fmtDateInner,
     fmtDateUtcAware: function(a, b) {
       var v = a || b;
       if (!v) return "";
@@ -186,7 +189,7 @@
           dateVal.getUTCDate()
         );
       } else {
-        dataTxt = this.fmtDate(dateVal);
+        dataTxt = fmtDateInner(dateVal);
       }
       const horaTxt = _hhmmss(horaVal);
       if (dataTxt && horaTxt) return `${dataTxt} ${horaTxt}`;
@@ -195,6 +198,30 @@
 
     fmtHora: function (v) {
       return _hhmmss(v);
+    },
+
+    // ---- OS helpers ----
+    osTypeState: function (tipo) {
+      try {
+        var c = String(tipo || '').toUpperCase();
+        if (c === 'ZF01') return 'Success';   // Verde
+        if (c === 'ZF02') return 'Error';     // Vermelho
+        if (c === 'ZF03') return 'Warning';   // Amarelo
+        return 'None';
+      } catch (_) { return 'None'; }
+    },
+    hoursPct24: function (hours) {
+      try { var h = Number(hours) || 0; var pct = Math.max(0, Math.min(100, (h / 24) * 100)); return Math.round(pct); } catch (_) { return 0; }
+    },
+    hoursPctOfMax: function (hours, max) {
+      try {
+        var h = Number(hours) || 0;
+        var mx = Number(max) || 0;
+        if (mx <= 0) return 0;
+        var pct = (h / mx) * 100;
+        if (!isFinite(pct)) return 0;
+        return Math.max(0, Math.min(100, Math.round(pct)));
+      } catch (_) { return 0; }
     },
 
     fmtFuncaoKmComb: function (a, b) {

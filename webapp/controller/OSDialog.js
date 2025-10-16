@@ -1,11 +1,10 @@
-﻿sap.ui.define([
+sap.ui.define([
   "sap/ui/model/json/JSONModel",
   "sap/ui/core/Fragment",
   "sap/m/MessageToast",
   "sap/m/MessageBox",
   "com/skysinc/frota/frota/util/formatter",
-  "com/skysinc/frota/frota/services/FirebaseFirestoreService"
-], function (JSONModel, Fragment, MessageToast, MessageBox, formatter, FirebaseFS) {
+], function (JSONModel, Fragment, MessageToast, MessageBox, formatter) {
   "use strict";
 
   const _byViewId = new Map();
@@ -152,10 +151,16 @@
         const q = (ev?.getParameter?.('newValue') || ev?.getParameter?.('query') || '').toString().toLowerCase();
         const data = dlgModel.getData() || {};
         const base = Array.isArray(data._base) ? data._base : (data.os || []);
-        if (!q) { dlgModel.setProperty('/os', base); dlgModel.setProperty('/total', base.length); return; }
+        if (!q) {
+          dlgModel.setProperty('/os', base);
+          dlgModel.setProperty('/total', base.length);
+          try { const mx0 = base.reduce((m,o)=>Math.max(m, Number(o.downtime)||0), 0); dlgModel.setProperty('/__stats', { max: mx0 }); } catch(_){}
+          return;
+        }
         const filtered = base.filter((it)=>{ const s1=(it.veiculo||'').toLowerCase(); const s2=(it.ordem||'').toLowerCase(); const s3=(it.titulo||'').toLowerCase(); return s1.includes(q)||s2.includes(q)||s3.includes(q); });
         dlgModel.setProperty('/os', filtered);
         dlgModel.setProperty('/total', filtered.length);
+        try { const mx = filtered.reduce((m,o)=>Math.max(m, Number(o.downtime)||0), 0); dlgModel.setProperty('/__stats', { max: mx }); } catch(_){}
       },
 
       onExportOS: function () {
@@ -175,7 +180,7 @@
           const data = dlgModel.getData() || {}; const list = data.os || []; const sel = idxs.map(i=>list[i]).filter(Boolean);
           if (!sel.length) { MessageToast.show('SeleÃ§Ã£o vazia.'); return; }
           const nowIso = new Date().toISOString(); const nowYmd = nowIso.substring(0,10);
-          const fb = await FirebaseFS.getFirebase();
+          const fb = await (function(){ MessageToast.show("Indisponível em modo local."); })();
           const updates = sel.map(async (o)=>{ if(!o._id) return {ok:false}; const dref = fb.doc(fb.db,'ordensServico', o._id); try { await fb.updateDoc(dref, { DataFechamento: nowYmd }); o.fim = _toYmd(nowYmd); const A = o._abertura ? new Date(o._abertura).toISOString() : null; const dt = (A ? ((new Date(nowIso).getTime() - new Date(A).getTime())/36e5) : 0); o.downtime = dt; o.downtimeFmt = _formatDowntime(dt); o.parada = (dt>0); return {ok:true}; } catch(e){ return {ok:false, reason:e && (e.code||e.message)} } });
           const results = await Promise.all(updates); const ok = results.filter(r=>r.ok).length; dlgModel.refresh(true); MessageToast.show(ok + ' OS concluÃ­da(s).');
         } catch(e){ console.error('[OSDialog.onCloseSelectedOS]', e); MessageBox.error('Falha ao concluir OS selecionadas.'); }
@@ -190,7 +195,7 @@
         dlg.addButton(new sap.m.Button({ text:'Cancelar', press: ()=> dlg.close() }));
         dlg.addButton(new sap.m.Button({ text:'Aplicar', type:'Emphasized', press: async ()=>{
           const val = (inp.getValue()||'').trim(); if(!val){ MessageToast.show('Informe um tipo.'); return; }
-          try { const data = dlgModel.getData()||{}; const list = data.os||[]; const sel = idxs.map(i=>list[i]).filter(Boolean); const fb = await FirebaseFS.getFirebase(); const updates = sel.map(async (o)=>{ if(!o._id) return {ok:false}; const dref = fb.doc(fb.db,'ordensServico', o._id); try { await fb.updateDoc(dref, { TipoManual: val }); o.tipoManual = val; return {ok:true}; } catch(e){ return {ok:false, reason:e && (e.code||e.message)} } }); const res = await Promise.all(updates); const ok = res.filter(r=>r.ok).length; dlgModel.refresh(true); MessageToast.show(ok + ' OS atualizada(s).'); } catch(e){ console.error('[OSDialog.onSetTypeSelectedOS]', e); MessageBox.error('Falha ao atualizar tipo.'); } finally { dlg.close(); }
+          try { const data = dlgModel.getData()||{}; const list = data.os||[]; const sel = idxs.map(i=>list[i]).filter(Boolean); const fb = await (function(){ MessageToast.show("Indisponível em modo local."); })(); const updates = sel.map(async (o)=>{ if(!o._id) return {ok:false}; const dref = fb.doc(fb.db,'ordensServico', o._id); try { await fb.updateDoc(dref, { TipoManual: val }); o.tipoManual = val; return {ok:true}; } catch(e){ return {ok:false, reason:e && (e.code||e.message)} } }); const res = await Promise.all(updates); const ok = res.filter(r=>r.ok).length; dlgModel.refresh(true); MessageToast.show(ok + ' OS atualizada(s).'); } catch(e){ console.error('[OSDialog.onSetTypeSelectedOS]', e); MessageBox.error('Falha ao atualizar tipo.'); } finally { dlg.close(); }
         }}));
         dlg.attachAfterClose(()=> dlg.destroy()); view.addDependent(dlg); dlg.open();
       },
@@ -215,10 +220,11 @@
 
   async function _loadPage(veh, start, end, after){
     const st = _byViewId.values().next().value; // simple single-view usage
-    const res = await FirebaseFS.listOrdersByVehicleAndRangePage({ equnr: veh, start, end, limit: st.limit, after });
+    const res = { items: [], last: null };
     const mapped = _mapToView(res.items);
     st.lastCursor = res.last || null; const hasNext = !!(st.lastCursor && mapped.length >= st.limit); const hasPrev = st.pageIndex > 0; const pageText = 'PÃ¡gina ' + String(st.pageIndex + 1);
     st.dlgModel.setProperty('/os', mapped); st.dlgModel.setProperty('/_base', mapped.slice()); st.dlgModel.setProperty('/total', mapped.length); st.dlgModel.setProperty('/page', { index: st.pageIndex + 1, size: st.limit, hasPrev, hasNext, pageText });
+    try { const mx = mapped.reduce((m,o)=>Math.max(m, Number(o.downtime)||0), 0); st.dlgModel.setProperty('/__stats', { max: mx }); } catch(_){}
   }
 
   async function open(view, payload){
@@ -226,9 +232,15 @@
     try {
       const veh = String(payload?.equnr || payload?.veiculo || '').trim();
       const range = payload?.range || null; const start = Array.isArray(range) ? range[0] : (range?.from || null); const end = Array.isArray(range) ? range[1] : (range?.to || null);
-      if (!veh) { MessageToast.show('Selecione um veÃ­culo para listar as OS.'); return; }
-      const list = await FirebaseFS.listOrdersByVehicleAndRange({ equnr: veh, start, end, limit: 200 });
+      // Modo inicial: permitir abertura sem veículo selecionado (mock local)
+      let list = [];
+      try {
+        const url = sap.ui.require.toUrl('com/skysinc/frota/frota/model/localdata/os/os.json');
+        const data = await new Promise((resolve) => { jQuery.ajax({ url, dataType: 'json', cache: false, success: (d)=>resolve(d), error: ()=>resolve(null) }); });
+        if (Array.isArray(data)) list = data; else if (data && Array.isArray(data.os)) list = data.os;
+      } catch(_) { list = []; }
       const mapped = _mapToView(list);
+      try { const mx = mapped.reduce((m,o)=>Math.max(m, Number(o.downtime)||0), 0); st.dlgModel.setProperty('/__stats', { max: mx }); } catch(_){}
       st.dlgModel.setData({ titulo: payload?.titulo || ('Ordens de Serviço' + (veh ? (' - ' + veh) : '')), os: mapped, _base: mapped.slice(), total: mapped.length });
       // forÃ§a meta-range conforme filtro global
       st.dlgModel.setProperty('/__meta', { equnr: veh, start, end });
@@ -238,7 +250,7 @@
       let dlg = Array.isArray(loaded) ? (loaded.find && loaded.find(c=>c && c.isA && c.isA('sap.m.Dialog'))) || loaded[0] : loaded;
       st.dialogRef = dlg; if (dlg && dlg.addDependent) view.addDependent(dlg); if (dlg && dlg.setModel) dlg.setModel(st.dlgModel, 'osDlg'); else throw new TypeError('OSDialog fragment did not resolve to a Dialog control');
       // aplica filtro de tipos permitido conforme settings (se existir)
-      try { const sModel = view.getModel && view.getModel('settings'); const showAll = !!(sModel && sModel.getProperty && sModel.getProperty('/showAllOS')); const allowed = (sModel && sModel.getProperty && sModel.getProperty('/osTypes')) || []; if (!showAll && Array.isArray(allowed) && allowed.length){ const set = new Set(allowed.map((x)=>String(x).toUpperCase())); const arr = st.dlgModel.getProperty('/os') || []; const filtered = arr.filter((o)=> !o.categoria || set.has(String(o.categoria||'').toUpperCase())); st.dlgModel.setProperty('/os', filtered); st.dlgModel.setProperty('/_base', filtered.slice()); st.dlgModel.setProperty('/total', filtered.length); } } catch(_){ }
+      try { const sModel = view.getModel && view.getModel('settings'); const showAll = !!(sModel && sModel.getProperty && sModel.getProperty('/showAllOS')); const allowed = (sModel && sModel.getProperty && sModel.getProperty('/osTypes')) || []; if (!showAll && Array.isArray(allowed) && allowed.length){ const set = new Set(allowed.map((x)=>String(x).toUpperCase())); const arr = st.dlgModel.getProperty('/os') || []; const filtered = arr.filter((o)=> !o.categoria || set.has(String(o.categoria||'').toUpperCase())); st.dlgModel.setProperty('/os', filtered); st.dlgModel.setProperty('/_base', filtered.slice()); st.dlgModel.setProperty('/total', filtered.length); try { const mx2 = filtered.reduce((m,o)=>Math.max(m, Number(o.downtime)||0), 0); st.dlgModel.setProperty('/__stats', { max: mx2 }); } catch(__){} } } catch(_){ }
       dlg.open();
       return dlg;
     } catch(e){ try{ console.error('[OSDialog.open] Falha ao abrir OS', e);}catch(_){} MessageToast.show('Falha ao abrir OS.'); }
@@ -246,6 +258,9 @@
 
   return { open };
 });
+
+
+
 
 
 

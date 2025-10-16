@@ -1,4 +1,4 @@
-﻿// AVISO: Este arquivo Ã© ignorado pelo Git (.gitignore). Mantenha credenciais aqui.
+// AVISO: Este arquivo Ã© ignorado pelo Git (.gitignore). Mantenha credenciais aqui.
 // Se necessÃ¡rio, ajuste os valores abaixo para seu projeto Firebase.
 
 export const firebaseConfig = {

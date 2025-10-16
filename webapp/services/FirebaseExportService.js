@@ -1,4 +1,4 @@
-﻿sap.ui.define([], function () {
+sap.ui.define([], function () {
   "use strict";
 
   function pad2(n){ return String(n).padStart(2, "0"); }
@@ -21,8 +21,12 @@
   function fetchMonthlyLocal(y, m) {
     return new Promise(function(resolve){
       const mm = pad2(m);
-      const url = toUrl("com/skysinc/frota/frota/model/localdata/" + y + "/" + mm + "/abastecimentos.json");
-      jQuery.ajax({ url: url, dataType: "json", cache: false, success: (d)=> resolve(d), error: ()=> resolve(null) });
+      const url1 = toUrl("com/skysinc/frota/frota/model/localdata/abastecimento/" + y + "/" + mm + "/abastecimentos.json");
+      const url2 = toUrl("com/skysinc/frota/frota/model/localdata/" + y + "/" + mm + "/abastecimentos.json");
+      jQuery.ajax({ url: url1, dataType: "json", cache: false,
+        success: (d)=> resolve(d),
+        error: ()=> jQuery.ajax({ url: url2, dataType: "json", cache: false, success: (d2)=> resolve(d2), error: ()=> resolve(null) })
+      });
     });
   }
 

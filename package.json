@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "exceljs": "^4.4.0",
-    "firebase-admin": "^12.5.0",
     "mysql2": "^3.11.3"
   },
   "scripts": {

@@ -1,4 +1,4 @@
-﻿sap.ui.define([
+sap.ui.define([
   "sap/ui/model/json/JSONModel",
   "com/skysinc/frota/frota/util/formatter"
 ], function (JSONModel, formatter) {

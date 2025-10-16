@@ -1,4 +1,4 @@
-﻿sap.ui.define([
+sap.ui.define([
   "com/skysinc/frota/frota/services/settings/SettingsRepository"
 ], function (SettingsRepository) {
   "use strict";

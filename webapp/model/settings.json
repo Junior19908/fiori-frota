@@ -1,8 +1,11 @@
 {
-  "showAllOS": false,
+  "showAllOS": true,
   "osTypes": [
     "ZF01",
     "ZF02",
+    "ZF1",
+    "ZF2",
+    "ZF3",
     "ZF03"
   ],
   "autoLoadMain": false,

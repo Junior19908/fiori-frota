@@ -1,4 +1,4 @@
-﻿// File: com/skysinc/frota/frota/services/ODataMaterials.js
+// File: com/skysinc/frota/frota/services/ODataMaterials.js
 sap.ui.define([
   "sap/ui/model/odata/v2/ODataModel",
   "sap/m/MessageBox"

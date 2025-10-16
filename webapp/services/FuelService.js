@@ -1,4 +1,4 @@
-﻿sap.ui.define([
+sap.ui.define([
   "sap/ui/model/json/JSONModel"
 ], function (JSONModel) {
   "use strict";
@@ -448,7 +448,7 @@
         if (comp && typeof comp.loadAllHistoryInRange === "function") {
           const now = new Date();
           const start = new Date(now.getFullYear(), now.getMonth(), 1);
-          const end   = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+          const end   = new Date(now.getFullYear(), now.getMonth(), 28);
           await comp.loadAllHistoryInRange(start, end);
           abMap = abModel.getProperty("/abastecimentosPorVeiculo");
         }
@@ -487,40 +487,6 @@
         const ts = _orderTs(a);
         return (!start || ts >= start.getTime()) && (!end || ts <= end.getTime());
       });
-    }
-
-    // If there is no "previous anchor" in the model (because we loaded only the current month),
-    // fetch the last fueling from the previous month in Firestore just to anchor the first pair.
-    if (!prevBeforeStart && start instanceof Date) {
-      try {
-        const FirebaseService = await new Promise((resolve) => {
-          sap.ui.require(["com/skysinc/frota/frota/services/FirebaseFirestoreService"], resolve);
-        });
-        const prevMonth = new Date(start.getFullYear(), start.getMonth() - 1, 1);
-        const py = prevMonth.getFullYear();
-        const pm = prevMonth.getMonth() + 1; // 1..12
-        let pdata = await FirebaseService.fetchMonthlyFromFirestore(py, pm);
-        let prevMap = {};
-        if (pdata && pdata.schema === 'v2') {
-          const events = await FirebaseService.fetchMonthlyEventsV2(py, pm).catch(() => []);
-          events.forEach(ev => {
-            const veh = String(ev && (ev.veiculo || ev.equnr || ev.veiculoId || '')).trim();
-            if (!veh) return; if (!prevMap[veh]) prevMap[veh] = []; prevMap[veh].push(ev);
-          });
-        } else if (pdata && typeof pdata === 'object') {
-          prevMap = pdata.abastecimentosPorVeiculo ? pdata.abastecimentosPorVeiculo : pdata;
-        }
-        const arr = Array.isArray(prevMap[vehKey]) ? prevMap[vehKey] : [];
-        if (arr.length) {
-          let best = null; let bestTs = -Infinity;
-          const startTs = start.getTime();
-          for (const ev of arr) {
-            const ts = _orderTs(ev);
-            if (isFinite(ts) && ts < startTs && ts > bestTs) { best = ev; bestTs = ts; }
-          }
-          if (best) prevBeforeStart = best;
-        }
-      } catch (_) { /* ignore anchor fetch failures */ }
     }
 
     const limits = _sanitizeLimits(_getVehRanges(vehKey));
@@ -719,4 +685,3 @@
     getAbastecimentos
   };
 });
-

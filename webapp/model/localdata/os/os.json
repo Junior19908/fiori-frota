@@ -1,0 +1,122 @@
+[
+  {
+    "_id": "os-1001",
+    "NumeroOS": "1001",
+    "Equipamento": "TRK-001",
+    "Descricao": "Troca de óleo e filtro",
+    "DataAbertura": "2025-09-28",
+    "HoraInicio": "08:15",
+    "DataFechamento": "2025-09-28",
+    "HoraFim": "10:00",
+    "Categoria": "ZF03",
+    "TipoManual": ""
+  },
+  {
+    "_id": "os-1002",
+    "NumeroOS": "1002",
+    "Equipamento": "TRK-002",
+    "Descricao": "Correção de vazamento hidráulico",
+    "DataAbertura": "2025-09-29",
+    "HoraInicio": "09:00",
+    "DataFechamento": "2025-09-29",
+    "HoraFim": "12:30",
+    "Categoria": "ZF02",
+    "TipoManual": ""
+  },
+  {
+    "_id": "os-1003",
+    "NumeroOS": "1003",
+    "Equipamento": "TRK-003",
+    "Descricao": "Revisão preventiva 10.000 km",
+    "DataAbertura": "2025-10-01",
+    "HoraInicio": "07:45",
+    "DataFechamento": "2025-10-01",
+    "HoraFim": "11:15",
+    "Categoria": "ZF03",
+    "TipoManual": ""
+  },
+  {
+    "_id": "os-1004",
+    "NumeroOS": "1004",
+    "Equipamento": "TRK-001",
+    "Descricao": "Substituição de pastilhas de freio",
+    "DataAbertura": "2025-10-02",
+    "HoraInicio": "13:20",
+    "DataFechamento": "2025-10-02",
+    "HoraFim": "16:00",
+    "Categoria": "ZF02",
+    "TipoManual": ""
+  },
+  {
+    "_id": "os-1005",
+    "NumeroOS": "1005",
+    "Equipamento": "TRK-004",
+    "Descricao": "Ajuste de alinhamento",
+    "DataAbertura": "2025-10-03",
+    "HoraInicio": "10:00",
+    "DataFechamento": "2025-10-03",
+    "HoraFim": "12:00",
+    "Categoria": "ZF01",
+    "TipoManual": ""
+  },
+  {
+    "_id": "os-1006",
+    "NumeroOS": "1006",
+    "Equipamento": "TRK-005",
+    "Descricao": "Substituição de bateria",
+    "DataAbertura": "2025-10-04",
+    "HoraInicio": "08:30",
+    "DataFechamento": "2025-10-04",
+    "HoraFim": "09:10",
+    "Categoria": "ZF02",
+    "TipoManual": ""
+  },
+  {
+    "_id": "os-1007",
+    "NumeroOS": "1007",
+    "Equipamento": "TRK-002",
+    "Descricao": "Reparo de sistema elétrico",
+    "DataAbertura": "2025-10-05",
+    "HoraInicio": "14:10",
+    "DataFechamento": "2025-10-05",
+    "HoraFim": "17:45",
+    "Categoria": "ZF02",
+    "TipoManual": ""
+  },
+  {
+    "_id": "os-1008",
+    "NumeroOS": "1008",
+    "Equipamento": "TRK-006",
+    "Descricao": "Instalação de acessório (kit proteção)",
+    "DataAbertura": "2025-10-06",
+    "HoraInicio": "09:20",
+    "DataFechamento": "2025-10-06",
+    "HoraFim": "11:00",
+    "Categoria": "ZF01",
+    "TipoManual": ""
+  },
+  {
+    "_id": "os-1009",
+    "NumeroOS": "1009",
+    "Equipamento": "TRK-003",
+    "Descricao": "Troca de filtros de ar",
+    "DataAbertura": "2025-10-07",
+    "HoraInicio": "08:00",
+    "DataFechamento": "2025-10-07",
+    "HoraFim": "09:40",
+    "Categoria": "ZF03",
+    "TipoManual": ""
+  },
+  {
+    "_id": "os-1010",
+    "NumeroOS": "1010",
+    "Equipamento": "TRK-004",
+    "Descricao": "Reforma parcial da carroceria",
+    "DataAbertura": "2025-10-08",
+    "HoraInicio": "07:30",
+    "DataFechamento": "2025-10-10",
+    "HoraFim": "16:50",
+    "Categoria": "ZF01",
+    "TipoManual": ""
+  }
+]
