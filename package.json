@@ -2,18 +2,23 @@
   "name": "frota",
   "version": "0.0.1",
   "description": "Aplicação Fiori para Gerenciamento de Frota",
-  "keywords": ["ui5", "openui5", "sapui5"],
+  "keywords": [
+    "ui5",
+    "openui5",
+    "sapui5"
+  ],
   "main": "webapp/index.html",
   "devDependencies": {
     "@openui5/sap.m": "^1.120.0",
-    "@sap/ux-ui5-tooling": "1",              
+    "@sap/ux-ui5-tooling": "1",
     "@ui5/cli": "^4.0.26",
     "dotenv": "^17.2.1",
     "ui5-middleware-simpleproxy": "^3.4.3"
   },
   "dependencies": {
     "exceljs": "^4.4.0",
-    "mysql2": "^3.11.3"
+    "mysql2": "^3.11.3",
+    "puppeteer": "^22.15.0"
   },
   "scripts": {
     "start": "fiori run --open \"test/flp.html?sap-ui-language=pt-BR#app-preview\"",
@@ -28,7 +33,7 @@
   },
   "sapuxLayer": "CUSTOMER_BASE",
   "overrides": {
-    "axios": "^1.12.0",          
-    "tmp": "0.2.4"               
+    "axios": "^1.12.0",
+    "tmp": "0.2.4"
   }
 }

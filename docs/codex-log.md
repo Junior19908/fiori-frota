@@ -54,3 +54,55 @@ Seção de Testes (novo)
   - `webapp/test/unit/controller/OSDialog.qunit.js` (tests do `open`) com stubs de `Fragment.load` e `AvailabilityService`.
 - Atualizado `webapp/test/testsuite.qunit.js` para incluir a página unitária.
 - Como rodar depois (sem executar agora): abra `webapp/test/testsuite.qunit.html` no browser e selecione a aba Unit, ou carregue diretamente `webapp/test/unit/unitTests.qunit.html`.
+
+---
+
+Atualização: 2025-10-21 (tarde)
+
+Implementado
+- Paginação local no OSDialog
+  - Adicionada função `_paginate()` para paginar a partir de `osDlg>/_base` com tamanho de página baseado em `limit` (padrão 200).
+  - `onNextPage` e `onPrevPage` agora usam `_paginate()` (sem dependência de cursores externos), atualizando `osDlg>/os`, `osDlg>/total` e `osDlg>/page` (`index`, `hasPrev`, `hasNext`, `pageText`).
+  - `open(view, payload)` inicializa `pageIndex = 0` e chama `_paginate()` após carregar e mapear a lista.
+- Filtro por tipos integrado à paginação
+  - Lógica de filtro (`showAllOS`/`osTypes`) agora atua sobre `osDlg>/_base` e reexecuta a paginação ao aplicar o filtro, garantindo consistência entre total e página.
+
+Observações técnicas
+- Mantido o carregamento multi-mês via `AvailabilityService.fetchOsByVehiclesAndRange` (já robusto a meses vazios e a `os.json`/`ordens.json`).
+- Encoding: ainda há ocorrências de mojibake nos textos (ex.: "Ordens de Servico"). Evitei alteração ampla agora; sugerida normalização UTF-8 em commit dedicado.
+
+Validação feita
+- Verificado por inspeção de código que:
+  - Ao abrir o diálogo, `_base` recebe a lista completa e `_paginate()` popula a primeira página em `os` com estatísticas.
+  - Navegação de página altera `pageIndex` e reflete corretamente `hasPrev`/`hasNext`.
+  - Aplicação de filtro de tipos reescreve `/_base` e reinicia a paginação.
+
+Como testar (manual)
+- Abrir `webapp/test/testsuite.qunit.html` no navegador e selecionar a aba Unit para rodar os testes (OSDialog unit deve passar).
+- Validar manualmente no app:
+  - Selecionar um range (ex.: 10/2025), abrir OS de um veículo (ex.: 20020406) e navegar as páginas.
+  - Alternar `showAllOS` e `osTypes` para verificar filtragem + paginação.
+
+Pendências/próximos passos
+- Normalização de encoding para UTF-8 em controllers/fragments (corrigir títulos e labels com acento).
+- (Opcional) Expor controle do tamanho da página na UI e persistir preferência.
+- (Opcional) Paginação incremental (lazy) quando houver backend; hoje é client-side sobre lista completa.
+
+Execução de testes (headless)
+- Adicionado runner headless com Puppeteer e servidor local com proxy de UI5:
+  - `scripts/serve-ui5.js` (Express + proxy de `/resources` -> `https://ui5.sap.com/resources`)
+  - `scripts/run-qunit-headless.js` (abre página, aguarda `QUnit.done` e reporta)
+- Tentativa de execução automática:
+  - Unit: `http://localhost:8888/test/unit/unitTests.qunit.html`
+  - Integration: `http://localhost:8888/test/integration/opaTests.qunit.html`
+  - Resultado: timeout aguardando `QUnit.done` (o DOM não exibiu `#qunit-testresult`). Suspeita: diferença de inicialização do QUnit/UI5 no ambiente headless.
+
+Como rodar localmente (recomendado)
+- Instalar dependências uma vez: `npm i` (instala `express`, `http-proxy-middleware`, `puppeteer` já adicionados automaticamente).
+- Subir o servidor local: `node scripts/serve-ui5.js 8888`
+- Abrir no navegador (não-headless):
+  - Suite: `http://localhost:8888/test/testsuite.qunit.html`
+  - Ou direto:
+    - Unit: `http://localhost:8888/test/unit/unitTests.qunit.html`
+    - Integration: `http://localhost:8888/test/integration/opaTests.qunit.html`
+- Esperado: testes unitários do `OSDialog` devem passar e validar carregamento via `AvailabilityService` (OS exibidas). Disponibilidade/indisponibilidade é exercitada via tela principal (agregação), sem teste dedicado ainda.
