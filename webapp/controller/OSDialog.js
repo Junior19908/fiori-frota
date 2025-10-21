@@ -1,10 +1,11 @@
-sap.ui.define([
+﻿sap.ui.define([
   "sap/ui/model/json/JSONModel",
   "sap/ui/core/Fragment",
   "sap/m/MessageToast",
   "sap/m/MessageBox",
   "com/skysinc/frota/frota/util/formatter",
-], function (JSONModel, Fragment, MessageToast, MessageBox, formatter) {
+  "com/skysinc/frota/frota/services/AvailabilityService",
+], function (JSONModel, Fragment, MessageToast, MessageBox, formatter, AvailabilityService) {
   "use strict";
 
   const _byViewId = new Map();
@@ -45,7 +46,7 @@ sap.ui.define([
       const c = String(code || '').toUpperCase();
       if (c === 'ZF01') return 'Projeto / Melhoria / Reforma';
       if (c === 'ZF02') return 'Corretiva';
-      if (c === 'ZF03') return 'Preventiva BÃ¡sica/MecÃ¢nica';
+      if (c === 'ZF03') return 'Preventiva BÃƒÂ¡sica/MecÃƒÂ¢nica';
       return c || '';
     } catch (_) { return String(code||''); }
   }
@@ -80,7 +81,7 @@ sap.ui.define([
   function _ensure(view) {
     const vid = view.getId();
     if (_byViewId.has(vid)) return _byViewId.get(vid);
-    const dlgModel = new JSONModel({ titulo: 'OS', os: [], _base: [], total: 0, page: { index:1, size:200, hasPrev:false, hasNext:false, pageText:'PÃ¡gina 1' } });
+    const dlgModel = new JSONModel({ titulo: 'OS', os: [], _base: [], total: 0, page: { index:1, size:200, hasPrev:false, hasNext:false, pageText:'PÃƒÂ¡gina 1' } });
     let dialogRef = null;
 
     let pageIndex = 0;
@@ -124,7 +125,7 @@ sap.ui.define([
         try { const t=String(tipoLabel||'').toLowerCase(); const base='osBarFill'; if(t.indexOf('corretiva')>=0) return base+' osBarFillCorretiva'; if(t.indexOf('preventiva')>=0) return base+' osBarFillPreventiva'; if(t.indexOf('projeto')>=0||t.indexOf('melhoria')>=0||t.indexOf('reforma')>=0) return base+' osBarFillProjeto'; return base; } catch(_) { return 'osBarFill'; }
       },
       fmtBarTooltip: function (inicio, horaIni, fim, horaFim, durFmt) {
-        try { const i = (inicio||'') + (horaIni?(' '+horaIni):''); const f=(fim||'') + (horaFim?(' '+horaFim):''); const d = durFmt||''; return 'InÃ­cio: '+i+'\nFim: '+f+'\nDuraÃ§Ã£o: '+d; } catch(_) { return ''; }
+        try { const i = (inicio||'') + (horaIni?(' '+horaIni):''); const f=(fim||'') + (horaFim?(' '+horaFim):''); const d = durFmt||''; return 'InÃƒÂ­cio: '+i+'\nFim: '+f+'\nDuraÃƒÂ§ÃƒÂ£o: '+d; } catch(_) { return ''; }
       },
 
       onShowOSDetails: function (oEvent) {
@@ -137,7 +138,7 @@ sap.ui.define([
           const dlg = new sap.m.Dialog({ title: title, contentWidth: '32rem', horizontalScrolling: true });
           function row(label, value){ return new sap.m.HBox({ alignItems:'Center', items:[ new sap.m.Label({ text: label, width: '11rem', design:'Bold' }), new sap.m.Text({ text: String(value==null?'':value) }) ] }); }
           const vb = new sap.m.VBox({ width:'100%', items:[
-            row('VeÃ­culo', o.veiculo||''), row('Ordem', o.ordem||''), row('TÃ­tulo', o.titulo||''), row('Tipo OS', o.tipoLabel||''), row('Tipo (manual)', o.tipoManual||''), row('InÃ­cio', (o.inicio||'') + (o.horaInicio?(' '+o.horaInicio):'')), row('Fim', (o.fim||'') + (o.horaFim?(' '+o.horaFim):'')), row('Parada', o.parada?'Sim':'NÃ£o'), row('Inatividade', o.downtimeFmt||'')
+            row('VeÃƒÂ­culo', o.veiculo||''), row('Ordem', o.ordem||''), row('TÃƒÂ­tulo', o.titulo||''), row('Tipo OS', o.tipoLabel||''), row('Tipo (manual)', o.tipoManual||''), row('InÃƒÂ­cio', (o.inicio||'') + (o.horaInicio?(' '+o.horaInicio):'')), row('Fim', (o.fim||'') + (o.horaFim?(' '+o.horaFim):'')), row('Parada', o.parada?'Sim':'NÃƒÂ£o'), row('Inatividade', o.downtimeFmt||'')
           ]});
           dlg.addContent(vb);
           dlg.addButton(new sap.m.Button({ text:'Fechar', type:'Transparent', press: function(){ dlg.close(); } }));
@@ -165,11 +166,11 @@ sap.ui.define([
 
       onExportOS: function () {
         const data = dlgModel.getData() || {};
-        const rows = (data.os || []).map((o)=>({ Veiculo:o.veiculo||'', Ordem:o.ordem||'', Titulo:o.titulo||'', Inicio:o.inicio||'', Fim:o.fim||'', Parada:o.parada?'Sim':'NÃ£o', Inatividade_h:String(o.downtimeFmt||''), TipoManual:o.tipoManual||'', HoraInicio:o.horaInicio||'', HoraFim:o.horaFim||'', TipoOS:o.tipoLabel||'' }));
+        const rows = (data.os || []).map((o)=>({ Veiculo:o.veiculo||'', Ordem:o.ordem||'', Titulo:o.titulo||'', Inicio:o.inicio||'', Fim:o.fim||'', Parada:o.parada?'Sim':'NÃƒÂ£o', Inatividade_h:String(o.downtimeFmt||''), TipoManual:o.tipoManual||'', HoraInicio:o.horaInicio||'', HoraFim:o.horaFim||'', TipoOS:o.tipoLabel||'' }));
         if (!rows.length) { MessageToast.show('Sem OS no filtro atual.'); return; }
         const headers = Object.keys(rows[0]); const esc=(v)=>{ if(v==null) return ''; if(typeof v==='number') return v.toString(); let s=String(v); if(/[;"\n\r]/.test(s)) s='"'+s.replace(/"/g,'""')+'"'; return s; };
         const lines=[headers.join(';')]; rows.forEach(r=>lines.push(headers.map(h=>esc(r[h])).join(';'))); const csv='\uFEFF'+lines.join('\n');
-        try{ const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='os_lista.csv'; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(()=>URL.revokeObjectURL(url),1000); MessageToast.show('CSV gerado com sucesso.'); }catch(e){ console.error('[OSDialog.onExportOS]',e); MessageBox.error('NÃ£o foi possÃ­vel gerar o CSV.'); }
+        try{ const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='os_lista.csv'; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(()=>URL.revokeObjectURL(url),1000); MessageToast.show('CSV gerado com sucesso.'); }catch(e){ console.error('[OSDialog.onExportOS]',e); MessageBox.error('NÃƒÂ£o foi possÃƒÂ­vel gerar o CSV.'); }
       },
 
       onCloseSelectedOS: async function () {
@@ -178,11 +179,11 @@ sap.ui.define([
           const idxs = tbl?.getSelectedIndices?.() || [];
           if (!idxs.length) { MessageToast.show('Selecione ao menos uma OS.'); return; }
           const data = dlgModel.getData() || {}; const list = data.os || []; const sel = idxs.map(i=>list[i]).filter(Boolean);
-          if (!sel.length) { MessageToast.show('SeleÃ§Ã£o vazia.'); return; }
+          if (!sel.length) { MessageToast.show('SeleÃƒÂ§ÃƒÂ£o vazia.'); return; }
           const nowIso = new Date().toISOString(); const nowYmd = nowIso.substring(0,10);
-          const fb = await (function(){ MessageToast.show("Indisponível em modo local."); })();
+          const fb = await (function(){ MessageToast.show("IndisponÃ­vel em modo local."); })();
           const updates = sel.map(async (o)=>{ if(!o._id) return {ok:false}; const dref = fb.doc(fb.db,'ordensServico', o._id); try { await fb.updateDoc(dref, { DataFechamento: nowYmd }); o.fim = _toYmd(nowYmd); const A = o._abertura ? new Date(o._abertura).toISOString() : null; const dt = (A ? ((new Date(nowIso).getTime() - new Date(A).getTime())/36e5) : 0); o.downtime = dt; o.downtimeFmt = _formatDowntime(dt); o.parada = (dt>0); return {ok:true}; } catch(e){ return {ok:false, reason:e && (e.code||e.message)} } });
-          const results = await Promise.all(updates); const ok = results.filter(r=>r.ok).length; dlgModel.refresh(true); MessageToast.show(ok + ' OS concluÃ­da(s).');
+          const results = await Promise.all(updates); const ok = results.filter(r=>r.ok).length; dlgModel.refresh(true); MessageToast.show(ok + ' OS concluÃƒÂ­da(s).');
         } catch(e){ console.error('[OSDialog.onCloseSelectedOS]', e); MessageBox.error('Falha ao concluir OS selecionadas.'); }
       },
 
@@ -195,7 +196,7 @@ sap.ui.define([
         dlg.addButton(new sap.m.Button({ text:'Cancelar', press: ()=> dlg.close() }));
         dlg.addButton(new sap.m.Button({ text:'Aplicar', type:'Emphasized', press: async ()=>{
           const val = (inp.getValue()||'').trim(); if(!val){ MessageToast.show('Informe um tipo.'); return; }
-          try { const data = dlgModel.getData()||{}; const list = data.os||[]; const sel = idxs.map(i=>list[i]).filter(Boolean); const fb = await (function(){ MessageToast.show("Indisponível em modo local."); })(); const updates = sel.map(async (o)=>{ if(!o._id) return {ok:false}; const dref = fb.doc(fb.db,'ordensServico', o._id); try { await fb.updateDoc(dref, { TipoManual: val }); o.tipoManual = val; return {ok:true}; } catch(e){ return {ok:false, reason:e && (e.code||e.message)} } }); const res = await Promise.all(updates); const ok = res.filter(r=>r.ok).length; dlgModel.refresh(true); MessageToast.show(ok + ' OS atualizada(s).'); } catch(e){ console.error('[OSDialog.onSetTypeSelectedOS]', e); MessageBox.error('Falha ao atualizar tipo.'); } finally { dlg.close(); }
+          try { const data = dlgModel.getData()||{}; const list = data.os||[]; const sel = idxs.map(i=>list[i]).filter(Boolean); const fb = await (function(){ MessageToast.show("IndisponÃ­vel em modo local."); })(); const updates = sel.map(async (o)=>{ if(!o._id) return {ok:false}; const dref = fb.doc(fb.db,'ordensServico', o._id); try { await fb.updateDoc(dref, { TipoManual: val }); o.tipoManual = val; return {ok:true}; } catch(e){ return {ok:false, reason:e && (e.code||e.message)} } }); const res = await Promise.all(updates); const ok = res.filter(r=>r.ok).length; dlgModel.refresh(true); MessageToast.show(ok + ' OS atualizada(s).'); } catch(e){ console.error('[OSDialog.onSetTypeSelectedOS]', e); MessageBox.error('Falha ao atualizar tipo.'); } finally { dlg.close(); }
         }}));
         dlg.attachAfterClose(()=> dlg.destroy()); view.addDependent(dlg); dlg.open();
       },
@@ -222,7 +223,7 @@ sap.ui.define([
     const st = _byViewId.values().next().value; // simple single-view usage
     const res = { items: [], last: null };
     const mapped = _mapToView(res.items);
-    st.lastCursor = res.last || null; const hasNext = !!(st.lastCursor && mapped.length >= st.limit); const hasPrev = st.pageIndex > 0; const pageText = 'PÃ¡gina ' + String(st.pageIndex + 1);
+    st.lastCursor = res.last || null; const hasNext = !!(st.lastCursor && mapped.length >= st.limit); const hasPrev = st.pageIndex > 0; const pageText = 'PÃƒÂ¡gina ' + String(st.pageIndex + 1);
     st.dlgModel.setProperty('/os', mapped); st.dlgModel.setProperty('/_base', mapped.slice()); st.dlgModel.setProperty('/total', mapped.length); st.dlgModel.setProperty('/page', { index: st.pageIndex + 1, size: st.limit, hasPrev, hasNext, pageText });
     try { const mx = mapped.reduce((m,o)=>Math.max(m, Number(o.downtime)||0), 0); st.dlgModel.setProperty('/__stats', { max: mx }); } catch(_){}
   }
@@ -231,18 +232,28 @@ sap.ui.define([
     const st = _ensure(view);
     try {
       const veh = String(payload?.equnr || payload?.veiculo || '').trim();
-      const range = payload?.range || null; const start = Array.isArray(range) ? range[0] : (range?.from || null); const end = Array.isArray(range) ? range[1] : (range?.to || null);
-      // Modo inicial: permitir abertura sem veículo selecionado (mock local)
+      const range = payload?.range || null;
+      const start = Array.isArray(range) ? range[0] : (range?.from || null);
+      const end   = Array.isArray(range) ? range[1] : (range?.to   || null);
       let list = [];
       try {
-        const url = sap.ui.require.toUrl('com/skysinc/frota/frota/model/localdata/os/os.json');
-        const data = await new Promise((resolve) => { jQuery.ajax({ url, dataType: 'json', cache: false, success: (d)=>resolve(d), error: ()=>resolve(null) }); });
-        if (Array.isArray(data)) list = data; else if (data && Array.isArray(data.os)) list = data.os;
-      } catch(_) { list = []; }
+        if (start instanceof Date && end instanceof Date) {
+          const ids = veh ? [veh] : [];
+          const map = await AvailabilityService.fetchOsByVehiclesAndRange(ids, { from: start, to: end });
+          if (veh) list = map.get(veh) || [];
+          else { map.forEach((arr)=>{ if (Array.isArray(arr)) list.push.apply(list, arr); }); }
+        }
+      } catch(_) {}
+      if (!Array.isArray(list) || !list.length) {
+        try {
+          const url = sap.ui.require.toUrl('com/skysinc/frota/frota/model/localdata/os/os.json');
+          const data = await new Promise((resolve) => { jQuery.ajax({ url, dataType: 'json', cache: false, success: (d)=>resolve(d), error: ()=>resolve(null) }); });
+          if (Array.isArray(data)) list = data; else if (data && Array.isArray(data.os)) list = data.os;
+        } catch(_) { list = []; }
+      }
       const mapped = _mapToView(list);
       try { const mx = mapped.reduce((m,o)=>Math.max(m, Number(o.downtime)||0), 0); st.dlgModel.setProperty('/__stats', { max: mx }); } catch(_){}
       st.dlgModel.setData({ titulo: payload?.titulo || ('Ordens de Serviço' + (veh ? (' - ' + veh) : '')), os: mapped, _base: mapped.slice(), total: mapped.length });
-      // forÃ§a meta-range conforme filtro global
       st.dlgModel.setProperty('/__meta', { equnr: veh, start, end });
 
       const name = 'com.skysinc.frota.frota.fragments.OSDialog'; const id = view.getId();
@@ -255,7 +266,6 @@ sap.ui.define([
       return dlg;
     } catch(e){ try{ console.error('[OSDialog.open] Falha ao abrir OS', e);}catch(_){} MessageToast.show('Falha ao abrir OS.'); }
   }
-
   return { open };
 });
 
