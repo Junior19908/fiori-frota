@@ -106,3 +106,38 @@ Como rodar localmente (recomendado)
     - Unit: `http://localhost:8888/test/unit/unitTests.qunit.html`
     - Integration: `http://localhost:8888/test/integration/opaTests.qunit.html`
 - Esperado: testes unitários do `OSDialog` devem passar e validar carregamento via `AvailabilityService` (OS exibidas). Disponibilidade/indisponibilidade é exercitada via tela principal (agregação), sem teste dedicado ainda.
+
+---
+
+Atualização: 2025-10-21 (noite) — Próximos passos planejados
+
+Objetivo imediato
+- Garantir que o `OSDialog.fragment.xml` seja preenchido com dados filtrados por dia/mês/ano a partir dos arquivos `webapp/model/localdata/os/{ano}/{mm}/os.json`.
+- Normalizar a codificação do projeto (UTF-8 sem BOM) para remover mojibake em controllers, fragments e JSONs.
+
+Etapas previstas
+1. **Revisitar `OSDialog.open`**  
+   - Reaplicar a lógica de `_loadLocalRange` e `_filterByRange` descrita acima (a implementação atual foi sobrescrita).  
+   - Garantir que, após montar `/_base`, `_paginate()` seja chamado e que `/os` reflita a página corrente para o filtro selecionado.
+2. **Sincronizar com `Main.controller`**  
+   - Confirmar que `onOpenOSDialog` envia `{ equnr, range }` com objetos `Date`.  
+   - Ajustar, se necessário, o utilitário `FilterUtil.currentRange` para um range inclusivo em D+1 (fim do dia) e formato comum (Date).
+3. **Normalizar encoding**  
+   - Converter `webapp/controller/*.js`, `webapp/fragments/*.xml`, `webapp/view/*.view.xml` e JSONs relevantes para UTF-8 puro.  
+   - Revisar textos estáticos (ex.: “Página”, “Ordens de Serviço”) e substituir caracteres corrompidos (`Ã`, `�`, etc.) pelos equivalentes corretos ou sequências `\uXXXX`.
+4. **Ajustar bindings no fragmento**  
+   - Revisar labels, tooltips e formatters para assegurar que apontam para `osDlg>` e que a exibição reflete os dados pós-filtro.  
+   - Validar que a tabela mostra `noDataText` personalizado quando `osDlg>/os` estiver vazio após filtragem.
+5. **Reexecutar testes**  
+   - Rodar `webapp/test/testsuite.qunit.html` manualmente.  
+   - Reexecutar o runner headless (`node scripts/run-qunit-headless.js`) após a correção de encoding, verificando se o timeout anterior desaparece.
+
+Riscos/observações
+- O arquivo `webapp/model/localdata/os/2025/10/os.json` possui 500k+ linhas; manipulações em massa devem ser conduzidas com scripts controlados para evitar corrupção.  
+- Após a normalização de encoding será necessário alinhar `git` para não gerar diffs gigantes (untar `core.autocrlf=false` temporariamente ou usar conversão com `iconv -c` em lote).  
+- Certificar que o fallback local continua disponível mesmo quando `AvailabilityService` retornar vazio (períodos sem arquivos).
+
+Entrega esperada
+- Diálogo exibindo OS correspondentes ao período filtrado.  
+- Layout sem caracteres corrompidos.  
+- Documentação dessa execução mantida neste log e, se possível, checklist final anexado ao PR/commit.
