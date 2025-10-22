@@ -22,16 +22,16 @@
 
     <content>
       <VBox renderType="Bare">
-<Toolbar>
-  <Button text="Concluir selecionadas" icon="sap-icon://accept" type="Emphasized" enabled="{= ${osDlg>/os}.length > 0 }" press=".onCloseSelectedOS"/>
-  <Button text="Definir tipo" icon="sap-icon://edit" type="Transparent" enabled="{= ${osDlg>/os}.length > 0 }" press=".onSetTypeSelectedOS"/>
-  <ToolbarSpacer/>
-  <Button text="Anterior" icon="sap-icon://navigation-left-arrow" type="Transparent" enabled="{= !!${osDlg>/page} && !!${osDlg>/page/hasPrev} }" press=".onPrevPage"/>
-  <Text text="{osDlg>/page/pageText}"/>
-  <Button text="Próxima" icon="sap-icon://navigation-right-arrow" type="Transparent" enabled="{= !!${osDlg>/page} && !!${osDlg>/page/hasNext} }" press=".onNextPage"/>
-  <ToolbarSeparator/>
-  <SearchField width="22rem" placeholder="Filtrar por veículo, ordem ou título" liveChange=".onLiveSearch"/>
-</Toolbar>
+        <Toolbar>
+          <Button text="Concluir selecionadas" icon="sap-icon://accept" type="Emphasized" enabled="{= ${osDlg>/os}.length > 0 }" press=".onCloseSelectedOS"/>
+          <Button text="Definir tipo" icon="sap-icon://edit" type="Transparent" enabled="{= ${osDlg>/os}.length > 0 }" press=".onSetTypeSelectedOS"/>
+          <ToolbarSpacer/>
+          <Button text="Anterior" icon="sap-icon://navigation-left-arrow" type="Transparent" enabled="{= !!${osDlg>/page} && !!${osDlg>/page/hasPrev} }" press=".onPrevPage"/>
+          <Text text="{osDlg>/page/pageText}"/>
+          <Button text="Proxima" icon="sap-icon://navigation-right-arrow" type="Transparent" enabled="{= !!${osDlg>/page} && !!${osDlg>/page/hasNext} }" press=".onNextPage"/>
+          <ToolbarSeparator/>
+          <SearchField width="22rem" placeholder="Filtrar por veiculo, ordem ou titulo" liveChange=".onLiveSearch"/>
+        </Toolbar>
 
         <table:Table id="tblOSGrid"
                      rows="{osDlg>/os}"
@@ -47,7 +47,7 @@
                      noDataText="Sem OS para exibir">
 
           <table:columns>
-            <!-- AÃ§Ã£o: Detalhes da OS -->
+            <!-- Duracao: Detalhes da OS -->
             <table:Column width="3rem" hAlign="Center">
               <Label text=""/>
               <table:template>
@@ -57,7 +57,7 @@
             </table:Column>
 
             <table:Column width="7rem" sortProperty="veiculo" filterProperty="veiculo" hAlign="Begin">
-              <Label text="VeÃ­culo" textAlign="Center" width="100%"/>
+              <Label text="Veiculo" textAlign="Center" width="100%"/>
               <table:template>
                 <Text text="{osDlg>veiculo}" tooltip="{osDlg>veiculo}"/>
               </table:template>
@@ -71,21 +71,21 @@
             </table:Column>
 
             <table:Column width="22rem" sortProperty="titulo" filterProperty="titulo" hAlign="Begin">
-              <Label text="TÃ­tulo" textAlign="Center" width="100%"/>
+              <Label text="Titulo" textAlign="Center" width="100%"/>
               <table:template>
                 <Text text="{osDlg>titulo}" tooltip="{osDlg>titulo}" wrapping="true"/>
               </table:template>
             </table:Column>
 
             <table:Column width="10rem" sortProperty="inicio" hAlign="Center">
-              <Label text="InÃ­cio" textAlign="Center" width="100%"/>
+              <Label text="Inicio" textAlign="Center" width="100%"/>
               <table:template>
                 <Text text="{ parts: [ {path:'osDlg>inicio'}, {path:'osDlg>horaInicio'} ], formatter: '.formatter.fmtDateTime' }"/>
               </table:template>
             </table:Column>
 
             <table:Column width="7rem" sortProperty="horaInicio" hAlign="Center" visible="false">
-              <Label text="Hora InÃ­cio" textAlign="Center" width="100%"/>
+              <Label text="Hora Inicio" textAlign="Center" width="100%"/>
               <table:template>
                 <Text text="{ path: 'osDlg>horaInicio', formatter: '.formatter.fmtHora' }"/>
               </table:template>
@@ -109,7 +109,7 @@
             <table:Column width="8rem" hAlign="Center">
               <Label text="Parada" textAlign="Center" width="100%"/>
               <table:template>
-                <ObjectStatus text="{= ${osDlg>parada} ? 'Sim' : 'NÃ£o' }"
+                <ObjectStatus text="{= ${osDlg>parada} ? 'Sim' : 'Nao' }"
                               state="{= ${osDlg>parada} ? 'Error' : 'Success' }"/>
               </table:template>
             </table:Column>
@@ -121,9 +121,9 @@
               </table:template>
             </table:Column>
 
-            <!-- DuraÃ§Ã£o (Progress Bar) -->
+            <!-- Duracao (Progress Bar) -->
             <table:Column width="18rem" hAlign="Center">
-              <Label text="DuraÃ§Ã£o" textAlign="Center" width="100%"/>
+              <Label text="Duracao" textAlign="Center" width="100%"/>
               <table:template>
                 <ProgressIndicator width="100%"
                                    percentValue="{ parts: [ {path:'osDlg>downtime'}, {path:'osDlg>/__stats/max'} ], formatter: '.formatter.hoursPctOfMax' }"
@@ -168,3 +168,4 @@
     </buttons>
   </Dialog>
 </core:FragmentDefinition>
+

@@ -46,7 +46,7 @@ sap.ui.define([
       const c = String(code || '').toUpperCase();
       if (c === 'ZF01') return 'Projeto / Melhoria / Reforma';
       if (c === 'ZF02') return 'Corretiva';
-      if (c === 'ZF03') return 'Preventiva B├â┬ísica/Mec├â┬ónica';
+      if (c === 'ZF03') return 'Preventiva Basica/Mecanica';
       return c || '';
     } catch (_) { return String(code||''); }
   }
@@ -73,7 +73,7 @@ sap.ui.define([
         downtimeFmt: _formatDowntime(Number(downtime) || 0),
         tipoManual: String(o.TipoManual || ""),
         categoria: categoria,
-        tipoLabel: (categoria === 'ZF03' ? 'Preventiva Bßsica/MecÔnica' : _typeLabel(categoria))
+        tipoLabel: (categoria === 'ZF03' ? 'Preventiva Basica/Mecanica' : _typeLabel(categoria))
       };
     });
   }
@@ -81,7 +81,7 @@ sap.ui.define([
   function _ensure(view) {
     const vid = view.getId();
     if (_byViewId.has(vid)) return _byViewId.get(vid);
-    const dlgModel = new JSONModel({ titulo: 'OS', os: [], _base: [], total: 0, page: { index:1, size:200, hasPrev:false, hasNext:false, pageText:'Pßgina 1' } });
+    const dlgModel = new JSONModel({ titulo: 'OS', os: [], _base: [], total: 0, page: { index:1, size:200, hasPrev:false, hasNext:false, pageText:'Pagina 1' } });
     let dialogRef = null;
 
     let pageIndex = 0;
@@ -138,7 +138,7 @@ sap.ui.define([
           const dlg = new sap.m.Dialog({ title: title, contentWidth: '32rem', horizontalScrolling: true });
           function row(label, value){ return new sap.m.HBox({ alignItems:'Center', items:[ new sap.m.Label({ text: label, width: '11rem', design:'Bold' }), new sap.m.Text({ text: String(value==null?'':value) }) ] }); }
           const vb = new sap.m.VBox({ width:'100%', items:[
-            row('Ve├â┬¡culo', o.veiculo||''), row('Ordem', o.ordem||''), row('T├â┬¡tulo', o.titulo||''), row('Tipo OS', o.tipoLabel||''), row('Tipo (manual)', o.tipoManual||''), row('In├â┬¡cio', (o.inicio||'') + (o.horaInicio?(' '+o.horaInicio):'')), row('Fim', (o.fim||'') + (o.horaFim?(' '+o.horaFim):'')), row('Parada', o.parada?'Sim':'N├â┬úo'), row('Inatividade', o.downtimeFmt||'')
+            row('Veiculo', o.veiculo||''), row('Ordem', o.ordem||''), row('Titulo', o.titulo||''), row('Tipo OS', o.tipoLabel||''), row('Tipo (manual)', o.tipoManual||''), row('Inicio', (o.inicio||'') + (o.horaInicio?(' '+o.horaInicio):'')), row('Fim', (o.fim||'') + (o.horaFim?(' '+o.horaFim):'')), row('Parada', o.parada?'Sim':'Nao'), row('Inatividade', o.downtimeFmt||'')
           ]});
           dlg.addContent(vb);
           dlg.addButton(new sap.m.Button({ text:'Fechar', type:'Transparent', press: function(){ dlg.close(); } }));
@@ -223,7 +223,7 @@ sap.ui.define([
     const st = _byViewId.values().next().value; // simple single-view usage
     const res = { items: [], last: null };
     const mapped = _mapToView(res.items);
-    st.lastCursor = res.last || null; const hasNext = !!(st.lastCursor && mapped.length >= st.limit); const hasPrev = st.pageIndex > 0; const pageText = 'P├â┬ígina ' + String(st.pageIndex + 1);
+    st.lastCursor = res.last || null; const hasNext = !!(st.lastCursor && mapped.length >= st.limit); const hasPrev = st.pageIndex > 0; const pageText = 'Pagina ' + String(st.pageIndex + 1);
     st.dlgModel.setProperty('/os', mapped); st.dlgModel.setProperty('/_base', mapped.slice()); st.dlgModel.setProperty('/total', mapped.length); st.dlgModel.setProperty('/page', { index: st.pageIndex + 1, size: st.limit, hasPrev, hasNext, pageText });
     try { const mx = mapped.reduce((m,o)=>Math.max(m, Number(o.downtime)||0), 0); st.dlgModel.setProperty('/__stats', { max: mx }); } catch(_){}
   }
@@ -253,7 +253,7 @@ sap.ui.define([
       }
       const mapped = _mapToView(list);
       try { const mx = mapped.reduce((m,o)=>Math.max(m, Number(o.downtime)||0), 0); st.dlgModel.setProperty('/__stats', { max: mx }); } catch(_){}
-      st.dlgModel.setData({ titulo: payload?.titulo || ('Ordens de Serviþo' + (veh ? (' - ' + veh) : '')), os: mapped, _base: mapped.slice(), total: mapped.length });
+      st.dlgModel.setData({ titulo: payload?.titulo || ('Ordens de Servico' + (veh ? (' - ' + veh) : '')), os: mapped, _base: mapped.slice(), total: mapped.length });
       st.dlgModel.setProperty('/__meta', { equnr: veh, start, end });
       // inicializa paginaþÒo local a partir da base
       st.pageIndex = 0;
@@ -295,7 +295,7 @@ sap.ui.define([
       const pageItems = base.slice(from, to);
       const hasPrev = pageIdx > 0;
       const hasNext = to < total;
-      const pageText = 'Pßgina ' + String(pageIdx + 1) + (total > size ? (' de ' + String(Math.ceil(total / size))) : '');
+      const pageText = 'Pagina ' + String(pageIdx + 1) + (total > size ? (' de ' + String(Math.ceil(total / size))) : '');
       st.dlgModel.setProperty('/os', pageItems);
       st.dlgModel.setProperty('/total', total);
       st.dlgModel.setProperty('/page', { index: pageIdx + 1, size, hasPrev, hasNext, pageText });
