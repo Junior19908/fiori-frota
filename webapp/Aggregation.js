@@ -475,12 +475,22 @@ sap.ui.define([
       try {
         const keyOs  = key;
         const osList = (keyOs && __osMap && __osMap.get && __osMap.get(String(keyOs))) || [];
-        const { pctDisp, pctIndisp } = calcDisponibilidade(osList, { from: start, to: end });
-        v.pctDisp   = pctDisp;
-        v.pctIndisp = pctIndisp;
+        const { tempoTotalH, indispH, pctDisp, pctIndisp } = calcDisponibilidade(osList, { from: start, to: end });
+        const totalHoras = Number(Math.max(0, tempoTotalH).toFixed(2));
+        const horasIndisp = Number(Math.max(0, indispH).toFixed(2));
+        const horasDisp = Number(Math.max(0, tempoTotalH - indispH).toFixed(2));
+
+        v.pctDisp                = pctDisp;
+        v.pctIndisp              = pctIndisp;
+        v.totalHorasPeriodo      = totalHoras;
+        v.totalHorasIndisponiveis = horasIndisp;
+        v.totalHorasDisponiveis  = horasDisp;
       } catch (e) {
         v.pctDisp = 100.0;
         v.pctIndisp = 0.0;
+        v.totalHorasPeriodo = 0;
+        v.totalHorasIndisponiveis = 0;
+        v.totalHorasDisponiveis = 0;
       }
     });
 

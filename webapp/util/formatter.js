@@ -267,6 +267,28 @@ sap.ui.define([], function () {
       if (!isFinite(pctDisp) || !isFinite(pctIndisp)) return "";
       return `${Number(pctDisp).toFixed(1)}% disponível | ${Number(pctIndisp).toFixed(1)}% indisponível`;
     },
+    fmtDisponibilidadeTooltip: function(pctDisp, pctIndisp, totalHoras, horasIndisp, horasDisp){
+      const total = Number(totalHoras);
+      const indisp = Number(horasIndisp);
+      const disp = horasDisp != null ? Number(horasDisp) : (isFinite(total) && isFinite(indisp) ? total - indisp : NaN);
+      const pctDispN = Number(pctDisp);
+      const pctIndispN = Number(pctIndisp);
+
+      if (!isFinite(total) || total <= 0) {
+        if (isFinite(pctDispN) && isFinite(pctIndispN)) {
+          return `${pctDispN.toFixed(1)}% disponível | ${pctIndispN.toFixed(1)}% indisponível`;
+        }
+        return "";
+      }
+
+      const totalTxt = fmtNumber(total, 2, 2);
+      const indispTxt = fmtNumber(Math.max(indisp, 0), 2, 2);
+      const dispTxt = fmtNumber(Math.max(isFinite(disp) ? disp : total - Math.max(indisp, 0), 0), 2, 2);
+      const pctDispTxt = isFinite(pctDispN) ? pctDispN.toFixed(1) : "0.0";
+      const pctIndispTxt = isFinite(pctIndispN) ? pctIndispN.toFixed(1) : "0.0";
+
+      return `Indisponibilidade: (${indispTxt} h / ${totalTxt} h) x 100 = ${pctIndispTxt}%. Disponibilidade: 100 - ${pctIndispTxt}% = ${pctDispTxt}%. Horas disponíveis: ${dispTxt} h.`;
+    },
     stateDisponibilidade: function(pctDisp){
       const d = Number(pctDisp) || 0;
       if (d >= 90) return "Success";

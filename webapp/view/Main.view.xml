@@ -91,7 +91,14 @@
             <!-- Demais itens preenchidos no onInit -->
           </items>
         </ComboBox>
-
+        <Button
+          icon="sap-icon://hint"
+          type="Transparent"
+          tooltip="Disponibilidade (%) = 100 - Indisponibilidade (%). Indisponibilidade (%) = (Horas em OS / (Dias x 24)) x 100. Dias x 24 representam o total de horas do período.">
+          <layoutData>
+            <OverflowToolbarLayoutData priority="NeverOverflow"/>
+          </layoutData>
+        </Button>
         <ToolbarSpacer/>
       </OverflowToolbar>
 
@@ -211,7 +218,9 @@
           </table:Column>
 
           <table:Column sortProperty="pctDisp" width="16rem" hAlign="Center">
-            <Label text="Disponibilidade"/>
+            <Label
+              text="Disponibilidade"
+              tooltip="Disponibilidade (%) = 100 - Indisponibilidade (%). Indisponibilidade (%) = (Horas em OS / Total de horas do período) x 100."/>
             <table:template>
               <ObjectStatus
                 text="{
@@ -219,7 +228,16 @@
         formatter: '.formatter.fmtDisponibilidade'
       }"
                 state="{ path:'vm>pctDisp', formatter:'.formatter.stateDisponibilidade' }"
-                tooltip="Disponibilidade calculada no período selecionado"/>
+                tooltip="{
+                  parts: [
+                    { path: 'vm>pctDisp' },
+                    { path: 'vm>pctIndisp' },
+                    { path: 'vm>totalHorasPeriodo' },
+                    { path: 'vm>totalHorasIndisponiveis' },
+                    { path: 'vm>totalHorasDisponiveis' }
+                  ],
+                  formatter: '.formatter.fmtDisponibilidadeTooltip'
+                }"/>
             </table:template>
           </table:Column>
 

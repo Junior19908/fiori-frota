@@ -56,7 +56,7 @@ sap.ui.define([
         resumoCombFmt: "Comb: R$ 0,00",
         resumoLitrosFmt: "Litros: 0,00 L",
         resumoMatFmt: "Mat/Serv: R$ 0,00",
-        resumoPrecoFmt: "Pre├â┬ºo M├â┬®dio: 0,00 R$/L"
+        resumoPrecoFmt: "Preço Médio: 0,00 R$/L"
       });
       try {
         const router = this.getOwnerComponent().getRouter && this.getOwnerComponent().getRouter();
@@ -92,7 +92,7 @@ sap.ui.define([
             if (comp && typeof comp.loadAllHistoryInRange === "function" && Array.isArray(range)) {
               const months = this._monthsSpan(range[0], range[1]);
               if (months > 12) {
-                sap.m.MessageToast.show(`Per├¡odo selecionado muito grande (${months} meses). M├íximo: 12.`);
+                sap.m.MessageToast.show(`Período selecionado muito grande (${months} meses). Máximo: 12.`);
               } else {
                 await comp.loadAllHistoryInRange(range[0], range[1]);
               }
@@ -103,7 +103,7 @@ sap.ui.define([
           this._ensureCategoriasCombo();
           this._recalcAndRefresh();
         } catch (e) {
-          try { sap.m.MessageToast.show("Falha na inicializa├º├úo ass├¡ncrona."); } catch(_){}
+          try { sap.m.MessageToast.show("Falha na inicializaçã assíncrona."); } catch(_){}
         }
       };
       void doInitAsync();
@@ -117,7 +117,7 @@ sap.ui.define([
           if (comp && typeof comp.loadAllHistoryInRange === "function" && Array.isArray(range)) {
             const months = this._monthsSpan(range[0], range[1]);
             if (months > 12) {
-              sap.m.MessageToast.show(`Per├¡odo selecionado muito grande (${months} meses). M├íximo: 12.`);
+              sap.m.MessageToast.show(`Período selecionado muito grande (${months} meses). Máximo: 12.`);
             } else {
               await comp.loadAllHistoryInRange(range[0], range[1]);
             }
@@ -150,7 +150,7 @@ sap.ui.define([
         if (comp && typeof comp.loadAllHistoryInRange === "function" && Array.isArray(range)) {
           const months = this._monthsSpan(range[0], range[1]);
           if (months > 12) {
-            sap.m.MessageToast.show(`Per├¡odo selecionado muito grande (${months} meses). M├íximo: 12.`);
+            sap.m.MessageToast.show(`Período selecionado muito grande (${months} meses). Máximo: 12.`);
           } else {
             await comp.loadAllHistoryInRange(range[0], range[1]);
           }
@@ -164,7 +164,7 @@ sap.ui.define([
 
     // ========= NOVO: Bot├â┬úo de Configura├â┬º├â┬úo =========
     onOpenConfig: function () {
-      // Usa o ve├â┬¡culo selecionado no ComboBox "inpVeiculo"
+      // Usa o veículo selecionado no ComboBox "inpVeiculo"
       const oVehCombo = this.byId("inpVeiculo");
       const sEqunr = oVehCombo && oVehCombo.getSelectedKey();
 
@@ -181,7 +181,7 @@ sap.ui.define([
       } catch (e) {
         // segue para fallback
       }
-      MessageToast.show("Rota 'config' n├â┬úo encontrada. Configure o routing no manifest.json.");
+      MessageToast.show("Rota 'config' não encontrada. Configure o routing no manifest.json.");
     },
     // ========= FIM DO NOVO =========
 
@@ -196,7 +196,7 @@ sap.ui.define([
       } catch (e) {
         // fallback abaixo
       }
-      sap.m.MessageToast.show("Rota 'settings' n├â┬úo encontrada. Verifique o routing no manifest.json.");
+      sap.m.MessageToast.show("Rota 'settings' não encontrada. Verifique o routing no manifest.json.");
     },
 
     onOpenHistorico: function (oEvent) {
@@ -223,7 +223,7 @@ sap.ui.define([
     onOpenIW38Preview: function (oEvent) {
       try {
         const ctxObj = oEvent?.getSource?.()?.getBindingContext("vm")?.getObject?.();
-        // Usa alguma poss├â┬¡vel ordem vinda do contexto, sen├â┬úo um valor padr├â┬úo do mock
+        // Usa alguma possível ordem vinda do contexto, senão um valor padr├â┬úo do mock
         const equnr = String(ctxObj?.equnr || ctxObj?.veiculo || "");
         const oRouter = this.getOwnerComponent().getRouter && this.getOwnerComponent().getRouter();
         if (oRouter && oRouter.navTo) {
@@ -233,7 +233,7 @@ sap.ui.define([
       } catch (e) {
         // segue para fallback
       }
-      sap.m.MessageToast.show("Rota 'RouteIW38' n├â┬úo encontrada. Verifique o routing no manifest.json.");
+      sap.m.MessageToast.show("Rota 'RouteIW38' não encontrada. Verifique o routing no manifest.json.");
     },
 
     onOpenMateriais: function (oEvent) {
@@ -254,7 +254,7 @@ sap.ui.define([
 
     onPrintMateriais: function () {
       const dlg = this.byId("dlgMateriais");
-      if (!dlg) { MessageToast.show("Abra o di├â┬ílogo de materiais primeiro."); return; }
+      if (!dlg) { MessageToast.show("Abra o diálogo de materiais primeiro."); return; }
       const win = window.open("", "_blank", "noopener,noreferrer");
       if (!win) { MessageBox.warning("Bloqueador de pop-up? Permita para imprimir."); return; }
 
@@ -315,13 +315,13 @@ sap.ui.define([
       const item = ctx && ctx.getObject ? ctx.getObject() : null;
 
       if (!item || !item.equnr) {
-        sap.m.MessageToast.show("Selecione um ve├â┬¡culo v├â┬ílido.");
+        sap.m.MessageToast.show("Selecione um veículo válido.");
         return;
       }
 
       const drs = this.byId("drs");
       if (!drs) {
-        sap.m.MessageToast.show("Componente de per├â┬¡odo n├â┬úo encontrado.");
+        sap.m.MessageToast.show("Componente de período não encontrado.");
         return;
       }
       const range = FilterUtil.currentRange(drs);
@@ -352,10 +352,10 @@ sap.ui.define([
         FuelService.saveFuelLimits(this, { reason: "manual" })
           .then((ok) => {
             if (ok) MessageToast.show("Limites salvos.");
-            else MessageToast.show("N├â┬úo foi poss├â┬¡vel salvar os limites.");
+            else MessageToast.show("não foi possível salvar os limites.");
           });
       } catch (e) {
-        MessageToast.show("N├â┬úo foi poss├â┬¡vel salvar os limites.");
+        MessageToast.show("não foi possível salvar os limites.");
       }
     },
 
@@ -500,7 +500,7 @@ sap.ui.define([
         resumoCombFmt: "Comb: " + this.formatter.fmtBrl(totCombR$),
         resumoLitrosFmt: "Litros: " + this.formatter.fmtLitros(totLitros),
         resumoMatFmt: "Mat/Serv: " + this.formatter.fmtBrl(totMatR$),
-        resumoPrecoFmt: "Pre├â┬ºo M├â┬®dio: " + this.formatter.fmtNum(precoMedio) + " R$/L"
+        resumoPrecoFmt: "Preço Médio: " + this.formatter.fmtNum(precoMedio) + " R$/L"
       }, true);
     },
 
