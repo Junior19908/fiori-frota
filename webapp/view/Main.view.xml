@@ -137,8 +137,8 @@
               <HBox alignItems="Center" justifyContent="Center">
                 <Button icon="sap-icon://detail-view" type="Transparent" tooltip="Materiais/serviços" press=".onOpenMateriais"/>
                 <Button icon="sap-icon://mileage" type="Transparent" tooltip="Abastecimentos" press=".onOpenAbastecimentos"/>
+				<Button icon="sap-icon://enablement" type="Transparent" tooltip="Odens de serviço" press=".onOpenOSDialog"/>
                 <Button icon="sap-icon://insurance-car" type="Transparent" tooltip="Histórico" press=".onOpenHistorico"/>
-                <Button icon="sap-icon://enablement" type="Transparent" tooltip="Odens de serviço" press=".onOpenOSDialog"/>
               </HBox>
             </table:template>
           </table:Column>

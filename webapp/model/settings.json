@@ -1,16 +1,13 @@
 {
   "showAllOS": false,
   "osTypes": [
-    "ZF02",
-    "ZF1",
-    "ZF2",
-    "ZF3"
+    "ZF02"
   ],
   "autoLoadMain": false,
   "autoLoadIntervalSec": 30,
   "mainDatePref": "today",
   "saveLocal": true,
-  "theme": "sap_fiori_3",
+  "theme": "sap_horizon",
   "avatarSrc": "",
   "avatarInitials": "CJ"
 }
