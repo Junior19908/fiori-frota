@@ -348,39 +348,50 @@ sap.ui.define([
       // Resolve URLs locais com sap.ui.require.toUrl (respeita cachebuster/FLP)
       var base = "com/skysinc/frota/frota/thirdparty/leaflet";
       var cssUrl = sap.ui.require.toUrl(base + "/leaflet.css");
-      var jsUrl  = sap.ui.require.toUrl(base + "/leaflet.js");
       var iconUrl        = sap.ui.require.toUrl(base + "/images/marker-icon.png");
       var icon2xUrl      = sap.ui.require.toUrl(base + "/images/marker-icon-2x.png");
       var shadowUrl      = sap.ui.require.toUrl(base + "/images/marker-shadow.png");
 
       this._leafletLoadingPromise = new Promise(function (resolve, reject) {
         // CSS local (sem SRI/crossorigin)
-        var link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.href = cssUrl;
-        document.head.appendChild(link);
+        if (!document.querySelector('link[data-leaflet-css="true"]')) {
+          var link = document.createElement("link");
+          link.rel = "stylesheet";
+          link.href = cssUrl;
+          link.setAttribute("data-leaflet-css", "true");
+          document.head.appendChild(link);
+        }
 
-        // JS local
-        var script = document.createElement("script");
-        script.src = jsUrl;
-        script.onload = function () {
+        sap.ui.require([base + "/leaflet"], function (Leaflet) {
           try {
+            var LInstance = Leaflet || window.L;
+            if (!LInstance) {
+              reject(new Error("Falha ao carregar módulo Leaflet."));
+              return;
+            }
+
+            if (typeof window !== "undefined" && !window.L) {
+              window.L = LInstance;
+            }
+            this._leafletInstance = LInstance;
+
             // Corrige caminho dos ícones padrão (evita depender de paths relativos do CSS)
-            if (window.L && L.Icon && L.Icon.Default && typeof L.Icon.Default.mergeOptions === "function") {
-              L.Icon.Default.mergeOptions({
+            if (LInstance.Icon && LInstance.Icon.Default && typeof LInstance.Icon.Default.mergeOptions === "function") {
+              LInstance.Icon.Default.mergeOptions({
                 iconUrl: iconUrl,
                 iconRetinaUrl: icon2xUrl,
                 shadowUrl: shadowUrl
               });
             }
-            resolve();
+
+            resolve(LInstance);
           } catch (e) {
             reject(e);
           }
-        };
-        script.onerror = function () { reject(new Error("Falha ao carregar Leaflet local.")); };
-        document.head.appendChild(script);
-      });
+        }.bind(this), function (oError) {
+          reject(oError);
+        });
+      }.bind(this));
 
       return this._leafletLoadingPromise;
     },
@@ -417,22 +428,23 @@ sap.ui.define([
 
       return new Promise((resolve, reject) => {
         const attemptInit = () => {
-          if (typeof L === "undefined") { reject(new Error("Leaflet não está disponível")); return; }
+          const LInstance = this._leafletInstance || window.L;
+          if (!LInstance) { reject(new Error("Leaflet não está disponível")); return; }
           const container = document.getElementById("mapHistorico");
           if (!container) { setTimeout(attemptInit, 120); return; }
 
           try {
-            this._map = L.map("mapHistorico").setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_ZOOM);
-            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19 }).addTo(this._map);
+            this._map = LInstance.map("mapHistorico").setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_ZOOM);
+            LInstance.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19 }).addTo(this._map);
             this._layers = {
-              truck: L.layerGroup().addTo(this._map),
-              train: L.layerGroup().addTo(this._map)
+              truck: LInstance.layerGroup().addTo(this._map),
+              train: LInstance.layerGroup().addTo(this._map)
             };
-            this._routes = L.layerGroup().addTo(this._map);
+            this._routes = LInstance.layerGroup().addTo(this._map);
             this._markers = new Map();
 
             // Marcador fixo da Usina (centro)
-            L.marker(MAP_DEFAULT_CENTER)
+            LInstance.marker(MAP_DEFAULT_CENTER)
               .addTo(this._map)
               .bindPopup("<b>Usina Serra Grande</b><br>São José da Laje - AL");
 
