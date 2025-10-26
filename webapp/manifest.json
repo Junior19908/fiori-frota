@@ -41,6 +41,7 @@
     }
   },
   "sap.ui5": {
+  "contentSecurityPolicy": "default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;",
   "flexEnabled": false,
     "config": {
       "fullWidth": true

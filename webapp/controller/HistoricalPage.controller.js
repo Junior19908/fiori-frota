@@ -117,13 +117,14 @@ sap.ui.define([
     return { pct, text, state };
   }
 
-  const MAP_DEFAULT_CENTER = [50.1109, 8.6821];
-  const MAP_DEFAULT_ZOOM = 6;
+  // ======= CONFIG MAPA (corrigido para São José da Laje/AL) =======
+  const MAP_DEFAULT_CENTER = [-8.972588, -36.065667]; // Usina Serra Grande (AL)
+  const MAP_DEFAULT_ZOOM = 13;
   const MAP_MODEL_PATH = "com/skysinc/frota/frota/model/mock/os_map.json";
   const MAP_STATUS_META = {
     delay_gt_1h: { label: "> 1h delay", color: "#d13438", state: "Error" },
     delay_lt_1h: { label: "< 1h delay", color: "#f1c40f", state: "Warning" },
-    ontime: { label: "on time", color: "#2ecc71", state: "Success" }
+    ontime:      { label: "on time",    color: "#2ecc71", state: "Success" }
   };
   const MAP_TRANSPORT_LABEL = { truck: "Truck", train: "Train" };
 
@@ -230,6 +231,7 @@ sap.ui.define([
       });
       this.getView().setModel(this._viewModel, "viewModel");
 
+      // Estado do mapa
       this._mapReadyPromise = null;
       this._mapReady = false;
       this._mapDataPromise = null;
@@ -288,16 +290,13 @@ sap.ui.define([
       if (this._mapReadyPromise) {
         this._mapReadyPromise
           .then(() => this._applyFilters())
-          .catch(() => {
-            // erro ja registrado em _ensureMapReady; evita propagacao silenciosa
-          });
+          .catch(() => { /* erro já registrado */ });
       }
     },
 
+    // --- carregamento dos dados do mapa (JSON) ---
     _ensureMapData: function () {
-      if (this._mapDataPromise) {
-        return this._mapDataPromise;
-      }
+      if (this._mapDataPromise) return this._mapDataPromise;
 
       const component = this.getOwnerComponent();
       const existing = component.getModel("osMap");
@@ -338,12 +337,60 @@ sap.ui.define([
       return this._mapDataPromise;
     },
 
-    _ensureMapReady: function () {
-      if (this._mapReadyPromise) {
-        return this._mapReadyPromise;
-      }
+    // --- garante Leaflet + instância do mapa ---
+    _loadLeaflet: function () {
+      // Já carregado?
+      if (typeof window.L !== "undefined") return Promise.resolve();
 
-      this._mapReadyPromise = this._ensureMapData()
+      // Já em carregamento?
+      if (this._leafletLoadingPromise) return this._leafletLoadingPromise;
+
+      // Resolve URLs locais com sap.ui.require.toUrl (respeita cachebuster/FLP)
+      var base = "com/skysinc/frota/frota/thirdparty/leaflet";
+      var cssUrl = sap.ui.require.toUrl(base + "/leaflet.css");
+      var jsUrl  = sap.ui.require.toUrl(base + "/leaflet.js");
+      var iconUrl        = sap.ui.require.toUrl(base + "/images/marker-icon.png");
+      var icon2xUrl      = sap.ui.require.toUrl(base + "/images/marker-icon-2x.png");
+      var shadowUrl      = sap.ui.require.toUrl(base + "/images/marker-shadow.png");
+
+      this._leafletLoadingPromise = new Promise(function (resolve, reject) {
+        // CSS local (sem SRI/crossorigin)
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = cssUrl;
+        document.head.appendChild(link);
+
+        // JS local
+        var script = document.createElement("script");
+        script.src = jsUrl;
+        script.onload = function () {
+          try {
+            // Corrige caminho dos ícones padrão (evita depender de paths relativos do CSS)
+            if (window.L && L.Icon && L.Icon.Default && typeof L.Icon.Default.mergeOptions === "function") {
+              L.Icon.Default.mergeOptions({
+                iconUrl: iconUrl,
+                iconRetinaUrl: icon2xUrl,
+                shadowUrl: shadowUrl
+              });
+            }
+            resolve();
+          } catch (e) {
+            reject(e);
+          }
+        };
+        script.onerror = function () { reject(new Error("Falha ao carregar Leaflet local.")); };
+        document.head.appendChild(script);
+      });
+
+      return this._leafletLoadingPromise;
+    },
+    _ensureMapReady: function () {
+      if (this._mapReadyPromise) return this._mapReadyPromise;
+
+      this._mapReadyPromise = Promise.all([
+        this._ensureMapData(),
+        this._loadLeaflet()
+      ])
         .then(() => this._initMap())
         .then(() => {
           this._renderRoutes();
@@ -370,15 +417,10 @@ sap.ui.define([
 
       return new Promise((resolve, reject) => {
         const attemptInit = () => {
-          if (typeof L === "undefined") {
-            reject(new Error("Leaflet nao esta disponivel"));
-            return;
-          }
+          if (typeof L === "undefined") { reject(new Error("Leaflet não está disponível")); return; }
           const container = document.getElementById("mapHistorico");
-          if (!container) {
-            setTimeout(attemptInit, 120);
-            return;
-          }
+          if (!container) { setTimeout(attemptInit, 120); return; }
+
           try {
             this._map = L.map("mapHistorico").setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_ZOOM);
             L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19 }).addTo(this._map);
@@ -388,6 +430,12 @@ sap.ui.define([
             };
             this._routes = L.layerGroup().addTo(this._map);
             this._markers = new Map();
+
+            // Marcador fixo da Usina (centro)
+            L.marker(MAP_DEFAULT_CENTER)
+              .addTo(this._map)
+              .bindPopup("<b>Usina Serra Grande</b><br>São José da Laje - AL");
+
             resolve();
           } catch (err) {
             reject(err);
@@ -398,9 +446,8 @@ sap.ui.define([
     },
 
     _renderRoutes: function () {
-      if (!this._routes || !this._osMapData) {
-        return;
-      }
+      if (!this._routes || !this._osMapData) return;
+
       this._routes.clearLayers();
       const routes = this._osMapData.rotas || [];
       routes.forEach((route) => {
@@ -416,27 +463,18 @@ sap.ui.define([
     },
 
     _renderMarkers: function () {
-      if (!this._layers || !this._osMapData) {
-        return;
-      }
+      if (!this._layers || !this._osMapData) return;
+
       Object.values(this._layers).forEach((layer) => layer.clearLayers());
-      if (!(this._markers instanceof Map)) {
-        this._markers = new Map();
-      }
-      this._markers.forEach((marker) => {
-        if (marker && typeof marker.remove === "function") {
-          marker.remove();
-        }
-      });
+      if (!(this._markers instanceof Map)) this._markers = new Map();
+      this._markers.forEach((marker) => { if (marker?.remove) marker.remove(); });
       this._markers.clear();
 
       const occurrences = this._osMapData.ocorrencias || [];
       const filter = this._viewModel?.getProperty("/filter") || {};
 
       occurrences.forEach((occ) => {
-        if (!this._isOccurrenceVisible(occ, filter)) {
-          return;
-        }
+        if (!this._isOccurrenceVisible(occ, filter)) return;
 
         let marker;
         try {
@@ -450,9 +488,7 @@ sap.ui.define([
         marker.bindPopup(popupHtml, { className: "mapHistoricoPopup" });
         marker.on("popupopen", (evt) => {
           const popupEl = evt.popup && evt.popup.getElement && evt.popup.getElement();
-          if (!popupEl) {
-            return;
-          }
+          if (!popupEl) return;
           const btn = popupEl.querySelector("[data-map-action='open-os']");
           if (btn) {
             const handler = () => this.onAbrirOS(occ.os);
@@ -517,10 +553,13 @@ sap.ui.define([
     },
 
     _fitBounds: function () {
-      if (!this._map || !this._osMapData) {
-        return;
-      }
+      if (!this._map || !this._osMapData) return;
+
       const allCoords = [];
+
+      // Centro fixo (AL) no bounds também, para manter referência local
+      allCoords.push(MAP_DEFAULT_CENTER);
+
       (this._osMapData.rotas || []).forEach((route) => {
         if (Array.isArray(route?.coordenadas)) {
           route.coordenadas.forEach((coord) => allCoords.push(coord));
@@ -531,12 +570,12 @@ sap.ui.define([
           allCoords.push(occ.coords);
         }
       });
+
       if (allCoords.length) {
         try {
           const bounds = L.latLngBounds(allCoords);
           this._map.fitBounds(bounds, { padding: [40, 40] });
         } catch (e) {
-          // fallback para view default
           this._map.setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_ZOOM);
         }
       } else {
@@ -545,9 +584,7 @@ sap.ui.define([
     },
 
     _applyFilters: function () {
-      if (!this._mapReady) {
-        return;
-      }
+      if (!this._mapReady) return;
       this._renderMarkers();
     },
 
@@ -562,15 +599,13 @@ sap.ui.define([
     },
 
     focusOnOs: function (osId, coordsOptional) {
-      if (!osId) {
-        return Promise.resolve();
-      }
+      if (!osId) return Promise.resolve();
+
       const tabBar = this.byId("historicalTabs");
-      if (tabBar && typeof tabBar.setSelectedKey === "function") {
-        if (tabBar.getSelectedKey && tabBar.getSelectedKey() !== "MAP") {
-          tabBar.setSelectedKey("MAP");
-        }
+      if (tabBar?.setSelectedKey && tabBar.getSelectedKey() !== "MAP") {
+        tabBar.setSelectedKey("MAP");
       }
+
       return this._ensureMapReady()
         .then(() => {
           const coords = Array.isArray(coordsOptional) ? coordsOptional : this._occurrenceIndex?.[osId]?.coords;
@@ -578,13 +613,9 @@ sap.ui.define([
             this._map.setView(coords, 12);
           }
           const marker = this._markers?.get(osId);
-          if (marker && typeof marker.openPopup === "function") {
-            marker.openPopup();
-          }
+          if (marker?.openPopup) marker.openPopup();
         })
-        .catch(() => {
-          // já registrado anteriormente
-        });
+        .catch(() => { /* logado anteriormente */ });
     },
 
     onAbrirOS: function (osId) {
@@ -596,13 +627,12 @@ sap.ui.define([
     },
 
     /* ======================== ROUTE ======================== */
-    /* ======================== ROUTE ======================== */
     _onRouteMatched: function (oEvent) {
       const argId = (oEvent.getParameter("arguments")||{}).id || "";
       this._equnrRaw = String(argId);
       this._equnr = padEqunr(this._equnrRaw);
 
-      // Busca veiculo no vm (se houver) ou no modelo global do Component
+      // Busca veiculo
       const vmVeic = this.getView().getModel("vm")?.getProperty("/veiculos") || [];
       const comp   = this.getOwnerComponent();
       const baseVeic = comp.getModel()?.getProperty("/veiculos") || [];
@@ -784,8 +814,6 @@ sap.ui.define([
     },
 
     _loadMateriaisServicosOData: function (from, to, extra) {
-      
-
       return ODataMaterials.loadMaterials(this.getOwnerComponent(), {
         equnr: this._equnr,
         startDate: from,
@@ -794,7 +822,7 @@ sap.ui.define([
         abapEnd:   extra?.abapEnd
       }).then(res => {
         return res || [];
-      }).catch((e) => {
+      }).catch(() => {
         return[];
       });
     },
@@ -848,7 +876,7 @@ sap.ui.define([
       const hf = this.getView().getModel("hfilter").getData();
       console.log("[Hist] Data selecionada:",
         "De:", hf.d1 && hf.d1.toString(),
-        "| atA:", hf.d2 && hf.d2.toString()
+        "| ate:", hf.d2 && hf.d2.toString()
       );
       this._applyFiltersAndKpis();
       this._buildYearComparison();
@@ -983,20 +1011,13 @@ sap.ui.define([
     },
 
     onExit: function () {
-      if (this._map && typeof this._map.remove === "function") {
-        this._map.remove();
-      }
+      if (this._map?.remove) this._map.remove();
       this._map = null;
       this._layers = null;
       this._routes = null;
-      if (this._markers && typeof this._markers.clear === "function") {
-        this._markers.clear();
-      }
+      if (this._markers?.clear) this._markers.clear();
       this._markers = new Map();
       this._mapReady = false;
     }
   });
 });
-
-
-

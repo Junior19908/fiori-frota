@@ -328,70 +328,7 @@
                                      alignItems="Start"
                                      justifyContent="Start"
                                      class="sapUiMediumMarginTop sapUiMediumMarginBottom sapUiTinyPadding mapTabFlex">
-                              <Panel width="18rem"
-                                     class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
-                                     backgroundDesign="Translucent"
-                                     headerText="Legenda &amp; filtros">
-                                <content>
-                                  <VBox renderType="Bare" class="sapUiTinyMarginBottom">
-                                    <Title text="Transporte" level="H6" class="sapUiTinyMarginBottom"/>
-                                    <VBox renderType="Bare" class="sapUiTinyMarginBottom">
-                                      <CheckBox text="Truck"
-                                                selected="{viewModel>/filter/transport/truck}"
-                                                select=".onLegendFilterChange"/>
-                                      <CheckBox text="Train"
-                                                selected="{viewModel>/filter/transport/train}"
-                                                select=".onLegendFilterChange"/>
-                                    </VBox>
-
-                                    <Title text="Status" level="H6" class="sapUiSmallMarginTop sapUiTinyMarginBottom"/>
-                                    <VBox renderType="Bare" class="sapUiTinyMarginBottom">
-                                      <HBox alignItems="Center">
-                                        <CheckBox ariaLabelledBy="idMapStatusGt1h"
-                                                  selected="{viewModel>/filter/status/delay_gt_1h}"
-                                                  select=".onLegendFilterChange"/>
-                                        <ObjectStatus id="idMapStatusGt1h"
-                                                      text="&gt; 1h delay"
-                                                      state="Error"
-                                                      class="sapUiTinyMarginBegin"/>
-                                      </HBox>
-                                      <HBox alignItems="Center" class="sapUiTinyMarginTop">
-                                        <CheckBox ariaLabelledBy="idMapStatusLt1h"
-                                                  selected="{viewModel>/filter/status/delay_lt_1h}"
-                                                  select=".onLegendFilterChange"/>
-                                        <ObjectStatus id="idMapStatusLt1h"
-                                                      text="&lt; 1h delay"
-                                                      state="Warning"
-                                                      class="sapUiTinyMarginBegin"/>
-                                      </HBox>
-                                      <HBox alignItems="Center" class="sapUiTinyMarginTop">
-                                        <CheckBox ariaLabelledBy="idMapStatusOnTime"
-                                                  selected="{viewModel>/filter/status/ontime}"
-                                                  select=".onLegendFilterChange"/>
-                                        <ObjectStatus id="idMapStatusOnTime"
-                                                      text="on time"
-                                                      state="Success"
-                                                      class="sapUiTinyMarginBegin"/>
-                                      </HBox>
-                                    </VBox>
-
-                                    <Title text="Localização" level="H6" class="sapUiSmallMarginTop sapUiTinyMarginBottom"/>
-                                    <VBox renderType="Bare">
-                                      <CheckBox text="Frankfurt"
-                                                selected="{viewModel>/filter/location/Frankfurt}"
-                                                select=".onLegendFilterChange"/>
-                                      <CheckBox text="Hamburg"
-                                                selected="{viewModel>/filter/location/Hamburg}"
-                                                select=".onLegendFilterChange"
-                                                class="sapUiTinyMarginTop"/>
-                                      <CheckBox text="Munich"
-                                                selected="{viewModel>/filter/location/Munich}"
-                                                select=".onLegendFilterChange"
-                                                class="sapUiTinyMarginTop"/>
-                                    </VBox>
-                                  </VBox>
-                                </content>
-                              </Panel>
+                              
 
                               <VBox width="100%"
                                     renderType="Bare"
@@ -402,6 +339,7 @@
                                   <core:HTML
                                     id="mapHtml"
                                     preferDOM="true"
+                                    sanitizeContent="false"
                                     content="&lt;div id='mapHistorico' style='width:100%;height:60vh;border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,0.15);'&gt;&lt;/div&gt;" />
                               </VBox>
                             </FlexBox>
@@ -416,26 +354,6 @@
                 <!-- KPI LATERAL + GRAFICO COMPARATIVO COMPACTO -->
                 <l:sideContent>
                   <VBox class="sapUiSmallMargin sapUiResponsiveContentPadding">
-                    <Toolbar class="sapUiTinyMarginBottom">
-                      <ObjectStatus text="Preco medio R$/L" state="None"/>
-                      <Text text="{detail>/precoMedioFmt}" class="sapUiTinyMarginBegin"/>
-                    </Toolbar>
-                    <Toolbar>
-                      <ObjectStatus text="Total Combustivel" state="Information"/>
-                      <ObjectNumber number="{detail>/totalCombustivelFmt}" class="sapUiTinyMarginBegin"/>
-                    </Toolbar>
-                    <Toolbar>
-                      <ObjectStatus text="Total Materiais" state="Success"/>
-                      <ObjectNumber number="{detail>/totalMateriaisFmt}" class="sapUiTinyMarginBegin"/>
-                    </Toolbar>
-                    <Toolbar>
-                      <ObjectStatus text="Total Servicos" state="Warning"/>
-                      <ObjectNumber number="{detail>/totalServicosFmt}" class="sapUiTinyMarginBegin"/>
-                    </Toolbar>
-                    <Toolbar>
-                      <ObjectStatus text="Total Geral" state="None"/>
-                      <ObjectNumber number="{detail>/totalGeralFmt}" class="sapUiTinyMarginBegin"/>
-                    </Toolbar>
 
                     <!-- Grafico principal (tipo alternavel) -->
                     <VBox class="sapUiSmallMarginTop">

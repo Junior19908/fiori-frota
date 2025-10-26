@@ -1,12 +1,28 @@
 {
   "rotas": [
     {
-      "id": "R1",
-      "nome": "Rota Norte",
+      "id": "R0",
+      "nome": "Circuito Interno - USGA",
       "coordenadas": [
-        [50.1109, 8.6821],
-        [51.0504, 13.7373],
-        [52.5200, 13.4050]
+        [-8.9718, -36.0682],
+        [-8.9735, -36.0660],
+        [-8.9748, -36.0645],
+        [-8.9740, -36.0624],
+        [-8.9732, -36.0619],
+        [-8.9724, -36.0629],
+        [-8.9719, -36.0638],
+        [-8.9718, -36.0682]
+      ]
+    },
+    {
+      "id": "R1",
+      "nome": "Transporte de Cana - Trecho Norte",
+      "coordenadas": [
+        [-8.9726, -36.0657],
+        [-8.9660, -36.0695],
+        [-8.9600, -36.0700],
+        [-8.9500, -36.0600],
+        [-8.9400, -36.0500]
       ]
     }
   ],
@@ -15,28 +31,55 @@
       "os": "4864553",
       "tipoTransporte": "truck",
       "status": "delay_gt_1h",
-      "cidade": "Frankfurt",
-      "coords": [50.1109, 8.6821],
+      "cidade": "São José da Laje",
+      "coords": [-8.9732, -36.0619],
       "dataHora": "2025-10-09T15:15:01",
-      "resumo": "Quebra na bomba de combustível"
+      "resumo": "Vazamento na linha de combustível"
     },
     {
       "os": "4866275",
-      "tipoTransporte": "train",
+      "tipoTransporte": "truck",
       "status": "ontime",
-      "cidade": "Munich",
-      "coords": [48.1351, 11.5820],
+      "cidade": "São José da Laje",
+      "coords": [-8.9719, -36.0638],
       "dataHora": "2025-10-14T08:50:35",
-      "resumo": "Sinalização normalizada"
+      "resumo": "Preventiva concluída"
     },
     {
       "os": "4867000",
       "tipoTransporte": "truck",
       "status": "delay_lt_1h",
-      "cidade": "Hamburg",
-      "coords": [53.5511, 9.9937],
+      "cidade": "São José da Laje",
+      "coords": [-8.9748, -36.0645],
       "dataHora": "2025-10-14T12:09:25",
-      "resumo": "Pneu substituído"
+      "resumo": "Correia desalinhada ajustada"
+    },
+    {
+      "os": "4867123",
+      "tipoTransporte": "train",
+      "status": "ontime",
+      "cidade": "São José da Laje",
+      "coords": [-8.9735, -36.0660],
+      "dataHora": "2025-10-15T09:30:00",
+      "resumo": "Fluxo ferroviário normalizado (mock)"
+    },
+    {
+      "os": "4867200",
+      "tipoTransporte": "truck",
+      "status": "delay_gt_1h",
+      "cidade": "São José da Laje",
+      "coords": [-8.9718, -36.0682],
+      "dataHora": "2025-10-16T07:10:00",
+      "resumo": "Acesso bloqueado por manutenção viária interna"
+    },
+    {
+      "os": "4867300",
+      "tipoTransporte": "truck",
+      "status": "ontime",
+      "cidade": "União dos Palmares",
+      "coords": [-9.1630, -36.0310],
+      "dataHora": "2025-10-18T14:45:00",
+      "resumo": "Descarga em tempo na unidade parceira (mock)"
     }
   ]
 }

@@ -10,7 +10,7 @@
   "autoLoadIntervalSec": 30,
   "mainDatePref": "today",
   "saveLocal": true,
-  "theme": "sap_horizon_dark",
+  "theme": "sap_horizon",
   "avatarSrc": "",
   "avatarInitials": "CJ"
 }
