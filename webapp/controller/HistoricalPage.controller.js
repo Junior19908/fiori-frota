@@ -1,12 +1,14 @@
 sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/ui/model/json/JSONModel",
+  "sap/m/MessageToast",
   "com/skysinc/frota/frota/util/formatter",
-  "com/skysinc/frota/frota/services/ODataMaterials"
-], function (Controller, JSONModel, formatter, ODataMaterials) {
+  "com/skysinc/frota/frota/services/ODataMaterials",
+  "com/skysinc/frota/frota/services/AvailabilityService"
+], function (Controller, JSONModel, MessageToast, formatter, ODataMaterials, AvailabilityService) {
   "use strict";
 
-  // ===== helpers numÃ©ricos / formataÃ§Ã£o =====
+  // ===== helpers numericos / formatacao =====
   const toNum  = (v) => Number(v || 0);
   const fmtBrl = (v) => {
     try { return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(toNum(v)); }
@@ -33,7 +35,7 @@ sap.ui.define([
     m = str.match(/^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2}))?/);
     if (m) return new Date(+m[1], +m[2]-1, +m[3], +m[4], +m[5], +(m[6]||0), 0);
 
-    // Date jÃ¡ vÃ¡lido
+    // Date ja valido
     if (s instanceof Date) return new Date(s.getTime());
     return null;
   }
@@ -47,13 +49,101 @@ sap.ui.define([
     return `${y}-${m}-${day}`;
   }
 
-  // Converte Date -> 'YYYY-MM-DD' em horÃ¡rio LOCAL (para strings locais)
+  // Converte Date -> 'YYYY-MM-DD' em horario LOCAL (para strings locais)
   function toYMD(d) {
     if (!(d instanceof Date)) return null;
     const y = d.getFullYear();
     const m = String(d.getMonth()+1).padStart(2, "0");
     const day = String(d.getDate()).padStart(2, "0");
     return `${y}-${m}-${day}`;
+  }
+
+  function combineDateTime(dateStr, timeStr) {
+    if (!dateStr) return null;
+    const cleanDate = String(dateStr).trim();
+    if (!cleanDate) return null;
+    const rawTime = String(timeStr || "").trim();
+    const hhmm = rawTime && /^\d{1,2}:\d{2}/.test(rawTime) ? rawTime : "00:00";
+    const candidate = `${cleanDate}T${hhmm}`;
+    const parsed = parseLocalDateTime(candidate);
+    if (parsed) return parsed;
+    return parseLocalDateTime(cleanDate);
+  }
+
+  function normalizeAscii(value) {
+    try {
+      return String(value || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toUpperCase();
+    } catch (e) {
+      return String(value || "").toUpperCase();
+    }
+  }
+
+  function formatHoursLabel(hours) {
+    try {
+      const minutes = Math.max(0, Math.round((Number(hours) || 0) * 60));
+      const h = Math.floor(minutes / 60);
+      const m = minutes % 60;
+      return h + "h" + String(m).padStart(2, "0");
+    } catch (e) {
+      return "0h00";
+    }
+  }
+
+  function calcDurationHours(startDt, endDt) {
+    const start = (startDt instanceof Date && !Number.isNaN(startDt.getTime())) ? startDt : null;
+    const finish = (endDt instanceof Date && !Number.isNaN(endDt.getTime())) ? endDt : null;
+    if (!start) {
+      return 0;
+    }
+    const now = new Date();
+    const effectiveFinish = finish || now;
+    const diffMs = Math.max(0, effectiveFinish.getTime() - start.getTime());
+    return diffMs / 36e5;
+  }
+
+  function calcProgress(hours, isClosed) {
+    const total = Number(hours) || 0;
+    const pct = Math.max(0, Math.min(100, Math.round((total / 24) * 100)));
+    let state = "Information";
+    if (isClosed && total > 0) {
+      state = "Success";
+    } else if (!isClosed && pct >= 80) {
+      state = "Warning";
+    }
+    const text = pct + "%";
+    return { pct, text, state };
+  }
+
+  const MAP_DEFAULT_CENTER = [50.1109, 8.6821];
+  const MAP_DEFAULT_ZOOM = 6;
+  const MAP_MODEL_PATH = "com/skysinc/frota/frota/model/mock/os_map.json";
+  const MAP_STATUS_META = {
+    delay_gt_1h: { label: "> 1h delay", color: "#d13438", state: "Error" },
+    delay_lt_1h: { label: "< 1h delay", color: "#f1c40f", state: "Warning" },
+    ontime: { label: "on time", color: "#2ecc71", state: "Success" }
+  };
+  const MAP_TRANSPORT_LABEL = { truck: "Truck", train: "Train" };
+
+  function formatIsoToLocale(isoStr) {
+    if (!isoStr) return "";
+    try {
+      const dt = new Date(isoStr);
+      if (Number.isNaN(dt.getTime())) return String(isoStr);
+      return dt.toLocaleString("pt-BR", { hour12: false });
+    } catch (e) {
+      return String(isoStr);
+    }
+  }
+
+  function typeLabel(code) {
+    const normalized = normalizeAscii(code);
+    if (normalized === "ZF01") return "Projeto / Melhoria / Reforma";
+    if (normalized === "ZF02") return "Corretiva";
+    if (normalized === "ZF03") return "Preventiva Basica/Mecanica";
+    return String(code || "");
   }
 
   // ===== helpers de datas extras =====
@@ -102,18 +192,18 @@ sap.ui.define([
         .getRoute("RouteHistorico")
         .attachPatternMatched(this._onRouteMatched, this);
 
-      // Filtros default: de 1 ano atrás até hoje (apenas no Historical)
+      // Filtros default: de 1 ano atras ate hoje (apenas no Historical)
       const now = new Date();
       const d2 = now;
       const d1 = new Date(now); d1.setFullYear(now.getFullYear() - 1);
       this.getView().setModel(new JSONModel({ tipo:"__ALL__", q:"", d1, d2 }), "hfilter");
 
-      // Detail/KPIs + status manutenção de hoje
+      // Detail/KPIs + status manutencao de hoje
       this.getView().setModel(new JSONModel({
         veiculo:"", descricao:"", categoria:"",
         historico: [],
-        historicoComb: [], historicoMateriais: [], historicoServicos: [],
-        countComb:0, countMateriais:0, countServicos:0,
+        historicoComb: [], historicoMateriais: [], historicoServicos: [], historicoOs: [],
+        countComb:0, countMateriais:0, countServicos:0, countOs:0,
         totalCombustivel:0, totalMateriais:0, totalServicos:0, totalGeral:0,
         precoMedio:0,
         totalCombustivelFmt:"R$ 0,00", totalMateriaisFmt:"R$ 0,00",
@@ -122,7 +212,7 @@ sap.ui.define([
         manutencaoHoje:false,
         manutencaoTexto:"Operacional",
         manutencaoState:"Success",
-        _src:{ base:[] }
+        _src:{ base:[], os:[] }
       }), "detail");
 
       // Chart principal + lateral
@@ -131,12 +221,31 @@ sap.ui.define([
       this._sideChartModel = new JSONModel({ header:"", rows:[] });
       this.getView().setModel(this._sideChartModel, "chart");
 
+      this._viewModel = new JSONModel({
+        filter: {
+          transport: { truck: true, train: true },
+          status: { delay_gt_1h: true, delay_lt_1h: true, ontime: true },
+          location: { Frankfurt: true, Hamburg: true, Munich: true }
+        }
+      });
+      this.getView().setModel(this._viewModel, "viewModel");
+
+      this._mapReadyPromise = null;
+      this._mapReady = false;
+      this._mapDataPromise = null;
+      this._map = null;
+      this._layers = null;
+      this._routes = null;
+      this._markers = new Map();
+      this._occurrenceIndex = Object.create(null);
+
       this._applyVizProps();
     },
 
     onAfterRendering: function () {
       this._applyVizProps();
       this._connectPopover();
+      this._ensureMapIfActive();
     },
 
     _applyVizProps: function () {
@@ -160,13 +269,340 @@ sap.ui.define([
       }
     },
 
+    _ensureMapIfActive: function () {
+      const tabBar = this.byId("historicalTabs");
+      if (tabBar && typeof tabBar.getSelectedKey === "function" && tabBar.getSelectedKey() === "MAP") {
+        this._ensureMapReady();
+      }
+    },
+
+    /* ======================== MAPA ======================== */
+    onHistoricoTabSelect: function (oEvent) {
+      const key = oEvent.getParameter("key");
+      if (key === "MAP") {
+        this._ensureMapReady();
+      }
+    },
+
+    onLegendFilterChange: function () {
+      if (this._mapReadyPromise) {
+        this._mapReadyPromise
+          .then(() => this._applyFilters())
+          .catch(() => {
+            // erro ja registrado em _ensureMapReady; evita propagacao silenciosa
+          });
+      }
+    },
+
+    _ensureMapData: function () {
+      if (this._mapDataPromise) {
+        return this._mapDataPromise;
+      }
+
+      const component = this.getOwnerComponent();
+      const existing = component.getModel("osMap");
+      if (existing) {
+        this._osMapData = existing.getData() || {};
+        this._indexOccurrences();
+        this._mapDataPromise = Promise.resolve(this._osMapData);
+        return this._mapDataPromise;
+      }
+
+      const jsonModel = new JSONModel();
+      const url = sap.ui.require.toUrl(MAP_MODEL_PATH);
+      this._mapDataPromise = new Promise((resolve, reject) => {
+        const onCompleted = () => {
+          jsonModel.detachRequestCompleted(onCompleted);
+          jsonModel.detachRequestFailed(onFailed);
+          component.setModel(jsonModel, "osMap");
+          this._osMapData = jsonModel.getData() || {};
+          this._indexOccurrences();
+          resolve(this._osMapData);
+        };
+        const onFailed = (oEvent) => {
+          jsonModel.detachRequestCompleted(onCompleted);
+          jsonModel.detachRequestFailed(onFailed);
+          const params = oEvent && typeof oEvent.getParameters === "function" ? oEvent.getParameters() : {};
+          const msg = params?.message || params?.statusText || "Falha ao carregar os dados do mapa";
+          reject(new Error(msg));
+        };
+        jsonModel.attachRequestCompleted(onCompleted);
+        jsonModel.attachRequestFailed(onFailed);
+        jsonModel.loadData(url);
+      }).catch((err) => {
+        console.error("[HistoricalPage] erro ao carregar os_map.json", err);
+        this._mapDataPromise = null;
+        throw err;
+      });
+
+      return this._mapDataPromise;
+    },
+
+    _ensureMapReady: function () {
+      if (this._mapReadyPromise) {
+        return this._mapReadyPromise;
+      }
+
+      this._mapReadyPromise = this._ensureMapData()
+        .then(() => this._initMap())
+        .then(() => {
+          this._renderRoutes();
+          this._renderMarkers();
+          this._fitBounds();
+          this._mapReady = true;
+        })
+        .catch((err) => {
+          console.error("[HistoricalPage] erro ao inicializar o mapa", err);
+          this._mapReadyPromise = null;
+          throw err;
+        });
+
+      return this._mapReadyPromise;
+    },
+
+    _initMap: function () {
+      if (this._map) {
+        setTimeout(() => {
+          try { this._map.invalidateSize(); } catch (e) { /* noop */ }
+        }, 0);
+        return Promise.resolve();
+      }
+
+      return new Promise((resolve, reject) => {
+        const attemptInit = () => {
+          if (typeof L === "undefined") {
+            reject(new Error("Leaflet nao esta disponivel"));
+            return;
+          }
+          const container = document.getElementById("mapHistorico");
+          if (!container) {
+            setTimeout(attemptInit, 120);
+            return;
+          }
+          try {
+            this._map = L.map("mapHistorico").setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_ZOOM);
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19 }).addTo(this._map);
+            this._layers = {
+              truck: L.layerGroup().addTo(this._map),
+              train: L.layerGroup().addTo(this._map)
+            };
+            this._routes = L.layerGroup().addTo(this._map);
+            this._markers = new Map();
+            resolve();
+          } catch (err) {
+            reject(err);
+          }
+        };
+        attemptInit();
+      });
+    },
+
+    _renderRoutes: function () {
+      if (!this._routes || !this._osMapData) {
+        return;
+      }
+      this._routes.clearLayers();
+      const routes = this._osMapData.rotas || [];
+      routes.forEach((route) => {
+        if (Array.isArray(route?.coordenadas) && route.coordenadas.length) {
+          L.polyline(route.coordenadas, {
+            color: "#5dade2",
+            weight: 4,
+            dashArray: "4,6",
+            opacity: 0.9
+          }).addTo(this._routes);
+        }
+      });
+    },
+
+    _renderMarkers: function () {
+      if (!this._layers || !this._osMapData) {
+        return;
+      }
+      Object.values(this._layers).forEach((layer) => layer.clearLayers());
+      if (!(this._markers instanceof Map)) {
+        this._markers = new Map();
+      }
+      this._markers.forEach((marker) => {
+        if (marker && typeof marker.remove === "function") {
+          marker.remove();
+        }
+      });
+      this._markers.clear();
+
+      const occurrences = this._osMapData.ocorrencias || [];
+      const filter = this._viewModel?.getProperty("/filter") || {};
+
+      occurrences.forEach((occ) => {
+        if (!this._isOccurrenceVisible(occ, filter)) {
+          return;
+        }
+
+        let marker;
+        try {
+          marker = L.marker(occ.coords, { icon: this._buildMarkerIcon(occ) });
+        } catch (err) {
+          console.error("[HistoricalPage] erro ao criar marcador", err);
+          return;
+        }
+
+        const popupHtml = this._buildPopupContent(occ);
+        marker.bindPopup(popupHtml, { className: "mapHistoricoPopup" });
+        marker.on("popupopen", (evt) => {
+          const popupEl = evt.popup && evt.popup.getElement && evt.popup.getElement();
+          if (!popupEl) {
+            return;
+          }
+          const btn = popupEl.querySelector("[data-map-action='open-os']");
+          if (btn) {
+            const handler = () => this.onAbrirOS(occ.os);
+            btn.addEventListener("click", handler, { once: true });
+          }
+        });
+        const layerGroup = this._layers[occ.tipoTransporte] || this._map;
+        marker.addTo(layerGroup);
+        this._markers.set(occ.os, marker);
+      });
+    },
+
+    _buildMarkerIcon: function (occ) {
+      const statusCfg = MAP_STATUS_META[occ.status] || { color: "#1070ca" };
+      const glyph = occ.tipoTransporte === "train" ? "&#128646;" : "&#128666;";
+      const html = [
+        "<div style=\"display:flex;align-items:center;justify-content:center;",
+        "width:34px;height:34px;border-radius:18px;",
+        "background:#ffffff;border:3px solid ", statusCfg.color, ";",
+        "box-shadow:0 4px 12px rgba(0,0,0,0.25);\">",
+        "<span style=\"font-size:18px;line-height:1;\">", glyph, "</span>",
+        "</div>"
+      ].join("");
+      return L.divIcon({
+        html,
+        className: "",
+        iconSize: [34, 34],
+        iconAnchor: [17, 17],
+        popupAnchor: [0, -18]
+      });
+    },
+
+    _buildPopupContent: function (occ) {
+      const statusCfg = MAP_STATUS_META[occ.status] || { label: occ.status, color: "#6c757d" };
+      const transport = MAP_TRANSPORT_LABEL[occ.tipoTransporte] || occ.tipoTransporte;
+      const dateFmt = formatIsoToLocale(occ.dataHora);
+      const statusColor = statusCfg.color;
+      const statusLabel = statusCfg.label || occ.status;
+      return [
+        "<div class=\"map-popup-content\" style=\"min-width:220px;\">",
+        "<h3 style=\"margin:0 0 0.5rem 0;font-size:1rem;\">OS #", occ.os, "</h3>",
+        "<div style=\"font-size:0.875rem;line-height:1.4;\">",
+        "<div><strong>Transporte:</strong> ", transport, "</div>",
+        "<div><strong>Status:</strong> <span style=\"color:", statusColor, ";font-weight:600;\">", statusLabel, "</span></div>",
+        "<div><strong>Cidade:</strong> ", occ.cidade, "</div>",
+        "<div><strong>Data/hora:</strong> ", dateFmt, "</div>",
+        "<div style=\"margin-top:0.5rem;\">", occ.resumo || "", "</div>",
+        "</div>",
+        "<button type=\"button\" data-map-action=\"open-os\" data-os=\"", occ.os,
+        "\" style=\"margin-top:0.75rem;padding:0.35rem 0.75rem;border:0;border-radius:0.5rem;",
+        "background-color:#0a6ed1;color:#ffffff;font-weight:600;cursor:pointer;\">Abrir OS</button>",
+        "</div>"
+      ].join("");
+    },
+
+    _isOccurrenceVisible: function (occ, filter) {
+      if (!occ) return false;
+      const transportOk = filter?.transport?.[occ.tipoTransporte] !== false;
+      const statusOk = filter?.status?.[occ.status] !== false;
+      const locationOk = filter?.location?.[occ.cidade] !== false;
+      return transportOk && statusOk && locationOk;
+    },
+
+    _fitBounds: function () {
+      if (!this._map || !this._osMapData) {
+        return;
+      }
+      const allCoords = [];
+      (this._osMapData.rotas || []).forEach((route) => {
+        if (Array.isArray(route?.coordenadas)) {
+          route.coordenadas.forEach((coord) => allCoords.push(coord));
+        }
+      });
+      (this._osMapData.ocorrencias || []).forEach((occ) => {
+        if (Array.isArray(occ?.coords)) {
+          allCoords.push(occ.coords);
+        }
+      });
+      if (allCoords.length) {
+        try {
+          const bounds = L.latLngBounds(allCoords);
+          this._map.fitBounds(bounds, { padding: [40, 40] });
+        } catch (e) {
+          // fallback para view default
+          this._map.setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_ZOOM);
+        }
+      } else {
+        this._map.setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_ZOOM);
+      }
+    },
+
+    _applyFilters: function () {
+      if (!this._mapReady) {
+        return;
+      }
+      this._renderMarkers();
+    },
+
+    _indexOccurrences: function () {
+      this._occurrenceIndex = Object.create(null);
+      const occs = this._osMapData?.ocorrencias || [];
+      occs.forEach((occ) => {
+        if (occ && occ.os) {
+          this._occurrenceIndex[occ.os] = occ;
+        }
+      });
+    },
+
+    focusOnOs: function (osId, coordsOptional) {
+      if (!osId) {
+        return Promise.resolve();
+      }
+      const tabBar = this.byId("historicalTabs");
+      if (tabBar && typeof tabBar.setSelectedKey === "function") {
+        if (tabBar.getSelectedKey && tabBar.getSelectedKey() !== "MAP") {
+          tabBar.setSelectedKey("MAP");
+        }
+      }
+      return this._ensureMapReady()
+        .then(() => {
+          const coords = Array.isArray(coordsOptional) ? coordsOptional : this._occurrenceIndex?.[osId]?.coords;
+          if (coords && this._map) {
+            this._map.setView(coords, 12);
+          }
+          const marker = this._markers?.get(osId);
+          if (marker && typeof marker.openPopup === "function") {
+            marker.openPopup();
+          }
+        })
+        .catch(() => {
+          // já registrado anteriormente
+        });
+    },
+
+    onAbrirOS: function (osId) {
+      if (!osId) {
+        MessageToast.show("OS não informada.");
+        return;
+      }
+      MessageToast.show(`Abrindo OS #${osId} (mock)`);
+    },
+
+    /* ======================== ROUTE ======================== */
     /* ======================== ROUTE ======================== */
     _onRouteMatched: function (oEvent) {
       const argId = (oEvent.getParameter("arguments")||{}).id || "";
       this._equnrRaw = String(argId);
       this._equnr = padEqunr(this._equnrRaw);
 
-      // Busca veÃ­culo no vm (se houver) ou no modelo global do Component
+      // Busca veiculo no vm (se houver) ou no modelo global do Component
       const vmVeic = this.getView().getModel("vm")?.getProperty("/veiculos") || [];
       const comp   = this.getOwnerComponent();
       const baseVeic = comp.getModel()?.getProperty("/veiculos") || [];
@@ -184,7 +620,7 @@ sap.ui.define([
       detail.setProperty("/categoria",
         found?.CATEGORIA || found?.categoria || found?.Categoria || "");
 
-      // Carregar e montar histÃ³rico
+      // Carregar e montar historico
       this.onRefresh();
     },
 
@@ -194,20 +630,21 @@ sap.ui.define([
       const from = startOfDay(hf.d1 || new Date());
       const to   = endOfDay(hf.d2 || hf.d1 || new Date());
 
-      // LOG: seleÃ§Ã£o e datas ABAP "date-only"
+      // LOG: selecao e datas ABAP "date-only"
       const abapStart = toABAPDateOnly(from);
       const abapEnd   = toABAPDateOnly(to);
 
       Promise.all([
         this._loadMateriaisServicosOData(from, to, { abapStart, abapEnd }),
-        this._loadAbastecimentosLocal(from, to)
-      ]).then(([matServ, abast]) => {
+        this._loadAbastecimentosLocal(from, to),
+        this._loadOrdensServico(from, to)
+      ]).then(([matServ, abast, ordens]) => {
         const base = [];
 
-        // Materiais / Serviços (OData) â€” normaliza e soma +1 dia
+        // Materiais / Servicos (OData) normaliza e soma +1 dia
         (matServ || []).forEach((r) => {
-          const tipoU = String(r.tipo || r.TIPO || "").toUpperCase();
-          const isSrv = (tipoU === "SERVICO" || tipoU === "SERVIÇO" || r.isServico === true);
+          const tipoU = normalizeAscii(r.tipo || r.TIPO || "");
+          const isSrv = (tipoU === "SERVICO" || r.isServico === true);
 
           const desc = pickDescMaterial(r);
           const qt   = toNum(r.qtde || r.QTDE || r.menge || r.MENGE || 1);
@@ -226,7 +663,7 @@ sap.ui.define([
 
           base.push({
             data: dataYMD,           // YYYY-MM-DD (corrigido +1 dia)
-            tipo: isSrv ? "Serviço" : "Material",
+            tipo: isSrv ? "Servico" : "Material",
             descricao: desc,
             qtde: qt,
             custoUnit: pUni,
@@ -234,7 +671,7 @@ sap.ui.define([
           });
         });
 
-        // Abastecimentos (local) â€” aplica +1 dia para alinhar com listas e filtros
+        // Abastecimentos (local) aplica +1 dia para alinhar com listas e filtros
         (abast || []).forEach((a) => {
           const litros = toNum(a.litros || 0);
           const precoLinha = toNum(a.precoLitro ?? a.preco ?? a.precoUnit);
@@ -242,12 +679,59 @@ sap.ui.define([
 
           base.push({
             data: dAbast ? toYMD(addDays(dAbast, 1)) : null,  // YYYY-MM-DD (+1 dia)
-            tipo: "Combustível",
+            tipo: "Combustivel",
             descricao: a.descricao || "Abastecimento",
             qtde: litros,
             custoUnit: precoLinha || 0,
             valor: (precoLinha || 0) * litros
           });
+        });
+
+        const self = this;
+        const osEntries = (ordens || []).map(function (o) {
+          const aberturaData = o?.DataAbertura || o?.dataAbertura || "";
+          const fechamentoData = o?.DataFechamento || o?.dataFechamento || "";
+          const horaIni = o?.HoraInicio || o?.horaInicio || "";
+          const horaFim = o?.HoraFim || o?.horaFim || "";
+          const aberturaDt = combineDateTime(aberturaData, horaIni);
+          const fechamentoDt = combineDateTime(fechamentoData, horaFim);
+          const durationHours = calcDurationHours(aberturaDt, fechamentoDt);
+          const isClosed = (fechamentoDt instanceof Date) && !Number.isNaN(fechamentoDt.getTime());
+          const progress = calcProgress(durationHours, isClosed);
+          const categoriaRaw = String(o?.Categoria || o?.categoria || "");
+          const downtimeFmt = formatHoursLabel(durationHours);
+          return {
+            ordem: String(o?.NumeroOS || o?.ordem || o?.Ordem || ""),
+            descricao: String(o?.Descricao || o?.descricao || o?.titulo || ""),
+            categoriaOs: categoriaRaw,
+            tipoManual: String(o?.TipoManual || o?.tipoManual || ""),
+            status: String(o?.Status || o?.status || ""),
+            aberturaData: aberturaData || "",
+            aberturaHora: horaIni || "",
+            fechamentoData: fechamentoData || "",
+            fechamentoHora: horaFim || "",
+            aberturaDt: aberturaDt || null,
+            fechamentoDt: fechamentoDt || null,
+            duracao: durationHours,
+            downtime: durationHours,
+            downtimeFmt: downtimeFmt,
+            progressPct: progress.pct,
+            progressText: progress.text,
+            progressState: progress.state,
+            categoria: categoriaRaw,
+            tipoLabel: typeLabel(categoriaRaw),
+            parada: durationHours > 0,
+            equipamento: String(o?.Equipamento || o?.equnr || o?.veiculo || self._equnrRaw || ""),
+            origem: o
+          };
+        }).filter(function (entry) {
+          return entry && (entry.ordem || entry.descricao);
+        });
+
+        osEntries.sort((a, b) => {
+          const da = a.aberturaDt instanceof Date ? a.aberturaDt.getTime() : (a.fechamentoDt instanceof Date ? a.fechamentoDt.getTime() : -Infinity);
+          const db = b.aberturaDt instanceof Date ? b.aberturaDt.getTime() : (b.fechamentoDt instanceof Date ? b.fechamentoDt.getTime() : -Infinity);
+          return db - da;
         });
 
         // Ordena por data desc (sempre via parser LOCAL)
@@ -257,21 +741,24 @@ sap.ui.define([
           return dy - dx;
         });
 
-        const historicoComb      = base.filter(h=>h.tipo==="Combustível");
-        const historicoMateriais = base.filter(h=>h.tipo==="Material");
-        const historicoServicos  = base.filter(h=>h.tipo==="Serviço");
+        const historicoComb      = base.filter(h => normalizeAscii(h.tipo) === "COMBUSTIVEL");
+        const historicoMateriais = base.filter(h => normalizeAscii(h.tipo) === "MATERIAL");
+        const historicoServicos  = base.filter(h => normalizeAscii(h.tipo) === "SERVICO");
 
         const detail = this.getView().getModel("detail");
         detail.setProperty("/historico", base);
         detail.setProperty("/historicoComb", historicoComb);
         detail.setProperty("/historicoMateriais", historicoMateriais);
         detail.setProperty("/historicoServicos", historicoServicos);
+        detail.setProperty("/historicoOs", osEntries);
         detail.setProperty("/_src/base", base);
+        detail.setProperty("/_src/os", osEntries);
+        detail.setProperty("/countOs", osEntries.length);
 
-        // Atualiza â€œem manutenção hojeâ€
+        // Atualiza flag manutencao hoje
         this._updateMaintenanceFlag(base);
 
-        // KPIs e grÃ¡fico
+        // KPIs e grafico
         this._applyFiltersAndKpis();
         this._buildYearComparison();
         this._connectPopover();
@@ -283,14 +770,16 @@ sap.ui.define([
       const todayTo   = endOfDay(new Date());
 
       const hasToday = (base || []).some((r)=>{
-        if (!(r && (r.tipo === "Material" || r.tipo === "Serviço"))) return false;
+        if (!r) return false;
+        const tipoNorm = normalizeAscii(r.tipo);
+        if (tipoNorm !== "MATERIAL" && tipoNorm !== "SERVICO") return false;
         const d = r.data ? parseLocalDateTime(r.data) : null;
         return d && d >= todayFrom && d <= todayTo;
       });
 
       const detail = this.getView().getModel("detail");
       detail.setProperty("/manutencaoHoje", hasToday);
-      detail.setProperty("/manutencaoTexto", hasToday ? "Em manutenção hoje" : "Operacional");
+      detail.setProperty("/manutencaoTexto", hasToday ? "Em manutencao hoje" : "Operacional");
       detail.setProperty("/manutencaoState", hasToday ? "Error" : "Success");
     },
 
@@ -324,12 +813,42 @@ sap.ui.define([
       );
     },
 
+    _loadOrdensServico: function (from, to) {
+      const raw = String(this._equnrRaw || "");
+      const padded = String(this._equnr || padEqunr(raw));
+      return AvailabilityService.fetchOsByVehiclesAndRange([raw, padded], { from, to })
+        .then((map) => {
+          if (!map || typeof map.forEach !== "function") return [];
+          const result = [];
+          const wanted = new Set([raw, padded].filter(Boolean));
+          map.forEach((arr, key) => {
+            if (!Array.isArray(arr) || !arr.length) {
+              return;
+            }
+            const keyStr = String(key || "");
+            if (!wanted.size || wanted.has(keyStr)) {
+              result.push.apply(result, arr);
+              return;
+            }
+            const filtered = arr.filter((o) => {
+              const veh = String(o?.Equipamento || o?.equnr || o?.veiculo || "");
+              return wanted.has(veh);
+            });
+            if (filtered.length) {
+              result.push.apply(result, filtered);
+            }
+          });
+          return result;
+        })
+        .catch(() => []);
+    },
+
     /* ======================== FILTER + KPIs ======================== */
     onFilterChangeHist: function () {
       const hf = this.getView().getModel("hfilter").getData();
       console.log("[Hist] Data selecionada:",
         "De:", hf.d1 && hf.d1.toString(),
-        "| até:", hf.d2 && hf.d2.toString()
+        "| atA:", hf.d2 && hf.d2.toString()
       );
       this._applyFiltersAndKpis();
       this._buildYearComparison();
@@ -354,17 +873,44 @@ sap.ui.define([
       const tipo = hf.tipo || "__ALL__";
 
       const base = detail.getProperty("/_src/base") || [];
+      const osBase = detail.getProperty("/_src/os") || [];
+
       const filt = base.filter((row)=>{
         const d = row.data ? parseLocalDateTime(row.data) : null;
         if (!d || d < from || d > to) return false;
-        if (tipo !== "__ALL__" && row.tipo !== tipo) return false;
+        if (tipo !== "__ALL__" && tipo !== "OS") {
+          if (normalizeAscii(row.tipo) !== normalizeAscii(tipo)) return false;
+        }
         if (q && !String(row.descricao||"").toLowerCase().includes(q)) return false;
         return true;
       });
 
-      const historicoComb      = filt.filter(h=>h.tipo==="Combustível");
-      const historicoMateriais = filt.filter(h=>h.tipo==="Material");
-      const historicoServicos  = filt.filter(h=>h.tipo==="Serviço");
+      const allowOs = (tipo === "__ALL__" || tipo === "OS");
+      const fromMs = from.getTime();
+      const toMs = to.getTime();
+      const osFiltered = allowOs ? osBase.filter((row)=>{
+        const startDt = row.aberturaDt instanceof Date ? row.aberturaDt : combineDateTime(row.aberturaData, row.aberturaHora);
+        const endDt = row.fechamentoDt instanceof Date ? row.fechamentoDt : combineDateTime(row.fechamentoData, row.fechamentoHora);
+        const startMs = startDt instanceof Date ? startDt.getTime() : NaN;
+        const endMs = endDt instanceof Date ? endDt.getTime() : NaN;
+        const overlapsStart = !Number.isNaN(startMs) && startMs >= fromMs && startMs <= toMs;
+        const overlapsEnd = !Number.isNaN(endMs) && endMs >= fromMs && endMs <= toMs;
+        const spansRange = !Number.isNaN(startMs) && !Number.isNaN(endMs) && startMs <= fromMs && endMs >= toMs;
+        if (!(overlapsStart || overlapsEnd || spansRange)) return false;
+        if (q) {
+          const txt = String(row.descricao || "").toLowerCase();
+          const ordemTxt = String(row.ordem || "").toLowerCase();
+          const catTxt = (String(row.categoriaOs || "") + " " + String(row.tipoManual || "") + " " + String(row.status || "")).toLowerCase();
+          if (!txt.includes(q) && !ordemTxt.includes(q) && !catTxt.includes(q)) {
+            return false;
+          }
+        }
+        return true;
+      }) : [];
+
+      const historicoComb      = filt.filter(h => normalizeAscii(h.tipo) === "COMBUSTIVEL");
+      const historicoMateriais = filt.filter(h => normalizeAscii(h.tipo) === "MATERIAL");
+      const historicoServicos  = filt.filter(h => normalizeAscii(h.tipo) === "SERVICO");
 
       const totalComb = sum(historicoComb,      h=>h.valor);
       const totalMat  = sum(historicoMateriais, h=>h.valor);
@@ -378,10 +924,12 @@ sap.ui.define([
       detail.setProperty("/historicoComb", historicoComb);
       detail.setProperty("/historicoMateriais", historicoMateriais);
       detail.setProperty("/historicoServicos", historicoServicos);
+      detail.setProperty("/historicoOs", osFiltered);
 
       detail.setProperty("/countComb", historicoComb.length);
       detail.setProperty("/countMateriais", historicoMateriais.length);
       detail.setProperty("/countServicos", historicoServicos.length);
+      detail.setProperty("/countOs", osFiltered.length);
 
       detail.setProperty("/totalCombustivel", totalComb);
       detail.setProperty("/totalMateriais", totalMat);
@@ -432,8 +980,23 @@ sap.ui.define([
 
       this._historyModel.setProperty("/points", points);
       this._historyModel.setProperty("/subtitle", `Ano Atual: ${fmtBrl(totalCur)} | Ano Anterior: ${fmtBrl(totalPrev)}`);
+    },
+
+    onExit: function () {
+      if (this._map && typeof this._map.remove === "function") {
+        this._map.remove();
+      }
+      this._map = null;
+      this._layers = null;
+      this._routes = null;
+      if (this._markers && typeof this._markers.clear === "function") {
+        this._markers.clear();
+      }
+      this._markers = new Map();
+      this._mapReady = false;
     }
   });
 });
+
 
 

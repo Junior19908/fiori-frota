@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,20 +6,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- SheetJS (Excel parser) -->
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js" crossorigin="anonymous"></script>
-    <title>GestÃ£o de Frota</title>
+    <!-- Leaflet (map visualization) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha512-sA+Rqv5G7l+M651c01qmPvvrLpzjAU6YewsG58KzB8MS+d5QwDFi1Cdm42Hcps225y7sYPWqsK0p12ZQRP0bQ==" crossorigin="anonymous" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha512-vMNpNDYLlHX9uAln1ytY1/6Yr2vNhbbX6YsJhBKt3vnDnN/SUXOc6Bx/OVCkXbklaVKgf/mBlC9ZwTe9MkWlEg==" crossorigin="anonymous"></script>
+    <title>Gestao de Frota</title>
     <style>
         
         
     </style>
     <script id="sap-ui-bootstrap" src="/resources/sap-ui-core.js"
-    data-sap-ui-theme="sap_horizon"
-    data-sap-ui-resourceroots='{"com.skysinc.frota.frota":"./"}'
-    data-sap-ui-oninit="module:sap/ui/core/ComponentSupport"
-    data-sap-ui-compatVersion="edge"
-    data-sap-ui-async="true"
-    data-sap-ui-frameOptions="trusted">
-    </script>    
-
+        data-sap-ui-theme="sap_horizon"
+        data-sap-ui-resourceroots='{"com.skysinc.frota.frota":"./"}'
+        data-sap-ui-oninit="module:sap/ui/core/ComponentSupport"
+        data-sap-ui-compatVersion="edge"
+        data-sap-ui-async="true"
+        data-sap-ui-frameOptions="trusted">
+    </script>
 </head>
 <body class="sapUiBody sapUiSizeCompact" id="content">
     <div

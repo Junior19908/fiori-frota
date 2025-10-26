@@ -18,54 +18,66 @@
     <uxap:headerTitle>
       <uxap:ObjectPageDynamicHeaderTitle>
         <uxap:expandedHeading>
-          <HBox alignItems="Center" renderType="Bare">
-            <core:Icon src="sap-icon://insurance-car" size="1.5rem"/>
-            <Title text="Histórico do Veículo" level="H3" class="sapUiTinyMarginBegin"/>
-          </HBox>
+          <VBox class="sapUiSmallMarginEnd">
+            <HBox alignItems="Center" renderType="Bare">
+              <core:Icon src="sap-icon://insurance-car" size="1.5rem"/>
+              <Title text="{= 'Historico do Veiculo ' + (${detail>/veiculo} || '')}" level="H3" class="sapUiTinyMarginBegin"/>
+              <GenericTag value="{= ${detail>/categoria} || 'Nao informado' }"
+                          design="StatusIconHidden"
+                          status="Success"
+                          class="sapUiTinyMarginBegin"/>
+              <GenericTag value="{= ${detail>/manutencaoTexto} || 'Operacional' }"
+                          design="StatusIconHidden"
+                          status="{detail>/manutencaoState}"
+                          class="sapUiTinyMarginBegin"/>
+            </HBox>
+            <Text text="{= ${detail>/descricao} || 'Sem descricao'}" class="sapUiTinyMarginTop"/>
+            <HBox class="sapUiTinyMarginTop" alignItems="Center" renderType="Bare">
+              <ObjectStatus text="{= 'Total OS: ' + (${detail>/countOs} || 0)}" state="Information"/>
+              <ObjectStatus text="{= 'Servicos: ' + (${detail>/countServicos} || 0)}" state="Warning" class="sapUiTinyMarginBegin"/>
+              <ObjectStatus text="{= 'Materiais: ' + (${detail>/countMateriais} || 0)}" state="Success" class="sapUiTinyMarginBegin"/>
+              <ObjectStatus text="{= 'Combustiveis: ' + (${detail>/countComb} || 0)}" state="None" class="sapUiTinyMarginBegin"/>
+            </HBox>
+          </VBox>
         </uxap:expandedHeading>
         <uxap:snappedHeading>
-          <Title text="Histórico do Veículo" level="H4"/>
+          <HBox alignItems="Center" renderType="Bare">
+            <core:Icon src="sap-icon://insurance-car" size="1.25rem"/>
+            <Title text="{= (${detail>/veiculo} || '') + ' - Historico'}" level="H4" class="sapUiTinyMarginBegin"/>
+            <ObjectStatus text="{detail>/manutencaoTexto}" state="{detail>/manutencaoState}" class="sapUiTinyMarginBegin"/>
+          </HBox>
         </uxap:snappedHeading>
       </uxap:ObjectPageDynamicHeaderTitle>
     </uxap:headerTitle>
 
     <uxap:headerContent>
-      <HBox alignItems="Center" renderType="Bare" class="sapUiSmallMarginBottom">
-
-        <!-- Veículo -->
-        <GenericTag text="Veículo:" design="StatusIconHidden" status="Error" class="sapUiTinyMarginEnd">
-          <ObjectNumber state="Error" emphasized="false" number="{detail>/veiculo}"/>
-        </GenericTag>
-
-        <!-- Categoria -->
-        <GenericTag text="Categoria:"  design="StatusIconHidden" status="Success" class="sapUiTinyMarginEnd">
-          <ObjectNumber state="Success" emphasized="false" number="{detail>/categoria}"/>
-        </GenericTag>
-
-        <!-- Descrição -->
-        <GenericTag text="Descrição:"  design="StatusIconHidden" status="Warning" class="sapUiTinyMarginEnd">
-          <ObjectNumber state="Warning" emphasized="false" number="{detail>/descricao}"/>
-        </GenericTag>
-
-        <!-- Status do dia: Em manutenção hoje / Operacional -->
-        <HBox alignItems="Center" class="sapUiTinyMarginBegin">
-          <core:Icon
-            visible="{detail>/manutencaoHoje}"
-            src="sap-icon://action-settings"
-            size="1.25rem"
-            class="spin-anim sapUiTinyMarginEnd"
-            tooltip="Em manutenção hoje"/>
-          <ObjectStatus
-            text="{detail>/manutencaoTexto}"
-            state="{detail>/manutencaoState}"
-            icon="{= ${detail>/manutencaoHoje} ? 'sap-icon://collision' : 'sap-icon://accept' }"/>
-        </HBox>
-
+      <HBox alignItems="Start"
+            justifyContent="SpaceBetween"
+            class="sapUiSmallMarginBottom"
+            width="100%">
+        <VBox>
+          <ObjectStatus text="Resumo" state="None"/>
+          <Text text="{= 'Veiculo: ' + (${detail>/veiculo} || 'Nao informado')}"/>
+          <Text text="{= 'Categoria: ' + (${detail>/categoria} || 'Nao informado')}"/>
+          <Text text="{= 'Descricao: ' + (${detail>/descricao} || 'Sem descricao')}"/>
+        </VBox>
+        <VBox class="sapUiTinyMarginBegin">
+          <ObjectStatus text="Disponibilidade" state="{detail>/manutencaoState}"/>
+          <Text text="{= 'Status atual: ' + (${detail>/manutencaoTexto} || 'Operacional')}"/>
+          <Text text="{= 'OS em andamento: ' + (${detail>/countOs} || 0)}"/>
+          <Text text="{= 'Servicos: ' + (${detail>/countServicos} || 0)}"/>
+        </VBox>
+        <VBox class="sapUiTinyMarginBegin">
+          <ObjectStatus text="Totais" state="Information"/>
+          <Text text="{= 'Total geral: ' + (${detail>/totalGeralFmt} || '-')}"/>
+          <Text text="{= 'Materiais: ' + (${detail>/totalMateriaisFmt} || '-')}"/>
+          <Text text="{= 'Combustiveis: ' + (${detail>/totalCombustivelFmt} || '-')}"/>
+        </VBox>
       </HBox>
     </uxap:headerContent>
 
     <uxap:sections>
-      <uxap:ObjectPageSection title="Histórico Completo">
+      <uxap:ObjectPageSection title="Historico Completo">
         <uxap:subSections>
           <uxap:ObjectPageSubSection title="Linha do tempo de custos">
             <uxap:blocks>
@@ -75,13 +87,13 @@
                                     containerQuery="true"
                                     equalSplit="false">
 
-                <!-- CONTEÚDO PRINCIPAL -->
+                <!-- CONTEUDO PRINCIPAL -->
                 <l:mainContent>
                   <VBox class="sapUiSmallMargin sapUiResponsiveContentPadding">
 
-                    <!-- ===== Filtros do histórico ===== -->
+                    <!-- ===== Filtros do historico ===== -->
                     <OverflowToolbar>
-                      <Text text="Período:"/>
+                      <Text text="Periodo:"/>
                       <DateRangeSelection id="drsHist"
                                           displayFormat="long"
                                           width="17rem"
@@ -90,21 +102,22 @@
                                           change=".onFilterChangeHist"/>
                       <ToolbarSeparator/>
                       <Text text="Tipo:"/>
-                      <ComboBox id="tipoHist"
+                                            <ComboBox id="tipoHist"
                                 width="12rem"
                                 selectedKey="{hfilter>/tipo}"
                                 selectionChange=".onFilterChangeHist">
                         <items>
                           <core:Item key="__ALL__" text="Todos"/>
-                          <core:Item key="Combustível" text="Combustível"/>
+                          <core:Item key="Combustivel" text="Combustivel"/>
                           <core:Item key="Material" text="Material"/>
-                          <core:Item key="Serviço" text="Serviço"/>
+                          <core:Item key="Servico" text="Servico"/>
+                          <core:Item key="OS" text="OS"/>
                         </items>
                       </ComboBox>
                       <ToolbarSeparator/>
                       <SearchField id="qHist"
                                    width="20rem"
-                                   placeholder="Buscar Descrição…"
+                                   placeholder="Buscar Descricao…"
                                    value="{hfilter>/q}"
                                    liveChange=".onFilterChangeHist"/>
                       <ToolbarSpacer/>
@@ -112,10 +125,13 @@
                     </OverflowToolbar>
                     <!-- ================================ -->
 
-                    <IconTabBar expandable="false" class="sapUiResponsiveContentPadding sapUiMediumMarginTop">
+                    <IconTabBar id="historicalTabs"
+                                expandable="false"
+                                class="sapUiResponsiveContentPadding sapUiMediumMarginTop"
+                                select=".onHistoricoTabSelect">
                       <items>
-                        <!-- ABA: COMBUSTÍVEIS -->
-                        <IconTabFilter text="Combustíveis" icon="sap-icon://mileage">
+                        <!-- ABA: COMBUSTIVEIS -->
+                        <IconTabFilter text="Combustiveis" icon="sap-icon://mileage">
                           <table:Table id="tblCombustiveis"
                                        rows="{path:'detail>/historicoComb'}"
                                        visibleRowCountMode="Auto"
@@ -131,7 +147,7 @@
                                 </table:template>
                               </table:Column>
                               <table:Column sortProperty="descricao" width="7rem">
-                                <Label text="Descrição"/>
+                                <Label text="Descricao"/>
                                 <table:template>
                                   <Text text="{detail>descricao}" wrapping="true" tooltip="{detail>descricao}"/>
                                 </table:template>
@@ -143,7 +159,7 @@
                                 </table:template>
                               </table:Column>
                               <table:Column sortProperty="custoUnit" width="7rem" hAlign="End">
-                                <Label text="Preço médio"/>
+                                <Label text="Preco medio"/>
                                 <table:template>
                                   <Text text="{path:'detail>custoUnit', formatter:'.formatter.fmtBrl'}"/>
                                 </table:template>
@@ -175,7 +191,7 @@
                                 </table:template>
                               </table:Column>
                               <table:Column sortProperty="descricao" width="22rem">
-                                <Label text="Descrição"/>
+                                <Label text="Descricao"/>
                                 <table:template>
                                   <Text text="{detail>descricao}" wrapping="true" tooltip="{detail>descricao}"/>
                                 </table:template>
@@ -202,8 +218,8 @@
                           </table:Table>
                         </IconTabFilter>
 
-                        <!-- ABA: SERVIÇOS -->
-                        <IconTabFilter text="Serviços" icon="sap-icon://wrench">
+                        <!-- ABA: SERVICOS -->
+                        <IconTabFilter text="Servicos" icon="sap-icon://wrench">
                           <table:Table id="tblServicos"
                                        rows="{path:'detail>/historicoServicos'}"
                                        visibleRowCount="12"
@@ -218,7 +234,7 @@
                                 </table:template>
                               </table:Column>
                               <table:Column sortProperty="descricao" width="22rem">
-                                <Label text="Descrição"/>
+                                <Label text="Descricao"/>
                                 <table:template>
                                   <Text text="{detail>descricao}" wrapping="true" tooltip="{detail>descricao}"/>
                                 </table:template>
@@ -244,21 +260,168 @@
                             </table:columns>
                           </table:Table>
                         </IconTabFilter>
+                        <IconTabFilter text="OS" icon="sap-icon://activity-items" count="{detail>/countOs}">
+                          <table:Table id="tblOS"
+                                       rows="{path:'detail>/historicoOs'}"
+                                       visibleRowCount="12"
+                                       selectionMode="None"
+                                       width="100%"
+                                       alternateRowColors="true">
+                            <table:columns>
+                              <table:Column sortProperty="ordem" width="6rem">
+                                <Label text="OS"/>
+                                <table:template>
+                                  <Text text="{detail>ordem}" tooltip="{detail>ordem}"/>
+                                </table:template>
+                              </table:Column>
+                              <table:Column sortProperty="descricao" width="22rem">
+                                <Label text="Descricao"/>
+                                <table:template>
+                                  <Text text="{detail>descricao}" wrapping="true" tooltip="{detail>descricao}"/>
+                                </table:template>
+                              </table:Column>
+                              <table:Column sortProperty="categoriaOs" width="10rem">
+                                <Label text="Categoria"/>
+                                <table:template>
+                                  <Text text="{detail>categoriaOs}"/>
+                                </table:template>
+                              </table:Column>
+                              <table:Column sortProperty="tipoManual" width="10rem">
+                                <Label text="Tipo (manual)"/>
+                                <table:template>
+                                  <Text text="{detail>tipoManual}"/>
+                                </table:template>
+                              </table:Column>
+                              <table:Column sortProperty="aberturaDt" width="12rem">
+                                <Label text="Inicio"/>
+                                <table:template>
+                                  <Text text="{ parts: [ {path:'detail>aberturaData'}, {path:'detail>aberturaHora'} ], formatter: '.formatter.fmtDateTime' }"/>
+                                </table:template>
+                              </table:Column>
+                              <table:Column sortProperty="fechamentoDt" width="12rem">
+                                <Label text="Fim"/>
+                                <table:template>
+                                  <Text text="{ parts: [ {path:'detail>fechamentoData'}, {path:'detail>fechamentoHora'} ], formatter: '.formatter.fmtDateTime' }"/>
+                                </table:template>
+                              </table:Column>
+                              <table:Column sortProperty="duracao" width="8rem" hAlign="End">
+                                <Label text="Duracao (h)"/>
+                                <table:template>
+                                  <Text text="{path:'detail>duracao', formatter:'.formatter.fmtNum'}"/>
+                                </table:template>
+                              </table:Column>
+                              <table:Column sortProperty="status" width="10rem">
+                                <Label text="Status"/>
+                                <table:template>
+                                  <Text text="{detail>status}"/>
+                                </table:template>
+                              </table:Column>
+                            </table:columns>
+                          </table:Table>
+                        </IconTabFilter>
+                        <!-- ABA: MAPA -->
+                        <IconTabFilter text="Mapa" icon="sap-icon://map" key="MAP">
+                          <content>
+                            <FlexBox direction="Row"
+                                     wrap="Wrap"
+                                     renderType="Bare"
+                                     alignItems="Start"
+                                     justifyContent="Start"
+                                     class="sapUiMediumMarginTop sapUiMediumMarginBottom sapUiTinyPadding mapTabFlex">
+                              <Panel width="18rem"
+                                     class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                                     backgroundDesign="Translucent"
+                                     headerText="Legenda &amp; filtros">
+                                <content>
+                                  <VBox renderType="Bare" class="sapUiTinyMarginBottom">
+                                    <Title text="Transporte" level="H6" class="sapUiTinyMarginBottom"/>
+                                    <VBox renderType="Bare" class="sapUiTinyMarginBottom">
+                                      <CheckBox text="Truck"
+                                                selected="{viewModel>/filter/transport/truck}"
+                                                select=".onLegendFilterChange"/>
+                                      <CheckBox text="Train"
+                                                selected="{viewModel>/filter/transport/train}"
+                                                select=".onLegendFilterChange"/>
+                                    </VBox>
+
+                                    <Title text="Status" level="H6" class="sapUiSmallMarginTop sapUiTinyMarginBottom"/>
+                                    <VBox renderType="Bare" class="sapUiTinyMarginBottom">
+                                      <HBox alignItems="Center">
+                                        <CheckBox ariaLabelledBy="idMapStatusGt1h"
+                                                  selected="{viewModel>/filter/status/delay_gt_1h}"
+                                                  select=".onLegendFilterChange"/>
+                                        <ObjectStatus id="idMapStatusGt1h"
+                                                      text="&gt; 1h delay"
+                                                      state="Error"
+                                                      class="sapUiTinyMarginBegin"/>
+                                      </HBox>
+                                      <HBox alignItems="Center" class="sapUiTinyMarginTop">
+                                        <CheckBox ariaLabelledBy="idMapStatusLt1h"
+                                                  selected="{viewModel>/filter/status/delay_lt_1h}"
+                                                  select=".onLegendFilterChange"/>
+                                        <ObjectStatus id="idMapStatusLt1h"
+                                                      text="&lt; 1h delay"
+                                                      state="Warning"
+                                                      class="sapUiTinyMarginBegin"/>
+                                      </HBox>
+                                      <HBox alignItems="Center" class="sapUiTinyMarginTop">
+                                        <CheckBox ariaLabelledBy="idMapStatusOnTime"
+                                                  selected="{viewModel>/filter/status/ontime}"
+                                                  select=".onLegendFilterChange"/>
+                                        <ObjectStatus id="idMapStatusOnTime"
+                                                      text="on time"
+                                                      state="Success"
+                                                      class="sapUiTinyMarginBegin"/>
+                                      </HBox>
+                                    </VBox>
+
+                                    <Title text="Localização" level="H6" class="sapUiSmallMarginTop sapUiTinyMarginBottom"/>
+                                    <VBox renderType="Bare">
+                                      <CheckBox text="Frankfurt"
+                                                selected="{viewModel>/filter/location/Frankfurt}"
+                                                select=".onLegendFilterChange"/>
+                                      <CheckBox text="Hamburg"
+                                                selected="{viewModel>/filter/location/Hamburg}"
+                                                select=".onLegendFilterChange"
+                                                class="sapUiTinyMarginTop"/>
+                                      <CheckBox text="Munich"
+                                                selected="{viewModel>/filter/location/Munich}"
+                                                select=".onLegendFilterChange"
+                                                class="sapUiTinyMarginTop"/>
+                                    </VBox>
+                                  </VBox>
+                                </content>
+                              </Panel>
+
+                              <VBox width="100%"
+                                    renderType="Bare"
+                                    class="sapUiSmallMarginBottom sapUiSmallMarginBegin mapWrapperBox">
+                                <layoutData>
+                                  <FlexItemData growFactor="1" minWidth="18rem"/>
+                                </layoutData>
+                                  <core:HTML
+                                    id="mapHtml"
+                                    preferDOM="true"
+                                    content="&lt;div id='mapHistorico' style='width:100%;height:60vh;border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,0.15);'&gt;&lt;/div&gt;" />
+                              </VBox>
+                            </FlexBox>
+                          </content>
+                        </IconTabFilter>
                       </items>
                     </IconTabBar>
 
                   </VBox>
                 </l:mainContent>
 
-                <!-- KPI LATERAL + GRÁFICO COMPARATIVO COMPACTO -->
+                <!-- KPI LATERAL + GRAFICO COMPARATIVO COMPACTO -->
                 <l:sideContent>
                   <VBox class="sapUiSmallMargin sapUiResponsiveContentPadding">
                     <Toolbar class="sapUiTinyMarginBottom">
-                      <ObjectStatus text="Preço médio R$/L" state="None"/>
+                      <ObjectStatus text="Preco medio R$/L" state="None"/>
                       <Text text="{detail>/precoMedioFmt}" class="sapUiTinyMarginBegin"/>
                     </Toolbar>
                     <Toolbar>
-                      <ObjectStatus text="Total Combustível" state="Information"/>
+                      <ObjectStatus text="Total Combustivel" state="Information"/>
                       <ObjectNumber number="{detail>/totalCombustivelFmt}" class="sapUiTinyMarginBegin"/>
                     </Toolbar>
                     <Toolbar>
@@ -266,7 +429,7 @@
                       <ObjectNumber number="{detail>/totalMateriaisFmt}" class="sapUiTinyMarginBegin"/>
                     </Toolbar>
                     <Toolbar>
-                      <ObjectStatus text="Total Serviços" state="Warning"/>
+                      <ObjectStatus text="Total Servicos" state="Warning"/>
                       <ObjectNumber number="{detail>/totalServicosFmt}" class="sapUiTinyMarginBegin"/>
                     </Toolbar>
                     <Toolbar>
@@ -274,7 +437,7 @@
                       <ObjectNumber number="{detail>/totalGeralFmt}" class="sapUiTinyMarginBegin"/>
                     </Toolbar>
 
-                    <!-- Gráfico principal (tipo alternável) -->
+                    <!-- Grafico principal (tipo alternavel) -->
                     <VBox class="sapUiSmallMarginTop">
                       <Toolbar>
                         <Title text="Comparativo (Ano Atual x Ano Anterior)" level="H5"/>
@@ -296,7 +459,7 @@
                         <viz:dataset>
                           <viz.data:FlattenedDataset data="{history>/points}">
                             <viz.data:dimensions>
-                              <viz.data:DimensionDefinition name="Mês" value="{history>label}"/>
+                              <viz.data:DimensionDefinition name="Mes" value="{history>label}"/>
                             </viz.data:dimensions>
                             <viz.data:measures>
                               <viz.data:MeasureDefinition name="Ano Atual" value="{history>current}"/>
@@ -307,7 +470,7 @@
 
                         <viz:feeds>
                           <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Ano Atual,Ano Anterior"/>
-                          <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Mês"/>
+                          <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Mes"/>
                         </viz:feeds>
                       </viz:VizFrame>
 
@@ -328,6 +491,3 @@
 
   </uxap:ObjectPageLayout>
 </mvc:View>
-
-
-

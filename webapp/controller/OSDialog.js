@@ -41,6 +41,23 @@ sap.ui.define([
     try { const m = Math.max(0, Math.round((Number(hours) || 0) * 60)); const h = Math.floor(m/60), mm = m%60; return h + 'h' + String(mm).padStart(2,'0'); } catch(_) { return '0h00'; }
   }
 
+  function _calcProgress(hours) {
+    try {
+      const totalHours = Number(hours) || 0;
+      if (!isFinite(totalHours) || totalHours <= 0) {
+        return { pct: 0, text: '0%', state: 'Information' };
+      }
+      const pct = Math.max(0, Math.min(100, Math.round((totalHours / 24) * 100)));
+      return {
+        pct,
+        text: pct.toString() + '%',
+        state: 'Information'
+      };
+    } catch (_) {
+      return { pct: 0, text: '0%', state: 'Information' };
+    }
+  }
+
   function _typeLabel(code) {
     try {
       const c = String(code || '').toUpperCase();
@@ -57,6 +74,7 @@ sap.ui.define([
       const fe = _combineDateTime(o.DataFechamento, o.HoraFim, false) || (o.DataFechamento ? new Date(o.DataFechamento) : null);
       const downtime = (ab && fe && fe.getTime() > ab.getTime()) ? ((fe.getTime() - ab.getTime())/36e5) : 0;
       const categoria = String(o.Categoria || o.categoria || '').toUpperCase();
+      const progress = _calcProgress(downtime);
       return {
         _id: String(o._id || ""),
         ordem: String(o.NumeroOS || ""),
@@ -73,7 +91,10 @@ sap.ui.define([
         downtimeFmt: _formatDowntime(Number(downtime) || 0),
         tipoManual: String(o.TipoManual || ""),
         categoria: categoria,
-        tipoLabel: (categoria === 'ZF03' ? 'Preventiva Basica/Mecanica' : _typeLabel(categoria))
+        tipoLabel: (categoria === 'ZF03' ? 'Preventiva Basica/Mecanica' : _typeLabel(categoria)),
+        progressPct: progress.pct,
+        progressText: progress.text,
+        progressState: progress.state
       };
     });
   }
@@ -169,6 +190,7 @@ sap.ui.define([
           Fim: o.fim || '',
           Parada: o.parada ? 'Sim' : 'Não',
           'Inatividade (h)': String(o.downtimeFmt || ''),
+          'Progresso': o.progressText || '',
           'Tipo (manual)': o.tipoManual || '',
           'Hora Início': o.horaInicio || '',
           'Hora Fim': o.horaFim || '',
@@ -189,7 +211,7 @@ sap.ui.define([
           if (!sel.length) { MessageToast.show('Seleção vazia.'); return; }
           const nowIso = new Date().toISOString(); const nowYmd = nowIso.substring(0,10);
           const fb = await (function(){ MessageToast.show("Indisponível em modo local."); })();
-          const updates = sel.map(async (o)=>{ if(!o._id) return {ok:false}; const dref = fb.doc(fb.db,'ordensServico', o._id); try { await fb.updateDoc(dref, { DataFechamento: nowYmd }); o.fim = _toYmd(nowYmd); const A = o._abertura ? new Date(o._abertura).toISOString() : null; const dt = (A ? ((new Date(nowIso).getTime() - new Date(A).getTime())/36e5) : 0); o.downtime = dt; o.downtimeFmt = _formatDowntime(dt); o.parada = (dt>0); return {ok:true}; } catch(e){ return {ok:false, reason:e && (e.code||e.message)} } });
+          const updates = sel.map(async (o)=>{ if(!o._id) return {ok:false}; const dref = fb.doc(fb.db,'ordensServico', o._id); try { await fb.updateDoc(dref, { DataFechamento: nowYmd }); o.fim = _toYmd(nowYmd); const A = o._abertura ? new Date(o._abertura).toISOString() : null; const dt = (A ? ((new Date(nowIso).getTime() - new Date(A).getTime())/36e5) : 0); o.downtime = dt; o.downtimeFmt = _formatDowntime(dt); o.parada = (dt>0); const pr = _calcProgress(dt); o.progressPct = pr.pct; o.progressText = pr.text; o.progressState = pr.state; return {ok:true}; } catch(e){ return {ok:false, reason:e && (e.code||e.message)} } });
           const results = await Promise.all(updates); const ok = results.filter(r=>r.ok).length; dlgModel.refresh(true); MessageToast.show(ok + ' OS concluída(s).');
         } catch(e){ console.error('[OSDialog.onCloseSelectedOS]', e); MessageBox.error('Falha ao concluir OS selecionadas.'); }
       },

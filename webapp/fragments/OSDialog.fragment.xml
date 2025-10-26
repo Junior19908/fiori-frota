@@ -26,7 +26,7 @@
           <Button text="Concluir selecionadas" icon="sap-icon://accept" type="Emphasized" enabled="{= ${osDlg>/os}.length > 0 }" press=".onCloseSelectedOS"/>
           <Button text="Definir tipo" icon="sap-icon://edit" type="Transparent" enabled="{= ${osDlg>/os}.length > 0 }" press=".onSetTypeSelectedOS"/>
           <ToolbarSpacer/>
-          <SearchField width="22rem" placeholder="Filtrar por veículo, ordem ou título" liveChange=".onLiveSearch"/>
+          <SearchField width="22rem" placeholder="Filtrar por veiculo, ordem ou titulo" liveChange=".onLiveSearch"/>
         </Toolbar>
 
         <table:Table id="tblOSGrid"
@@ -43,7 +43,7 @@
                      noDataText="Sem OS para exibir">
 
           <table:columns>
-            <!-- Duração: Detalhes da OS -->
+            <!-- Duracao: Detalhes da OS -->
             <table:Column width="3rem" hAlign="Center">
               <Label text=""/>
               <table:template>
@@ -53,7 +53,7 @@
             </table:Column>
 
             <table:Column width="7rem" sortProperty="veiculo" filterProperty="veiculo" hAlign="Begin">
-              <Label text="Veículo" textAlign="Center" width="100%"/>
+              <Label text="Veiculo" textAlign="Center" width="100%"/>
               <table:template>
                 <Text text="{osDlg>veiculo}" tooltip="{osDlg>veiculo}"/>
               </table:template>
@@ -67,21 +67,21 @@
             </table:Column>
 
             <table:Column width="22rem" sortProperty="titulo" filterProperty="titulo" hAlign="Begin">
-              <Label text="Título" textAlign="Center" width="100%"/>
+              <Label text="Titulo" textAlign="Center" width="100%"/>
               <table:template>
                 <Text text="{osDlg>titulo}" tooltip="{osDlg>titulo}" wrapping="true"/>
               </table:template>
             </table:Column>
 
             <table:Column width="10rem" sortProperty="inicio" hAlign="Center">
-              <Label text="Início" textAlign="Center" width="100%"/>
+              <Label text="Inicio" textAlign="Center" width="100%"/>
               <table:template>
                 <Text text="{ parts: [ {path:'osDlg>inicio'}, {path:'osDlg>horaInicio'} ], formatter: '.formatter.fmtDateTime' }"/>
               </table:template>
             </table:Column>
 
             <table:Column width="7rem" sortProperty="horaInicio" hAlign="Center" visible="false">
-              <Label text="Hora Início" textAlign="Center" width="100%"/>
+              <Label text="Hora Inicio" textAlign="Center" width="100%"/>
               <table:template>
                 <Text text="{ path: 'osDlg>horaInicio', formatter: '.formatter.fmtHora' }"/>
               </table:template>
@@ -91,6 +91,16 @@
               <Label text="Fim" textAlign="Center" width="100%"/>
               <table:template>
                 <Text text="{ parts: [ {path:'osDlg>fim'}, {path:'osDlg>horaFim'} ], formatter: '.formatter.fmtDateTime' }"/>
+              </table:template>
+            </table:Column>
+
+            <table:Column width="10rem" hAlign="Center">
+              <Label text="Progresso" textAlign="Center" width="100%"/>
+              <table:template>
+                <ProgressIndicator width="100%"
+                                   percentValue="{osDlg>progressPct}"
+                                   displayValue="{osDlg>progressText}"
+                                   state="{osDlg>progressState}"/>
               </table:template>
             </table:Column>
 
@@ -105,7 +115,7 @@
             <table:Column width="8rem" hAlign="Center">
               <Label text="Parada" textAlign="Center" width="100%"/>
               <table:template>
-                <ObjectStatus text="{= ${osDlg>parada} ? 'Sim' : 'Não' }"
+                <ObjectStatus text="{= ${osDlg>parada} ? 'Sim' : 'Nao' }"
                               state="{= ${osDlg>parada} ? 'Error' : 'Success' }"/>
               </table:template>
             </table:Column>
@@ -117,9 +127,9 @@
               </table:template>
             </table:Column>
 
-            <!-- Duração (Progress Bar) -->
+            <!-- Duracao (Progress Bar) -->
             <table:Column width="18rem" hAlign="Center">
-              <Label text="Duração" textAlign="Center" width="100%"/>
+              <Label text="Duracao" textAlign="Center" width="100%"/>
               <table:template>
                 <ProgressIndicator width="100%"
                                    percentValue="{ parts: [ {path:'osDlg>downtime'}, {path:'osDlg>/__stats/max'} ], formatter: '.formatter.hoursPctOfMax' }"
