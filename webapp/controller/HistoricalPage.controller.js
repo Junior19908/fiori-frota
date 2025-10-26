@@ -629,6 +629,9 @@ sap.ui.define([
       });
       this._markers.clear();
 
+      const infoWindow = this._infoWindow || new gmaps.InfoWindow({ maxWidth: 320 });
+      this._infoWindow = infoWindow;
+
       const occurrences = this._osMapData.ocorrencias || [];
       const filter = this._viewModel?.getProperty("/filter") || {};
 
