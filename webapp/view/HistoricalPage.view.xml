@@ -3,6 +3,7 @@
   xmlns:mvc="sap.ui.core.mvc"
   xmlns="sap.m"
   xmlns:core="sap.ui.core"
+  xmlns:html="http://www.w3.org/1999/xhtml"
   xmlns:uxap="sap.uxap"
   xmlns:l="sap.ui.layout"
   xmlns:table="sap.ui.table"
@@ -336,11 +337,9 @@
                                 <layoutData>
                                   <FlexItemData growFactor="1" minWidth="18rem"/>
                                 </layoutData>
-                                  <core:HTML
-                                    id="mapHtml"
-                                    preferDOM="true"
-                                    sanitizeContent="false"
-                                    content="&lt;div id='mapHistorico' style='width:100%;height:60vh;border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,0.15);'&gt;&lt;/div&gt;" />
+                                  <html:div
+                                    id="map"
+                                    style="height: 480px; width: 100%; border-radius: 8px; overflow: hidden;"></html:div>
                               </VBox>
                             </FlexBox>
                           </content>
