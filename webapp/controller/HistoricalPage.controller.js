@@ -117,10 +117,12 @@ sap.ui.define([
     return { pct, text, state };
   }
 
-  // ======= CONFIG MAPA (corrigido para São José da Laje/AL) =======
-  const MAP_DEFAULT_CENTER = [-8.972588, -36.065667]; // Usina Serra Grande (AL)
-  const MAP_DEFAULT_ZOOM = 13;
+  // ======= CONFIG MAPA (MapLibre + PMTiles locais) =======
+  const MAP_DEFAULT_CENTER = { lng: -36.5, lat: -9.3 }; // Centro aproximado AL/PE
+  const MAP_DEFAULT_ZOOM = 7;
   const MAP_MODEL_PATH = "com/skysinc/frota/frota/model/mock/os_map.json";
+  const MAP_ROUTE_SOURCE_ID = "historical-routes";
+  const MAP_ROUTE_LAYER_ID = "historical-routes-line";
   const MAP_STATUS_META = {
     delay_gt_1h: { label: "> 1h delay", color: "#d13438", state: "Error" },
     delay_lt_1h: { label: "< 1h delay", color: "#f1c40f", state: "Warning" },
@@ -202,6 +204,9 @@ sap.ui.define([
       // Detail/KPIs + status manutencao de hoje
       this.getView().setModel(new JSONModel({
         veiculo:"", descricao:"", categoria:"",
+        imageUrl:"",
+        localInstalacao:"",
+        localInstalacaoSec:"",
         historico: [],
         historicoComb: [], historicoMateriais: [], historicoServicos: [], historicoOs: [],
         countComb:0, countMateriais:0, countServicos:0, countOs:0,
@@ -235,10 +240,13 @@ sap.ui.define([
       this._mapReadyPromise = null;
       this._mapReady = false;
       this._mapDataPromise = null;
+      this._mapAssetsPromise = null;
+      this._pmtilesProtocol = null;
       this._map = null;
       this._layers = null;
-      this._routes = null;
+      this._routeLines = [];
       this._markers = new Map();
+      this._usgaMarker = null;
       this._occurrenceIndex = Object.create(null);
 
       this._applyVizProps();
@@ -247,7 +255,11 @@ sap.ui.define([
     onAfterRendering: function () {
       this._applyVizProps();
       this._connectPopover();
-      this._ensureMapIfActive();
+      this._ensureMapAssets()
+        .catch(() => { /* erro já logado em _ensureMapAssets */ })
+        .finally(() => {
+          this._ensureMapIfActive();
+        });
     },
 
     _applyVizProps: function () {
@@ -337,132 +349,81 @@ sap.ui.define([
       return this._mapDataPromise;
     },
 
-    // --- garante Leaflet + instância do mapa ---
-    _loadLeaflet: function () {
-      if (this._leafletLoadingPromise) return this._leafletLoadingPromise;
+    _ensureMapAssets: function () {
+      if (this._mapAssetsPromise) {
+        return this._mapAssetsPromise;
+      }
 
-      var base = "com/skysinc/frota/frota/thirdparty/leaflet";
-      var cssUrl = sap.ui.require.toUrl(base + "/leaflet.css");
-      var scriptUrl = sap.ui.require.toUrl(base + "/leaflet.js");
-      var iconUrl        = sap.ui.require.toUrl(base + "/images/marker-icon.png");
-      var icon2xUrl      = sap.ui.require.toUrl(base + "/images/marker-icon-2x.png");
-      var shadowUrl      = sap.ui.require.toUrl(base + "/images/marker-shadow.png");
+      this._mapAssetsPromise = new Promise((resolve, reject) => {
+        const basePath = "com/skysinc/frota/frota/thirdparty/";
+        const cssUrl = sap.ui.require.toUrl(basePath + "maplibre-gl.css");
+        const mapLibrePath = sap.ui.require.toUrl(basePath + "maplibre-gl");
+        const pmtilesUrl = sap.ui.require.toUrl(basePath + "pmtiles.js");
 
-      this._leafletLoadingPromise = new Promise(function (resolve, reject) {
-        var resolved = false;
-
-        var finalize = function (LInstance) {
-          if (resolved) { return; }
-          resolved = true;
-
-          this._leafletInstance = LInstance;
-          if (typeof window !== "undefined" && !window.L) {
-            window.L = LInstance;
-          }
-
-          if (LInstance && LInstance.Icon && LInstance.Icon.Default && typeof LInstance.Icon.Default.mergeOptions === "function") {
-            LInstance.Icon.Default.mergeOptions({
-              iconUrl: iconUrl,
-              iconRetinaUrl: icon2xUrl,
-              shadowUrl: shadowUrl
-            });
-          }
-
-          resolve(LInstance);
-        }.bind(this);
-
-        var rejectOnce = function (error) {
-          if (resolved) { return; }
-          resolved = true;
-          reject(error);
-        };
-
-        var waitForLeaflet = function (attemptsLeft) {
-          var LInstance = this._leafletInstance || (typeof window !== "undefined" ? window.L : null);
-          if (LInstance) {
-            finalize(LInstance);
-            return;
-          }
-          if (attemptsLeft <= 0) {
-            rejectOnce(new Error("Leaflet não está disponível."));
-            return;
-          }
-          setTimeout(waitForLeaflet.bind(this, attemptsLeft - 1), 50);
-        }.bind(this);
-
-        if (!document.querySelector('link[data-leaflet-css="true"]')) {
-          var link = document.createElement("link");
-          link.rel = "stylesheet";
-          link.href = cssUrl;
-          link.setAttribute("data-leaflet-css", "true");
-          document.head.appendChild(link);
+        // Garante que o CSS do MapLibre seja carregado
+        try {
+          jQuery.sap.includeStyleSheet(cssUrl);
+        } catch (cssErr) {
+          // eslint-disable-next-line no-console
+          console.warn("[HistoricalPage] falha ao incluir CSS do MapLibre", cssErr);
         }
 
-        var existing = this._leafletInstance || (typeof window !== "undefined" ? window.L : null);
-        if (existing) {
-          finalize(existing);
-          return;
-        }
-
-        if (document.querySelector('script[data-leaflet-script="true"]')) {
-          waitForLeaflet(40);
-          return;
-        }
-
-        var define = typeof window !== "undefined" ? window.define : undefined;
-        var hadDefine = typeof define === "function";
-        var hadOwnAMD = hadDefine && Object.prototype.hasOwnProperty.call(define, "amd");
-        var originalAMD = hadDefine ? define.amd : undefined;
-
-        var restoreAMD = function () {
-          if (!hadDefine) { return; }
-          if (hadOwnAMD) {
-            define.amd = originalAMD;
-          } else {
-            try {
-              delete define.amd;
-            } catch (e) {
-              define.amd = undefined;
-            }
-          }
-        };
-
-        if (hadDefine) {
+        const ensurePmtiles = () => new Promise((res, rej) => {
           try {
-            define.amd = undefined;
+            jQuery.sap.includeScript(pmtilesUrl, "pmtiles", () => {
+              if (!window.pmtiles) {
+                rej(new Error("PMTiles nao esta disponivel."));
+                return;
+              }
+              res();
+            });
           } catch (err) {
-            // ignora: melhor tentar carregar mesmo assim
+            rej(err);
           }
-        }
+        });
 
-        var script = document.createElement("script");
-        script.src = scriptUrl;
-        script.async = true;
-        script.setAttribute("data-leaflet-script", "true");
-        script.onload = function () {
-          restoreAMD();
-          waitForLeaflet(40);
-        };
-        script.onerror = function () {
-          restoreAMD();
-          rejectOnce(new Error("Falha ao carregar módulo Leaflet."));
-        };
+        const ensureMapLibre = () => new Promise((res, rej) => {
+          try {
+            sap.ui.loader.config({
+              paths: {
+                "maplibre-gl-local": mapLibrePath
+              }
+            });
+            sap.ui.require(["maplibre-gl-local"], (maplibregl) => {
+              if (maplibregl && !window.maplibregl) {
+                window.maplibregl = maplibregl;
+              }
+              if (!window.maplibregl) {
+                rej(new Error("MapLibre nao esta disponivel."));
+                return;
+              }
+              res();
+            }, (err) => {
+              rej(err);
+            });
+          } catch (err) {
+            rej(err);
+          }
+        });
 
-        document.head.appendChild(script);
-      }.bind(this))
-        .catch(function (err) {
-          this._leafletLoadingPromise = null;
-          throw err;
-        }.bind(this));
+        ensureMapLibre()
+          .then(() => ensurePmtiles())
+          .then(resolve)
+          .catch(reject);
+      }).catch((err) => {
+        this._mapAssetsPromise = null;
+        console.error("[HistoricalPage] falha ao carregar recursos do mapa", err);
+        throw err;
+      });
 
-      return this._leafletLoadingPromise;
+      return this._mapAssetsPromise;
     },
     _ensureMapReady: function () {
       if (this._mapReadyPromise) return this._mapReadyPromise;
 
       this._mapReadyPromise = Promise.all([
         this._ensureMapData(),
-        this._loadLeaflet()
+        this._ensureMapAssets()
       ])
         .then(() => this._initMap())
         .then(() => {
@@ -482,67 +443,219 @@ sap.ui.define([
 
     _initMap: function () {
       if (this._map) {
-        setTimeout(() => {
-          try { this._map.invalidateSize(); } catch (e) { /* noop */ }
-        }, 0);
+        try {
+          if (typeof this._map.resize === "function") {
+            this._map.resize();
+          }
+        } catch (e) { /* noop */ }
         return Promise.resolve();
       }
 
       return new Promise((resolve, reject) => {
-        const attemptInit = () => {
-          const LInstance = this._leafletInstance || window.L;
-          if (!LInstance) { reject(new Error("Leaflet não está disponível")); return; }
-          const container = document.getElementById("mapHistorico");
-          if (!container) { setTimeout(attemptInit, 120); return; }
+        const view = this.getView();
+        const containerControl = view && typeof view.byId === "function" ? view.byId("map") : null;
+        const container = containerControl && typeof containerControl.getDomRef === "function"
+          ? containerControl.getDomRef()
+          : null;
 
-          try {
-            this._map = LInstance.map("mapHistorico").setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_ZOOM);
-            LInstance.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19 }).addTo(this._map);
-            this._layers = {
-              truck: LInstance.layerGroup().addTo(this._map),
-              train: LInstance.layerGroup().addTo(this._map)
-            };
-            this._routes = LInstance.layerGroup().addTo(this._map);
-            this._markers = new Map();
+        if (!container) {
+          setTimeout(() => {
+            this._initMap().then(resolve).catch(reject);
+          }, 120);
+          return;
+        }
 
-            // Marcador fixo da Usina (centro)
-            LInstance.marker(MAP_DEFAULT_CENTER)
-              .addTo(this._map)
-              .bindPopup("<b>Usina Serra Grande</b><br>São José da Laje - AL");
-
-            resolve();
-          } catch (err) {
-            reject(err);
+        try {
+          if (!this._pmtilesProtocol && window.pmtiles && typeof window.pmtiles.Protocol === "function") {
+            this._pmtilesProtocol = new window.pmtiles.Protocol();
+            if (window.maplibregl && typeof window.maplibregl.addProtocol === "function") {
+              window.maplibregl.addProtocol("pmtiles", this._pmtilesProtocol.tile);
+            }
           }
-        };
-        attemptInit();
-      });
-    },
 
-    _renderRoutes: function () {
-      if (!this._routes || !this._osMapData) return;
+          // DEV (fallback) — usar SOMENTE para teste local leve; não usar em produção:
+          // const style = {
+          //   version: 8,
+          //   sources: {
+          //     osm: {
+          //       type: "raster",
+          //       tiles: ["https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"],
+          //       tileSize: 256,
+          //       attribution: "© OpenStreetMap contributors"
+          //     }
+          //   },
+          //   layers: [{ id: "osm", type: "raster", source: "osm" }]
+          // };
 
-      this._routes.clearLayers();
-      const routes = this._osMapData.rotas || [];
-      routes.forEach((route) => {
-        if (Array.isArray(route?.coordenadas) && route.coordenadas.length) {
-          L.polyline(route.coordenadas, {
-            color: "#5dade2",
-            weight: 4,
-            dashArray: "4,6",
-            opacity: 0.9
-          }).addTo(this._routes);
+          const style = {
+            version: 8,
+            sources: {
+              basemap: {
+                type: "raster",
+                tiles: ["pmtiles://maps/al_pe_raster.pmtiles/{z}/{x}/{y}"],
+                tileSize: 256
+              }
+            },
+            layers: [
+              { id: "basemap", type: "raster", source: "basemap" }
+            ]
+          };
+
+          this._map = new window.maplibregl.Map({
+            container: container,
+            style: style,
+            center: [MAP_DEFAULT_CENTER.lng, MAP_DEFAULT_CENTER.lat],
+            zoom: MAP_DEFAULT_ZOOM
+          });
+
+          this._map.addControl(new window.maplibregl.NavigationControl(), "top-right");
+
+          this._map.once("load", () => {
+            this._layers = { truck: [], train: [] };
+            this._routeLines = [];
+            this._markers = new Map();
+            this._addExampleMarker();
+            resolve();
+          });
+
+          // eslint-disable-next-line no-console
+          this._map.on("error", (e) => console.warn("[HistoricalPage] erro no mapa", e));
+        } catch (err) {
+          reject(err);
         }
       });
     },
 
-    _renderMarkers: function () {
-      if (!this._layers || !this._osMapData) return;
+    _addExampleMarker: function () {
+      if (!this._map || !window.maplibregl) {
+        return;
+      }
 
-      Object.values(this._layers).forEach((layer) => layer.clearLayers());
-      if (!(this._markers instanceof Map)) this._markers = new Map();
-      this._markers.forEach((marker) => { if (marker?.remove) marker.remove(); });
+      if (this._usgaMarker && typeof this._usgaMarker.remove === "function") {
+        this._usgaMarker.remove();
+      }
+
+      const markerEl = document.createElement("div");
+      markerEl.style.width = "14px";
+      markerEl.style.height = "14px";
+      markerEl.style.borderRadius = "50%";
+      markerEl.style.background = "#1976d2";
+      markerEl.style.boxShadow = "0 0 0 3px rgba(25,118,210,0.25)";
+      markerEl.style.border = "2px solid #ffffff";
+
+      const popup = new window.maplibregl.Popup({ offset: 8 })
+        .setHTML("<b>USGA</b><br>São José da Laje/AL");
+
+      this._usgaMarker = new window.maplibregl.Marker({ element: markerEl })
+        .setLngLat([-36.033, -9.159])
+        .setPopup(popup)
+        .addTo(this._map);
+    },
+
+    _renderRoutes: function () {
+      if (!this._map || !this._osMapData || !window.maplibregl) return;
+
+      const map = this._map;
+      const styleReady = typeof map.isStyleLoaded === "function" ? map.isStyleLoaded() : true;
+      if (!styleReady) {
+        map.once("load", () => this._renderRoutes());
+        return;
+      }
+
+      const routes = this._osMapData.rotas || [];
+      const features = routes.map((route) => {
+        if (!Array.isArray(route?.coordenadas)) {
+          return null;
+        }
+        const coords = route.coordenadas
+          .map((pair) => {
+            const lat = Number(pair && pair[0]);
+            const lng = Number(pair && pair[1]);
+            if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+              return null;
+            }
+            return [lng, lat];
+          })
+          .filter(Boolean);
+        if (coords.length < 2) {
+          return null;
+        }
+        return {
+          type: "Feature",
+          geometry: {
+            type: "LineString",
+            coordinates: coords
+          },
+          properties: {}
+        };
+      }).filter(Boolean);
+
+      const hasFeatures = features.length > 0;
+      const sourceExists = typeof map.getSource === "function" && map.getSource(MAP_ROUTE_SOURCE_ID);
+
+      if (!hasFeatures) {
+        if (sourceExists) {
+          if (map.getLayer && map.getLayer(MAP_ROUTE_LAYER_ID)) {
+            map.removeLayer(MAP_ROUTE_LAYER_ID);
+          }
+          map.removeSource(MAP_ROUTE_SOURCE_ID);
+        }
+        return;
+      }
+
+      const data = {
+        type: "FeatureCollection",
+        features: features
+      };
+
+      if (sourceExists) {
+        map.getSource(MAP_ROUTE_SOURCE_ID).setData(data);
+      } else {
+        map.addSource(MAP_ROUTE_SOURCE_ID, {
+          type: "geojson",
+          data: data
+        });
+        map.addLayer({
+          id: MAP_ROUTE_LAYER_ID,
+          type: "line",
+          source: MAP_ROUTE_SOURCE_ID,
+          paint: {
+            "line-color": "#5dade2",
+            "line-width": 3,
+            "line-opacity": 0.85
+          }
+        });
+      }
+    },
+
+    _renderMarkers: function () {
+      if (!this._map || !this._osMapData || !window.maplibregl) return;
+
+      if (!this._layers) {
+        this._layers = { truck: [], train: [] };
+      }
+      Object.keys(this._layers).forEach((key) => {
+        const arr = this._layers[key] || [];
+        arr.forEach((marker) => {
+          if (marker && typeof marker.remove === "function") {
+            marker.remove();
+          }
+        });
+        this._layers[key] = [];
+      });
+
+      if (!(this._markers instanceof Map)) {
+        this._markers = new Map();
+      }
+      this._markers.forEach((marker) => {
+        if (marker && typeof marker.remove === "function") {
+          marker.remove();
+        }
+      });
       this._markers.clear();
+
+      const infoWindow = this._infoWindow || new gmaps.InfoWindow({ maxWidth: 320 });
+      this._infoWindow = infoWindow;
 
       const occurrences = this._osMapData.ocorrencias || [];
       const filter = this._viewModel?.getProperty("/filter") || {};
@@ -550,49 +663,78 @@ sap.ui.define([
       occurrences.forEach((occ) => {
         if (!this._isOccurrenceVisible(occ, filter)) return;
 
+        const coords = Array.isArray(occ?.coords) ? occ.coords : [];
+        const lat = Number(coords[0]);
+        const lng = Number(coords[1]);
+        if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
+
+        let markerElement = null;
+        try {
+          markerElement = this._buildMarkerElement(occ);
+        } catch (err) {
+          console.error("[HistoricalPage] erro ao criar elemento do marcador", err);
+        }
+
+        const markerOptions = markerElement ? { element: markerElement } : {};
         let marker;
         try {
-          marker = L.marker(occ.coords, { icon: this._buildMarkerIcon(occ) });
+          marker = new window.maplibregl.Marker(markerOptions)
+            .setLngLat([lng, lat]);
         } catch (err) {
-          console.error("[HistoricalPage] erro ao criar marcador", err);
+          console.error("[HistoricalPage] erro ao instanciar marcador", err);
           return;
         }
 
         const popupHtml = this._buildPopupContent(occ);
-        marker.bindPopup(popupHtml, { className: "mapHistoricoPopup" });
-        marker.on("popupopen", (evt) => {
-          const popupEl = evt.popup && evt.popup.getElement && evt.popup.getElement();
-          if (!popupEl) return;
-          const btn = popupEl.querySelector("[data-map-action='open-os']");
-          if (btn) {
-            const handler = () => this.onAbrirOS(occ.os);
-            btn.addEventListener("click", handler, { once: true });
-          }
-        });
-        const layerGroup = this._layers[occ.tipoTransporte] || this._map;
-        marker.addTo(layerGroup);
-        this._markers.set(occ.os, marker);
+        if (popupHtml) {
+          const popup = new window.maplibregl.Popup({ offset: 12 }).setHTML(popupHtml);
+          popup.on("open", () => {
+            try {
+              const selector = `[data-map-action='open-os'][data-os='${occ.os}']`;
+              const btn = document.querySelector(selector);
+              if (btn) {
+                btn.addEventListener("click", () => this.onAbrirOS(occ.os), { once: true });
+              }
+            } catch (e) { /* noop */ }
+          });
+          marker.setPopup(popup);
+        }
+
+        marker.addTo(this._map);
+
+        const layerKey = occ?.tipoTransporte || "other";
+        if (!this._layers[layerKey]) {
+          this._layers[layerKey] = [];
+        }
+        this._layers[layerKey].push(marker);
+        if (occ.os) {
+          this._markers.set(occ.os, marker);
+        }
       });
     },
 
-    _buildMarkerIcon: function (occ) {
-      const statusCfg = MAP_STATUS_META[occ.status] || { color: "#1070ca" };
-      const glyph = occ.tipoTransporte === "train" ? "&#128646;" : "&#128666;";
-      const html = [
-        "<div style=\"display:flex;align-items:center;justify-content:center;",
-        "width:34px;height:34px;border-radius:18px;",
-        "background:#ffffff;border:3px solid ", statusCfg.color, ";",
-        "box-shadow:0 4px 12px rgba(0,0,0,0.25);\">",
-        "<span style=\"font-size:18px;line-height:1;\">", glyph, "</span>",
-        "</div>"
-      ].join("");
-      return L.divIcon({
-        html,
-        className: "",
-        iconSize: [34, 34],
-        iconAnchor: [17, 17],
-        popupAnchor: [0, -18]
-      });
+    _buildMarkerElement: function (occ) {
+      const statusCfg = MAP_STATUS_META[occ?.status] || { color: "#1070ca" };
+      const glyph = occ?.tipoTransporte === "train" ? "🚆" : "🚚";
+      const borderColor = statusCfg.color || "#1070ca";
+
+      const container = document.createElement("div");
+      container.style.width = "42px";
+      container.style.height = "42px";
+      container.style.borderRadius = "50%";
+      container.style.background = "#ffffff";
+      container.style.border = `4px solid ${borderColor}`;
+      container.style.boxShadow = "0 6px 14px rgba(0,0,0,0.25)";
+      container.style.display = "flex";
+      container.style.alignItems = "center";
+      container.style.justifyContent = "center";
+      container.style.transform = "translate(-21px, -21px)";
+      container.style.cursor = "pointer";
+      container.style.fontSize = "20px";
+      container.style.lineHeight = "1";
+      container.textContent = glyph;
+
+      return container;
     },
 
     _buildPopupContent: function (occ) {
@@ -627,33 +769,48 @@ sap.ui.define([
     },
 
     _fitBounds: function () {
-      if (!this._map || !this._osMapData) return;
+      if (!this._map || !this._osMapData || !window.maplibregl) return;
 
-      const allCoords = [];
+      let bounds;
+      try {
+        bounds = new window.maplibregl.LngLatBounds();
+      } catch (e) {
+        return;
+      }
+      let hasPoint = false;
 
-      // Centro fixo (AL) no bounds também, para manter referência local
-      allCoords.push(MAP_DEFAULT_CENTER);
+      const addCoord = (coord) => {
+        if (!Array.isArray(coord)) return;
+        const lat = Number(coord[0]);
+        const lng = Number(coord[1]);
+        if (Number.isFinite(lat) && Number.isFinite(lng)) {
+          bounds.extend([lng, lat]);
+          hasPoint = true;
+        }
+      };
 
+      addCoord([MAP_DEFAULT_CENTER.lat, MAP_DEFAULT_CENTER.lng]);
       (this._osMapData.rotas || []).forEach((route) => {
         if (Array.isArray(route?.coordenadas)) {
-          route.coordenadas.forEach((coord) => allCoords.push(coord));
+          route.coordenadas.forEach(addCoord);
         }
       });
       (this._osMapData.ocorrencias || []).forEach((occ) => {
-        if (Array.isArray(occ?.coords)) {
-          allCoords.push(occ.coords);
-        }
+        addCoord(occ?.coords);
       });
 
-      if (allCoords.length) {
+      if (hasPoint) {
         try {
-          const bounds = L.latLngBounds(allCoords);
-          this._map.fitBounds(bounds, { padding: [40, 40] });
+          this._map.fitBounds(bounds, { padding: 48, maxZoom: 12 });
         } catch (e) {
-          this._map.setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_ZOOM);
+          // eslint-disable-next-line no-console
+          console.warn("[HistoricalPage] falha ao ajustar limites do mapa", e);
         }
       } else {
-        this._map.setView(MAP_DEFAULT_CENTER, MAP_DEFAULT_ZOOM);
+        try {
+          this._map.setCenter([MAP_DEFAULT_CENTER.lng, MAP_DEFAULT_CENTER.lat]);
+          this._map.setZoom(MAP_DEFAULT_ZOOM);
+        } catch (e) { /* noop */ }
       }
     },
 
@@ -684,10 +841,35 @@ sap.ui.define([
         .then(() => {
           const coords = Array.isArray(coordsOptional) ? coordsOptional : this._occurrenceIndex?.[osId]?.coords;
           if (coords && this._map) {
-            this._map.setView(coords, 12);
+            const lat = Number(coords[0]);
+            const lng = Number(coords[1]);
+            if (Number.isFinite(lat) && Number.isFinite(lng)) {
+              try {
+                if (typeof this._map.easeTo === "function") {
+                  this._map.easeTo({ center: [lng, lat], zoom: Math.max(12, MAP_DEFAULT_ZOOM) });
+                } else {
+                  if (typeof this._map.setCenter === "function") {
+                    this._map.setCenter([lng, lat]);
+                  }
+                  if (typeof this._map.setZoom === "function") {
+                    this._map.setZoom(Math.max(12, MAP_DEFAULT_ZOOM));
+                  }
+                }
+              } catch (e) { /* noop */ }
+            }
           }
           const marker = this._markers?.get(osId);
-          if (marker?.openPopup) marker.openPopup();
+          if (marker && this._map) {
+            const occ = this._occurrenceIndex?.[osId];
+            const popupHtml = occ ? this._buildPopupContent(occ) : null;
+            const popup = marker.getPopup && marker.getPopup();
+            if (popup) {
+              if (popupHtml) {
+                popup.setHTML(popupHtml);
+              }
+              popup.addTo(this._map);
+            }
+          }
         })
         .catch(() => { /* logado anteriormente */ });
     },
@@ -720,9 +902,15 @@ sap.ui.define([
       const detail = this.getView().getModel("detail");
       detail.setProperty("/veiculo", this._equnrRaw);
       detail.setProperty("/descricao",
-        found?.eqktx || found?.descricao || found?.DESCRICAO || found?.txt || "");
+        found?.descricao || found?.eqktx || found?.DESCRICAO || found?.Descricao || found?.txt || "");
       detail.setProperty("/categoria",
-        found?.CATEGORIA || found?.categoria || found?.Categoria || "");
+        found?.categoria || found?.CATEGORIA || found?.Categoria || "");
+      detail.setProperty("/imageUrl",
+        found?.imageUrl || found?.imagem || found?.image || found?.foto || "");
+      detail.setProperty("/localInstalacao",
+        found?.locinstaladesc || found?.instalacao || found?.local || "");
+      detail.setProperty("/localInstalacaoSec",
+        found?.locinstaladesc1 || found?.instalacaoSec || found?.instalacaoExtra || found?.local2 || "");
 
       // Carregar e montar historico
       this.onRefresh();
@@ -1085,13 +1273,49 @@ sap.ui.define([
     },
 
     onExit: function () {
-      if (this._map?.remove) this._map.remove();
-      this._map = null;
+      if (this._usgaMarker && typeof this._usgaMarker.remove === "function") {
+        this._usgaMarker.remove();
+      }
+      this._usgaMarker = null;
+
+      if (this._markers instanceof Map) {
+        this._markers.forEach((marker) => {
+          if (marker && typeof marker.remove === "function") {
+            marker.remove();
+          }
+        });
+        this._markers.clear();
+      }
+
+      if (this._layers) {
+        Object.keys(this._layers).forEach((key) => {
+          const arr = this._layers[key] || [];
+          arr.forEach((marker) => {
+            if (marker && typeof marker.remove === "function") {
+              marker.remove();
+            }
+          });
+        });
+      }
       this._layers = null;
-      this._routes = null;
-      if (this._markers?.clear) this._markers.clear();
-      this._markers = new Map();
+
+      if (this._map) {
+        try {
+          if (this._map.getLayer && this._map.getLayer(MAP_ROUTE_LAYER_ID)) {
+            this._map.removeLayer(MAP_ROUTE_LAYER_ID);
+          }
+          if (this._map.getSource && this._map.getSource(MAP_ROUTE_SOURCE_ID)) {
+            this._map.removeSource(MAP_ROUTE_SOURCE_ID);
+          }
+          if (typeof this._map.remove === "function") {
+            this._map.remove();
+          }
+        } catch (e) { /* noop */ }
+      }
+
+      this._map = null;
       this._mapReady = false;
     }
   });
 });
+

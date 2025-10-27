@@ -1,0 +1,3074 @@
+{
+  "veiculos": [
+    {
+      "equnr": "20022272",
+      "eqktx": "Valtra-A990R 4X4",
+      "descricao": "Valtra A990R 4X4",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "Valtra A990R 4X4",
+      "locinstaladesc1": "Valtra A990R 4X4",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/8/7/87c1a217ac82601f.png"
+    },
+    {
+      "equnr": "20011153",
+      "eqktx": "VOLVO VM-360",
+      "descricao": "VOLVO VM-330",
+      "categoria": "CAMINHÃO BASCULANTE",
+      "CATEGORIA": "CAMINHÃO BASCULANTE",
+      "locinstaladesc": "VOLVO VM-330",
+      "locinstaladesc1": "VOLVO VM-330",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Volvo_FMX_dump_truck.jpg"
+    },
+    {
+      "equnr": "20010057",
+      "eqktx": "TOYOTA HILUX CDLOWM4FD",
+      "descricao": "TOYOTA HILUX CDLOWM4FD",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "TOYOTA HILUX CDLOWM4FD",
+      "locinstaladesc1": "TOYOTA HILUX CDLOWM4FD",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Toyota_Hilux_Revo_2015.jpg"
+    },
+    {
+      "equnr": "20010058",
+      "eqktx": "TOYOTA HILUX CDLOWM4FD",
+      "descricao": "TOYOTA HILUX CDLOWM4FD",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "TOYOTA HILUX CDLOWM4FD",
+      "locinstaladesc1": "TOYOTA HILUX CDLOWM4FD",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Toyota_Hilux_Revo_2015.jpg"
+    },
+    {
+      "equnr": "20022293",
+      "eqktx": "Valtra-BH194",
+      "descricao": "Valtra BH194",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra BH194",
+      "locinstaladesc1": "Valtra BH194",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20010001",
+      "eqktx": "Toyota C.D",
+      "descricao": "Toyota",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "Toyota",
+      "locinstaladesc1": "Toyota",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Toyota_Hilux_Revo_2015.jpg"
+    },
+    {
+      "equnr": "20010013",
+      "eqktx": "MB Sprinte",
+      "descricao": "Mercedes Benz",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Toyota_Hilux_Revo_2015.jpg"
+    },
+    {
+      "equnr": "20010019",
+      "eqktx": "Toyota 14",
+      "descricao": "Toyota",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "Toyota",
+      "locinstaladesc1": "Toyota",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Toyota_Hilux_Revo_2015.jpg"
+    },
+    {
+      "equnr": "20010034",
+      "eqktx": "Toyota Hilux STD",
+      "descricao": "Toyota Hilux",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "Toyota Hilux",
+      "locinstaladesc1": "Toyota Hilux",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Toyota_Hilux_Revo_2015.jpg"
+    },
+    {
+      "equnr": "20010035",
+      "eqktx": "Toyota Hilux STD C. DUPLA",
+      "descricao": "Toyota Hilux",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "Toyota Hilux",
+      "locinstaladesc1": "Toyota Hilux",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Toyota_Hilux_Revo_2015.jpg"
+    },
+    {
+      "equnr": "20010036",
+      "eqktx": "Toyota Hilux",
+      "descricao": "Toyota Hilux",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "Toyota Hilux",
+      "locinstaladesc1": "Toyota Hilux",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Toyota_Hilux_Revo_2015.jpg"
+    },
+    {
+      "equnr": "20010040",
+      "eqktx": "JEEP SUZUKI 4WORK",
+      "descricao": "SUZUKI",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "SUZUKI",
+      "locinstaladesc1": "SUZUKI",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Toyota_Hilux_Revo_2015.jpg"
+    },
+    {
+      "equnr": "20010045",
+      "eqktx": "JEEP SUZUKI 4WORK",
+      "descricao": "SUZUKI",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "SUZUKI",
+      "locinstaladesc1": "SUZUKI",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Toyota_Hilux_Revo_2015.jpg"
+    },
+    {
+      "equnr": "20010047",
+      "eqktx": "Toyota C.D",
+      "descricao": "Toyota",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "Toyota",
+      "locinstaladesc1": "Toyota",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Toyota_Hilux_Revo_2015.jpg"
+    },
+    {
+      "equnr": "20010049",
+      "eqktx": "JEEP SUZUKI 4WORK",
+      "descricao": "SUZUKI 4 WORK 4X4",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "SUZUKI 4 WORK 4X4",
+      "locinstaladesc1": "SUZUKI 4 WORK 4X4",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Toyota_Hilux_Revo_2015.jpg"
+    },
+    {
+      "equnr": "20010052",
+      "eqktx": "JEEP SUZUKI 4WORK",
+      "descricao": "SUZUKI 4 WORK 4X4",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "SUZUKI 4 WORK 4X4",
+      "locinstaladesc1": "SUZUKI 4 WORK 4X4",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Toyota_Hilux_Revo_2015.jpg"
+    },
+    {
+      "equnr": "20010053",
+      "eqktx": "JEEP SUZUKI 4SPORT 4X4",
+      "descricao": "SUZUKI 4SPORT 4X4",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "SUZUKI 4SPORT 4X4",
+      "locinstaladesc1": "SUZUKI 4SPORT 4X4",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Toyota_Hilux_Revo_2015.jpg"
+    },
+    {
+      "equnr": "20010054",
+      "eqktx": "JEEP SUZUKI 4SPORT 4X4",
+      "descricao": "SUZUKI 4SPORT 4X4",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "SUZUKI 4SPORT 4X4",
+      "locinstaladesc1": "SUZUKI 4SPORT 4X4",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Toyota_Hilux_Revo_2015.jpg"
+    },
+    {
+      "equnr": "20010105",
+      "eqktx": "MB 3340/48",
+      "descricao": "Mercedes Benz",
+      "categoria": "TETRAMINHAO",
+      "CATEGORIA": "TETRAMINHAO",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Road_train_at_Barkly_Highway%2C_Australia.jpg"
+    },
+    {
+      "equnr": "20010107",
+      "eqktx": "MB2635 BB",
+      "descricao": "Mercedes Benz",
+      "categoria": "CAMINHÃO BOMBEIRO",
+      "CATEGORIA": "CAMINHÃO BOMBEIRO",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5d/Scania_P94G_310_fire_engine.jpg"
+    },
+    {
+      "equnr": "20010108",
+      "eqktx": "MB 2213 Ba",
+      "descricao": "Mercedes Benz",
+      "categoria": "CAMINHÃO BASCULANTE",
+      "CATEGORIA": "CAMINHÃO BASCULANTE",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Volvo_FMX_dump_truck.jpg"
+    },
+    {
+      "equnr": "20010109",
+      "eqktx": "Volvo VM 260",
+      "descricao": "Volvo",
+      "categoria": "CAMINHÃO CARGA SECA",
+      "CATEGORIA": "CAMINHÃO CARGA SECA",
+      "locinstaladesc": "Volvo",
+      "locinstaladesc1": "Volvo",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Isuzu_FVR_flatbed_truck.JPG"
+    },
+    {
+      "equnr": "20010117",
+      "eqktx": "MB 2314 Co",
+      "descricao": "Mercedes Benz",
+      "categoria": "CAMINHÃO COMBOIO",
+      "CATEGORIA": "CAMINHÃO COMBOIO",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/48/Fuel_tanker_truck.jpg"
+    },
+    {
+      "equnr": "20010118",
+      "eqktx": "MB 2831/48",
+      "descricao": "Mercedes Benz",
+      "categoria": "BIMINHAO",
+      "CATEGORIA": "BIMINHAO",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/ea/Sugarcane_trailer_train_in_Brazil.jpg"
+    },
+    {
+      "equnr": "20010119",
+      "eqktx": "MB 2428/48",
+      "descricao": "Mercedes Benz",
+      "categoria": "BIMINHAO",
+      "CATEGORIA": "BIMINHAO",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/ea/Sugarcane_trailer_train_in_Brazil.jpg"
+    },
+    {
+      "equnr": "20010124",
+      "eqktx": "MB 2418/48",
+      "descricao": "Mercedes Benz",
+      "categoria": "CAMINHÃO BASCULANTE",
+      "CATEGORIA": "CAMINHÃO BASCULANTE",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Volvo_FMX_dump_truck.jpg"
+    },
+    {
+      "equnr": "20010127",
+      "eqktx": "Volvo FH-520",
+      "descricao": "Volvo",
+      "categoria": "TREMINHAO",
+      "CATEGORIA": "TREMINHAO",
+      "locinstaladesc": "Volvo",
+      "locinstaladesc1": "Volvo",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/28/Road_train_darwin.jpg"
+    },
+    {
+      "equnr": "20010135",
+      "eqktx": "MB 2418/48",
+      "descricao": "Mercedes Benz",
+      "categoria": "CAMINHÃO BASCULANTE",
+      "CATEGORIA": "CAMINHÃO BASCULANTE",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Volvo_FMX_dump_truck.jpg"
+    },
+    {
+      "equnr": "20010138",
+      "eqktx": "MB 2831/48",
+      "descricao": "Mercedes Benz",
+      "categoria": "CAMINHÃO COMBOIO",
+      "CATEGORIA": "CAMINHÃO COMBOIO",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/48/Fuel_tanker_truck.jpg"
+    },
+    {
+      "equnr": "20010139",
+      "eqktx": "Volvo FH-520",
+      "descricao": "Volvo",
+      "categoria": "TREMINHAO",
+      "CATEGORIA": "TREMINHAO",
+      "locinstaladesc": "Volvo",
+      "locinstaladesc1": "Volvo",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/28/Road_train_darwin.jpg"
+    },
+    {
+      "equnr": "20010153",
+      "eqktx": "MB 3340/48",
+      "descricao": "Mercedes Benz",
+      "categoria": "TREMINHAO",
+      "CATEGORIA": "TREMINHAO",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/28/Road_train_darwin.jpg"
+    },
+    {
+      "equnr": "20010156",
+      "eqktx": "MB 3340/48",
+      "descricao": "Mercedes Benz",
+      "categoria": "TREMINHAO",
+      "CATEGORIA": "TREMINHAO",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/28/Road_train_darwin.jpg"
+    },
+    {
+      "equnr": "20010157",
+      "eqktx": "MB 3340/48",
+      "descricao": "Mercedes Benz",
+      "categoria": "TREMINHAO",
+      "CATEGORIA": "TREMINHAO",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/28/Road_train_darwin.jpg"
+    },
+    {
+      "equnr": "20010158",
+      "eqktx": "MB 2418/48",
+      "descricao": "Mercedes Benz",
+      "categoria": "CAMINHÃO APOIO",
+      "CATEGORIA": "CAMINHÃO APOIO",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/05/Service_truck.jpg"
+    },
+    {
+      "equnr": "20010160",
+      "eqktx": "MB 2428/48",
+      "descricao": "Mercedes Benz",
+      "categoria": "CAMINHÃO BASCULANTE",
+      "CATEGORIA": "CAMINHÃO BASCULANTE",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Volvo_FMX_dump_truck.jpg"
+    },
+    {
+      "equnr": "20010163",
+      "eqktx": "MB 3340/48",
+      "descricao": "Mercedes Benz",
+      "categoria": "TETRAMINHAO",
+      "CATEGORIA": "TETRAMINHAO",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Road_train_at_Barkly_Highway%2C_Australia.jpg"
+    },
+    {
+      "equnr": "20010164",
+      "eqktx": "MB 2217 Ba",
+      "descricao": "Mercedes Benz",
+      "categoria": "CAMINHÃO BASCULANTE",
+      "CATEGORIA": "CAMINHÃO BASCULANTE",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Volvo_FMX_dump_truck.jpg"
+    },
+    {
+      "equnr": "20010166",
+      "eqktx": "Volvo FH-520",
+      "descricao": "Volvo",
+      "categoria": "TREMINHAO",
+      "CATEGORIA": "TREMINHAO",
+      "locinstaladesc": "Volvo",
+      "locinstaladesc1": "Volvo",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/28/Road_train_darwin.jpg"
+    },
+    {
+      "equnr": "20010171",
+      "eqktx": "MB 2318 Ba",
+      "descricao": "Mercedes Benz",
+      "categoria": "CAMINHÃO BASCULANTE",
+      "CATEGORIA": "CAMINHÃO BASCULANTE",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Volvo_FMX_dump_truck.jpg"
+    },
+    {
+      "equnr": "20010172",
+      "eqktx": "Volvo FH-520",
+      "descricao": "Volvo",
+      "categoria": "TETRAMINHAO",
+      "CATEGORIA": "TETRAMINHAO",
+      "locinstaladesc": "Volvo",
+      "locinstaladesc1": "Volvo",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Road_train_at_Barkly_Highway%2C_Australia.jpg"
+    },
+    {
+      "equnr": "20010173",
+      "eqktx": "MB 1418 Ba",
+      "descricao": "Mercedes Benz",
+      "categoria": "CAMINHÃO BASCULANTE",
+      "CATEGORIA": "CAMINHÃO BASCULANTE",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Volvo_FMX_dump_truck.jpg"
+    },
+    {
+      "equnr": "20010174",
+      "eqktx": "MB 2314 Co",
+      "descricao": "Mercedes Benz",
+      "categoria": "CAMINHÃO COMBOIO",
+      "CATEGORIA": "CAMINHÃO COMBOIO",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/48/Fuel_tanker_truck.jpg"
+    },
+    {
+      "equnr": "20010175",
+      "eqktx": "MB 2418/48",
+      "descricao": "Mercedes Benz",
+      "categoria": "CAMINHÃO APOIO",
+      "CATEGORIA": "CAMINHÃO APOIO",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/05/Service_truck.jpg"
+    },
+    {
+      "equnr": "20010192",
+      "eqktx": "MB 3344/48 6 x 4",
+      "descricao": "Mercedes Benz Axor 3344 6 x 4",
+      "categoria": "TETRAMINHAO",
+      "CATEGORIA": "TETRAMINHAO",
+      "locinstaladesc": "Mercedes Benz Axor 3344 6 x 4",
+      "locinstaladesc1": "Mercedes Benz Axor 3344 6 x 4",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Road_train_at_Barkly_Highway%2C_Australia.jpg"
+    },
+    {
+      "equnr": "20010193",
+      "eqktx": "MB 3344/48 6 x 4",
+      "descricao": "Mercedes Benz Axor 3344 6 x 4",
+      "categoria": "TETRAMINHAO",
+      "CATEGORIA": "TETRAMINHAO",
+      "locinstaladesc": "Mercedes Benz Axor 3344 6 x 4",
+      "locinstaladesc1": "Mercedes Benz Axor 3344 6 x 4",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Road_train_at_Barkly_Highway%2C_Australia.jpg"
+    },
+    {
+      "equnr": "20010194",
+      "eqktx": "Volvo FMX 540",
+      "descricao": "Volvo FMX540",
+      "categoria": "TETRAMINHAO",
+      "CATEGORIA": "TETRAMINHAO",
+      "locinstaladesc": "Volvo FMX540",
+      "locinstaladesc1": "Volvo FMX540",
+      "imageUrl": "https://assets.volvo.com/is/image/VolvoInformationTechnologyAB/volvo-fmx-crew-cab-sideview-1?qlt=82&wid=1024&ts=1723644581053&dpr=off&fit=constrain&fmt=png-alpha"
+    },
+    {
+      "equnr": "20010195",
+      "eqktx": "Volvo FMX 540",
+      "descricao": "Volvo FMX540",
+      "categoria": "TETRAMINHAO",
+      "CATEGORIA": "TETRAMINHAO",
+      "locinstaladesc": "Volvo FMX540",
+      "locinstaladesc1": "Volvo FMX540",
+      "imageUrl": "https://assets.volvo.com/is/image/VolvoInformationTechnologyAB/volvo-fmx-crew-cab-sideview-1?qlt=82&wid=1024&ts=1723644581053&dpr=off&fit=constrain&fmt=png-alpha"
+    },
+    {
+      "equnr": "20011100",
+      "eqktx": "Volvo FMX 540",
+      "descricao": "Volvo FMX540",
+      "categoria": "TETRAMINHAO",
+      "CATEGORIA": "TETRAMINHAO",
+      "locinstaladesc": "Volvo FMX540",
+      "locinstaladesc1": "Volvo FMX540",
+      "imageUrl": "https://assets.volvo.com/is/image/VolvoInformationTechnologyAB/volvo-fmx-crew-cab-sideview-1?qlt=82&wid=1024&ts=1723644581053&dpr=off&fit=constrain&fmt=png-alpha"
+    },
+    {
+      "equnr": "20011101",
+      "eqktx": "Volvo FMX 540",
+      "descricao": "Volvo FMX540",
+      "categoria": "TETRAMINHAO",
+      "CATEGORIA": "TETRAMINHAO",
+      "locinstaladesc": "Volvo FMX540",
+      "locinstaladesc1": "Volvo FMX540",
+      "imageUrl": "https://assets.volvo.com/is/image/VolvoInformationTechnologyAB/volvo-fmx-crew-cab-sideview-1?qlt=82&wid=1024&ts=1723644581053&dpr=off&fit=constrain&fmt=png-alpha"
+    },
+    {
+      "equnr": "20011102",
+      "eqktx": "Volvo FMX 540",
+      "descricao": "Volvo FMX540",
+      "categoria": "TETRAMINHAO",
+      "CATEGORIA": "TETRAMINHAO",
+      "locinstaladesc": "Volvo FMX540",
+      "locinstaladesc1": "Volvo FMX540",
+      "imageUrl": "https://assets.volvo.com/is/image/VolvoInformationTechnologyAB/volvo-fmx-crew-cab-sideview-1?qlt=82&wid=1024&ts=1723644581053&dpr=off&fit=constrain&fmt=png-alpha"
+    },
+    {
+      "equnr": "20011103",
+      "eqktx": "Volvo FMX 540",
+      "descricao": "Volvo FMX540",
+      "categoria": "TETRAMINHAO",
+      "CATEGORIA": "TETRAMINHAO",
+      "locinstaladesc": "Volvo FMX540",
+      "locinstaladesc1": "Volvo FMX540",
+      "imageUrl": "https://assets.volvo.com/is/image/VolvoInformationTechnologyAB/volvo-fmx-crew-cab-sideview-1?qlt=82&wid=1024&ts=1723644581053&dpr=off&fit=constrain&fmt=png-alpha"
+    },
+    {
+      "equnr": "20011104",
+      "eqktx": "Volvo FMX 540",
+      "descricao": "Volvo FMX540",
+      "categoria": "TETRAMINHAO",
+      "CATEGORIA": "TETRAMINHAO",
+      "locinstaladesc": "Volvo FMX540",
+      "locinstaladesc1": "Volvo FMX540",
+      "imageUrl": "https://assets.volvo.com/is/image/VolvoInformationTechnologyAB/volvo-fmx-crew-cab-sideview-1?qlt=82&wid=1024&ts=1723644581053&dpr=off&fit=constrain&fmt=png-alpha"
+    },
+    {
+      "equnr": "20011105",
+      "eqktx": "Volvo FMX 540",
+      "descricao": "Volvo FMX540",
+      "categoria": "TETRAMINHAO",
+      "CATEGORIA": "TETRAMINHAO",
+      "locinstaladesc": "Volvo FMX540",
+      "locinstaladesc1": "Volvo FMX540",
+      "imageUrl": "https://assets.volvo.com/is/image/VolvoInformationTechnologyAB/volvo-fmx-crew-cab-sideview-1?qlt=82&wid=1024&ts=1723644581053&dpr=off&fit=constrain&fmt=png-alpha"
+    },
+    {
+      "equnr": "20011107",
+      "eqktx": "MB L2638 C",
+      "descricao": "Mercedes Benz",
+      "categoria": "TREMINHAO",
+      "CATEGORIA": "TREMINHAO",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/28/Road_train_darwin.jpg"
+    },
+    {
+      "equnr": "20011118",
+      "eqktx": "MB L2638 C",
+      "descricao": "M. Benz 2638",
+      "categoria": "TREMINHAO",
+      "CATEGORIA": "TREMINHAO",
+      "locinstaladesc": "M. Benz 2638",
+      "locinstaladesc1": "M. Benz 2638",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/28/Road_train_darwin.jpg"
+    },
+    {
+      "equnr": "20011151",
+      "eqktx": "VOLVO VM-330",
+      "descricao": "VOLVO VM-330",
+      "categoria": "CAMINHÃO BASCULANTE",
+      "CATEGORIA": "CAMINHÃO BASCULANTE",
+      "locinstaladesc": "VOLVO VM-330",
+      "locinstaladesc1": "VOLVO VM-330",
+      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8g4FQa3cbrIUoM6G18L81hzj9yAaibJrbzA&s"
+    },
+    {
+      "equnr": "20011196",
+      "eqktx": "Volvo FMX 540",
+      "descricao": "Volvo FMX540",
+      "categoria": "TETRAMINHAO",
+      "CATEGORIA": "TETRAMINHAO",
+      "locinstaladesc": "Volvo FMX540",
+      "locinstaladesc1": "Volvo FMX540",
+      "imageUrl": "https://assets.volvo.com/is/image/VolvoInformationTechnologyAB/volvo-fmx-crew-cab-sideview-1?qlt=82&wid=1024&ts=1723644581053&dpr=off&fit=constrain&fmt=png-alpha"
+    },
+    {
+      "equnr": "20011198",
+      "eqktx": "Volvo FMX 540",
+      "descricao": "Volvo FMX540",
+      "categoria": "TETRAMINHAO",
+      "CATEGORIA": "TETRAMINHAO",
+      "locinstaladesc": "Volvo FMX540",
+      "locinstaladesc1": "Volvo FMX540",
+      "imageUrl": "https://assets.volvo.com/is/image/VolvoInformationTechnologyAB/volvo-fmx-crew-cab-sideview-1?qlt=82&wid=1024&ts=1723644581053&dpr=off&fit=constrain&fmt=png-alpha"
+    },
+    {
+      "equnr": "20020502",
+      "eqktx": "CAT 938 - k",
+      "descricao": "CAT 938 K",
+      "categoria": "PÁ MECÂNICA",
+      "CATEGORIA": "PÁ MECÂNICA",
+      "locinstaladesc": "CAT 938 K",
+      "locinstaladesc1": "CAT 938 K",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/09/Caterpillar_930H_Wheel_Loader.jpg"
+    },
+    {
+      "equnr": "20020508",
+      "eqktx": "CAT 938 - k",
+      "descricao": "CAT 938 K",
+      "categoria": "PÁ MECÂNICA",
+      "CATEGORIA": "PÁ MECÂNICA",
+      "locinstaladesc": "CAT 938 K",
+      "locinstaladesc1": "CAT 938 K",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/09/Caterpillar_930H_Wheel_Loader.jpg"
+    },
+    {
+      "equnr": "20010055",
+      "eqktx": "TOYOTA HILUX CDLOWM4FD",
+      "descricao": "TOYOTA HILUX CDLOWM4FD",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "TOYOTA HILUX CDLOWM4FD",
+      "locinstaladesc1": "TOYOTA HILUX CDLOWM4FD",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Toyota_Hilux_Revo_2015.jpg"
+    },
+    {
+      "equnr": "20010056",
+      "eqktx": "TOYOTA HILUX CDLOWM4FD",
+      "descricao": "TOYOTA HILUX CDLOWM4FD",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "TOYOTA HILUX CDLOWM4FD",
+      "locinstaladesc1": "TOYOTA HILUX CDLOWM4FD",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Toyota_Hilux_Revo_2015.jpg"
+    },
+    {
+      "equnr": "20011152",
+      "eqktx": "VOLVO VM-330",
+      "descricao": "VOLVO VM-330",
+      "categoria": "CAMINHÃO BASCULANTE",
+      "CATEGORIA": "CAMINHÃO BASCULANTE",
+      "locinstaladesc": "VOLVO VM-330",
+      "locinstaladesc1": "VOLVO VM-330",
+      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8g4FQa3cbrIUoM6G18L81hzj9yAaibJrbzA&s"
+    },
+    {
+      "equnr": "20011110",
+      "eqktx": "VOLVO VM-330",
+      "descricao": "VOLVO VM-330",
+      "categoria": "CAMINHÃO COMBOIO",
+      "CATEGORIA": "CAMINHÃO COMBOIO",
+      "locinstaladesc": "VOLVO VM-330",
+      "locinstaladesc1": "VOLVO VM-330",
+      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8g4FQa3cbrIUoM6G18L81hzj9yAaibJrbzA&s"
+    },
+    {
+      "equnr": "20040682",
+      "eqktx": "Reboque Julieta",
+      "descricao": "Reboque Julieta",
+      "categoria": "REBOQUE CANAVIEIRO",
+      "CATEGORIA": "REBOQUE CANAVIEIRO",
+      "locinstaladesc": "Reboque Julieta",
+      "locinstaladesc1": "Reboque Julieta",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Cane_haulout_vehicle%2C_Ingham%2C_Queensland.jpg"
+    },
+    {
+      "equnr": "20046600",
+      "eqktx": "Reboque Julieta Cana Picada",
+      "descricao": "Reboque Julieta",
+      "categoria": "REBOQUE CANAVIEIRO",
+      "CATEGORIA": "REBOQUE CANAVIEIRO",
+      "locinstaladesc": "Reboque Julieta",
+      "locinstaladesc1": "Reboque Julieta",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Cane_haulout_vehicle%2C_Ingham%2C_Queensland.jpg"
+    },
+    {
+      "equnr": "20046601",
+      "eqktx": "Reboque Julieta",
+      "descricao": "Reboque Julieta",
+      "categoria": "REBOQUE CANAVIEIRO",
+      "CATEGORIA": "REBOQUE CANAVIEIRO",
+      "locinstaladesc": "Reboque Julieta",
+      "locinstaladesc1": "Reboque Julieta",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Cane_haulout_vehicle%2C_Ingham%2C_Queensland.jpg"
+    },
+    {
+      "equnr": "20046603",
+      "eqktx": "Reboque Julieta",
+      "descricao": "Reboque Julieta",
+      "categoria": "REBOQUE CANAVIEIRO",
+      "CATEGORIA": "REBOQUE CANAVIEIRO",
+      "locinstaladesc": "Reboque Julieta",
+      "locinstaladesc1": "Reboque Julieta",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Cane_haulout_vehicle%2C_Ingham%2C_Queensland.jpg"
+    },
+    {
+      "equnr": "20046604",
+      "eqktx": "Reboque Julieta Cana Picada",
+      "descricao": "Reboque Julieta",
+      "categoria": "REBOQUE CANAVIEIRO",
+      "CATEGORIA": "REBOQUE CANAVIEIRO",
+      "locinstaladesc": "Reboque Julieta",
+      "locinstaladesc1": "Reboque Julieta",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Cane_haulout_vehicle%2C_Ingham%2C_Queensland.jpg"
+    },
+    {
+      "equnr": "20046605",
+      "eqktx": "Reboque Julieta Cana Picada",
+      "descricao": "Reboque Julieta",
+      "categoria": "REBOQUE CANAVIEIRO",
+      "CATEGORIA": "REBOQUE CANAVIEIRO",
+      "locinstaladesc": "Reboque Julieta",
+      "locinstaladesc1": "Reboque Julieta",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Cane_haulout_vehicle%2C_Ingham%2C_Queensland.jpg"
+    },
+    {
+      "equnr": "20046606",
+      "eqktx": "Reboque Julieta",
+      "descricao": "Reboque Julieta",
+      "categoria": "REBOQUE CANAVIEIRO",
+      "CATEGORIA": "REBOQUE CANAVIEIRO",
+      "locinstaladesc": "Reboque Julieta",
+      "locinstaladesc1": "Reboque Julieta",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Cane_haulout_vehicle%2C_Ingham%2C_Queensland.jpg"
+    },
+    {
+      "equnr": "20046607",
+      "eqktx": "Reboque Julieta Cana Picada",
+      "descricao": "Reboque Julieta",
+      "categoria": "REBOQUE CANAVIEIRO",
+      "CATEGORIA": "REBOQUE CANAVIEIRO",
+      "locinstaladesc": "Reboque Julieta",
+      "locinstaladesc1": "Reboque Julieta",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Cane_haulout_vehicle%2C_Ingham%2C_Queensland.jpg"
+    },
+    {
+      "equnr": "20046608",
+      "eqktx": "Reboque Julieta Cana Picada",
+      "descricao": "Reboque Julieta",
+      "categoria": "REBOQUE CANAVIEIRO",
+      "CATEGORIA": "REBOQUE CANAVIEIRO",
+      "locinstaladesc": "Reboque Julieta",
+      "locinstaladesc1": "Reboque Julieta",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Cane_haulout_vehicle%2C_Ingham%2C_Queensland.jpg"
+    },
+    {
+      "equnr": "20046609",
+      "eqktx": "Reboque Julieta",
+      "descricao": "Reboque Julieta RAC27 MGS",
+      "categoria": "REBOQUE CANAVIEIRO",
+      "CATEGORIA": "REBOQUE CANAVIEIRO",
+      "locinstaladesc": "Reboque Julieta RAC27 MGS",
+      "locinstaladesc1": "Reboque Julieta RAC27 MGS",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Cane_haulout_vehicle%2C_Ingham%2C_Queensland.jpg"
+    },
+    {
+      "equnr": "20046610",
+      "eqktx": "Reboque Julieta",
+      "descricao": "Reboque Julieta RAC27 MGS",
+      "categoria": "REBOQUE CANAVIEIRO",
+      "CATEGORIA": "REBOQUE CANAVIEIRO",
+      "locinstaladesc": "Reboque Julieta RAC27 MGS",
+      "locinstaladesc1": "Reboque Julieta RAC27 MGS",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Cane_haulout_vehicle%2C_Ingham%2C_Queensland.jpg"
+    },
+    {
+      "equnr": "20046611",
+      "eqktx": "Reboque Julieta",
+      "descricao": "Reboque Julieta RAC27 MGS",
+      "categoria": "REBOQUE CANAVIEIRO",
+      "CATEGORIA": "REBOQUE CANAVIEIRO",
+      "locinstaladesc": "Reboque Julieta RAC27 MGS",
+      "locinstaladesc1": "Reboque Julieta RAC27 MGS",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Cane_haulout_vehicle%2C_Ingham%2C_Queensland.jpg"
+    },
+    {
+      "equnr": "20046612",
+      "eqktx": "Reboque Julieta",
+      "descricao": "Reboque Julieta RAC27 MGS",
+      "categoria": "REBOQUE CANAVIEIRO",
+      "CATEGORIA": "REBOQUE CANAVIEIRO",
+      "locinstaladesc": "Reboque Julieta RAC27 MGS",
+      "locinstaladesc1": "Reboque Julieta RAC27 MGS",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Cane_haulout_vehicle%2C_Ingham%2C_Queensland.jpg"
+    },
+    {
+      "equnr": "24051001",
+      "eqktx": "MWM 229/6",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051002",
+      "eqktx": "MWM 229/6 EC",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051003",
+      "eqktx": "MWM 229/3",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051004",
+      "eqktx": "MWM 229/60",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051005",
+      "eqktx": "MWM 229/6",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051007",
+      "eqktx": "MWM 229/4",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051009",
+      "eqktx": "MWM 229/6 EC",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051011",
+      "eqktx": "OM 352",
+      "descricao": "Mercedes Benz",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051013",
+      "eqktx": "OM 352",
+      "descricao": "Mercedes Benz",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051015",
+      "eqktx": "MWM 229/3",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051021",
+      "eqktx": "OM 352",
+      "descricao": "Mercedes Benz",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051022",
+      "eqktx": "MWM 229/6",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051025",
+      "eqktx": "OM 352",
+      "descricao": "Mercedes Benz",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051031",
+      "eqktx": "MWM 229/6",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051033",
+      "eqktx": "MWM 229/6",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051034",
+      "eqktx": "MWM SÉRIE 10",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051037",
+      "eqktx": "OM 352",
+      "descricao": "Mercedes Benz",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051042",
+      "eqktx": "MWM 229/6",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051043",
+      "eqktx": "MWM 229/6",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051044",
+      "eqktx": "MWM SÉRIE 10",
+      "descricao": "Mercedes Benz",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051045",
+      "eqktx": "MWM 229/6 EC",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051047",
+      "eqktx": "MWM 229/6",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051048",
+      "eqktx": "MWM 229/6",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051050",
+      "eqktx": "MWM 229/6",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051051",
+      "eqktx": "MWM 229/6",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051062",
+      "eqktx": "MWM SÉRIE 10",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051063",
+      "eqktx": "MWM 229/6",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051064",
+      "eqktx": "MWM 229/6",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051065",
+      "eqktx": "MWM SÉRIE 10",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051068",
+      "eqktx": "MWM S-10",
+      "descricao": "Mercedes Benz",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051069",
+      "eqktx": "MWM SÉRIE 10",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051071",
+      "eqktx": "MWM 229/6 EC",
+      "descricao": "MWM",
+      "categoria": "MOTOR BOMBA",
+      "CATEGORIA": "MOTOR BOMBA",
+      "locinstaladesc": "MWM",
+      "locinstaladesc1": "MWM",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Pump_with_motor.JPG"
+    },
+    {
+      "equnr": "24051072",
+      "eqktx": "Ger 19kva",
+      "descricao": "Cummins",
+      "categoria": "MOTOR GERADOR",
+      "CATEGORIA": "MOTOR GERADOR",
+      "locinstaladesc": "Cummins",
+      "locinstaladesc1": "Cummins",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Diesel_generator_new.jpg"
+    },
+    {
+      "equnr": "20010042",
+      "eqktx": "Hilux SR 4",
+      "descricao": "Toyota Hilux",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "Toyota Hilux",
+      "locinstaladesc1": "Toyota Hilux",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Toyota_Hilux_Revo_2015.jpg"
+    },
+    {
+      "equnr": "20010043",
+      "eqktx": "TOYOTA HILUX CDLOWM4FD",
+      "descricao": "TOYOTA HILUX CDLOWM4FD",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "TOYOTA HILUX CDLOWM4FD",
+      "locinstaladesc1": "TOYOTA HILUX CDLOWM4FD",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Toyota_Hilux_Revo_2015.jpg"
+    },
+    {
+      "equnr": "20010046",
+      "eqktx": "TOYOTA HILUX CDLOWM4FD",
+      "descricao": "TOYOTA HILUX CDLOWM4FD",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "TOYOTA HILUX CDLOWM4FD",
+      "locinstaladesc1": "TOYOTA HILUX CDLOWM4FD",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Toyota_Hilux_Revo_2015.jpg"
+    },
+    {
+      "equnr": "20010048",
+      "eqktx": "TOYOTA HILUX CDLOWM4FD",
+      "descricao": "TOYOTA HILUX CDLOWM4FD",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "TOYOTA HILUX CDLOWM4FD",
+      "locinstaladesc1": "TOYOTA HILUX CDLOWM4FD",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Toyota_Hilux_Revo_2015.jpg"
+    },
+    {
+      "equnr": "20010100",
+      "eqktx": "OF 1417 On",
+      "descricao": "Mercedes Benz",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/Volkswagen_Crafter_Bus_2019.jpg"
+    },
+    {
+      "equnr": "20010101",
+      "eqktx": "MB 2418/48",
+      "descricao": "Mercedes Benz",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/Volkswagen_Crafter_Bus_2019.jpg"
+    },
+    {
+      "equnr": "20010103",
+      "eqktx": "OF 1318 On",
+      "descricao": "Mercedes Benz",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/Volkswagen_Crafter_Bus_2019.jpg"
+    },
+    {
+      "equnr": "20010104",
+      "eqktx": "ÔNIBUS VW-MASCARELLO",
+      "descricao": "Volkswagen",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Volkswagen",
+      "locinstaladesc1": "Volkswagen",
+      "imageUrl": "https://w7.pngwing.com/pngs/699/563/png-transparent-bus-car-mercedes-benz-iveco-transport-micro-page-truck-car-mode-of-transport.png"
+    },
+    {
+      "equnr": "20010116",
+      "eqktx": "ÔNIBUS VW-MASCARELLO",
+      "descricao": "Volkswagen",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Volkswagen",
+      "locinstaladesc1": "Volkswagen",
+      "imageUrl": "https://w7.pngwing.com/pngs/699/563/png-transparent-bus-car-mercedes-benz-iveco-transport-micro-page-truck-car-mode-of-transport.png"
+    },
+    {
+      "equnr": "20010120",
+      "eqktx": "OF 1318 Onibus",
+      "descricao": "Mercedes Benz",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/Volkswagen_Crafter_Bus_2019.jpg"
+    },
+    {
+      "equnr": "20010126",
+      "eqktx": "MB 2418/48",
+      "descricao": "Mercedes Benz",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/Volkswagen_Crafter_Bus_2019.jpg"
+    },
+    {
+      "equnr": "20010128",
+      "eqktx": "OF 1417 On",
+      "descricao": "Mercedes Benz",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/Volkswagen_Crafter_Bus_2019.jpg"
+    },
+    {
+      "equnr": "20010129",
+      "eqktx": "OF 1417 On",
+      "descricao": "Mercedes Benz",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/Volkswagen_Crafter_Bus_2019.jpg"
+    },
+    {
+      "equnr": "20010131",
+      "eqktx": "ÔNIBUS VW-MASCARELLO",
+      "descricao": "Volkswagen",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Volkswagen",
+      "locinstaladesc1": "Volkswagen",
+      "imageUrl": "https://w7.pngwing.com/pngs/699/563/png-transparent-bus-car-mercedes-benz-iveco-transport-micro-page-truck-car-mode-of-transport.png"
+    },
+    {
+      "equnr": "20010143",
+      "eqktx": "MB 2418/48",
+      "descricao": "Mercedes Benz",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/Volkswagen_Crafter_Bus_2019.jpg"
+    },
+    {
+      "equnr": "20010176",
+      "eqktx": "OF 1417 On",
+      "descricao": "Mercedes Benz",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/Volkswagen_Crafter_Bus_2019.jpg"
+    },
+    {
+      "equnr": "20010177",
+      "eqktx": "OF 1417 On",
+      "descricao": "Mercedes Benz",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/Volkswagen_Crafter_Bus_2019.jpg"
+    },
+    {
+      "equnr": "20010178",
+      "eqktx": "OF 1417 On",
+      "descricao": "Mercedes Benz",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/Volkswagen_Crafter_Bus_2019.jpg"
+    },
+    {
+      "equnr": "20010179",
+      "eqktx": "ÔNIBUS VW-190",
+      "descricao": "Volkswagen",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Volkswagen",
+      "locinstaladesc1": "Volkswagen",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/Volkswagen_Crafter_Bus_2019.jpg"
+    },
+    {
+      "equnr": "20010180",
+      "eqktx": "ÔNIBUS VW-190",
+      "descricao": "Volkswagen",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Volkswagen",
+      "locinstaladesc1": "Volkswagen",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/Volkswagen_Crafter_Bus_2019.jpg"
+    },
+    {
+      "equnr": "20010181",
+      "eqktx": "ÔNIBUS VW-190",
+      "descricao": "Volkswagen",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Volkswagen",
+      "locinstaladesc1": "Volkswagen",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/Volkswagen_Crafter_Bus_2019.jpg"
+    },
+    {
+      "equnr": "20010182",
+      "eqktx": "ÔNIBUS VW-190",
+      "descricao": "Volkswagen",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Volkswagen",
+      "locinstaladesc1": "Volkswagen",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/Volkswagen_Crafter_Bus_2019.jpg"
+    },
+    {
+      "equnr": "20010183",
+      "eqktx": "ÔNIBUS VW-190",
+      "descricao": "Volkswagen",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Volkswagen",
+      "locinstaladesc1": "Volkswagen",
+      "imageUrl": "https://www.volkscaminhoes.com.br/img/dibracam/novos/onibus/linha-rural/15.190_odr/onibus-15_190_odr_galeria-1-dibracam.jpg"
+    },
+    {
+      "equnr": "20010184",
+      "eqktx": "MB 1418",
+      "descricao": "Mercedes Benz",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/Volkswagen_Crafter_Bus_2019.jpg"
+    },
+    {
+      "equnr": "20010186",
+      "eqktx": "MB 1418",
+      "descricao": "Mercedes Benz",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/Volkswagen_Crafter_Bus_2019.jpg"
+    },
+    {
+      "equnr": "20010187",
+      "eqktx": "ÔNIBUS VW-MARCOPOLO",
+      "descricao": "Volkswagen",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Volkswagen",
+      "locinstaladesc1": "Volkswagen",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/Volkswagen_Crafter_Bus_2019.jpg"
+    },
+    {
+      "equnr": "20010188",
+      "eqktx": "ÔNIBUS VW-MARCOPOLO",
+      "descricao": "Volkswagen",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Volkswagen",
+      "locinstaladesc1": "Volkswagen",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/Volkswagen_Crafter_Bus_2019.jpg"
+    },
+    {
+      "equnr": "20010189",
+      "eqktx": "ÔNIBUS VW-MARCOPOLO",
+      "descricao": "Volkswagen",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Volkswagen",
+      "locinstaladesc1": "Volkswagen",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/Volkswagen_Crafter_Bus_2019.jpg"
+    },
+    {
+      "equnr": "20010190",
+      "eqktx": "ÔNIBUS VW-MARCOPOLO",
+      "descricao": "Volkswagen",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Volkswagen",
+      "locinstaladesc1": "Volkswagen",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/Volkswagen_Crafter_Bus_2019.jpg"
+    },
+    {
+      "equnr": "20010191",
+      "eqktx": "ÔNIBUS VW-MARCOPOLO",
+      "descricao": "Volkswagen",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Volkswagen",
+      "locinstaladesc1": "Volkswagen",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/Volkswagen_Crafter_Bus_2019.jpg"
+    },
+    {
+      "equnr": "20011120",
+      "eqktx": "ÔNIBUS VW-MASCARELLO",
+      "descricao": "Volkswagen",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Volkswagen",
+      "locinstaladesc1": "Volkswagen",
+      "imageUrl": "https://w7.pngwing.com/pngs/699/563/png-transparent-bus-car-mercedes-benz-iveco-transport-micro-page-truck-car-mode-of-transport.png"
+    },
+    {
+      "equnr": "20011121",
+      "eqktx": "ÔNIBUS VW-MASCARELLO",
+      "descricao": "Volkswagen",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Volkswagen",
+      "locinstaladesc1": "Volkswagen",
+      "imageUrl": "https://w7.pngwing.com/pngs/699/563/png-transparent-bus-car-mercedes-benz-iveco-transport-micro-page-truck-car-mode-of-transport.png"
+    },
+    {
+      "equnr": "20011122",
+      "eqktx": "ÔNIBUS VW-MASCARELLO",
+      "descricao": "Volkswagen",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Volkswagen",
+      "locinstaladesc1": "Volkswagen",
+      "imageUrl": "https://w7.pngwing.com/pngs/699/563/png-transparent-bus-car-mercedes-benz-iveco-transport-micro-page-truck-car-mode-of-transport.png"
+    },
+    {
+      "equnr": "20011123",
+      "eqktx": "ÔNIBUS VW-MASCARELLO",
+      "descricao": "Volkswagen",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Volkswagen",
+      "locinstaladesc1": "Volkswagen",
+      "imageUrl": "https://w7.pngwing.com/pngs/699/563/png-transparent-bus-car-mercedes-benz-iveco-transport-micro-page-truck-car-mode-of-transport.png"
+    },
+    {
+      "equnr": "20011124",
+      "eqktx": "ÔNIBUS VW-MASCARELLO",
+      "descricao": "Volkswagen",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Volkswagen",
+      "locinstaladesc1": "Volkswagen",
+      "imageUrl": "https://w7.pngwing.com/pngs/699/563/png-transparent-bus-car-mercedes-benz-iveco-transport-micro-page-truck-car-mode-of-transport.png"
+    },
+    {
+      "equnr": "20011197",
+      "eqktx": "Volvo FMX 540",
+      "descricao": "Volvo FMX540",
+      "categoria": "TETRAMINHAO",
+      "CATEGORIA": "TETRAMINHAO",
+      "locinstaladesc": "Volvo FMX540",
+      "locinstaladesc1": "Volvo FMX540",
+      "imageUrl": "https://assets.volvo.com/is/image/VolvoInformationTechnologyAB/volvo-fmx-crew-cab-sideview-1?qlt=82&wid=1024&ts=1723644581053&dpr=off&fit=constrain&fmt=png-alpha"
+    },
+    {
+      "equnr": "20012003",
+      "eqktx": "Honda NXR-160 BROS",
+      "descricao": "Honda",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda",
+      "locinstaladesc1": "Honda",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Honda_XR150L.jpg"
+    },
+    {
+      "equnr": "20012008",
+      "eqktx": "Honda NXR-",
+      "descricao": "Honda",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda",
+      "locinstaladesc1": "Honda",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Honda_XR150L.jpg"
+    },
+    {
+      "equnr": "20012016",
+      "eqktx": "Honda NXR- 150 BROS",
+      "descricao": "Honda",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda",
+      "locinstaladesc1": "Honda",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Honda_XR150L.jpg"
+    },
+    {
+      "equnr": "20012017",
+      "eqktx": "Honda NXR-160 BROS",
+      "descricao": "Honda",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda",
+      "locinstaladesc1": "Honda",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Honda_XR150L.jpg"
+    },
+    {
+      "equnr": "20012030",
+      "eqktx": "Honda NXR-160 BROS",
+      "descricao": "Honda Bros NXR 160",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda Bros NXR 160",
+      "locinstaladesc1": "Honda Bros NXR 160",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Honda_XR150L.jpg"
+    },
+    {
+      "equnr": "20012032",
+      "eqktx": "Honda NXR-160 BROS",
+      "descricao": "Honda Bros NXR 160",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda Bros NXR 160",
+      "locinstaladesc1": "Honda Bros NXR 160",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Honda_XR150L.jpg"
+    },
+    {
+      "equnr": "20012034",
+      "eqktx": "Honda NXR-160 BROS",
+      "descricao": "Honda Bros NXR 160",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda Bros NXR 160",
+      "locinstaladesc1": "Honda Bros NXR 160",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Honda_XR150L.jpg"
+    },
+    {
+      "equnr": "20012037",
+      "eqktx": "Honda NXR-160 BROS",
+      "descricao": "Honda Bros NXR 160",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda Bros NXR 160",
+      "locinstaladesc1": "Honda Bros NXR 160",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Honda_XR150L.jpg"
+    },
+    {
+      "equnr": "20012038",
+      "eqktx": "Honda NXR-160 BROS",
+      "descricao": "Honda Bros NXR 160",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda Bros NXR 160",
+      "locinstaladesc1": "Honda Bros NXR 160",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Honda_XR150L.jpg"
+    },
+    {
+      "equnr": "20012039",
+      "eqktx": "Honda NXR-160 BROS",
+      "descricao": "Honda Bros NXR 160",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda Bros NXR 160",
+      "locinstaladesc1": "Honda Bros NXR 160",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Honda_XR150L.jpg"
+    },
+    {
+      "equnr": "20012041",
+      "eqktx": "Honda NXR-160 BROS",
+      "descricao": "Honda Bros NXR 160",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda Bros NXR 160",
+      "locinstaladesc1": "Honda Bros NXR 160",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Honda_XR150L.jpg"
+    },
+    {
+      "equnr": "20012042",
+      "eqktx": "Honda NXR-160 BROS",
+      "descricao": "Honda",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda",
+      "locinstaladesc1": "Honda",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Honda_XR150L.jpg"
+    },
+    {
+      "equnr": "20012043",
+      "eqktx": "Honda NXR-160 BROS",
+      "descricao": "Honda",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda",
+      "locinstaladesc1": "Honda",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Honda_XR150L.jpg"
+    },
+    {
+      "equnr": "20012044",
+      "eqktx": "Honda NXR-160 BROS ESD",
+      "descricao": "Honda NXR160 BROS ESD",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda NXR160 BROS ESD",
+      "locinstaladesc1": "Honda NXR160 BROS ESD",
+      "imageUrl": "https://www.freedomhonda.com.br/wp-content/uploads/2023/08/imagem-home-honda-nxr-bros-160-abs-lateral-vermelho.webp"
+    },
+    {
+      "equnr": "20012045",
+      "eqktx": "Honda NXR-160 BROS ESD",
+      "descricao": "Honda NXR160 BROS ESD",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda NXR160 BROS ESD",
+      "locinstaladesc1": "Honda NXR160 BROS ESD",
+      "imageUrl": "https://www.freedomhonda.com.br/wp-content/uploads/2023/08/imagem-home-honda-nxr-bros-160-abs-lateral-vermelho.webp"
+    },
+    {
+      "equnr": "20012046",
+      "eqktx": "Honda NXR-160 BROS ESD",
+      "descricao": "Honda NXR160 BROS ESD",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda NXR160 BROS ESD",
+      "locinstaladesc1": "Honda NXR160 BROS ESD",
+      "imageUrl": "https://www.freedomhonda.com.br/wp-content/uploads/2023/08/imagem-home-honda-nxr-bros-160-abs-lateral-vermelho.webp"
+    },
+    {
+      "equnr": "20020203",
+      "eqktx": "Valtra-BH180",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20020207",
+      "eqktx": "Valtra-BH180",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20020209",
+      "eqktx": "Valtra-BM100",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/John_Deere_7930.jpg"
+    },
+    {
+      "equnr": "20020213",
+      "eqktx": "Valtra-BH180",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20020233",
+      "eqktx": "VALT.17804",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/09/Case_IH_Magnum_310.jpg"
+    },
+    {
+      "equnr": "20020236",
+      "eqktx": "VALT.17804",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/09/Case_IH_Magnum_310.jpg"
+    },
+    {
+      "equnr": "20020238",
+      "eqktx": "Valtra-BM100",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/John_Deere_7930.jpg"
+    },
+    {
+      "equnr": "20020239",
+      "eqktx": "Valtra-BM100",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/John_Deere_7930.jpg"
+    },
+    {
+      "equnr": "20020240",
+      "eqktx": "VALT.17804",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/09/Case_IH_Magnum_310.jpg"
+    },
+    {
+      "equnr": "20020243",
+      "eqktx": "Bell SC 600",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020244",
+      "eqktx": "Bell SC 120",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020245",
+      "eqktx": "Bell SC 120",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020246",
+      "eqktx": "Bell SC 120",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020247",
+      "eqktx": "Bell SC 800",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020248",
+      "eqktx": "Bell SC 800",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020249",
+      "eqktx": "Bell SC 800",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020250",
+      "eqktx": "Bell SC 800",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020251",
+      "eqktx": "Bell SC 800",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020252",
+      "eqktx": "Bell SC 800",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020253",
+      "eqktx": "Bell SC 800",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020254",
+      "eqktx": "Bell SC 800",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020255",
+      "eqktx": "Bell SC 800",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020256",
+      "eqktx": "Bell SC 800",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020257",
+      "eqktx": "Bell SC 800",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020258",
+      "eqktx": "Bell SC 800",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020259",
+      "eqktx": "Bell SC 800",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020260",
+      "eqktx": "Bell SC 800",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020261",
+      "eqktx": "Bell SC 800",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020262",
+      "eqktx": "Bell SC 800",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020263",
+      "eqktx": "Bell SC 800",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020264",
+      "eqktx": "Bell SC 800",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020265",
+      "eqktx": "Bell SC 800",
+      "descricao": "Implanor",
+      "categoria": "CARREGADEIRA BELL",
+      "CATEGORIA": "CARREGADEIRA BELL",
+      "locinstaladesc": "Implanor",
+      "locinstaladesc1": "Implanor",
+      "imageUrl": "https://www.bellequipment.com/wp-content/uploads/2020/11/Bell-L2606E-Wheel-Loader.jpg"
+    },
+    {
+      "equnr": "20020267",
+      "eqktx": "C.Valmet 8",
+      "descricao": "Valmet",
+      "categoria": "CARREGADEIRA DE CANA",
+      "CATEGORIA": "CARREGADEIRA DE CANA",
+      "locinstaladesc": "Valmet",
+      "locinstaladesc1": "Valmet",
+      "imageUrl": "https://www.caseih.com.br/content/dam/public/caseih/br/pt-br/produtos/colheita-de-cana/cnh-product-page/loader-chx730/CHX730_768x432.jpg"
+    },
+    {
+      "equnr": "20020269",
+      "eqktx": "C.Val.1280",
+      "descricao": "Valmet",
+      "categoria": "CARREGADEIRA DE CANA",
+      "CATEGORIA": "CARREGADEIRA DE CANA",
+      "locinstaladesc": "Valmet",
+      "locinstaladesc1": "Valmet",
+      "imageUrl": "https://www.caseih.com.br/content/dam/public/caseih/br/pt-br/produtos/colheita-de-cana/cnh-product-page/loader-chx730/CHX730_768x432.jpg"
+    },
+    {
+      "equnr": "20020270",
+      "eqktx": "C.Val.1280",
+      "descricao": "Valmet",
+      "categoria": "CARREGADEIRA DE CANA",
+      "CATEGORIA": "CARREGADEIRA DE CANA",
+      "locinstaladesc": "Valmet",
+      "locinstaladesc1": "Valmet",
+      "imageUrl": "https://www.caseih.com.br/content/dam/public/caseih/br/pt-br/produtos/colheita-de-cana/cnh-product-page/loader-chx730/CHX730_768x432.jpg"
+    },
+    {
+      "equnr": "20020271",
+      "eqktx": "C.Val.1280",
+      "descricao": "Valmet",
+      "categoria": "CARREGADEIRA DE CANA",
+      "CATEGORIA": "CARREGADEIRA DE CANA",
+      "locinstaladesc": "Valmet",
+      "locinstaladesc1": "Valmet",
+      "imageUrl": "https://www.caseih.com.br/content/dam/public/caseih/br/pt-br/produtos/colheita-de-cana/cnh-product-page/loader-chx730/CHX730_768x432.jpg"
+    },
+    {
+      "equnr": "20020272",
+      "eqktx": "C.Val.1280",
+      "descricao": "Valmet",
+      "categoria": "CARREGADEIRA DE CANA",
+      "CATEGORIA": "CARREGADEIRA DE CANA",
+      "locinstaladesc": "Valmet",
+      "locinstaladesc1": "Valmet",
+      "imageUrl": "https://www.caseih.com.br/content/dam/public/caseih/br/pt-br/produtos/colheita-de-cana/cnh-product-page/loader-chx730/CHX730_768x432.jpg"
+    },
+    {
+      "equnr": "20020274",
+      "eqktx": "C.Val.1280",
+      "descricao": "Valmet",
+      "categoria": "CARREGADEIRA DE CANA",
+      "CATEGORIA": "CARREGADEIRA DE CANA",
+      "locinstaladesc": "Valmet",
+      "locinstaladesc1": "Valmet",
+      "imageUrl": "https://www.caseih.com.br/content/dam/public/caseih/br/pt-br/produtos/colheita-de-cana/cnh-product-page/loader-chx730/CHX730_768x432.jpg"
+    },
+    {
+      "equnr": "20020275",
+      "eqktx": "C.Val.1280",
+      "descricao": "Valmet",
+      "categoria": "CARREGADEIRA DE CANA",
+      "CATEGORIA": "CARREGADEIRA DE CANA",
+      "locinstaladesc": "Valmet",
+      "locinstaladesc1": "Valmet",
+      "imageUrl": "https://www.caseih.com.br/content/dam/public/caseih/br/pt-br/produtos/colheita-de-cana/cnh-product-page/loader-chx730/CHX730_768x432.jpg"
+    },
+    {
+      "equnr": "20020277",
+      "eqktx": "C.Val.1280",
+      "descricao": "Valmet",
+      "categoria": "CARREGADEIRA DE CANA",
+      "CATEGORIA": "CARREGADEIRA DE CANA",
+      "locinstaladesc": "Valmet",
+      "locinstaladesc1": "Valmet",
+      "imageUrl": "https://www.caseih.com.br/content/dam/public/caseih/br/pt-br/produtos/colheita-de-cana/cnh-product-page/loader-chx730/CHX730_768x432.jpg"
+    },
+    {
+      "equnr": "20020278",
+      "eqktx": "C.Val.1280",
+      "descricao": "Valmet",
+      "categoria": "CARREGADEIRA DE CANA",
+      "CATEGORIA": "CARREGADEIRA DE CANA",
+      "locinstaladesc": "Valmet",
+      "locinstaladesc1": "Valmet",
+      "imageUrl": "https://www.caseih.com.br/content/dam/public/caseih/br/pt-br/produtos/colheita-de-cana/cnh-product-page/loader-chx730/CHX730_768x432.jpg"
+    },
+    {
+      "equnr": "20020279",
+      "eqktx": "C.Val.1280",
+      "descricao": "Valmet",
+      "categoria": "CARREGADEIRA DE CANA",
+      "CATEGORIA": "CARREGADEIRA DE CANA",
+      "locinstaladesc": "Valmet",
+      "locinstaladesc1": "Valmet",
+      "imageUrl": "https://www.caseih.com.br/content/dam/public/caseih/br/pt-br/produtos/colheita-de-cana/cnh-product-page/loader-chx730/CHX730_768x432.jpg"
+    },
+    {
+      "equnr": "20020280",
+      "eqktx": "C.Val.1280",
+      "descricao": "Valmet",
+      "categoria": "CARREGADEIRA DE CANA",
+      "CATEGORIA": "CARREGADEIRA DE CANA",
+      "locinstaladesc": "Valmet",
+      "locinstaladesc1": "Valmet",
+      "imageUrl": "https://www.caseih.com.br/content/dam/public/caseih/br/pt-br/produtos/colheita-de-cana/cnh-product-page/loader-chx730/CHX730_768x432.jpg"
+    },
+    {
+      "equnr": "20020281",
+      "eqktx": "C.Val.1280",
+      "descricao": "Valmet",
+      "categoria": "CARREGADEIRA DE CANA",
+      "CATEGORIA": "CARREGADEIRA DE CANA",
+      "locinstaladesc": "Valmet",
+      "locinstaladesc1": "Valmet",
+      "imageUrl": "https://www.caseih.com.br/content/dam/public/caseih/br/pt-br/produtos/colheita-de-cana/cnh-product-page/loader-chx730/CHX730_768x432.jpg"
+    },
+    {
+      "equnr": "20020282",
+      "eqktx": "C.Val.1280",
+      "descricao": "Valmet",
+      "categoria": "CARREGADEIRA DE CANA",
+      "CATEGORIA": "CARREGADEIRA DE CANA",
+      "locinstaladesc": "Valmet",
+      "locinstaladesc1": "Valmet",
+      "imageUrl": "https://www.caseih.com.br/content/dam/public/caseih/br/pt-br/produtos/colheita-de-cana/cnh-product-page/loader-chx730/CHX730_768x432.jpg"
+    },
+    {
+      "equnr": "20020284",
+      "eqktx": "C.Val.1280",
+      "descricao": "Valmet",
+      "categoria": "CARREGADEIRA DE CANA",
+      "CATEGORIA": "CARREGADEIRA DE CANA",
+      "locinstaladesc": "Valmet",
+      "locinstaladesc1": "Valmet",
+      "imageUrl": "https://www.caseih.com.br/content/dam/public/caseih/br/pt-br/produtos/colheita-de-cana/cnh-product-page/loader-chx730/CHX730_768x432.jpg"
+    },
+    {
+      "equnr": "20020286",
+      "eqktx": "C.Val.1280",
+      "descricao": "Valmet",
+      "categoria": "CARREGADEIRA DE CANA",
+      "CATEGORIA": "CARREGADEIRA DE CANA",
+      "locinstaladesc": "Valmet",
+      "locinstaladesc1": "Valmet",
+      "imageUrl": "https://www.caseih.com.br/content/dam/public/caseih/br/pt-br/produtos/colheita-de-cana/cnh-product-page/loader-chx730/CHX730_768x432.jpg"
+    },
+    {
+      "equnr": "20020288",
+      "eqktx": "C.Val.1280",
+      "descricao": "Valmet",
+      "categoria": "CARREGADEIRA DE CANA",
+      "CATEGORIA": "CARREGADEIRA DE CANA",
+      "locinstaladesc": "Valmet",
+      "locinstaladesc1": "Valmet",
+      "imageUrl": "https://www.caseih.com.br/content/dam/public/caseih/br/pt-br/produtos/colheita-de-cana/cnh-product-page/loader-chx730/CHX730_768x432.jpg"
+    },
+    {
+      "equnr": "20020289",
+      "eqktx": "C.Val.1280",
+      "descricao": "Valmet",
+      "categoria": "CARREGADEIRA DE CANA",
+      "CATEGORIA": "CARREGADEIRA DE CANA",
+      "locinstaladesc": "Valmet",
+      "locinstaladesc1": "Valmet",
+      "imageUrl": "https://www.caseih.com.br/content/dam/public/caseih/br/pt-br/produtos/colheita-de-cana/cnh-product-page/loader-chx730/CHX730_768x432.jpg"
+    },
+    {
+      "equnr": "20020290",
+      "eqktx": "C.Val.1280",
+      "descricao": "Valmet",
+      "categoria": "CARREGADEIRA DE CANA",
+      "CATEGORIA": "CARREGADEIRA DE CANA",
+      "locinstaladesc": "Valmet",
+      "locinstaladesc1": "Valmet",
+      "imageUrl": "https://www.caseih.com.br/content/dam/public/caseih/br/pt-br/produtos/colheita-de-cana/cnh-product-page/loader-chx730/CHX730_768x432.jpg"
+    },
+    {
+      "equnr": "20020291",
+      "eqktx": "C.Val.1280",
+      "descricao": "Valmet",
+      "categoria": "CARREGADEIRA DE CANA",
+      "CATEGORIA": "CARREGADEIRA DE CANA",
+      "locinstaladesc": "Valmet",
+      "locinstaladesc1": "Valmet",
+      "imageUrl": "https://www.caseih.com.br/content/dam/public/caseih/br/pt-br/produtos/colheita-de-cana/cnh-product-page/loader-chx730/CHX730_768x432.jpg"
+    },
+    {
+      "equnr": "20020292",
+      "eqktx": "C.Val.1280",
+      "descricao": "Valmet",
+      "categoria": "CARREGADEIRA DE CANA",
+      "CATEGORIA": "CARREGADEIRA DE CANA",
+      "locinstaladesc": "Valmet",
+      "locinstaladesc1": "Valmet",
+      "imageUrl": "https://www.caseih.com.br/content/dam/public/caseih/br/pt-br/produtos/colheita-de-cana/cnh-product-page/loader-chx730/CHX730_768x432.jpg"
+    },
+    {
+      "equnr": "20020293",
+      "eqktx": "Valtra-BM100",
+      "descricao": "Valtra",
+      "categoria": "CARREGADEIRA DE CANA",
+      "CATEGORIA": "CARREGADEIRA DE CANA",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://www.caseih.com.br/content/dam/public/caseih/br/pt-br/produtos/colheita-de-cana/cnh-product-page/loader-chx730/CHX730_768x432.jpg"
+    },
+    {
+      "equnr": "20020294",
+      "eqktx": "Valtra-BM100",
+      "descricao": "Valtra",
+      "categoria": "CARREGADEIRA DE CANA",
+      "CATEGORIA": "CARREGADEIRA DE CANA",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://www.caseih.com.br/content/dam/public/caseih/br/pt-br/produtos/colheita-de-cana/cnh-product-page/loader-chx730/CHX730_768x432.jpg"
+    },
+    {
+      "equnr": "20020301",
+      "eqktx": "CAT D6N-XL",
+      "descricao": "Carterpillar",
+      "categoria": "TRATOR DE ESTEIRA",
+      "CATEGORIA": "TRATOR DE ESTEIRA",
+      "locinstaladesc": "Carterpillar",
+      "locinstaladesc1": "Carterpillar",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Caterpillar_D6T_bulldozer.jpg"
+    },
+    {
+      "equnr": "20020405",
+      "eqktx": "CAT 12K",
+      "descricao": "Carterpillar 12K",
+      "categoria": "MOTONIVELADORA",
+      "CATEGORIA": "MOTONIVELADORA",
+      "locinstaladesc": "Carterpillar 12K",
+      "locinstaladesc1": "Carterpillar 12K",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Caterpillar_140H_motor_grader.jpg"
+    },
+    {
+      "equnr": "20020406",
+      "eqktx": "CAT 140K",
+      "descricao": "Carterpillar 14K",
+      "categoria": "MOTONIVELADORA",
+      "CATEGORIA": "MOTONIVELADORA",
+      "locinstaladesc": "Carterpillar 14K",
+      "locinstaladesc1": "Carterpillar 14K",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Caterpillar_140H_motor_grader.jpg"
+    },
+    {
+      "equnr": "20020407",
+      "eqktx": "CAT 12K",
+      "descricao": "Carterpillar 12K",
+      "categoria": "MOTONIVELADORA",
+      "CATEGORIA": "MOTONIVELADORA",
+      "locinstaladesc": "Carterpillar 12K",
+      "locinstaladesc1": "Carterpillar 12K",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Caterpillar_140H_motor_grader.jpg"
+    },
+    {
+      "equnr": "20020410",
+      "eqktx": "CAT 140K",
+      "descricao": "Caterpillar 140K",
+      "categoria": "MOTONIVELADORA",
+      "CATEGORIA": "MOTONIVELADORA",
+      "locinstaladesc": "Caterpillar 140K",
+      "locinstaladesc1": "Caterpillar 140K",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Caterpillar_140H_motor_grader.jpg"
+    },
+    {
+      "equnr": "20020501",
+      "eqktx": "CAT 966 C",
+      "descricao": "Carterpillar",
+      "categoria": "PÁ MECÂNICA",
+      "CATEGORIA": "PÁ MECÂNICA",
+      "locinstaladesc": "Carterpillar",
+      "locinstaladesc1": "Carterpillar",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/09/Caterpillar_930H_Wheel_Loader.jpg"
+    },
+    {
+      "equnr": "20020505",
+      "eqktx": "Galion 150",
+      "descricao": "Galion",
+      "categoria": "TRATOR GUINCHO",
+      "CATEGORIA": "TRATOR GUINCHO",
+      "locinstaladesc": "Galion",
+      "locinstaladesc1": "Galion",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Tow_tractor_at_airport.jpg"
+    },
+    {
+      "equnr": "20020507",
+      "eqktx": "CASE 580L",
+      "descricao": "Case",
+      "categoria": "RETRO ESCAVADEIRA",
+      "CATEGORIA": "RETRO ESCAVADEIRA",
+      "locinstaladesc": "Case",
+      "locinstaladesc1": "Case",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Backhoe_loader_case_580.jpg"
+    },
+    {
+      "equnr": "20020509",
+      "eqktx": "CASE 580N 4 X4",
+      "descricao": "CASE 580N",
+      "categoria": "RETRO ESCAVADEIRA",
+      "CATEGORIA": "RETRO ESCAVADEIRA",
+      "locinstaladesc": "CASE 580N",
+      "locinstaladesc1": "CASE 580N",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Backhoe_loader_case_580.jpg"
+    },
+    {
+      "equnr": "20020510",
+      "eqktx": "CASE 580N 4 X4",
+      "descricao": "CASE 580N 4x4",
+      "categoria": "RETRO ESCAVADEIRA",
+      "CATEGORIA": "RETRO ESCAVADEIRA",
+      "locinstaladesc": "CASE 580N 4x4",
+      "locinstaladesc1": "CASE 580N 4x4",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Backhoe_loader_case_580.jpg"
+    },
+    {
+      "equnr": "20022243",
+      "eqktx": "Valtra-BH180",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20022244",
+      "eqktx": "Valtra-BH180",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20022246",
+      "eqktx": "Valtra-BH180",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20022247",
+      "eqktx": "Valtra-BH180",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20022248",
+      "eqktx": "Valtra-BH180",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20022249",
+      "eqktx": "Valtra-BH180",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20022251",
+      "eqktx": "Valtra-BH180",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20022252",
+      "eqktx": "Valtra-BM100",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/John_Deere_7930.jpg"
+    },
+    {
+      "equnr": "20022253",
+      "eqktx": "Valtra-BM100",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/John_Deere_7930.jpg"
+    },
+    {
+      "equnr": "20022254",
+      "eqktx": "Valtra-BM100",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/John_Deere_7930.jpg"
+    },
+    {
+      "equnr": "20022255",
+      "eqktx": "Valtra-BM100",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/John_Deere_7930.jpg"
+    },
+    {
+      "equnr": "20022256",
+      "eqktx": "Valtra-BM100",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/John_Deere_7930.jpg"
+    },
+    {
+      "equnr": "20022257",
+      "eqktx": "Valtra-BM100",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/John_Deere_7930.jpg"
+    },
+    {
+      "equnr": "20022258",
+      "eqktx": "Valtra-BM100",
+      "descricao": "Valtra BM100",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "Valtra BM100",
+      "locinstaladesc1": "Valtra BM100",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/John_Deere_7930.jpg"
+    },
+    {
+      "equnr": "20022259",
+      "eqktx": "Valtra-BM100",
+      "descricao": "Valtra BM100",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "Valtra BM100",
+      "locinstaladesc1": "Valtra BM100",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/John_Deere_7930.jpg"
+    },
+    {
+      "equnr": "20022260",
+      "eqktx": "Valtra-BM100",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/John_Deere_7930.jpg"
+    },
+    {
+      "equnr": "20022261",
+      "eqktx": "Valtra-BM100",
+      "descricao": "Valtra BM100",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "Valtra BM100",
+      "locinstaladesc1": "Valtra BM100",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/John_Deere_7930.jpg"
+    },
+    {
+      "equnr": "20022262",
+      "eqktx": "Valtra-BM100",
+      "descricao": "Valtra BM100",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "Valtra BM100",
+      "locinstaladesc1": "Valtra BM100",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/John_Deere_7930.jpg"
+    },
+    {
+      "equnr": "20022263",
+      "eqktx": "Valtra-BM100",
+      "descricao": "Valtra BM100",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "Valtra BM100",
+      "locinstaladesc1": "Valtra BM100",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/John_Deere_7930.jpg"
+    },
+    {
+      "equnr": "20022264",
+      "eqktx": "Valtra-BM100",
+      "descricao": "Valtra",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "Valtra",
+      "locinstaladesc1": "Valtra",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/John_Deere_7930.jpg"
+    },
+    {
+      "equnr": "20022265",
+      "eqktx": "Valtra-BM100",
+      "descricao": "Valtra BM100",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "Valtra BM100",
+      "locinstaladesc1": "Valtra BM100",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/John_Deere_7930.jpg"
+    },
+    {
+      "equnr": "20022266",
+      "eqktx": "MASSEY-MF5710",
+      "descricao": "MASSEY-MF5710",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "MASSEY-MF5710",
+      "locinstaladesc1": "MASSEY-MF5710",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/John_Deere_7930.jpg"
+    },
+    {
+      "equnr": "20022268",
+      "eqktx": "MASSEY-MF5710",
+      "descricao": "MASSEY-MF5710",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "MASSEY-MF5710",
+      "locinstaladesc1": "MASSEY-MF5710",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/John_Deere_7930.jpg"
+    },
+    {
+      "equnr": "20022269",
+      "eqktx": "Valtra-A990R 4X4",
+      "descricao": "Valtra A990R 4X4",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "Valtra A990R 4X4",
+      "locinstaladesc1": "Valtra A990R 4X4",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/8/7/87c1a217ac82601f.png"
+    },
+    {
+      "equnr": "20022270",
+      "eqktx": "Valtra-A990R 4X4",
+      "descricao": "Valtra A990R 4X4",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "Valtra A990R 4X4",
+      "locinstaladesc1": "Valtra A990R 4X4",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/8/7/87c1a217ac82601f.png"
+    },
+    {
+      "equnr": "20022281",
+      "eqktx": "Valtra-BH180",
+      "descricao": "Valtra DH180",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra DH180",
+      "locinstaladesc1": "Valtra DH180",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20022282",
+      "eqktx": "Valtra-BH180",
+      "descricao": "Valtra DH180",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra DH180",
+      "locinstaladesc1": "Valtra DH180",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20022283",
+      "eqktx": "Valtra-BH180",
+      "descricao": "Valtra BH180",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra BH180",
+      "locinstaladesc1": "Valtra BH180",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20022284",
+      "eqktx": "Valtra-BH180",
+      "descricao": "Valtra BH180",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra BH180",
+      "locinstaladesc1": "Valtra BH180",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20022285",
+      "eqktx": "Valtra-BH194",
+      "descricao": "Valtra BH180",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra BH180",
+      "locinstaladesc1": "Valtra BH180",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20022286",
+      "eqktx": "Valtra-BH194",
+      "descricao": "Valtra BH180",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra BH180",
+      "locinstaladesc1": "Valtra BH180",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20022287",
+      "eqktx": "Valtra-BH194",
+      "descricao": "Valtra BH194",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra BH194",
+      "locinstaladesc1": "Valtra BH194",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20022288",
+      "eqktx": "Valtra-BH194",
+      "descricao": "Valtra BH194",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra BH194",
+      "locinstaladesc1": "Valtra BH194",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20022289",
+      "eqktx": "Valtra-BH194",
+      "descricao": "Valtra BH194",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra BH194",
+      "locinstaladesc1": "Valtra BH194",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20011125",
+      "eqktx": "ÔNIBUS VW-MASCARELLO",
+      "descricao": "Volkswagen",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Volkswagen",
+      "locinstaladesc1": "Volkswagen",
+      "imageUrl": "https://w7.pngwing.com/pngs/699/563/png-transparent-bus-car-mercedes-benz-iveco-transport-micro-page-truck-car-mode-of-transport.png"
+    },
+    {
+      "equnr": "20011126",
+      "eqktx": "ÔNIBUS VW-MASCARELLO",
+      "descricao": "Volkswagen",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Volkswagen",
+      "locinstaladesc1": "Volkswagen",
+      "imageUrl": "https://w7.pngwing.com/pngs/699/563/png-transparent-bus-car-mercedes-benz-iveco-transport-micro-page-truck-car-mode-of-transport.png"
+    },
+    {
+      "equnr": "20022290",
+      "eqktx": "Valtra-BH194",
+      "descricao": "Valtra BH194",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra BH194",
+      "locinstaladesc1": "Valtra BH194",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20022291",
+      "eqktx": "Valtra-BH194",
+      "descricao": "Valtra BH194",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra BH194",
+      "locinstaladesc1": "Valtra BH194",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20012047",
+      "eqktx": "Honda NXR-160 BROS ESD",
+      "descricao": "Honda NXR160 BROS ESD",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda NXR160 BROS ESD",
+      "locinstaladesc1": "Honda NXR160 BROS ESD",
+      "imageUrl": "https://www.freedomhonda.com.br/wp-content/uploads/2023/08/imagem-home-honda-nxr-bros-160-abs-lateral-vermelho.webp"
+    },
+    {
+      "equnr": "20012048",
+      "eqktx": "Honda NXR-160 BROS ESD",
+      "descricao": "Honda NXR160 BROS ESD",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda NXR160 BROS ESD",
+      "locinstaladesc1": "Honda NXR160 BROS ESD",
+      "imageUrl": "https://www.freedomhonda.com.br/wp-content/uploads/2023/08/imagem-home-honda-nxr-bros-160-abs-lateral-vermelho.webp"
+    },
+    {
+      "equnr": "20022271",
+      "eqktx": "Valtra-A990R 4X4",
+      "descricao": "Valtra A990R 4X4",
+      "categoria": "TRATOR DE PNEU",
+      "CATEGORIA": "TRATOR DE PNEU",
+      "locinstaladesc": "Valtra A990R 4X4",
+      "locinstaladesc1": "Valtra A990R 4X4",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/8/7/87c1a217ac82601f.png"
+    },
+    {
+      "equnr": "20010059",
+      "eqktx": "JEEP SUZUKI SIERRA 4X4",
+      "descricao": "SUZUKI 4SPORT 4X4",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "SUZUKI 4SPORT 4X4",
+      "locinstaladesc1": "SUZUKI 4SPORT 4X4",
+      "imageUrl": "https://www.suzukiveiculos.com.br/wp-content/uploads/2024/06/4you-plus.png"
+    },
+    {
+      "equnr": "20010060",
+      "eqktx": "JEEP SUZUKI SIERRA 4X4",
+      "descricao": "SUZUKI 4SPORT 4X4",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "SUZUKI 4SPORT 4X4",
+      "locinstaladesc1": "SUZUKI 4SPORT 4X4",
+      "imageUrl": "https://www.suzukiveiculos.com.br/wp-content/uploads/2024/06/4you-plus.png"
+    },
+    {
+      "equnr": "20012049",
+      "eqktx": "Honda NXR-160 BROS ESD",
+      "descricao": "Honda NXR160 BROS ESD",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda NXR160 BROS ESD",
+      "locinstaladesc1": "Honda NXR160 BROS ESD",
+      "imageUrl": "https://www.freedomhonda.com.br/wp-content/uploads/2023/08/imagem-home-honda-nxr-bros-160-abs-lateral-vermelho.webp"
+    },
+    {
+      "equnr": "20012050",
+      "eqktx": "Honda NXR-160 BROS ESD",
+      "descricao": "Honda NXR160 BROS ESD",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda NXR160 BROS ESD",
+      "locinstaladesc1": "Honda NXR160 BROS ESD",
+      "imageUrl": "https://www.freedomhonda.com.br/wp-content/uploads/2023/08/imagem-home-honda-nxr-bros-160-abs-lateral-vermelho.webp"
+    },
+    {
+      "equnr": "20012051",
+      "eqktx": "Honda NXR-160 BROS ESD",
+      "descricao": "Honda NXR160 BROS ESD",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda NXR160 BROS ESD",
+      "locinstaladesc1": "Honda NXR160 BROS ESD",
+      "imageUrl": "https://www.freedomhonda.com.br/wp-content/uploads/2023/08/imagem-home-honda-nxr-bros-160-abs-lateral-vermelho.webp"
+    },
+    {
+      "equnr": "20022292",
+      "eqktx": "Valtra-BH194",
+      "descricao": "Valtra BH194",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra BH194",
+      "locinstaladesc1": "Valtra BH194",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20020511",
+      "eqktx": "CAT 310 ESCAVADEIRA HID",
+      "descricao": "ESCAVADEIRA CAT 310",
+      "categoria": "ESCAVADEIRA",
+      "CATEGORIA": "ESCAVADEIRA",
+      "locinstaladesc": "ESCAVADEIRA CAT 310",
+      "locinstaladesc1": "ESCAVADEIRA CAT 310",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/9/95/CAT_345BL_excavator.jpg"
+    },
+    {
+      "equnr": "20020302",
+      "eqktx": "CAT D6NTLJ",
+      "descricao": "Carterpillar D6N",
+      "categoria": "TRATOR DE ESTEIRA",
+      "CATEGORIA": "TRATOR DE ESTEIRA",
+      "locinstaladesc": "Carterpillar D6N",
+      "locinstaladesc1": "Carterpillar D6N",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Caterpillar_D6T_bulldozer.jpg"
+    },
+    {
+      "equnr": "20020305",
+      "eqktx": "TRATOR DE ESTEIRAS TK-4100",
+      "descricao": "TRATOR DE ESTEIRAS TK 4.100",
+      "categoria": "TRATOR ESTEIRA (TK)",
+      "CATEGORIA": "TRATOR ESTEIRA (TK)",
+      "locinstaladesc": "TRATOR DE ESTEIRAS TK 4.100",
+      "locinstaladesc1": "TRATOR DE ESTEIRAS TK 4.100",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Caterpillar_D6T_bulldozer.jpg"
+    },
+    {
+      "equnr": "20020306",
+      "eqktx": "TRATOR DE ESTEIRAS TK-4100",
+      "descricao": "TRATOR DE ESTEIRAS TK 4.100",
+      "categoria": "TRATOR ESTEIRA (TK)",
+      "CATEGORIA": "TRATOR ESTEIRA (TK)",
+      "locinstaladesc": "TRATOR DE ESTEIRAS TK 4.100",
+      "locinstaladesc1": "TRATOR DE ESTEIRAS TK 4.100",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Caterpillar_D6T_bulldozer.jpg"
+    },
+    {
+      "equnr": "20020303",
+      "eqktx": "TRATOR DE ESTEIRAS TK-4100",
+      "descricao": "TRATOR DE ESTEIRAS TK 4.100",
+      "categoria": "TRATOR ESTEIRA (TK)",
+      "CATEGORIA": "TRATOR ESTEIRA (TK)",
+      "locinstaladesc": "TRATOR DE ESTEIRAS TK 4.100",
+      "locinstaladesc1": "TRATOR DE ESTEIRAS TK 4.100",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Caterpillar_D6T_bulldozer.jpg"
+    },
+    {
+      "equnr": "20010061",
+      "eqktx": "TOYOTA HILUX CDLOWM4FD",
+      "descricao": "TOYOTA HILUX CD DSL POWER PACK",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "TOYOTA HILUX CD DSL POWER PACK",
+      "locinstaladesc1": "TOYOTA HILUX CD DSL POWER PACK",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Toyota_Hilux_Revo_2015.jpg"
+    },
+    {
+      "equnr": "20012052",
+      "eqktx": "Honda NXR-160 BROS ESD",
+      "descricao": "Honda NXR160 BROS ESD",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda NXR160 BROS ESD",
+      "locinstaladesc1": "Honda NXR160 BROS ESD",
+      "imageUrl": "https://www.freedomhonda.com.br/wp-content/uploads/2023/08/imagem-home-honda-nxr-bros-160-abs-lateral-vermelho.webp"
+    },
+    {
+      "equnr": "20012053",
+      "eqktx": "Honda NXR-160 BROS ESD",
+      "descricao": "Honda NXR160 BROS ESD",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda NXR160 BROS ESD",
+      "locinstaladesc1": "Honda NXR160 BROS ESD",
+      "imageUrl": "https://www.freedomhonda.com.br/wp-content/uploads/2023/08/imagem-home-honda-nxr-bros-160-abs-lateral-vermelho.webp"
+    },
+    {
+      "equnr": "20010062",
+      "eqktx": "JEEP SUZUKI SIERRA 4X4",
+      "descricao": "SUZUKI 4SPORT 4X4",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "SUZUKI 4SPORT 4X4",
+      "locinstaladesc1": "SUZUKI 4SPORT 4X4",
+      "imageUrl": "https://www.suzukiveiculos.com.br/wp-content/uploads/2024/06/4you-plus.png"
+    },
+    {
+      "equnr": "20010063",
+      "eqktx": "JEEP SUZUKI SIERRA 4X4",
+      "descricao": "SUZUKI 4SPORT 4X4",
+      "categoria": "VEÍCULOS LEVES",
+      "CATEGORIA": "VEÍCULOS LEVES",
+      "locinstaladesc": "SUZUKI 4SPORT 4X4",
+      "locinstaladesc1": "SUZUKI 4SPORT 4X4",
+      "imageUrl": "https://www.suzukiveiculos.com.br/wp-content/uploads/2024/06/4you-plus.png"
+    },
+    {
+      "equnr": "20012055",
+      "eqktx": "Honda NXR-160 BROS ESD",
+      "descricao": "Honda NXR160 BROS ESD",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda NXR160 BROS ESD",
+      "locinstaladesc1": "Honda NXR160 BROS ESD",
+      "imageUrl": "https://www.freedomhonda.com.br/wp-content/uploads/2023/08/imagem-home-honda-nxr-bros-160-abs-lateral-vermelho.webp"
+    },
+    {
+      "equnr": "20012054",
+      "eqktx": "Honda NXR-160 BROS ESD",
+      "descricao": "Honda NXR160 BROS ESD",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda NXR160 BROS ESD",
+      "locinstaladesc1": "Honda NXR160 BROS ESD",
+      "imageUrl": "https://www.freedomhonda.com.br/wp-content/uploads/2023/08/imagem-home-honda-nxr-bros-160-abs-lateral-vermelho.webp"
+    },
+    {
+      "equnr": "20022294",
+      "eqktx": "Valtra-BH194",
+      "descricao": "Valtra BH194",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra BH194",
+      "locinstaladesc1": "Valtra BH194",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20022295",
+      "eqktx": "Valtra-BH194",
+      "descricao": "Valtra BH194",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra BH194",
+      "locinstaladesc1": "Valtra BH194",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20022296",
+      "eqktx": "Valtra-BH194",
+      "descricao": "Valtra BH194",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra BH194",
+      "locinstaladesc1": "Valtra BH194",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20010147",
+      "eqktx": "ÔNIBUS VW-MASCARELLO",
+      "descricao": "Volkswagen",
+      "categoria": "TRANSPORTE PESSOAL",
+      "CATEGORIA": "TRANSPORTE PESSOAL",
+      "locinstaladesc": "Volkswagen",
+      "locinstaladesc1": "Volkswagen",
+      "imageUrl": "https://w7.pngwing.com/pngs/699/563/png-transparent-bus-car-mercedes-benz-iveco-transport-micro-page-truck-car-mode-of-transport.png"
+    },
+    {
+      "equnr": "20022297",
+      "eqktx": "Valtra-BH194",
+      "descricao": "Valtra BH194",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra BH194",
+      "locinstaladesc1": "Valtra BH194",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20022298",
+      "eqktx": "Valtra-BH194",
+      "descricao": "Valtra BH194",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra BH194",
+      "locinstaladesc1": "Valtra BH194",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20022299",
+      "eqktx": "Valtra-BH194",
+      "descricao": "Valtra BH194",
+      "categoria": "TRATOR DE MOAGEM",
+      "CATEGORIA": "TRATOR DE MOAGEM",
+      "locinstaladesc": "Valtra BH194",
+      "locinstaladesc1": "Valtra BH194",
+      "imageUrl": "https://api.marketplace.e-agro.com.br/media/catalog/product/6/0/6035170a3fa99811.png"
+    },
+    {
+      "equnr": "20011112",
+      "eqktx": "Volvo FMX 540",
+      "descricao": "Volvo FMX540",
+      "categoria": "TETRAMINHAO",
+      "CATEGORIA": "TETRAMINHAO",
+      "locinstaladesc": "Volvo FMX540",
+      "locinstaladesc1": "Volvo FMX540",
+      "imageUrl": "https://assets.volvo.com/is/image/VolvoInformationTechnologyAB/volvo-fmx-crew-cab-sideview-1?qlt=82&wid=1024&ts=1723644581053&dpr=off&fit=constrain&fmt=png-alpha"
+    },
+    {
+      "equnr": "20011154",
+      "eqktx": "VOLVO VM-360",
+      "descricao": "VOLVO VM-360",
+      "categoria": "CAMINHÃO BASCULANTE",
+      "CATEGORIA": "CAMINHÃO BASCULANTE",
+      "locinstaladesc": "VOLVO VM-360",
+      "locinstaladesc1": "VOLVO VM-360",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Volvo_FMX_dump_truck.jpg"
+    },
+    {
+      "equnr": "20020901",
+      "eqktx": "COLHEDORA SHAKTIMAN 3737",
+      "descricao": "COLHEDORA SHAKTIMAN 3737",
+      "categoria": "COLHEDORA DE CANA",
+      "CATEGORIA": "COLHEDORA DE CANA",
+      "locinstaladesc": "COLHEDORA SHAKTIMAN 3737",
+      "locinstaladesc1": "COLHEDORA SHAKTIMAN 3737",
+      "imageUrl": "https://shaktimanagro.com/wp-content/uploads/2024/09/Shaktiman_3737_Tejas_Image_1.png"
+    },
+    {
+      "equnr": "20020902",
+      "eqktx": "COLHEDORA SHAKTIMAN 3737",
+      "descricao": "COLHEDORA SHAKTIMAN 3737",
+      "categoria": "COLHEDORA DE CANA",
+      "CATEGORIA": "COLHEDORA DE CANA",
+      "locinstaladesc": "COLHEDORA SHAKTIMAN 3737",
+      "locinstaladesc1": "COLHEDORA SHAKTIMAN 3737",
+      "imageUrl": "https://shaktimanagro.com/wp-content/uploads/2024/09/Shaktiman_3737_Tejas_Image_1.png"
+    },
+    {
+      "equnr": "20020903",
+      "eqktx": "COLHEDORA SHAKTIMAN 3737",
+      "descricao": "COLHEDORA SHAKTIMAN 3737",
+      "categoria": "COLHEDORA DE CANA",
+      "CATEGORIA": "COLHEDORA DE CANA",
+      "locinstaladesc": "COLHEDORA SHAKTIMAN 3737",
+      "locinstaladesc1": "COLHEDORA SHAKTIMAN 3737",
+      "imageUrl": "https://shaktimanagro.com/wp-content/uploads/2024/09/Shaktiman_3737_Tejas_Image_1.png"
+    },
+    {
+      "equnr": "20020904",
+      "eqktx": "COLHEDORA SHAKTIMAN 3737",
+      "descricao": "COLHEDORA SHAKTIMAN 3737",
+      "categoria": "COLHEDORA DE CANA",
+      "CATEGORIA": "COLHEDORA DE CANA",
+      "locinstaladesc": "COLHEDORA SHAKTIMAN 3737",
+      "locinstaladesc1": "COLHEDORA SHAKTIMAN 3737",
+      "imageUrl": "https://shaktimanagro.com/wp-content/uploads/2024/09/Shaktiman_3737_Tejas_Image_1.png"
+    },
+    {
+      "equnr": "20012056",
+      "eqktx": "Honda NXR-160 BROS ESD",
+      "descricao": "Honda NXR160 BROS ESD",
+      "categoria": "MOTOCICLETA",
+      "CATEGORIA": "MOTOCICLETA",
+      "locinstaladesc": "Honda NXR160 BROS ESD",
+      "locinstaladesc1": "Honda NXR160 BROS ESD",
+      "imageUrl": "https://www.freedomhonda.com.br/wp-content/uploads/2023/08/imagem-home-honda-nxr-bros-160-abs-lateral-vermelho.webp"
+    },
+    {
+      "equnr": "20011111",
+      "eqktx": "VOLVO VM-290",
+      "descricao": "VOLVO VM-330",
+      "categoria": "CAMINHÃO COMBOIO",
+      "CATEGORIA": "CAMINHÃO COMBOIO",
+      "locinstaladesc": "VOLVO VM-330",
+      "locinstaladesc1": "VOLVO VM-330",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/48/Fuel_tanker_truck.jpg"
+    },
+    {
+      "equnr": "20020304",
+      "eqktx": "TRATOR DE ESTEIRAS TK-4100",
+      "descricao": "TRATOR DE ESTEIRAS TK 4.100",
+      "categoria": "TRATOR ESTEIRA (TK)",
+      "CATEGORIA": "TRATOR ESTEIRA (TK)",
+      "locinstaladesc": "TRATOR DE ESTEIRAS TK 4.100",
+      "locinstaladesc1": "TRATOR DE ESTEIRAS TK 4.100",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Caterpillar_D6T_bulldozer.jpg"
+    },
+    {
+      "equnr": "20010155",
+      "eqktx": "MB 2428/48",
+      "descricao": "Mercedes Benz",
+      "categoria": "CAMINHÃO BOMBEIRO",
+      "CATEGORIA": "CAMINHÃO BOMBEIRO",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5d/Scania_P94G_310_fire_engine.jpg"
+    },
+    {
+      "equnr": "20010121",
+      "eqktx": "MB L1418",
+      "descricao": "Mercedes Benz",
+      "categoria": "CAMINHÃO APOIO",
+      "CATEGORIA": "CAMINHÃO APOIO",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/05/Service_truck.jpg"
+    },
+    {
+      "equnr": "20010169",
+      "eqktx": "MB 2314/48",
+      "descricao": "Mercedes Benz",
+      "categoria": "CAMINHÃO APOIO",
+      "CATEGORIA": "CAMINHÃO APOIO",
+      "locinstaladesc": "Mercedes Benz",
+      "locinstaladesc1": "Mercedes Benz",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/05/Service_truck.jpg"
+    },
+    {
+      "equnr": "20011150",
+      "eqktx": "MB ACCELO 815 4X2",
+      "descricao": "Mercedes Benz 815ACCELO",
+      "categoria": "CAMINHÃO CARGA SECA",
+      "CATEGORIA": "CAMINHÃO CARGA SECA",
+      "locinstaladesc": "Mercedes Benz 815ACCELO",
+      "locinstaladesc1": "Mercedes Benz 815ACCELO",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Isuzu_FVR_flatbed_truck.JPG"
+    },
+    {
+      "equnr": "20011109",
+      "eqktx": "Volvo VM 220",
+      "descricao": "Volvo",
+      "categoria": "CAMINHÃO MUNCK",
+      "CATEGORIA": "CAMINHÃO MUNCK",
+      "locinstaladesc": "Volvo",
+      "locinstaladesc1": "Volvo",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/d/d7/Hiab_crane_truck.jpg"
+    },
+    {
+      "equnr": "20010125",
+      "eqktx": "Volvo FH-520",
+      "descricao": "Volvo",
+      "categoria": "CAVALO MECÂNICO",
+      "CATEGORIA": "CAVALO MECÂNICO",
+      "locinstaladesc": "Volvo",
+      "locinstaladesc1": "Volvo",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Scania_R500_blue.jpg"
+    }
+  ]
+}

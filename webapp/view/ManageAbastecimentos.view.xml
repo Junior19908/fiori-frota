@@ -5,11 +5,16 @@
   xmlns="sap.m"
   xmlns:core="sap.ui.core"
   displayBlock="true">
-  <Page id="manageAbastPage" title="Gerenciar Abastecimentos" class="sapUiContentPadding" showNavButton="true" navButtonPress="onNavBack">
+  <Page
+    id="manageAbastPage"
+    title="Gerenciar Abastecimentos"
+    class="sapUiContentPadding"
+    showNavButton="true"
+    navButtonPress="onNavBack">
     <customHeader>
       <Toolbar>
         <ToolbarSpacer/>
-        <Label text="Mês (YYYY-MM)"/>
+        <Label text="Mes (YYYY-MM)"/>
         <Input id="inpMonth" width="10rem" placeholder="2025-02"/>
         <Button text="Carregar" type="Emphasized" press="onLoad"/>
         <ToolbarSpacer/>
@@ -22,11 +27,11 @@
       <Toolbar design="Auto">
         <Button id="btnDeleteSel" text="Excluir selecionados" type="Reject" press="onDeleteSelected" enabled="{= ${ab>/items}.length > 0 }"/>
         <ToolbarSpacer/>
-        <Button id="btnDeleteMonth" text="Excluir mês inteiro" type="Reject" press="onDeleteMonth"/>
+        <Button id="btnDeleteMonth" text="Excluir mes inteiro" type="Reject" press="onDeleteMonth"/>
       </Toolbar>
       <Table id="tblEvents" mode="MultiSelect" items="{ab>/pagedItems}">
         <columns>
-          <Column><Text text="Veículo"/></Column>
+          <Column><Text text="Veiculo"/></Column>
           <Column><Text text="Data"/></Column>
           <Column><Text text="Hora"/></Column>
           <Column><Text text="KM"/></Column>
@@ -50,9 +55,9 @@
           </ColumnListItem>
         </items>
       </Table>
-      <!-- Controles de paginação -->
+      <!-- Controles de paginacao -->
       <Toolbar design="Transparent">
-        <Label text="Itens por página"/>
+        <Label text="Itens por pagina"/>
         <Select id="selPageSize" selectedKey="{ab>/pageSize}" change=".onPageSizeChange" width="8rem">
           <core:Item key="25" text="25"/>
           <core:Item key="50" text="50"/>
@@ -60,14 +65,15 @@
           <core:Item key="200" text="200"/>
         </Select>
         <ToolbarSpacer/>
-        <Text text="{= 'Mostrando ' + ${ab>/from} + '–' + ${ab>/to} + ' de ' + ${ab>/totalCount} }"/>
+        <Text text="{= 'Mostrando ' + ${ab>/from} + ' - ' + ${ab>/to} + ' de ' + ${ab>/totalCount} }"/>
         <ToolbarSpacer/>
-        <Button icon="sap-icon://begin" type="Transparent" tooltip="Primeira página" press=".onPageFirst" enabled="{= ${ab>/page} > 1 }"/>
+        <Button icon="sap-icon://begin" type="Transparent" tooltip="Primeira pagina" press=".onPageFirst" enabled="{= ${ab>/page} > 1 }"/>
         <Button icon="sap-icon://slim-arrow-left" type="Transparent" tooltip="Anterior" press=".onPagePrev" enabled="{= ${ab>/page} > 1 }"/>
-        <ObjectStatus text="{= 'Página ' + ${ab>/page} + ' de ' + ${ab>/totalPages} }" state="None"/>
-        <Button icon="sap-icon://slim-arrow-right" type="Transparent" tooltip="Próxima" press=".onPageNext" enabled="{= ${ab>/page} < ${ab>/totalPages} }"/>
-        <Button icon="sap-icon://end" type="Transparent" tooltip="Última página" press=".onPageLast" enabled="{= ${ab>/page} < ${ab>/totalPages} }"/>
+        <ObjectStatus text="{= 'Pagina ' + ${ab>/page} + ' de ' + ${ab>/totalPages} }" state="None"/>
+        <Button icon="sap-icon://slim-arrow-right" type="Transparent" tooltip="Proxima" press=".onPageNext" enabled="{= ${ab>/page} < ${ab>/totalPages} }"/>
+        <Button icon="sap-icon://end" type="Transparent" tooltip="Ultima pagina" press=".onPageLast" enabled="{= ${ab>/page} < ${ab>/totalPages} }"/>
       </Toolbar>
     </content>
   </Page>
 </mvc:View>
+
