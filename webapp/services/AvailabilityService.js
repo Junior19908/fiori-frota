@@ -1,15 +1,6 @@
 sap.ui.define([], function () {
   "use strict";
 
-  function _log(){
-    try {
-      const args = Array.prototype.slice.call(arguments||[]);
-      if (typeof console !== 'undefined' && console.log) {
-        console.log.apply(console, ['[AvailabilityService]'].concat(args));
-      }
-    } catch(_){}
-  }
-
   function pad2(n) { return String(n).padStart(2, "0"); }
 
   function monthsBetween(start, end) {
@@ -84,17 +75,10 @@ sap.ui.define([], function () {
       const setIds = new Set((ids || []).map(String));
       const map = new Map();
 
-      _log('fetchOsByVehiclesAndRange.begin', {
-        ids: Array.from(setIds.values()),
-        range: { from: from.toISOString(), to: to.toISOString() },
-        months: months.map(m=>`${m.y}-${String(m.m).padStart(2,'0')}`)
-      });
-
       for (let i = 0; i < months.length; i++) {
         const it = months[i];
         let arr = [];
         try { arr = await fetchMonth(it.y, it.m); } catch (_) { arr = []; }
-        _log('fetch.month', { ym: `${it.y}-${String(it.m).padStart(2,'0')}`, size: Array.isArray(arr)?arr.length:0 });
         if (!Array.isArray(arr) || !arr.length) continue;
 
         arr.forEach(function (o) {
@@ -109,14 +93,8 @@ sap.ui.define([], function () {
           map.get(veh).push(clone);
         });
       }
-      try {
-        const dbg = [];
-        map.forEach((v,k)=> dbg.push({ veh: k, count: Array.isArray(v)?v.length:0 }));
-        _log('fetch.result', { vehicles: map.size, byVeh: dbg });
-      } catch(_){}
       return map;
     } catch (e) {
-      try { console.warn("[AvailabilityService] local fetch failed", e && (e.message || e)); } catch(_){}
       return new Map();
     }
   }

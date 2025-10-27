@@ -70,10 +70,9 @@
         <Button icon="sap-icon://begin" type="Transparent" tooltip="Primeira pagina" press=".onPageFirst" enabled="{= ${ab>/page} > 1 }"/>
         <Button icon="sap-icon://slim-arrow-left" type="Transparent" tooltip="Anterior" press=".onPagePrev" enabled="{= ${ab>/page} > 1 }"/>
         <ObjectStatus text="{= 'Pagina ' + ${ab>/page} + ' de ' + ${ab>/totalPages} }" state="None"/>
-        <Button icon="sap-icon://slim-arrow-right" type="Transparent" tooltip="Proxima" press=".onPageNext" enabled="{= ${ab>/page} < ${ab>/totalPages} }"/>
-        <Button icon="sap-icon://end" type="Transparent" tooltip="Ultima pagina" press=".onPageLast" enabled="{= ${ab>/page} < ${ab>/totalPages} }"/>
+        <Button icon="sap-icon://slim-arrow-right" type="Transparent" tooltip="Proxima" press=".onPageNext" enabled="{= ${ab>/page} &lt; ${ab>/totalPages} }"/>
+        <Button icon="sap-icon://end" type="Transparent" tooltip="Ultima pagina" press=".onPageLast" enabled="{= ${ab>/page} &lt; ${ab>/totalPages} }"/>
       </Toolbar>
     </content>
   </Page>
 </mvc:View>
-

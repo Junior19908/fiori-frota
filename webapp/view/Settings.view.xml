@@ -5,12 +5,11 @@
   xmlns="sap.m"
   xmlns:core="sap.ui.core"
   xmlns:f="sap.ui.layout.form"
-  xmlns:unified="sap.ui.unified"
   displayBlock="true">
 
   <Page id="settingsPage" title="{i18n>settings.title}" class="sapUiContentPadding" showFooter="true">
     <content>
-      <VBox width="100%" renderType="Bare">
+      <VBox id="settingsProtectedContent" width="100%" renderType="Bare" visible="{settingsView>/authorized}">
         <f:SimpleForm editable="true"
           layout="ResponsiveGridLayout"
           width="100%"
@@ -64,45 +63,13 @@
             <core:Item key="sap_fiori_3_dark" text="{i18n>theme.fiori3_dark}"/>
           </Select>
 
-          <Label text="{i18n>settings.import}"/>
-          <HBox alignItems="Center" justifyContent="Start" width="100%" wrap="Wrap">
-            <unified:FileUploader id="settingsFileUploader"
-                                  buttonText="{i18n>settings.import.selectFiles}"
-                                  fileType="json"
-                                  change=".onSettingsFileUploadBatch"
-                                  multiple="true"
-                                  width="100%"/>
-            <Button text="{i18n>settings.import.saveToFirestore}" type="Emphasized" press=".onSaveImportedJson" class="sapUiTinyMarginBegin"/>
-          </HBox>
-
-          <Label text="{i18n>settings.firebase}"/>
+          <Label text="Acessos rapidos"/>
           <VBox class="sapUiSmallMarginBottom">
-            <HBox>
-              <Button text="{i18n>settings.firebase.test}" type="Transparent" press=".onTestFirebase"/>
-              <Button text="{i18n>settings.firebase.createTestCollection}" type="Transparent" press=".onCreateTestCollection" class="sapUiTinyMarginBegin"/>
-            </HBox>
-            <HBox class="sapUiTinyMarginTop" alignItems="Center">
-              <Button text="{i18n>settings.firebase.exportCurrentMonth}" type="Emphasized" press=".onExportCurrentMonth"/>
-            </HBox>
-            <HBox class="sapUiTinyMarginTop" alignItems="Center">
-              <Text text="{i18n>settings.firebase.exportLast}"/>
-              <StepInput id="stepExportN" min="1" max="36" step="1" value="6" class="sapUiTinyMarginBegin"/>
-              <Text text="{i18n>settings.firebase.months}" class="sapUiTinyMarginBegin"/>
-              <Button text="{i18n>settings.firebase.export}" type="Transparent" press=".onExportLastNMonths" class="sapUiTinyMarginBegin"/>
-            </HBox>
-
             <HBox class="sapUiTinyMarginTop" alignItems="Center">
               <Button text="Importar OS (Excel)" type="Transparent" press=".onOpenImportOS"/>
               <Button text="Importar Abastecimentos (Excel)" type="Transparent" press=".onOpenImportAbast"/>
               <Button text="Gerenciar Abastecimentos" type="Transparent" press=".onOpenManageAbast"/>
               <Button text="Gerenciar OS" type="Transparent" press=".onOpenManageOS"/>
-            </HBox>
-          </VBox>
-
-          <Label text="{i18n>settings.mysql}"/>
-          <VBox class="sapUiSmallMarginBottom">
-            <HBox>
-              <Button text="{i18n>settings.mysql.test}" type="Transparent" press=".onMysqlPing"/>
             </HBox>
           </VBox>
 

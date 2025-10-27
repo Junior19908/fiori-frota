@@ -92,7 +92,7 @@ sap.ui.define([
         var result = originalSetProperty(path, value);
         try {
           var normalizedPath = String(path || "");
-          if (normalizedPath === "/items" || normalizedPath === "/page" || normalizedPath === "/pageSize") {
+          if (!that._inPagingUpdate && (normalizedPath === "/items" || normalizedPath === "/page" || normalizedPath === "/pageSize")) {
             that._recomputePaging();
           }
         } catch (err) {
@@ -101,6 +101,7 @@ sap.ui.define([
         return result;
       };
 
+      this._inPagingUpdate = false;
       this.getView().setModel(model, "ab");
       this._recomputePaging();
     },
@@ -112,13 +113,19 @@ sap.ui.define([
       }
       var data = model.getData() || {};
       var paging = slicePage(data.items || [], data.page || 1, data.pageSize || 50);
-      model.setProperty("/pagedItems", paging.paged);
-      model.setProperty("/page", paging.page);
-      model.setProperty("/pageSize", paging.pageSize);
-      model.setProperty("/totalPages", paging.totalPages);
-      model.setProperty("/totalCount", paging.total);
-      model.setProperty("/from", paging.from);
-      model.setProperty("/to", paging.to);
+      var prevGuard = this._inPagingUpdate;
+      this._inPagingUpdate = true;
+      try {
+        model.setProperty("/pagedItems", paging.paged);
+        model.setProperty("/page", paging.page);
+        model.setProperty("/pageSize", paging.pageSize);
+        model.setProperty("/totalPages", paging.totalPages);
+        model.setProperty("/totalCount", paging.total);
+        model.setProperty("/from", paging.from);
+        model.setProperty("/to", paging.to);
+      } finally {
+        this._inPagingUpdate = prevGuard;
+      }
     },
 
     _clearTableSelection: function () {

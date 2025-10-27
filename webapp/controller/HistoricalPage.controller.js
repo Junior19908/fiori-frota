@@ -120,6 +120,49 @@ sap.ui.define([
   // ======= CONFIG MAPA (MapLibre + PMTiles locais) =======
   const MAP_DEFAULT_CENTER = { lng: -36.5, lat: -9.3 }; // Centro aproximado AL/PE
   const MAP_DEFAULT_ZOOM = 7;
+  const _scriptPromises = Object.create(null);
+  let _mapLibreConfigured = false;
+
+  function _loadScriptOnce(url, key) {
+    var cacheKey = key || url;
+    if (_scriptPromises[cacheKey]) {
+      return _scriptPromises[cacheKey];
+    }
+
+    _scriptPromises[cacheKey] = new Promise(function (resolve, reject) {
+      try {
+        var selector = "script[data-map-loader='" + cacheKey + "']";
+        var existing = document.querySelector(selector);
+        if (existing) {
+          if (existing.getAttribute("data-loaded") === "true") {
+            resolve();
+            return;
+          }
+          existing.addEventListener("load", function () { resolve(); }, { once: true });
+          existing.addEventListener("error", function () { reject(new Error("Falha ao recarregar script: " + url)); }, { once: true });
+          return;
+        }
+
+        var script = document.createElement("script");
+        script.src = url;
+        script.async = true;
+        script.crossOrigin = "anonymous";
+        script.setAttribute("data-map-loader", cacheKey);
+        script.addEventListener("load", function () {
+          script.setAttribute("data-loaded", "true");
+          resolve();
+        }, { once: true });
+        script.addEventListener("error", function (evt) {
+          reject(new Error("Falha ao carregar script: " + url + " (" + (evt && evt.message || "erro desconhecido") + ")"));
+        }, { once: true });
+        document.head.appendChild(script);
+      } catch (err) {
+        reject(err);
+      }
+    });
+
+    return _scriptPromises[cacheKey];
+  }
   const MAP_MODEL_PATH = "com/skysinc/frota/frota/model/mock/os_map.json";
   const MAP_ROUTE_SOURCE_ID = "historical-routes";
   const MAP_ROUTE_LAYER_ID = "historical-routes-line";
@@ -357,7 +400,7 @@ sap.ui.define([
       this._mapAssetsPromise = new Promise((resolve, reject) => {
         const basePath = "com/skysinc/frota/frota/thirdparty/";
         const cssUrl = sap.ui.require.toUrl(basePath + "maplibre-gl.css");
-        const mapLibrePath = sap.ui.require.toUrl(basePath + "maplibre-gl");
+        const mapLibreUrl = sap.ui.require.toUrl(basePath + "maplibre-gl.js");
         const pmtilesUrl = sap.ui.require.toUrl(basePath + "pmtiles.js");
 
         // Garante que o CSS do MapLibre seja carregado
@@ -368,28 +411,33 @@ sap.ui.define([
           console.warn("[HistoricalPage] falha ao incluir CSS do MapLibre", cssErr);
         }
 
-        const ensurePmtiles = () => new Promise((res, rej) => {
-          try {
-            jQuery.sap.includeScript(pmtilesUrl, "pmtiles", () => {
-              if (!window.pmtiles) {
-                rej(new Error("PMTiles nao esta disponivel."));
-                return;
-              }
-              res();
-            });
-          } catch (err) {
-            rej(err);
+        const ensurePmtiles = () => _loadScriptOnce(pmtilesUrl, "pmtiles-script").then(function () {
+          if (!window.pmtiles) {
+            throw new Error("PMTiles nao esta disponivel.");
           }
         });
 
-        const ensureMapLibre = () => new Promise((res, rej) => {
+        const ensureMapLibre = () => new Promise(function (res, rej) {
+          if (window.maplibregl) {
+            res();
+            return;
+          }
           try {
-            sap.ui.loader.config({
-              paths: {
-                "maplibre-gl-local": mapLibrePath
-              }
-            });
-            sap.ui.require(["maplibre-gl-local"], (maplibregl) => {
+            if (!_mapLibreConfigured) {
+              const modulePath = mapLibreUrl.replace(/\.js($|\?)/, "");
+              sap.ui.loader.config({
+                paths: {
+                  "maplibre-gl-local": modulePath
+                },
+                shim: {
+                  "maplibre-gl-local": {
+                    exports: "maplibregl"
+                  }
+                }
+              });
+              _mapLibreConfigured = true;
+            }
+            sap.ui.require(["maplibre-gl-local"], function (maplibregl) {
               if (maplibregl && !window.maplibregl) {
                 window.maplibregl = maplibregl;
               }
@@ -398,7 +446,7 @@ sap.ui.define([
                 return;
               }
               res();
-            }, (err) => {
+            }, function (err) {
               rej(err);
             });
           } catch (err) {
@@ -419,26 +467,8 @@ sap.ui.define([
       return this._mapAssetsPromise;
     },
     _ensureMapReady: function () {
-      if (this._mapReadyPromise) return this._mapReadyPromise;
-
-      this._mapReadyPromise = Promise.all([
-        this._ensureMapData(),
-        this._ensureMapAssets()
-      ])
-        .then(() => this._initMap())
-        .then(() => {
-          this._renderRoutes();
-          this._renderMarkers();
-          this._fitBounds();
-          this._mapReady = true;
-        })
-        .catch((err) => {
-          console.error("[HistoricalPage] erro ao inicializar o mapa", err);
-          this._mapReadyPromise = null;
-          throw err;
-        });
-
-      return this._mapReadyPromise;
+      this._mapReady = true;
+      return Promise.resolve();
     },
 
     _initMap: function () {
