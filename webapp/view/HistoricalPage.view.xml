@@ -19,8 +19,15 @@
     <uxap:headerTitle>
       <uxap:ObjectPageDynamicHeaderTitle>
         <uxap:expandedHeading>
-          <VBox class="sapUiSmallMarginEnd">
-            <HBox alignItems="Center" renderType="Bare">
+          <HBox alignItems="Center" renderType="Bare" class="sapUiSmallMarginEnd">
+            <Avatar src="{detail>/imageUrl}"
+                    fallbackIcon="sap-icon://camera"
+                    displaySize="L"
+                    displayShape="Square"
+                    tooltip="{= ${detail>/descricao} ? 'Foto de ' + ${detail>/descricao} : 'Sem foto cadastrada'}"
+                    class="sapUiTinyMarginEnd"/>
+            <VBox class="sapUiSmallMarginEnd">
+              <HBox alignItems="Center" renderType="Bare">
               <core:Icon src="sap-icon://insurance-car" size="1.5rem"/>
               <Title text="{= 'Historico do Veiculo ' + (${detail>/veiculo} || '')}" level="H3" class="sapUiTinyMarginBegin"/>
               <GenericTag value="{= ${detail>/categoria} || 'Nao informado' }"
@@ -31,18 +38,25 @@
                           design="StatusIconHidden"
                           status="{detail>/manutencaoState}"
                           class="sapUiTinyMarginBegin"/>
-            </HBox>
-            <Text text="{= ${detail>/descricao} || 'Sem descricao'}" class="sapUiTinyMarginTop"/>
-            <HBox class="sapUiTinyMarginTop" alignItems="Center" renderType="Bare">
+              </HBox>
+              <Text text="{= ${detail>/descricao} || 'Sem descricao'}" class="sapUiTinyMarginTop"/>
+              <HBox class="sapUiTinyMarginTop" alignItems="Center" renderType="Bare">
               <ObjectStatus text="{= 'Total OS: ' + (${detail>/countOs} || 0)}" state="Information"/>
               <ObjectStatus text="{= 'Servicos: ' + (${detail>/countServicos} || 0)}" state="Warning" class="sapUiTinyMarginBegin"/>
               <ObjectStatus text="{= 'Materiais: ' + (${detail>/countMateriais} || 0)}" state="Success" class="sapUiTinyMarginBegin"/>
               <ObjectStatus text="{= 'Combustiveis: ' + (${detail>/countComb} || 0)}" state="None" class="sapUiTinyMarginBegin"/>
-            </HBox>
-          </VBox>
+              </HBox>
+            </VBox>
+          </HBox>
         </uxap:expandedHeading>
         <uxap:snappedHeading>
           <HBox alignItems="Center" renderType="Bare">
+            <Avatar src="{detail>/imageUrl}"
+                    fallbackIcon="sap-icon://camera"
+                    displaySize="S"
+                    displayShape="Square"
+                    tooltip="{= ${detail>/descricao} ? 'Foto de ' + ${detail>/descricao} : 'Sem foto cadastrada'}"
+                    class="sapUiTinyMarginEnd"/>
             <core:Icon src="sap-icon://insurance-car" size="1.25rem"/>
             <Title text="{= (${detail>/veiculo} || '') + ' - Historico'}" level="H4" class="sapUiTinyMarginBegin"/>
             <ObjectStatus text="{detail>/manutencaoTexto}" state="{detail>/manutencaoState}" class="sapUiTinyMarginBegin"/>
@@ -61,6 +75,11 @@
           <Text text="{= 'Veiculo: ' + (${detail>/veiculo} || 'Nao informado')}"/>
           <Text text="{= 'Categoria: ' + (${detail>/categoria} || 'Nao informado')}"/>
           <Text text="{= 'Descricao: ' + (${detail>/descricao} || 'Sem descricao')}"/>
+          <Text text="{= 'Localizacao: ' + (${detail>/localInstalacao} || 'Nao informada')}" wrapping="true"/>
+          <Text text="{detail>/localInstalacaoSec}"
+                wrapping="true"
+                visible="{= !!${detail>/localInstalacaoSec}}"
+                class="sapUiTinyMarginTop"/>
         </VBox>
         <VBox class="sapUiTinyMarginBegin">
           <ObjectStatus text="Disponibilidade" state="{detail>/manutencaoState}"/>

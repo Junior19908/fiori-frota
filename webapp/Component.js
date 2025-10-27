@@ -9,6 +9,7 @@ sap.ui.define([
   const PATH_BASE   = "com/skysinc/frota/frota/model/localdata/abastecimento"; // leitura local apenas (sem Firestore)
   const PATH_BASE_CONF   = "com/skysinc/frota/frota/model/localdata"; // leitura local apenas (sem Firestore)
   const DOWNTIME_FILE = PATH_BASE_CONF + "/downtime.json";
+  const VEHICLES_FILE = PATH_BASE_CONF + "/config/vehicles.json";
   const MONTHS_BACK = 18; // quantos meses para trás carregar automaticamente (apenas mês atual)
 
   function mm2(m) { return String(m).padStart(2, "0"); }
@@ -162,9 +163,28 @@ sap.ui.define([
       // Modelos cumulativos:
       // - /veiculos e "materiais" agora NÃO são carregados de arquivo — ficam para OData/Services preencherem
       this.setModel(new JSONModel({ veiculos: [] }));                       // default (preenchido por OData no fluxo da app)
+      var primaryModel = this.getModel();
       this.setModel(new JSONModel({ materiaisPorVeiculo: {} }), "materiais"); // idem
       this.setModel(new JSONModel({ abastecimentosPorVeiculo: {} }), "abast"); // este sim virá de arquivos locais
 
+      fetchJSON(toUrl(VEHICLES_FILE)).then(function (data) {
+        if (!primaryModel) {
+          return;
+        }
+        var list = [];
+        if (data && Array.isArray(data.veiculos)) {
+          list = data.veiculos;
+        } else if (Array.isArray(data)) {
+          list = data;
+        }
+
+        primaryModel.setProperty("/veiculos", list);
+        if (!list.length) {
+          Log.info("[Component] vehicles.json carregado, mas sem registros.");
+        }
+      }).catch(function (err) {
+        Log.warning("[Component] falha ao carregar vehicles.json", err);
+      });
 
       // Modelo de configuração por veículo (para a tela Config e validações)
       // Criar um modelo inicial síncrono para que o controller/route encontre /current imediatamente

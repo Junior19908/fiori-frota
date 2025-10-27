@@ -204,6 +204,9 @@ sap.ui.define([
       // Detail/KPIs + status manutencao de hoje
       this.getView().setModel(new JSONModel({
         veiculo:"", descricao:"", categoria:"",
+        imageUrl:"",
+        localInstalacao:"",
+        localInstalacaoSec:"",
         historico: [],
         historicoComb: [], historicoMateriais: [], historicoServicos: [], historicoOs: [],
         countComb:0, countMateriais:0, countServicos:0, countOs:0,
@@ -352,39 +355,61 @@ sap.ui.define([
       }
 
       this._mapAssetsPromise = new Promise((resolve, reject) => {
-        // Carrega CSS local do MapLibre GL (sem SRI)
+        const basePath = "com/skysinc/frota/frota/thirdparty/";
+        const cssUrl = sap.ui.require.toUrl(basePath + "maplibre-gl.css");
+        const mapLibrePath = sap.ui.require.toUrl(basePath + "maplibre-gl");
+        const pmtilesUrl = sap.ui.require.toUrl(basePath + "pmtiles.js");
+
+        // Garante que o CSS do MapLibre seja carregado
         try {
-          jQuery.sap.includeStyleSheet("thirdparty/maplibre-gl.css");
+          jQuery.sap.includeStyleSheet(cssUrl);
         } catch (cssErr) {
           // eslint-disable-next-line no-console
           console.warn("[HistoricalPage] falha ao incluir CSS do MapLibre", cssErr);
         }
 
-        const loadPmtiles = () => {
+        const ensurePmtiles = () => new Promise((res, rej) => {
           try {
-            jQuery.sap.includeScript("thirdparty/pmtiles.js", "pmtiles", () => {
+            jQuery.sap.includeScript(pmtilesUrl, "pmtiles", () => {
               if (!window.pmtiles) {
-                reject(new Error("PMTiles não está disponível."));
+                rej(new Error("PMTiles nao esta disponivel."));
                 return;
               }
-              resolve();
+              res();
             });
           } catch (err) {
-            reject(err);
+            rej(err);
           }
-        };
+        });
 
-        try {
-          jQuery.sap.includeScript("thirdparty/maplibre-gl.js", "maplibre", () => {
-            if (!window.maplibregl) {
-              reject(new Error("MapLibre não está disponível."));
-              return;
-            }
-            loadPmtiles();
-          });
-        } catch (err) {
-          reject(err);
-        }
+        const ensureMapLibre = () => new Promise((res, rej) => {
+          try {
+            sap.ui.loader.config({
+              paths: {
+                "maplibre-gl-local": mapLibrePath
+              }
+            });
+            sap.ui.require(["maplibre-gl-local"], (maplibregl) => {
+              if (maplibregl && !window.maplibregl) {
+                window.maplibregl = maplibregl;
+              }
+              if (!window.maplibregl) {
+                rej(new Error("MapLibre nao esta disponivel."));
+                return;
+              }
+              res();
+            }, (err) => {
+              rej(err);
+            });
+          } catch (err) {
+            rej(err);
+          }
+        });
+
+        ensureMapLibre()
+          .then(() => ensurePmtiles())
+          .then(resolve)
+          .catch(reject);
       }).catch((err) => {
         this._mapAssetsPromise = null;
         console.error("[HistoricalPage] falha ao carregar recursos do mapa", err);
@@ -877,9 +902,15 @@ sap.ui.define([
       const detail = this.getView().getModel("detail");
       detail.setProperty("/veiculo", this._equnrRaw);
       detail.setProperty("/descricao",
-        found?.eqktx || found?.descricao || found?.DESCRICAO || found?.txt || "");
+        found?.descricao || found?.eqktx || found?.DESCRICAO || found?.Descricao || found?.txt || "");
       detail.setProperty("/categoria",
-        found?.CATEGORIA || found?.categoria || found?.Categoria || "");
+        found?.categoria || found?.CATEGORIA || found?.Categoria || "");
+      detail.setProperty("/imageUrl",
+        found?.imageUrl || found?.imagem || found?.image || found?.foto || "");
+      detail.setProperty("/localInstalacao",
+        found?.locinstaladesc || found?.instalacao || found?.local || "");
+      detail.setProperty("/localInstalacaoSec",
+        found?.locinstaladesc1 || found?.instalacaoSec || found?.instalacaoExtra || found?.local2 || "");
 
       // Carregar e montar historico
       this.onRefresh();
@@ -1287,3 +1318,4 @@ sap.ui.define([
     }
   });
 });
+
