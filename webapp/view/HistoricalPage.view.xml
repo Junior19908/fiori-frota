@@ -84,7 +84,7 @@
         <VBox class="sapUiTinyMarginBegin">
           <ObjectStatus text="Disponibilidade" state="{detail>/manutencaoState}"/>
           <Text text="{= 'Status atual: ' + (${detail>/manutencaoTexto} || 'Operacional')}"/>
-          <Text text="{= 'OS em andamento: ' + (${detail>/countOs} || 0)}"/>
+          <Text text="{= 'OS registradas: ' + (${detail>/countOs} || 0)}"/>
           <Text text="{= 'Servicos: ' + (${detail>/countServicos} || 0)}"/>
         </VBox>
         <VBox class="sapUiTinyMarginBegin">
