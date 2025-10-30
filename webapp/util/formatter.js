@@ -257,6 +257,11 @@ sap.ui.define([], function () {
     fmtLitros: function (v) {
       return `${fmtNumber(v, 2, 2)} L`;
     },
+	
+	fmtHorasParadas: function (dtIni, hrIni, dtFim, hrFim){
+		
+		return `${fmtNumber(Math.max(hrIni, 0), 0, 2) - fmtNumber(Math.max(hrFim, 0), 0, 2)} Hr`;
+	},
 
     fmtKm: function (v) {
       try { return `${Number(v || 0).toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} Km`; }

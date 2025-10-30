@@ -211,8 +211,22 @@ sap.ui.define([
         const ctxObj = oEvent?.getSource?.()?.getBindingContext("vm")?.getObject?.();
         const equnr = String(ctxObj?.equnr || ctxObj?.veiculo || "");
         const range = FilterUtil.currentRange(this.byId("drs"));
+        const metrics = {
+          kmRodados: Number(ctxObj?.kmRodadosAgg || 0),
+          horasRodadas: Number(ctxObj?.hrRodadosAgg || 0),
+          totalHorasPeriodo: Number(ctxObj?.totalHorasPeriodo || 0),
+          totalHorasIndisponiveis: Number(ctxObj?.totalHorasIndisponiveis || ctxObj?.downtimeHorasRange || 0),
+          totalHorasDisponiveis: Number(ctxObj?.totalHorasDisponiveis || 0),
+          downtimeEventos: Number(ctxObj?.downtimeEventosRange || 0),
+          osCount: Number(ctxObj?.osCountRange || 0)
+        };
         sap.ui.require(["com/skysinc/frota/frota/controller/OSDialog"], (OSDlg) => {
-          OSDlg.open(this.getView(), { equnr, range, titulo: equnr ? ("OS ÔÇö " + equnr) : "OS" });
+          OSDlg.open(this.getView(), {
+            equnr,
+            range,
+            titulo: equnr ? ("OS - " + equnr) : "OS",
+            metrics
+          });
         });
       } catch (e) {
         MessageToast.show("Falha ao abrir OS.");
@@ -589,6 +603,8 @@ sap.ui.define([
     }
   });
 });
+
+
 
 
 
