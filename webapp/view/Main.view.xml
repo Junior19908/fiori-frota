@@ -217,6 +217,23 @@
             </table:template>
           </table:Column>
 
+          <!-- Ordem das Colunas -->
+          <!-- Coluna Hr Paradas -->
+          <!-- Coluna Disponibilidade/Indisponibilidade -->
+          <!-- Coluna Nº Paradas -->
+          <!-- Coluna Tipo de Ordem <Essa coluna precisa ser no Fragment de OS> -->
+          <!-- Coluna MTBF <Essa coluna precisa ser no Fragment de OS> -->
+          <!-- Coluna MTTR <Essa coluna precisa ser no Fragment de OS> -->
+          <!-- Coluna KM até a quebra -->
+          <!-- Coluna HR até a quebra -->
+
+          <table:Column width="6rem" hAlign="End">
+            <Label text="Hr Paradas (Teste)"/>
+            <table:template>
+              <Text text="{ path:'vm>totalHorasIndisponiveis', formatter: '.formatter.formatacaoHorasNovo'  }"/>
+            </table:template>
+          </table:Column>
+
           <table:Column sortProperty="pctDisp" width="16rem" hAlign="Center">
             <Label
               text="Disponibilidade"
@@ -224,9 +241,9 @@
             <table:template>
               <ObjectStatus
                 text="{
-        parts:['vm>pctDisp','vm>pctIndisp'],
-        formatter: '.formatter.fmtDisponibilidade'
-      }"
+                        parts:['vm>pctDisp','vm>pctIndisp'],
+                        formatter: '.formatter.fmtDisponibilidade'
+                      }"
                 state="{ path:'vm>pctDisp', formatter:'.formatter.stateDisponibilidade' }"
                 tooltip="{
                   parts: [
@@ -238,6 +255,41 @@
                   ],
                   formatter: '.formatter.fmtDisponibilidadeTooltip'
                 }"/>
+            </table:template>
+          </table:Column>
+
+          <table:Column width="6rem" hAlign="End">
+            <Label text="Nº Paradas (Teste)"/>
+            <table:template>
+              <Text text="{vm>osCountRange}"/>
+            </table:template>
+          </table:Column>
+
+          <table:Column width="6rem" hAlign="End">
+            <Label text="MTBF (Teste)"/>
+            <table:template>
+              <Text text="0"/>
+            </table:template>
+          </table:Column>
+
+          <table:Column width="6rem" hAlign="End">
+            <Label text="MTTR (Teste)"/>
+            <table:template>
+              <Text text="0"/>
+            </table:template>
+          </table:Column>
+
+          <table:Column width="6rem" hAlign="End">
+            <Label text="KM (Teste)"/>
+            <table:template>
+              <Text text="000.000 Km"/>
+            </table:template>
+          </table:Column>
+
+          <table:Column width="6rem" hAlign="End">
+            <Label text="HR (Teste)"/>
+            <table:template>
+              <Text text="00:00:00 hr"/>
             </table:template>
           </table:Column>
 

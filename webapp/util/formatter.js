@@ -289,6 +289,9 @@ sap.ui.define([], function () {
 
       return `Indisponibilidade: (${indispTxt} h / ${totalTxt} h) x 100 = ${pctIndispTxt}%. Disponibilidade: 100 - ${pctIndispTxt}% = ${pctDispTxt}%. Horas disponíveis: ${dispTxt} h.`;
     },
+	formatacaoHorasNovo: function(indispValor){
+		return `${fmtNumber(Math.max(indispValor, 0), 0, 2)} Hr`;
+	},
     stateDisponibilidade: function(pctDisp){
       const d = Number(pctDisp) || 0;
       if (d >= 90) return "Success";

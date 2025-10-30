@@ -186,7 +186,7 @@ sap.ui.define([
    */
   function calcDisponibilidade(osList, range, now = new Date()) {
     const r = _toRangeObj(range);
-    if (!r) return { tempoTotalH: 0.0167, indispH: 0, pctDisp: 100.0, pctIndisp: 0.0 };
+    if (!r) return { tempoTotalH: 0.0167, indispH: 0, pctDisp: 100.0, pctIndisp: 0.0, countOs: 0 };
 
     const from = new Date(r.from.getTime());
     const to   = eod(r.to) || r.to;
@@ -194,10 +194,11 @@ sap.ui.define([
     if (tempoTotalH <= 0) tempoTotalH = 0.0167;
 
     const list = Array.isArray(osList) ? osList : [];
-    if (!list.length) return { tempoTotalH, indispH: 0, pctDisp: 100.0, pctIndisp: 0.0 };
+    if (!list.length) return { tempoTotalH, indispH: 0, pctDisp: 100.0, pctIndisp: 0.0, countOs: 0 };
 
     // Constrói intervalos efetivos no range
     const intervals = [];
+    let osCountInRange = 0;
     for (let i = 0; i < list.length; i++) {
       const os = list[i] || {};
       const status = String(os.Status || os.status || "").toUpperCase();
@@ -233,10 +234,11 @@ sap.ui.define([
       if (!(overlapStart instanceof Date) || !(overlapEnd instanceof Date)) continue;
       if (overlapEnd.getTime() <= overlapStart.getTime()) continue;
 
+      osCountInRange += 1;
       intervals.push({ ini: overlapStart, fim: overlapEnd });
     }
 
-    if (!intervals.length) return { tempoTotalH, indispH: 0, pctDisp: 100.0, pctIndisp: 0.0 };
+    if (!intervals.length) return { tempoTotalH, indispH: 0, pctDisp: 100.0, pctIndisp: 0.0, countOs: 0 };
 
     // Merge de intervalos sobrepostos
     intervals.sort((a, b) => a.ini.getTime() - b.ini.getTime());
@@ -267,7 +269,7 @@ sap.ui.define([
     pctDisp   = Number(pctDisp.toFixed(1));
     pctIndisp = Number(pctIndisp.toFixed(1));
 
-    return { tempoTotalH, indispH, pctDisp, pctIndisp };
+    return { tempoTotalH, indispH, pctDisp, pctIndisp, countOs: osCountInRange };
   }
 
   // -------------------- Recalcular agregados da página --------------------
@@ -475,7 +477,12 @@ sap.ui.define([
       try {
         const keyOs  = key;
         const osList = (keyOs && __osMap && __osMap.get && __osMap.get(String(keyOs))) || [];
-        const { tempoTotalH, indispH, pctDisp, pctIndisp } = calcDisponibilidade(osList, { from: start, to: end });
+        const resultDisp = calcDisponibilidade(osList, { from: start, to: end });
+        const tempoTotalH = resultDisp.tempoTotalH;
+        const indispH = resultDisp.indispH;
+        const pctDisp = resultDisp.pctDisp;
+        const pctIndisp = resultDisp.pctIndisp;
+        const countOs = Number(resultDisp.countOs || 0);
         const totalHoras = Number(Math.max(0, tempoTotalH).toFixed(2));
         const horasIndisp = Number(Math.max(0, indispH).toFixed(2));
         const horasDisp = Number(Math.max(0, tempoTotalH - indispH).toFixed(2));
@@ -485,12 +492,14 @@ sap.ui.define([
         v.totalHorasPeriodo      = totalHoras;
         v.totalHorasIndisponiveis = horasIndisp;
         v.totalHorasDisponiveis  = horasDisp;
+        v.osCountRange           = countOs;
       } catch (e) {
         v.pctDisp = 100.0;
         v.pctIndisp = 0.0;
         v.totalHorasPeriodo = 0;
         v.totalHorasIndisponiveis = 0;
         v.totalHorasDisponiveis = 0;
+        v.osCountRange = 0;
       }
     });
 

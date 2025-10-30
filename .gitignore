@@ -10,3 +10,4 @@ archive.zip
 .*_mta_build_tmp
 webapp/manifest.json
 webapp/services/settings/firebaseConfig.js
+webapp/model/settings.json
