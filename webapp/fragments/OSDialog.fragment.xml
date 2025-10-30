@@ -39,7 +39,7 @@
                      width="100%"
                      visibleRowCountMode="Auto"
                      minAutoRowCount="10"
-                     fixedColumnCount="2"
+                     fixedColumnCount="4"
                      noDataText="Sem OS para exibir">
 
           <table:columns>
@@ -93,22 +93,39 @@
                 <Text text="{ parts: [ {path:'osDlg>fim'}, {path:'osDlg>horaFim'} ], formatter: '.formatter.fmtDateTime' }"/>
               </table:template>
             </table:Column>
-
-            <table:Column width="10rem" hAlign="Center">
-              <Label text="Progresso" textAlign="Center" width="100%"/>
+			
+			            <table:Column width="10rem" sortProperty="downtime" hAlign="Center">
+              <Label text="Hr Paradas" textAlign="Center" width="100%"/>
               <table:template>
-                <ProgressIndicator width="100%"
-                                   percentValue="{osDlg>progressPct}"
-                                   displayValue="{osDlg>progressText}"
-                                   state="{osDlg>progressState}"/>
+                <Text text="{ path:'osDlg>downtime', formatter: '.formatter.formatacaoHorasNovo' }"/>
               </table:template>
             </table:Column>
 
-            <table:Column width="7rem" sortProperty="horaFim" hAlign="Center" visible="false">
-              <Label text="Hora Fim" textAlign="Center" width="100%"/>
+            <table:Column width="10rem" hAlign="Center">
+              <Label text="MTBF" textAlign="Center" width="100%"/>
               <table:template>
-                <Text text="{ path: 'osDlg>horaFim', formatter: '.formatter.fmtHora' }"
-                      visible="{= !!${osDlg>horaFim} && ${osDlg>horaFim} !== '00:00' }"/>
+                <Text text="{osDlg>/metrics/mtbfFmt}"/>
+              </table:template>
+            </table:Column>
+
+            <table:Column width="10rem" hAlign="Center">
+              <Label text="MTTR" textAlign="Center" width="100%"/>
+              <table:template>
+                <Text text="{osDlg>/metrics/mttrFmt}"/>
+              </table:template>
+            </table:Column>
+
+            <table:Column width="10rem" hAlign="Center">
+              <Label text="KM Quebra" textAlign="Center" width="100%"/>
+              <table:template>
+                <Text text="{osDlg>/metrics/kmPerFailureFmt}"/>
+              </table:template>
+            </table:Column>
+
+            <table:Column width="10rem" hAlign="Center">
+              <Label text="Hr Quebra" textAlign="Center" width="100%"/>
+              <table:template>
+                <Text text="{osDlg>/metrics/hrPerFailureFmt}"/>
               </table:template>
             </table:Column>
 
