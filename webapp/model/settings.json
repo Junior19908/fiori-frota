@@ -2,8 +2,9 @@
   "showAllOS": false,
   "osTypes": [
     "ZF02",
-    "ZF01",
-    "ZF03"
+    "ZF1",
+    "ZF2",
+    "ZF3"
   ],
   "autoLoadMain": false,
   "autoLoadIntervalSec": 30,

@@ -5,7 +5,8 @@ sap.ui.define([
   "sap/m/MessageBox",
   "com/skysinc/frota/frota/util/formatter",
   "com/skysinc/frota/frota/services/AvailabilityService",
-], function (JSONModel, Fragment, MessageToast, MessageBox, formatter, AvailabilityService) {
+  "com/skysinc/frota/frota/services/ReliabilityService"
+], function (JSONModel, Fragment, MessageToast, MessageBox, formatter, AvailabilityService, ReliabilityService) {
   "use strict";
 
   const _byViewId = new Map();
@@ -102,7 +103,33 @@ sap.ui.define([
   function _ensure(view) {
     const vid = view.getId();
     if (_byViewId.has(vid)) return _byViewId.get(vid);
-    const dlgModel = new JSONModel({ titulo: 'OS', os: [], _base: [], total: 0, metrics: { mtbfFmt: '-', mttrFmt: '-', kmPerFailureFmt: '-', hrPerFailureFmt: '-', downtimeTotalFmt: '0,00 Hr' } });
+    const dlgModel = new JSONModel({
+      titulo: 'OS',
+      os: [],
+      _base: [],
+      total: 0,
+      metrics: {
+        falhas: 0,
+        downtimeFmt: '-',
+        downtimeTotalFmt: '0,00 Hr',
+        mtbf: 0,
+        mtbfFmt: '-',
+        mttr: 0,
+        mttrFmt: '-',
+        disponibilidade: 0,
+        disponibilidadeFmt: '-',
+        kmPorQuebra: 0,
+        kmPorQuebraFmt: '-',
+        kmPerFailureFmt: '-',
+        hrPorQuebra: 0,
+        hrPorQuebraFmt: '-',
+        hrPerFailureFmt: '-',
+        proximaQuebraKm: 0,
+        proximaQuebraKmFmt: '-',
+        proximaQuebraHr: 0,
+        proximaQuebraHrFmt: '-'
+      }
+    });
     let dialogRef = null;
 
     const fragController = {
@@ -288,13 +315,45 @@ sap.ui.define([
 
       const title = payload?.titulo || ('Ordens de Servi+ºo' + (veh ? (' - ' + veh) : ''));
       st.dlgModel.setProperty('/__meta', meta);
-      st.dlgModel.setData({ titulo: title, os: filtered, _base: filtered.slice(), total: filtered.length });
+      st.dlgModel.setProperty('/titulo', title);
+      st.dlgModel.setProperty('/os', filtered);
+      st.dlgModel.setProperty('/_base', filtered.slice());
+      st.dlgModel.setProperty('/total', filtered.length);
       try {
         const mx = filtered.length ? filtered.reduce((m,o)=>Math.max(m, Number(o.downtime)||0), 0) : 0;
         st.dlgModel.setProperty('/__stats', { max: mx });
       } catch(_) {
         st.dlgModel.setProperty('/__stats', { max: 0 });
       }
+
+      let combinedMetrics = Object.assign({}, st.dlgModel.getProperty('/metrics') || {});
+      const mergedPayload = Object.assign({}, payloadMetrics);
+      try {
+        if (veh) {
+          const relRange = {
+            from: start instanceof Date ? start : null,
+            to:   end   instanceof Date ? end   : null
+          };
+          const rel = await ReliabilityService.mergeDataPorVeiculo({ vehicleId: veh, range: relRange });
+          if (rel && rel.metrics) {
+            Object.assign(mergedPayload, rel.metrics);
+          }
+        }
+      } catch (err) {
+        try { console.warn('[OSDialog.open] Reliability metrics unavailable', err); } catch (_) {}
+      }
+      if (mergedPayload.kmPorQuebraFmt && !mergedPayload.kmPerFailureFmt) {
+        mergedPayload.kmPerFailureFmt = mergedPayload.kmPorQuebraFmt;
+      }
+      if (mergedPayload.hrPorQuebraFmt && !mergedPayload.hrPerFailureFmt) {
+        mergedPayload.hrPerFailureFmt = mergedPayload.hrPorQuebraFmt;
+      }
+      if (mergedPayload.downtimeFmt && !mergedPayload.downtimeTotalFmt) {
+        mergedPayload.downtimeTotalFmt = mergedPayload.downtimeFmt;
+      }
+      combinedMetrics = Object.assign(combinedMetrics, mergedPayload);
+      st.dlgModel.setProperty('/metrics', combinedMetrics);
+      st.dlgModel.refresh(true);
 
       const name = 'com.skysinc.frota.frota.fragments.OSDialog'; const id = view.getId();
       let loaded = st.dialogRef; if (!loaded) loaded = await Fragment.load({ name, id, controller: st.fragController });

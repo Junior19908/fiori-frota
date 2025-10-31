@@ -339,6 +339,162 @@
                             </table:columns>
                           </table:Table>
                         </IconTabFilter>
+                        <IconTabFilter text="Confiabilidade" icon="sap-icon://competitor" key="RELI">
+                          <content>
+                            <VBox class="sapUiSmallMargin sapUiTinyPadding"
+                                  busy="{reliability>/loading}"
+                                  busyIndicatorDelay="0"
+                                  width="100%">
+                              <Toolbar>
+                                <Title text="Confiabilidade" level="H5"/>
+                                <ToolbarSpacer/>
+                                <Label text="Veiculo" class="sapUiTinyMarginEnd"/>
+                                <Select width="16rem"
+                                        forceSelection="false"
+                                        selectedKey="{reliability>/filters/vehicleId}"
+                                        change=".onReliabilityVehicleChange"
+                                        items="{reliability>/vehicles}">
+                                  <core:Item key="{reliability>key}" text="{reliability>text}"/>
+                                </Select>
+                                <ToolbarSpacer/>
+                                <Label text="Periodo" class="sapUiTinyMarginEnd"/>
+                                <DateRangeSelection width="18rem"
+                                                    displayFormat="dd/MM/yyyy"
+                                                    delimiter=" - "
+                                                    dateValue="{reliability>/filters/range/from}"
+                                                    secondDateValue="{reliability>/filters/range/to}"
+                                                    change=".onReliabilityRangeChange"/>
+                                <Button icon="sap-icon://refresh"
+                                        type="Transparent"
+                                        tooltip="Recalcular"
+                                        press=".onReliabilityRefresh"
+                                        class="sapUiTinyMarginBegin"/>
+                              </Toolbar>
+
+                              <FlexBox class="sapUiSmallMarginTop"
+                                       wrap="Wrap"
+                                       justifyContent="SpaceBetween">
+                                <VBox class="sapUiSmallMarginBottom" width="14rem">
+                                  <Text text="MTBF (h)" class="sapUiTinyMarginBottom"/>
+                                  <ObjectNumber emphasized="true" number="{reliability>/metrics/mtbfFmt}" state="Information"/>
+                                </VBox>
+                                <VBox class="sapUiSmallMarginBottom" width="14rem">
+                                  <Text text="MTTR (h)" class="sapUiTinyMarginBottom"/>
+                                  <ObjectNumber emphasized="true" number="{reliability>/metrics/mttrFmt}" state="Warning"/>
+                                </VBox>
+                                <VBox class="sapUiSmallMarginBottom" width="14rem">
+                                  <Text text="Disponibilidade" class="sapUiTinyMarginBottom"/>
+                                  <ObjectNumber emphasized="true" number="{reliability>/metrics/disponibilidadeFmt}" state="Success"/>
+                                </VBox>
+                                <VBox class="sapUiSmallMarginBottom" width="14rem">
+                                  <Text text="KM por quebra" class="sapUiTinyMarginBottom"/>
+                                  <ObjectNumber number="{reliability>/metrics/kmPorQuebraFmt}" state="Information"/>
+                                </VBox>
+                                <VBox class="sapUiSmallMarginBottom" width="14rem">
+                                  <Text text="Horas por quebra" class="sapUiTinyMarginBottom"/>
+                                  <ObjectNumber number="{reliability>/metrics/hrPorQuebraFmt}" state="Information"/>
+                                </VBox>
+                                <VBox class="sapUiSmallMarginBottom" width="14rem">
+                                  <Text text="Próxima quebra (km)" class="sapUiTinyMarginBottom"/>
+                                  <ObjectNumber number="{reliability>/metrics/proximaQuebraKmFmt}" state="None"/>
+                                </VBox>
+                                <VBox class="sapUiSmallMarginBottom" width="14rem">
+                                  <Text text="Próxima quebra (h)" class="sapUiTinyMarginBottom"/>
+                                  <ObjectNumber number="{reliability>/metrics/proximaQuebraHrFmt}" state="None"/>
+                                </VBox>
+                              </FlexBox>
+
+                              <HBox class="sapUiTinyMarginTop" wrap="Wrap">
+                                <ObjectStatus text="{= 'Falhas: ' + (${reliability>/metrics/falhas} || 0)}" state="Information"/>
+                                <ObjectStatus text="{= 'Indisponibilidade total: ' + (${reliability>/metrics/downtimeFmt} || '-')}" state="Warning" class="sapUiTinyMarginBegin"/>
+                              </HBox>
+
+                              <Table id="tblReliability"
+                                     class="sapUiSmallMarginTop"
+                                     width="100%"
+                                     mode="None"
+                                     sticky="ColumnHeaders"
+                                     items="{reliability>/table}">
+                                <headerToolbar>
+                                  <Toolbar>
+                                    <Title text="Eventos de Falha" level="H6"/>
+                                    <ToolbarSpacer/>
+                                    <Text text="{= (${reliability>/tableCount} || 0) + ' registro(s)'}"/>
+                                  </Toolbar>
+                                </headerToolbar>
+                                <columns>
+                                  <Column width="6rem">
+                                    <header><Text text="OS"/></header>
+                                  </Column>
+                                  <Column minScreenWidth="Tablet" demandPopin="true" width="18rem">
+                                    <header><Text text="Descrição"/></header>
+                                  </Column>
+                                  <Column width="10rem">
+                                    <header><Text text="Início"/></header>
+                                  </Column>
+                                  <Column width="10rem">
+                                    <header><Text text="Fim"/></header>
+                                  </Column>
+                                  <Column hAlign="End" width="8rem">
+                                    <header><Text text="Downtime"/></header>
+                                  </Column>
+                                  <Column hAlign="End" width="8rem">
+                                    <header><Text text="KM evento"/></header>
+                                  </Column>
+                                  <Column hAlign="End" width="8rem">
+                                    <header><Text text="Horas evento"/></header>
+                                  </Column>
+                                  <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true" width="9rem">
+                                    <header><Text text="Intervalo KM"/></header>
+                                  </Column>
+                                  <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true" width="9rem">
+                                    <header><Text text="Intervalo h"/></header>
+                                  </Column>
+                                </columns>
+                                <items>
+                                  <ColumnListItem>
+                                    <cells>
+                                      <Text text="{reliability>numero}"/>
+                                      <Text text="{reliability>descricao}" wrapping="true" tooltip="{reliability>descricao}"/>
+                                      <Text text="{reliability>inicioFmt}"/>
+                                      <Text text="{reliability>fimFmt}"/>
+                                      <Text text="{reliability>downtimeFmt}"/>
+                                      <Text text="{path:'reliability>kmEvento', formatter:'.formatter.fmtNum'}"/>
+                                      <Text text="{path:'reliability>hrEvento', formatter:'.formatter.fmtNum'}"/>
+                                      <Text text="{ path:'reliability>intervalKm', formatter:'.formatter.fmtNum' }"/>
+                                      <Text text="{ path:'reliability>intervalHr', formatter:'.formatter.fmtNum' }"/>
+                                    </cells>
+                                  </ColumnListItem>
+                                </items>
+                              </Table>
+                              <Text text="Sem dados de OS para o período selecionado."
+                                    visible="{= (${reliability>/tableCount} || 0) === 0 }"
+                                    class="sapUiTinyMarginTop sapUiSmallMarginBottom"/>
+
+                              <viz:VizFrame id="reliabilityChart"
+                                            class="sapUiSmallMarginTop"
+                                            height="320px"
+                                            width="100%"
+                                            vizType="column">
+                                <viz:dataset>
+                                  <viz.data:FlattenedDataset data="{reliability>/chartData}">
+                                    <viz.data:dimensions>
+                                      <viz.data:DimensionDefinition name="OS" value="{reliability>label}"/>
+                                    </viz.data:dimensions>
+                                    <viz.data:measures>
+                                      <viz.data:MeasureDefinition name="Downtime (h)" value="{reliability>downtime}"/>
+                                      <viz.data:MeasureDefinition name="Intervalo KM" value="{reliability>intervalKm}"/>
+                                    </viz.data:measures>
+                                  </viz.data:FlattenedDataset>
+                                </viz:dataset>
+                                <viz:feeds>
+                                  <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Downtime (h),Intervalo KM"/>
+                                  <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="OS"/>
+                                </viz:feeds>
+                              </viz:VizFrame>
+                            </VBox>
+                          </content>
+                        </IconTabFilter>
                         <!-- ABA: MAPA -->
                         <IconTabFilter text="Mapa" icon="sap-icon://map" key="MAP">
                           <content>

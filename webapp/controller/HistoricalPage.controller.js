@@ -4,8 +4,9 @@ sap.ui.define([
   "sap/m/MessageToast",
   "com/skysinc/frota/frota/util/formatter",
   "com/skysinc/frota/frota/services/ODataMaterials",
-  "com/skysinc/frota/frota/services/AvailabilityService"
-], function (Controller, JSONModel, MessageToast, formatter, ODataMaterials, AvailabilityService) {
+  "com/skysinc/frota/frota/services/AvailabilityService",
+  "com/skysinc/frota/frota/services/ReliabilityService"
+], function (Controller, JSONModel, MessageToast, formatter, ODataMaterials, AvailabilityService, ReliabilityService) {
   "use strict";
 
   // ===== helpers numericos / formatacao =====
@@ -102,6 +103,43 @@ sap.ui.define([
     const effectiveFinish = finish || now;
     const diffMs = Math.max(0, effectiveFinish.getTime() - start.getTime());
     return diffMs / 36e5;
+  }
+
+  function createReliabilityState() {
+    return {
+      filters: {
+        vehicleId: "",
+        range: { from: null, to: null }
+      },
+      loading: false,
+      vehicles: [],
+      metrics: {
+        falhas: 0,
+        downtimeHoras: 0,
+        downtimeFmt: "-",
+        mtbf: 0,
+        mtbfFmt: "-",
+        mttr: 0,
+        mttrFmt: "-",
+        disponibilidade: 0,
+        disponibilidadeFmt: "-",
+        kmPorQuebra: 0,
+        kmPorQuebraFmt: "-",
+        hrPorQuebra: 0,
+        hrPorQuebraFmt: "-",
+        proximaQuebraKm: 0,
+        proximaQuebraKmFmt: "-",
+        proximaQuebraHr: 0,
+        proximaQuebraHrFmt: "-"
+      },
+      table: [],
+      tableCount: 0,
+      chartData: [],
+      intervals: {
+        km: [],
+        hora: []
+      }
+    };
   }
 
   function calcProgress(hours, isClosed) {
@@ -269,6 +307,9 @@ sap.ui.define([
       this.getView().setModel(this._historyModel, "history");
       this._sideChartModel = new JSONModel({ header:"", rows:[] });
       this.getView().setModel(this._sideChartModel, "chart");
+
+      this._reliabilityModel = new JSONModel(createReliabilityState());
+      this.getView().setModel(this._reliabilityModel, "reliability");
 
       this._viewModel = new JSONModel({
         filter: {
@@ -942,6 +983,32 @@ sap.ui.define([
       detail.setProperty("/localInstalacaoSec",
         found?.locinstaladesc1 || found?.instalacaoSec || found?.instalacaoExtra || found?.local2 || "");
 
+      if (this._reliabilityModel) {
+        const dedup = new Map();
+        (allVeic || []).forEach((item) => {
+          const raw = String(item.equnr || item.veiculo || item.id || "").trim();
+          if (!raw || dedup.has(raw)) {
+            return;
+          }
+          const desc = item.descricao || item.eqktx || item.Descricao || item.DESCRICAO || "";
+          const categoria = item.categoria || item.CATEGORIA || item.Categoria || "";
+          dedup.set(raw, {
+            key: raw,
+            text: desc ? `${raw} - ${desc}` : raw,
+            descricao: desc,
+            categoria
+          });
+        });
+        const vehicles = Array.from(dedup.values());
+        const hfModel = this.getView().getModel("hfilter");
+        const hfData = hfModel ? hfModel.getData() : {};
+        const defaultFrom = startOfDay(hfData.d1 || new Date());
+        const defaultTo = endOfDay(hfData.d2 || hfData.d1 || new Date());
+        this._reliabilityModel.setProperty("/vehicles", vehicles);
+        this._reliabilityModel.setProperty("/filters/vehicleId", this._equnrRaw);
+        this._reliabilityModel.setProperty("/filters/range", { from: defaultFrom, to: defaultTo });
+      }
+
       // Carregar e montar historico
       this.onRefresh();
     },
@@ -1084,6 +1151,8 @@ sap.ui.define([
         this._applyFiltersAndKpis();
         this._buildYearComparison();
         this._connectPopover();
+
+        this._updateReliability({ vehicleId: this._equnrRaw, from, to });
       });
     },
 
@@ -1161,6 +1230,119 @@ sap.ui.define([
           return result;
         })
         .catch(() => []);
+    },
+
+    /* ======================== CONFIABILIDADE ======================== */
+    onReliabilityVehicleChange: function (oEvent) {
+      const key = oEvent && oEvent.getSource && oEvent.getSource().getSelectedKey
+        ? oEvent.getSource().getSelectedKey()
+        : "";
+      this._updateReliability({ vehicleId: key });
+    },
+
+    onReliabilityRangeChange: function (oEvent) {
+      const ctrl = oEvent && oEvent.getSource ? oEvent.getSource() : null;
+      const from = ctrl && typeof ctrl.getDateValue === "function" ? ctrl.getDateValue() : null;
+      const to = ctrl && typeof ctrl.getSecondDateValue === "function" ? ctrl.getSecondDateValue() : null;
+      this._updateReliability({ from, to });
+    },
+
+    onReliabilityRefresh: function () {
+      this._updateReliability();
+    },
+
+    _updateReliability: function (options) {
+      if (!this._reliabilityModel) {
+        return;
+      }
+      const model = this._reliabilityModel;
+      const data = model.getData() || createReliabilityState();
+      const vehicleId = String(options?.vehicleId || data.filters?.vehicleId || this._equnrRaw || "").trim();
+      const fromOpt = options?.from || data.filters?.range?.from;
+      const toOpt = options?.to || data.filters?.range?.to;
+
+      const hfModel = this.getView().getModel("hfilter");
+      const hfData = hfModel ? hfModel.getData() : {};
+
+      const range = {
+        from: fromOpt instanceof Date ? startOfDay(fromOpt) : (data.filters?.range?.from instanceof Date ? startOfDay(data.filters.range.from) : startOfDay(hfData.d1 || new Date())),
+        to: toOpt instanceof Date ? endOfDay(toOpt) : (data.filters?.range?.to instanceof Date ? endOfDay(data.filters.range.to) : endOfDay(hfData.d2 || hfData.d1 || new Date()))
+      };
+
+      model.setProperty("/filters/vehicleId", vehicleId);
+      model.setProperty("/filters/range/from", range.from);
+      model.setProperty("/filters/range/to", range.to);
+
+      if (!vehicleId) {
+        const defaults = createReliabilityState().metrics;
+        model.setProperty("/metrics", defaults);
+        model.setProperty("/table", []);
+        model.setProperty("/tableCount", 0);
+        model.setProperty("/chartData", []);
+        model.setProperty("/intervals/km", []);
+        model.setProperty("/intervals/hora", []);
+        model.setProperty("/loading", false);
+        return;
+      }
+
+      model.setProperty("/loading", true);
+
+      ReliabilityService.mergeDataPorVeiculo({
+        vehicleId,
+        range
+      }).then((result) => {
+        if (!result) {
+          return;
+        }
+        const currentVehicle = String(model.getProperty("/filters/vehicleId") || "").trim();
+        if (currentVehicle !== vehicleId) {
+          return;
+        }
+
+        const metrics = Object.assign(createReliabilityState().metrics, result.metrics || {});
+        model.setProperty("/metrics", metrics);
+
+        const tableRows = (result.osEventos || []).map((row) => Object.assign({}, row));
+        for (let i = 0; i < tableRows.length; i++) {
+          const prev = i > 0 ? tableRows[i - 1] : null;
+          const cur = tableRows[i];
+          const kmPrev = prev && Number.isFinite(prev.kmEvento) ? prev.kmEvento : null;
+          const hrPrev = prev && Number.isFinite(prev.hrEvento) ? prev.hrEvento : null;
+          const kmCur = Number.isFinite(cur.kmEvento) ? cur.kmEvento : null;
+          const hrCur = Number.isFinite(cur.hrEvento) ? cur.hrEvento : null;
+          cur.intervalKm = (kmCur !== null && kmPrev !== null) ? Math.max(0, kmCur - kmPrev) : null;
+          cur.intervalHr = (hrCur !== null && hrPrev !== null) ? Math.max(0, hrCur - hrPrev) : null;
+          const partsIni = [];
+          if (cur.dataInicio) { partsIni.push(cur.dataInicio); }
+          if (cur.horaInicio) { partsIni.push(cur.horaInicio); }
+          cur.inicioFmt = partsIni.join(" ");
+          const partsFim = [];
+          if (cur.dataFim) { partsFim.push(cur.dataFim); }
+          if (cur.horaFim) { partsFim.push(cur.horaFim); }
+          cur.fimFmt = partsFim.join(" ");
+        }
+        model.setProperty("/table", tableRows);
+        model.setProperty("/tableCount", tableRows.length);
+
+        model.setProperty("/intervals/km", result.intervals?.km || []);
+        model.setProperty("/intervals/hora", result.intervals?.hora || []);
+
+        const chartPoints = tableRows.map((row, idx) => {
+          const label = row.numero || (row.dataInicio ? `${row.dataInicio}` : `Evento ${idx + 1}`);
+          return {
+            label,
+            downtime: Number(row.downtimeHoras) || 0,
+            intervalKm: Number.isFinite(row.intervalKm) ? row.intervalKm : 0
+          };
+        });
+        model.setProperty("/chartData", chartPoints);
+      }).catch((err) => {
+        /* eslint-disable no-console */
+        console.error("[HistoricalPage._updateReliability]", err);
+        /* eslint-enable no-console */
+      }).finally(() => {
+        model.setProperty("/loading", false);
+      });
     },
 
     /* ======================== FILTER + KPIs ======================== */
