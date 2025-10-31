@@ -7,8 +7,7 @@
         <!-- KPI Row -->
         <f:GridContainer id="fleetSummaryKpiGrid"
             width="100%"
-            class="sapUiSmallMarginBottom"
-            wrapAfter="4">
+            class="sapUiSmallMarginBottom">
             <f:layout>
                 <f:GridContainerSettings columnSize="18rem" rowSize="10rem" gap="1rem"/>
             </f:layout>

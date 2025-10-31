@@ -3,6 +3,16 @@ specVersion: "3.1"
 metadata:
   name: com.skysinc.frota.frota
 type: application
+framework:
+  name: SAPUI5
+  version: 1.139.0
+  libraries:
+    - name: sap.m
+    - name: sap.ui.core
+    - name: sap.f
+    - name: sap.suite.ui.microchart
+    - name: sap.ushell
+    - name: themelib_sap_horizon
 
 server:
   customMiddleware:

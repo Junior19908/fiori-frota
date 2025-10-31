@@ -9,9 +9,8 @@
   ],
   "main": "webapp/index.html",
   "devDependencies": {
-    "@openui5/sap.m": "^1.120.0",
     "@sap/ux-ui5-tooling": "1",
-    "@ui5/cli": "^4.0.26",
+    "@ui5/cli": "^4.0.33",
     "dotenv": "^17.2.1",
     "ui5-middleware-simpleproxy": "^3.4.3"
   },
