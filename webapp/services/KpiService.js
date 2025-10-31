@@ -8,6 +8,33 @@ sap.ui.define([
   const SERVICE_BUDGET_PER_VEHICLE = 15000;
   const PRICE_BASELINE = 4.5;
 
+  function toNumber(value) {
+    if (value == null || value === "") {
+      return 0;
+    }
+    if (typeof value === "number") {
+      return Number.isFinite(value) ? value : 0;
+    }
+    if (typeof value === "string") {
+      const trimmed = value.trim();
+      if (trimmed === "") {
+        return 0;
+      }
+      const hasComma = trimmed.indexOf(",") !== -1;
+      const hasDot = trimmed.indexOf(".") !== -1;
+      let normalised = trimmed;
+      if (hasComma && hasDot) {
+        normalised = trimmed.replace(/\./g, "").replace(",", ".");
+      } else if (hasComma) {
+        normalised = trimmed.replace(",", ".");
+      }
+      const parsed = Number(normalised);
+      return Number.isFinite(parsed) ? parsed : 0;
+    }
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+
   function ensureKpiModel(oView) {
     let mdl = oView.getModel("kpi");
     if (!mdl) {
@@ -49,10 +76,10 @@ sap.ui.define([
     let totComb = 0;
     let totMat = 0;
     list.forEach((v) => {
-      totLitros += Number(v.combustivelLitrosAgg || 0);
-      totComb += Number(v.combustivelValorAgg || 0);
-      const matValue = v.totalValor ?? v.custoMateriaisAgg ?? v.custoMaterialAgg ?? 0;
-      totMat += Number(matValue);
+      totLitros += toNumber(v?.combustivelLitrosAgg || 0);
+      totComb += toNumber(v?.combustivelValorAgg || 0);
+      const matValue = v?.totalValor ?? v?.custoMateriaisAgg ?? v?.custoMaterialAgg ?? 0;
+      totMat += toNumber(matValue);
     });
     const precoMedio = totLitros > 0 ? (totComb / totLitros) : 0;
     return { totLitros, totComb, totMat, precoMedio };
@@ -89,10 +116,11 @@ sap.ui.define([
     if (!Number.isFinite(avgPrice) || avgPrice <= 0) {
       return [0, 0, 0, 0];
     }
-    const base = avgPrice * 0.94;
-    const midLow = avgPrice * 0.98;
-    const midHigh = avgPrice * 1.01;
-    const points = [base, midLow, midHigh, avgPrice].map((val) => Number(val.toFixed(2)));
+    const current = Number(avgPrice.toFixed(2));
+    const baseline = PRICE_BASELINE > 0 ? Number(PRICE_BASELINE.toFixed(2)) : current;
+    const mid1 = Number(((baseline + current) / 2).toFixed(2));
+    const mid0 = Number(((baseline + mid1) / 2).toFixed(2));
+    const points = [baseline, mid0, mid1, current].map((val) => Number(Math.max(0, val).toFixed(2)));
     return points;
   }
 
@@ -160,18 +188,23 @@ sap.ui.define([
 
     const avgPriceValue = Number.isFinite(precoMedio) ? Number(precoMedio.toFixed(3)) : 0;
     const pricePoints = buildPricePoints(avgPriceValue);
-    const priceDelta = pricePoints[pricePoints.length - 1] - pricePoints[pricePoints.length - 2];
-    const priceState = priceDelta <= 0.05 ? "Success" : (priceDelta <= 0.2 ? "Warning" : "Error");
-    const priceColor = priceDelta <= 0 ? "Good" : (priceDelta <= 0.05 ? "Critical" : "Error");
+    const currentPoint = pricePoints[pricePoints.length - 1] || 0;
+    const previousPoint = pricePoints[pricePoints.length - 2] || 0;
+    const priceDelta = currentPoint - previousPoint;
+    const deltaAbs = Math.abs(priceDelta);
+    const priceState = deltaAbs <= 0.05 ? "Success" : (deltaAbs <= 0.2 ? "Warning" : "Error");
+    const priceColor = priceDelta <= 0 ? "Good" : (deltaAbs <= 0.05 ? "Critical" : "Error");
+    const priceTagStatus = priceDelta <= 0 ? "Success" : (deltaAbs <= 0.05 ? "Warning" : "Error");
+    const trendLabel = priceDelta >= 0 ? "Alta" : "Queda";
     summary.setProperty("/avgPrice/raw", avgPriceValue);
     summary.setProperty("/avgPrice/value", formatter.fmtNum(avgPriceValue));
     summary.setProperty("/avgPrice/state", priceState);
-    summary.setProperty("/avgPrice/tag/status", priceDelta <= 0 ? "Good" : "Critical");
-    summary.setProperty("/avgPrice/tag/text", "Variacao");
-    const deltaLabel = formatter.fmtNum(Math.abs(priceDelta));
+    summary.setProperty("/avgPrice/tag/status", priceTagStatus);
+    summary.setProperty("/avgPrice/tag/text", trendLabel);
+    const deltaLabel = formatter.fmtNum(deltaAbs);
     summary.setProperty("/avgPrice/tag/value", (priceDelta >= 0 ? "+" : "-") + deltaLabel);
-    summary.setProperty("/avgPrice/tag/tooltip", "Variacao frente a ultima medicao: " + formatter.fmtNum(priceDelta));
-    summary.setProperty("/avgPrice/trend/tooltip", "Historico do preco medio por litro (referencia " + formatter.fmtNum(PRICE_BASELINE) + ")");
+    summary.setProperty("/avgPrice/tag/tooltip", "Variação frente ao ponto anterior (" + formatter.fmtNum(previousPoint) + "): " + trendLabel.toLowerCase() + " de " + deltaLabel + " R$/L");
+    summary.setProperty("/avgPrice/trend/tooltip", "Histórico do preço médio por litro partindo de " + formatter.fmtNum(pricePoints[0]) + " até " + formatter.fmtNum(currentPoint));
     summary.setProperty("/avgPrice/trend/lowLabel", formatter.fmtNum(Math.min.apply(Math, pricePoints)));
     summary.setProperty("/avgPrice/trend/highLabel", formatter.fmtNum(Math.max.apply(Math, pricePoints)));
     summary.setProperty("/avgPrice/trend/points", pricePoints);
@@ -211,7 +244,5 @@ sap.ui.define([
 
   return { recalc };
 });
-
-
 
 

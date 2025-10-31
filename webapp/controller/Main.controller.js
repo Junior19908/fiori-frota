@@ -36,7 +36,7 @@ sap.ui.define([
   }
 
   function createSummarySkeleton() {
-    const defaultTag = { status: "Good", text: "Status", value: "OK", tooltip: "" };
+    const defaultTag = { status: "None", text: "Status", value: "OK", tooltip: "" };
     return {
       fuelSpend: {
         title: "Gasto combustivel",
@@ -121,6 +121,7 @@ sap.ui.define([
 
     onInit: function () {
       this.oTbl = this.byId("tbl");
+      this._isSummaryReady = false;
 
       if (!this.getView().getModel("vm")) {
         this.getView().setModel(new JSONModel({
@@ -170,6 +171,7 @@ sap.ui.define([
       }
       const doInitAsync = async () => {
         try {
+          this._isSummaryReady = false;
           this._applyMainDatePref();
           await this._reloadDistinctOnly();
           const range = FilterUtil.currentRange(this.byId("drs"));
@@ -186,6 +188,7 @@ sap.ui.define([
           } catch(_){}
           await Aggregation.recalcAggByRange(this.getView(), range);
           await this._updateReliabilityForVehicles(this._currentRangeObj());
+          this._isSummaryReady = true;
           this._ensureVehiclesCombo();
           this._ensureCategoriasCombo();
           this._recalcAndRefresh();
@@ -197,6 +200,7 @@ sap.ui.define([
     },
     onFilterChange: async function () {
       try {
+        this._isSummaryReady = false;
         await this._reloadDistinctOnly();
         const range = FilterUtil.currentRange(this.byId("drs"));
         try {
@@ -212,6 +216,7 @@ sap.ui.define([
         } catch(_){}
         await Aggregation.recalcAggByRange(this.getView(), range);
         await this._updateReliabilityForVehicles(this._currentRangeObj());
+        this._isSummaryReady = true;
         this._ensureVehiclesCombo();
         this._ensureCategoriasCombo();
         this._recalcAndRefresh();
@@ -249,6 +254,7 @@ sap.ui.define([
         this._filtersModel.setProperty("/selectedCategories", []);
       }
 
+      this._isSummaryReady = false;
       await this._reloadDistinctOnly();
       const range = FilterUtil.currentRange(this.byId("drs"));
       try {
@@ -263,6 +269,8 @@ sap.ui.define([
         }
       } catch(_){}
       await Aggregation.recalcAggByRange(this.getView(), range);
+      await this._updateReliabilityForVehicles(this._currentRangeObj());
+      this._isSummaryReady = true;
       this._ensureVehiclesCombo();
       this._ensureCategoriasCombo();
       this._recalcAndRefresh();
@@ -821,6 +829,9 @@ sap.ui.define([
 
     _onDowntimeReady: async function () {
       try {
+        if (!this._isSummaryReady) {
+          return;
+        }
         await this._updateReliabilityForVehicles(this._currentRangeObj());
         this._recalcAndRefresh();
       } catch (e) {
@@ -835,6 +846,14 @@ sap.ui.define([
     },
 
     _recalcAndRefresh: function () {
+      if (!this._isSummaryReady) {
+        return;
+      }
+      const vmModel = this.getView().getModel("vm");
+      const veiculos = vmModel?.getProperty("/veiculos");
+      if (!Array.isArray(veiculos)) {
+        return;
+      }
       this._applyTableFilters();
       this.byId("tbl")?.getBinding("rows")?.refresh(true);
 
@@ -905,13 +924,6 @@ sap.ui.define([
     }
   });
 });
-
-
-
-
-
-
-
 
 
 

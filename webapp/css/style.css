@@ -125,13 +125,46 @@ html.sap-desktop body.sapUiSizeCompact .f-form .sapMLabel {
 .sapMText.osBarFillPreventiva { background: var(--sapInformativeColor); }
 .sapMText.osBarFillProjeto    { background: var(--sapAccentColor7); }
 
-.kpiTile {
-  border-radius: 0.75rem;
-  box-shadow: var(--sapContent_Shadow0);
-  background-color: var(--sapGroup_ContentBackground);
-  transition: box-shadow 0.2s ease;
+.fleetKpiRow {
+  gap: 1rem;
 }
 
-.kpiTile:hover {
-  box-shadow: var(--sapContent_Shadow1);
+.fleetKpiRow > .sapMVBox {
+  flex: 1 1 14rem;
+  min-width: 14rem;
+  max-width: 22rem;
+}
+
+.kpiBlock {
+  padding: 0.4rem 0.6rem 0.75rem 0.6rem;
+  background: transparent;
+  border-bottom: 1px solid var(--sapList_BorderColor);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.kpiBlockHeader {
+  width: 100%;
+  gap: 0.35rem;
+}
+
+.kpiBlockHeader .sapMObjectNumber {
+  font-size: 1.1rem;
+}
+
+.kpiBlock .sapMGenericTag {
+  margin-left: 0.5rem;
+}
+
+#tbl .sapUiTableHSb {
+  position: sticky;
+  bottom: 0;
+  background: var(--sapList_Background);
+  box-shadow: 0 -1px 0 0 var(--sapList_BorderColor);
+  z-index: 2;
+}
+
+#tbl .sapUiTableHSb > div {
+  margin-bottom: 0;
 }
