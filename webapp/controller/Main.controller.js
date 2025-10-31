@@ -13,10 +13,11 @@ sap.ui.define([
   "com/skysinc/frota/frota/services/KpiService",
   "com/skysinc/frota/frota/services/ODataMovtos",
   "com/skysinc/frota/frota/services/VehiclesService",
-  "com/skysinc/frota/frota/Aggregation"
+  "com/skysinc/frota/frota/Aggregation",
+  "com/skysinc/frota/frota/services/ReliabilityService"
 ], function (
   Controller, JSONModel, Filter, FilterOperator, Fragment, MessageToast, MessageBox,
-  formatter, FilterUtil, MaterialsService, FuelService, KpiService, ODataMovtos, VehiclesService, Aggregation
+  formatter, FilterUtil, MaterialsService, FuelService, KpiService, ODataMovtos, VehiclesService, Aggregation, ReliabilityService
 ) {
   "use strict";
 
@@ -32,6 +33,87 @@ sap.ui.define([
     const mm = pad2(x.getMinutes());
     const ss = pad2(x.getSeconds());
     return `${y}-${m}-${day}T${hh}:${mm}:${ss}`;
+  }
+
+  function createSummarySkeleton() {
+    const defaultTag = { status: "Good", text: "Status", value: "OK", tooltip: "" };
+    return {
+      fuelSpend: {
+        title: "Gasto combustivel",
+        subtitle: "Periodo selecionado",
+        tooltip: "Valor total gasto com combustivel no periodo selecionado",
+        unit: "R$",
+        value: "0,00",
+        raw: 0,
+        state: "Success",
+        tag: Object.assign({}, defaultTag),
+        trend: {
+          actual: 0,
+          target: 100,
+          actualLabel: "0%",
+          targetLabel: "Meta",
+          color: "Good",
+          tooltip: "Percentual consumido do orcamento definido"
+        }
+      },
+      totalLiters: {
+        title: "Litros totais",
+        subtitle: "Somatorio de abastecimentos",
+        tooltip: "Volume total abastecido no periodo selecionado",
+        unit: "L",
+        value: "0,00",
+        raw: 0,
+        state: "Success",
+        tag: Object.assign({}, defaultTag),
+        trend: {
+          title: "Comparativo anterior",
+          current: 0,
+          previous: 0,
+          tooltip: "Comparativo com o periodo imediatamente anterior"
+        }
+      },
+      serviceCost: {
+        title: "Custo material/servico",
+        subtitle: "Oficinas e pecas",
+        tooltip: "Custos consolidados de manutencao e servicos",
+        unit: "R$",
+        value: "0,00",
+        raw: 0,
+        state: "Success",
+        tag: Object.assign({}, defaultTag),
+        trend: {
+          title: "Orcado",
+          value: 0,
+          color: "Good",
+          tooltip: "Percentual utilizado frente ao orcamento mensal"
+        }
+      },
+      avgPrice: {
+        title: "Preco medio/L",
+        subtitle: "Combustiveis ponderados",
+        tooltip: "Preco medio ponderado pelos abastecimentos do periodo",
+        unit: "R$/L",
+        value: "0,00",
+        raw: 0,
+        state: "Success",
+        tag: Object.assign({}, defaultTag),
+        trend: {
+          tooltip: "Variacao de preco nas ultimas medicoes",
+          lowLabel: "0,00",
+          highLabel: "0,00",
+          points: [0, 0, 0, 0]
+        }
+      }
+    };
+  }
+
+  function createEmptyFiltersModel() {
+    return {
+      categories: [],
+      vehicles: [],
+      selectedCategories: [],
+      selectedVehicles: []
+    };
   }
 
   return Controller.extend("com.skysinc.frota.frota.controller.Main", {
@@ -56,7 +138,7 @@ sap.ui.define([
         resumoCombFmt: "Comb: R$ 0,00",
         resumoLitrosFmt: "Litros: 0,00 L",
         resumoMatFmt: "Mat/Serv: R$ 0,00",
-        resumoPrecoFmt: "Preço Médio: 0,00 R$/L"
+        resumoPrecoFmt: "PreÃ§o MÃ©dio: 0,00 R$/L"
       });
       try {
         const router = this.getOwnerComponent().getRouter && this.getOwnerComponent().getRouter();
@@ -77,6 +159,10 @@ sap.ui.define([
         }
       } catch(e){}
       this.getView().setModel(this.oKpi, "kpi");
+      this._summaryModel = new JSONModel(createSummarySkeleton());
+      this.getView().setModel(this._summaryModel, "FleetSummary");
+      this._filtersModel = new JSONModel(createEmptyFiltersModel());
+      this.getView().setModel(this._filtersModel, "FleetFilters");
 
       this._eventBus = sap.ui.getCore().getEventBus();
       if (this._eventBus && this._eventBus.subscribe) {
@@ -92,18 +178,19 @@ sap.ui.define([
             if (comp && typeof comp.loadAllHistoryInRange === "function" && Array.isArray(range)) {
               const months = this._monthsSpan(range[0], range[1]);
               if (months > 12) {
-                sap.m.MessageToast.show(`Período selecionado muito grande (${months} meses). Máximo: 12.`);
+                sap.m.MessageToast.show(`PerÃ­odo selecionado muito grande (${months} meses). MÃ¡ximo: 12.`);
               } else {
                 await comp.loadAllHistoryInRange(range[0], range[1]);
               }
             }
           } catch(_){}
           await Aggregation.recalcAggByRange(this.getView(), range);
+          await this._updateReliabilityForVehicles(this._currentRangeObj());
           this._ensureVehiclesCombo();
           this._ensureCategoriasCombo();
           this._recalcAndRefresh();
         } catch (e) {
-          try { sap.m.MessageToast.show("Falha na inicializaçã assíncrona."); } catch(_){}
+          try { sap.m.MessageToast.show("Falha na inicializaÃ§Ã£ assÃ­ncrona."); } catch(_){}
         }
       };
       void doInitAsync();
@@ -117,13 +204,14 @@ sap.ui.define([
           if (comp && typeof comp.loadAllHistoryInRange === "function" && Array.isArray(range)) {
             const months = this._monthsSpan(range[0], range[1]);
             if (months > 12) {
-              sap.m.MessageToast.show(`Período selecionado muito grande (${months} meses). Máximo: 12.`);
+              sap.m.MessageToast.show(`PerÃ­odo selecionado muito grande (${months} meses). MÃ¡ximo: 12.`);
             } else {
               await comp.loadAllHistoryInRange(range[0], range[1]);
             }
           }
         } catch(_){}
         await Aggregation.recalcAggByRange(this.getView(), range);
+        await this._updateReliabilityForVehicles(this._currentRangeObj());
         this._ensureVehiclesCombo();
         this._ensureCategoriasCombo();
         this._recalcAndRefresh();
@@ -132,16 +220,34 @@ sap.ui.define([
       }
     },
 
+    onMultiCategoryChange: function (oEvent) {
+      if (!this._filtersModel) { return; }
+      const src = oEvent && oEvent.getSource && oEvent.getSource();
+      const keys = (src && typeof src.getSelectedKeys === "function") ? src.getSelectedKeys() : [];
+      this._filtersModel.setProperty("/selectedCategories", Array.isArray(keys) ? keys : []);
+    },
+
+    onMultiVehicleChange: function (oEvent) {
+      if (!this._filtersModel) { return; }
+      const src = oEvent && oEvent.getSource && oEvent.getSource();
+      const keys = (src && typeof src.getSelectedKeys === "function") ? src.getSelectedKeys() : [];
+      this._filtersModel.setProperty("/selectedVehicles", Array.isArray(keys) ? keys : []);
+    },
+
     onClearFilters: async function () {
       this._applyMainDatePref();
 
       const inpVeh = this.byId("inpVeiculo");
-      inpVeh?.setSelectedKey("__ALL__");
+      inpVeh?.setSelectedKeys([]);
       inpVeh?.setValue("");
 
       const inpCat = this.byId("segCat");
-      inpCat?.setSelectedKey("__ALL__");
+      inpCat?.setSelectedKeys([]);
       inpCat?.setValue("");
+      if (this._filtersModel) {
+        this._filtersModel.setProperty("/selectedVehicles", []);
+        this._filtersModel.setProperty("/selectedCategories", []);
+      }
 
       await this._reloadDistinctOnly();
       const range = FilterUtil.currentRange(this.byId("drs"));
@@ -150,7 +256,7 @@ sap.ui.define([
         if (comp && typeof comp.loadAllHistoryInRange === "function" && Array.isArray(range)) {
           const months = this._monthsSpan(range[0], range[1]);
           if (months > 12) {
-            sap.m.MessageToast.show(`Período selecionado muito grande (${months} meses). Máximo: 12.`);
+            sap.m.MessageToast.show(`PerÃ­odo selecionado muito grande (${months} meses). MÃ¡ximo: 12.`);
           } else {
             await comp.loadAllHistoryInRange(range[0], range[1]);
           }
@@ -162,30 +268,33 @@ sap.ui.define([
       this._recalcAndRefresh();
     },
 
-    // ========= NOVO: Bot├â┬úo de Configura├â┬º├â┬úo =========
+    // ========= NOVO: Botâ”œÃ¢â”¬Ãºo de Configuraâ”œÃ¢â”¬Âºâ”œÃ¢â”¬Ãºo =========
     onOpenConfig: function () {
-      // Usa o veículo selecionado no ComboBox "inpVeiculo"
+      // Usa o veÃ­culo selecionado no ComboBox "inpVeiculo"
       const oVehCombo = this.byId("inpVeiculo");
-      const sEqunr = oVehCombo && oVehCombo.getSelectedKey();
+      const selectedKeys = (oVehCombo && typeof oVehCombo.getSelectedKeys === "function")
+        ? oVehCombo.getSelectedKeys()
+        : (this._filtersModel?.getProperty("/selectedVehicles") || []);
+      const sEqunr = Array.isArray(selectedKeys) && selectedKeys.length > 0 ? selectedKeys[0] : null;
 
       try {
         const oRouter = this.getOwnerComponent().getRouter && this.getOwnerComponent().getRouter();
         if (oRouter && oRouter.navTo) {
-          if (sEqunr && sEqunr !== "__ALL__") {
+          if (sEqunr) {
             oRouter.navTo("config", { equnr: sEqunr });
           } else {
-            oRouter.navTo("config"); // sem par├â┬ómetro: usu├â┬írio escolhe na tela
+            oRouter.navTo("config"); // sem parâ”œÃ¢â”¬Ã³metro: usuâ”œÃ¢â”¬Ã­rio escolhe na tela
           }
           return;
         }
       } catch (e) {
         // segue para fallback
       }
-      MessageToast.show("Rota 'config' não encontrada. Configure o routing no manifest.json.");
+      MessageToast.show("Rota 'config' nÃ£o encontrada. Configure o routing no manifest.json.");
     },
     // ========= FIM DO NOVO =========
 
-    // Abre p├â┬ígina de Configura├â┬º├â┬Áes (prefer├â┬¬ncias do usu├â┬írio)
+    // Abre pâ”œÃ¢â”¬Ã­gina de Configuraâ”œÃ¢â”¬Âºâ”œÃ¢â”¬Ães (preferâ”œÃ¢â”¬Â¬ncias do usuâ”œÃ¢â”¬Ã­rio)
     onOpenSettings: function () {
       try {
         const oRouter = this.getOwnerComponent().getRouter && this.getOwnerComponent().getRouter();
@@ -196,7 +305,7 @@ sap.ui.define([
       } catch (e) {
         // fallback abaixo
       }
-      sap.m.MessageToast.show("Rota 'settings' não encontrada. Verifique o routing no manifest.json.");
+      sap.m.MessageToast.show("Rota 'settings' nÃ£o encontrada. Verifique o routing no manifest.json.");
     },
 
     onOpenHistorico: function (oEvent) {
@@ -205,12 +314,13 @@ sap.ui.define([
       this.getOwnerComponent().getRouter().navTo("RouteHistorico", { id });
     },
 
-    // Novo: abre o di├ílogo de OS (substitui a tela IW38)
-    onOpenOSDialog: function (oEvent) {
+    // Novo: abre o dialogo de OS (substitui a tela IW38)
+    onOpenOSDialog: async function (oEvent) {
       try {
         const ctxObj = oEvent?.getSource?.()?.getBindingContext("vm")?.getObject?.();
         const equnr = String(ctxObj?.equnr || ctxObj?.veiculo || "");
         const range = FilterUtil.currentRange(this.byId("drs"));
+        const rangeObj = this._currentRangeObj();
         const metrics = {
           kmRodados: Number(ctxObj?.kmRodadosAgg || 0),
           horasRodadas: Number(ctxObj?.hrRodadosAgg || 0),
@@ -220,12 +330,33 @@ sap.ui.define([
           downtimeEventos: Number(ctxObj?.downtimeEventosRange || 0),
           osCount: Number(ctxObj?.osCountRange || 0)
         };
+        let reliabilityMetrics = {};
+        if (equnr) {
+          try {
+            const rel = await ReliabilityService.mergeDataPorVeiculo({ vehicleId: equnr, range: rangeObj });
+            if (rel && rel.metrics) {
+              reliabilityMetrics = Object.assign({}, rel.metrics);
+            }
+          } catch (err) {
+            try { console.warn('[Main.onOpenOSDialog] Reliability metrics unavailable', err); } catch (_) {}
+          }
+        }
+        if (reliabilityMetrics.kmPorQuebraFmt && !reliabilityMetrics.kmPerFailureFmt) {
+          reliabilityMetrics.kmPerFailureFmt = reliabilityMetrics.kmPorQuebraFmt;
+        }
+        if (reliabilityMetrics.hrPorQuebraFmt && !reliabilityMetrics.hrPerFailureFmt) {
+          reliabilityMetrics.hrPerFailureFmt = reliabilityMetrics.hrPorQuebraFmt;
+        }
+        if (reliabilityMetrics.downtimeFmt && !reliabilityMetrics.downtimeTotalFmt) {
+          reliabilityMetrics.downtimeTotalFmt = reliabilityMetrics.downtimeFmt;
+        }
+        const mergedMetrics = Object.assign({}, metrics, reliabilityMetrics);
         sap.ui.require(["com/skysinc/frota/frota/controller/OSDialog"], (OSDlg) => {
           OSDlg.open(this.getView(), {
             equnr,
             range,
             titulo: equnr ? ("OS - " + equnr) : "OS",
-            metrics
+            metrics: mergedMetrics
           });
         });
       } catch (e) {
@@ -233,11 +364,11 @@ sap.ui.define([
       }
     },
 
-    // Abre a visualiza├â┬º├â┬úo/preview da IW38 (mock local por enquanto)
+    // Abre a visualizaâ”œÃ¢â”¬Âºâ”œÃ¢â”¬Ãºo/preview da IW38 (mock local por enquanto)
     onOpenIW38Preview: function (oEvent) {
       try {
         const ctxObj = oEvent?.getSource?.()?.getBindingContext("vm")?.getObject?.();
-        // Usa alguma possível ordem vinda do contexto, senão um valor padr├â┬úo do mock
+        // Usa alguma possÃ­vel ordem vinda do contexto, senÃ£o um valor padrâ”œÃ¢â”¬Ãºo do mock
         const equnr = String(ctxObj?.equnr || ctxObj?.veiculo || "");
         const oRouter = this.getOwnerComponent().getRouter && this.getOwnerComponent().getRouter();
         if (oRouter && oRouter.navTo) {
@@ -247,7 +378,7 @@ sap.ui.define([
       } catch (e) {
         // segue para fallback
       }
-      sap.m.MessageToast.show("Rota 'RouteIW38' não encontrada. Verifique o routing no manifest.json.");
+      sap.m.MessageToast.show("Rota 'RouteIW38' nÃ£o encontrada. Verifique o routing no manifest.json.");
     },
 
     onOpenMateriais: function (oEvent) {
@@ -260,7 +391,7 @@ sap.ui.define([
     },
 
     onExportMateriais: function () {
-      if (!this._dlgModel) { MessageToast.show("Abra o di├â┬ílogo de materiais primeiro."); return; }
+      if (!this._dlgModel) { MessageToast.show("Abra o diâ”œÃ¢â”¬Ã­logo de materiais primeiro."); return; }
       sap.ui.require(["com/skysinc/frota/frota/services/MaterialsService"], (Svc) => {
         Svc.exportCsv(this._dlgModel, this.byId("drs"));
       });
@@ -268,7 +399,7 @@ sap.ui.define([
 
     onPrintMateriais: function () {
       const dlg = this.byId("dlgMateriais");
-      if (!dlg) { MessageToast.show("Abra o diálogo de materiais primeiro."); return; }
+      if (!dlg) { MessageToast.show("Abra o diÃ¡logo de materiais primeiro."); return; }
       const win = window.open("", "_blank", "noopener,noreferrer");
       if (!win) { MessageBox.warning("Bloqueador de pop-up? Permita para imprimir."); return; }
 
@@ -329,13 +460,13 @@ sap.ui.define([
       const item = ctx && ctx.getObject ? ctx.getObject() : null;
 
       if (!item || !item.equnr) {
-        sap.m.MessageToast.show("Selecione um veículo válido.");
+        sap.m.MessageToast.show("Selecione um veÃ­culo vÃ¡lido.");
         return;
       }
 
       const drs = this.byId("drs");
       if (!drs) {
-        sap.m.MessageToast.show("Componente de período não encontrado.");
+        sap.m.MessageToast.show("Componente de perÃ­odo nÃ£o encontrado.");
         return;
       }
       const range = FilterUtil.currentRange(drs);
@@ -366,10 +497,10 @@ sap.ui.define([
         FuelService.saveFuelLimits(this, { reason: "manual" })
           .then((ok) => {
             if (ok) MessageToast.show("Limites salvos.");
-            else MessageToast.show("não foi possível salvar os limites.");
+            else MessageToast.show("nÃ£o foi possÃ­vel salvar os limites.");
           });
       } catch (e) {
-        MessageToast.show("não foi possível salvar os limites.");
+        MessageToast.show("nÃ£o foi possÃ­vel salvar os limites.");
       }
     },
 
@@ -428,37 +559,197 @@ sap.ui.define([
     onDumpVm: function () {},
 
     _ensureVehiclesCombo: function () {
-      const inp = this.byId("inpVeiculo");
-      if (!inp) return;
-      inp.destroyItems();
-      inp.addItem(new sap.ui.core.Item({ key: "__ALL__", text: "Todos" }));
+      const filtersModel = this.getView().getModel("FleetFilters");
+      if (!filtersModel) { return; }
+      const rawVehicles = (this.getView().getModel("vm")?.getProperty("/veiculos") || []);
+      const map = new Map();
 
-      const data = (this.getView().getModel("vm")?.getProperty("/veiculos") || []);
-      const set = new Set();
-      data.forEach((i) => { if (i.equnr) set.add(String(i.equnr)); });
-      Array.from(set).sort().forEach((c) => inp.addItem(new sap.ui.core.Item({ key: c, text: c })));
-      if (!inp.getSelectedKey()) inp.setSelectedKey("__ALL__");
+      rawVehicles.forEach((row) => {
+        const key = row?.equnr || row?.veiculo || row?.id;
+        if (!key) { return; }
+        const keyStr = String(key);
+        if (!map.has(keyStr)) {
+          const secondary = row?.eqktx || row?.DESCR || row?.descricao || "";
+          map.set(keyStr, {
+            key: keyStr,
+            text: keyStr,
+            secondary: secondary || ""
+          });
+        }
+      });
+
+      const sorter = (a, b) => {
+        try { return a.text.localeCompare(b.text, "pt-BR"); } catch(e) { return a.text < b.text ? -1 : (a.text > b.text ? 1 : 0); }
+      };
+
+      const vehicles = Array.from(map.values()).sort(sorter);
+      const selected = filtersModel.getProperty("/selectedVehicles") || [];
+      const filteredSelected = selected.filter((key) => map.has(String(key)));
+
+      filtersModel.setProperty("/vehicles", vehicles);
+      filtersModel.setProperty("/selectedVehicles", filteredSelected);
+
+      const control = this.byId("inpVeiculo");
+      if (control && typeof control.setSelectedKeys === "function") {
+        control.setSelectedKeys(filteredSelected);
+      }
     },
 
     _ensureCategoriasCombo: function () {
-      const inp = this.byId("segCat");
-      if (!inp) return;
+      const filtersModel = this.getView().getModel("FleetFilters");
+      if (!filtersModel) { return; }
 
-      inp.destroyItems();
-      inp.addItem(new sap.ui.core.Item({ key: "__ALL__", text: "Todas" }));
+      const rawVehicles = (this.getView().getModel("vm")?.getProperty("/veiculos") || []);
+      const map = new Map();
 
-      const data = (this.getView().getModel("vm")?.getProperty("/veiculos") || []);
-      const set = new Set();
-      data.forEach((i) => {
-        const cat = (i.CATEGORIA != null && i.CATEGORIA !== "") ? String(i.CATEGORIA) : null;
-        if (cat) set.add(cat);
+      rawVehicles.forEach((row) => {
+        const catRaw = (row && row.CATEGORIA != null && row.CATEGORIA !== "") ? row.CATEGORIA : null;
+        if (!catRaw) { return; }
+        const key = String(catRaw);
+        if (!map.has(key)) {
+          map.set(key, {
+            key,
+            text: key,
+            group: row?.GRUPO || row?.grupo || ""
+          });
+        }
       });
 
-      Array.from(set).sort().forEach((c) => {
-        inp.addItem(new sap.ui.core.Item({ key: c, text: c }));
+      const sorter = (a, b) => {
+        try { return a.text.localeCompare(b.text, "pt-BR"); } catch(e) { return a.text < b.text ? -1 : (a.text > b.text ? 1 : 0); }
+      };
+
+      const categories = Array.from(map.values()).sort(sorter);
+      const selected = filtersModel.getProperty("/selectedCategories") || [];
+      const filteredSelected = selected.filter((key) => map.has(String(key)));
+
+      filtersModel.setProperty("/categories", categories);
+      filtersModel.setProperty("/selectedCategories", filteredSelected);
+
+      const control = this.byId("segCat");
+      if (control && typeof control.setSelectedKeys === "function") {
+        control.setSelectedKeys(filteredSelected);
+      }
+    },
+
+    _getSelectedVehicleKeys: function () {
+      const ctrl = this.byId("inpVeiculo");
+      let keys = [];
+      if (ctrl && typeof ctrl.getSelectedKeys === "function") {
+        keys = ctrl.getSelectedKeys() || [];
+      }
+      if (!Array.isArray(keys) || keys.length === 0) {
+        const fromModel = this._filtersModel?.getProperty("/selectedVehicles");
+        keys = Array.isArray(fromModel) ? fromModel : [];
+      }
+      const dedup = Array.from(new Set((keys || []).map((k) => String(k))));
+      return dedup;
+    },
+
+    _getSelectedCategoryKeys: function () {
+      const ctrl = this.byId("segCat");
+      let keys = [];
+      if (ctrl && typeof ctrl.getSelectedKeys === "function") {
+        keys = ctrl.getSelectedKeys() || [];
+      }
+      if (!Array.isArray(keys) || keys.length === 0) {
+        const fromModel = this._filtersModel?.getProperty("/selectedCategories");
+        keys = Array.isArray(fromModel) ? fromModel : [];
+      }
+      const dedup = Array.from(new Set((keys || []).map((k) => String(k))));
+      return dedup;
+    },
+
+    _updateReliabilityForVehicles: async function (rangeObj) {
+      const vmModel = this.getView().getModel("vm");
+      if (!vmModel) { return; }
+      const vehicles = vmModel.getProperty("/veiculos") || [];
+      if (!Array.isArray(vehicles) || vehicles.length === 0) {
+        vmModel.refresh(true);
+        return;
+      }
+      const from = (rangeObj && rangeObj.from instanceof Date) ? rangeObj.from : null;
+      const to   = (rangeObj && rangeObj.to   instanceof Date) ? rangeObj.to   : null;
+      const rangePayload = { from, to };
+
+      const tasks = vehicles.map(async (vehicle) => {
+        const vehId = String(vehicle.equnr || vehicle.veiculo || vehicle.id || "").trim();
+        if (!vehId) {
+          vehicle.mtbf = 0;
+          vehicle.mtbfFmt = vehicle.mtbfFmt || "-";
+          vehicle.mttr = 0;
+          vehicle.mttrFmt = vehicle.mttrFmt || "-";
+          vehicle.disponibilidade = vehicle.disponibilidade || 0;
+          vehicle.disponibilidadeFmt = vehicle.disponibilidadeFmt || "-";
+          vehicle.falhas = vehicle.falhas || 0;
+          vehicle.kmPorQuebra = vehicle.kmPorQuebra || 0;
+          vehicle.kmPorQuebraFmt = vehicle.kmPorQuebraFmt || "-";
+          vehicle.kmPerFailureFmt = vehicle.kmPerFailureFmt || vehicle.kmPorQuebraFmt || "-";
+          vehicle.hrPorQuebra = vehicle.hrPorQuebra || 0;
+          vehicle.hrPorQuebraFmt = vehicle.hrPorQuebraFmt || "-";
+          vehicle.hrPerFailureFmt = vehicle.hrPerFailureFmt || vehicle.hrPorQuebraFmt || "-";
+          vehicle.proximaQuebraKm = vehicle.proximaQuebraKm || 0;
+          vehicle.proximaQuebraKmFmt = vehicle.proximaQuebraKmFmt || "-";
+          vehicle.proximaQuebraHr = vehicle.proximaQuebraHr || 0;
+          vehicle.proximaQuebraHrFmt = vehicle.proximaQuebraHrFmt || "-";
+          vehicle.downtimeTotalFmt = vehicle.downtimeTotalFmt || "0h00";
+          return;
+        }
+        try {
+          const rel = await ReliabilityService.mergeDataPorVeiculo({ vehicleId: vehId, range: rangePayload });
+          const metrics = (rel && rel.metrics) ? Object.assign({}, rel.metrics) : null;
+          if (metrics) {
+            if (metrics.kmPorQuebraFmt && !metrics.kmPerFailureFmt) { metrics.kmPerFailureFmt = metrics.kmPorQuebraFmt; }
+            if (metrics.hrPorQuebraFmt && !metrics.hrPerFailureFmt) { metrics.hrPerFailureFmt = metrics.hrPorQuebraFmt; }
+            if (metrics.downtimeFmt && !metrics.downtimeTotalFmt) { metrics.downtimeTotalFmt = metrics.downtimeFmt; }
+            vehicle.reliability = metrics;
+            vehicle.mtbf = metrics.mtbf || 0;
+            vehicle.mtbfFmt = metrics.mtbfFmt || "-";
+            vehicle.mttr = metrics.mttr || 0;
+            vehicle.mttrFmt = metrics.mttrFmt || "-";
+            vehicle.disponibilidade = metrics.disponibilidade || 0;
+            vehicle.disponibilidadeFmt = metrics.disponibilidadeFmt || "-";
+            vehicle.falhas = metrics.falhas || 0;
+            vehicle.kmPorQuebra = metrics.kmPorQuebra || 0;
+            vehicle.kmPorQuebraFmt = metrics.kmPorQuebraFmt || "-";
+            vehicle.kmPerFailureFmt = metrics.kmPerFailureFmt || metrics.kmPorQuebraFmt || "-";
+            vehicle.hrPorQuebra = metrics.hrPorQuebra || 0;
+            vehicle.hrPorQuebraFmt = metrics.hrPorQuebraFmt || "-";
+            vehicle.hrPerFailureFmt = metrics.hrPerFailureFmt || metrics.hrPorQuebraFmt || "-";
+            vehicle.proximaQuebraKm = metrics.proximaQuebraKm || 0;
+            vehicle.proximaQuebraKmFmt = metrics.proximaQuebraKmFmt || "-";
+            vehicle.proximaQuebraHr = metrics.proximaQuebraHr || 0;
+            vehicle.proximaQuebraHrFmt = metrics.proximaQuebraHrFmt || "-";
+            vehicle.downtimeTotalFmt = metrics.downtimeFmt || metrics.downtimeTotalFmt || "0h00";
+          } else {
+            vehicle.reliability = { };
+            vehicle.mtbf = 0; vehicle.mtbfFmt = "-";
+            vehicle.mttr = 0; vehicle.mttrFmt = "-";
+            vehicle.disponibilidade = 0; vehicle.disponibilidadeFmt = "-";
+            vehicle.falhas = 0;
+            vehicle.kmPorQuebra = 0; vehicle.kmPorQuebraFmt = "-"; vehicle.kmPerFailureFmt = "-";
+            vehicle.hrPorQuebra = 0; vehicle.hrPorQuebraFmt = "-"; vehicle.hrPerFailureFmt = "-";
+            vehicle.proximaQuebraKm = 0; vehicle.proximaQuebraKmFmt = "-";
+            vehicle.proximaQuebraHr = 0; vehicle.proximaQuebraHrFmt = "-";
+            vehicle.downtimeTotalFmt = "0h00";
+          }
+        } catch (err) {
+          try { console.warn('[Main._updateReliabilityForVehicles] Falha ao calcular para ' + vehId, err); } catch (_) {}
+          vehicle.reliability = vehicle.reliability || {};
+          vehicle.mtbf = 0; vehicle.mtbfFmt = "-";
+          vehicle.mttr = 0; vehicle.mttrFmt = "-";
+          vehicle.disponibilidade = 0; vehicle.disponibilidadeFmt = "-";
+          vehicle.falhas = 0;
+          vehicle.kmPorQuebra = 0; vehicle.kmPorQuebraFmt = "-"; vehicle.kmPerFailureFmt = "-";
+          vehicle.hrPorQuebra = 0; vehicle.hrPorQuebraFmt = "-"; vehicle.hrPerFailureFmt = "-";
+          vehicle.proximaQuebraKm = 0; vehicle.proximaQuebraKmFmt = "-";
+          vehicle.proximaQuebraHr = 0; vehicle.proximaQuebraHrFmt = "-";
+          vehicle.downtimeTotalFmt = "0h00";
+        }
       });
 
-      if (!inp.getSelectedKey()) inp.setSelectedKey("__ALL__");
+      await Promise.all(tasks);
+      vmModel.refresh(true);
     },
 
     _applyTableFilters: function () {
@@ -467,16 +758,24 @@ sap.ui.define([
 
       const aFilters = [];
 
-      const cbVeh = this.byId("inpVeiculo");
-      const vKey = cbVeh?.getSelectedKey();
-      if (vKey && vKey !== "__ALL__") {
-        aFilters.push(new Filter("equnr", FilterOperator.EQ, vKey));
+      const vehicleKeys = this._getSelectedVehicleKeys();
+      if (vehicleKeys.length > 0) {
+        const vehFilters = vehicleKeys.map((key) => new Filter("equnr", FilterOperator.EQ, key));
+        if (vehFilters.length === 1) {
+          aFilters.push(vehFilters[0]);
+        } else {
+          aFilters.push(new Filter({ filters: vehFilters, and: false }));
+        }
       }
 
-      const cbCat = this.byId("segCat");
-      const cKey = cbCat?.getSelectedKey();
-      if (cKey && cKey !== "__ALL__") {
-        aFilters.push(new Filter("CATEGORIA", FilterOperator.EQ, cKey));
+      const categoryKeys = this._getSelectedCategoryKeys();
+      if (categoryKeys.length > 0) {
+        const catFilters = categoryKeys.map((key) => new Filter("CATEGORIA", FilterOperator.EQ, key));
+        if (catFilters.length === 1) {
+          aFilters.push(catFilters[0]);
+        } else {
+          aFilters.push(new Filter({ filters: catFilters, and: false }));
+        }
       }
 
       oBinding.filter(aFilters);
@@ -486,12 +785,14 @@ sap.ui.define([
       const vm = this.getView().getModel("vm");
       const all = (vm && vm.getProperty("/veiculos")) || [];
 
-      const vKey = this.byId("inpVeiculo")?.getSelectedKey();
-      const cKey = this.byId("segCat")?.getSelectedKey();
+      const vehicleKeys = this._getSelectedVehicleKeys();
+      const categoryKeys = this._getSelectedCategoryKeys();
 
       return all.filter((row) => {
-        const byVeh = (!vKey || vKey === "__ALL__") ? true : String(row.equnr) === String(vKey);
-        const byCat = (!cKey || cKey === "__ALL__") ? true : String(row.CATEGORIA || "") === String(cKey);
+        const vehicleId = row && (row.equnr || row.veiculo || row.id);
+        const categoryId = row && row.CATEGORIA;
+        const byVeh = vehicleKeys.length === 0 ? true : vehicleKeys.includes(String(vehicleId));
+        const byCat = categoryKeys.length === 0 ? true : categoryKeys.includes(String(categoryId || ""));
         return byVeh && byCat;
       });
     },
@@ -514,12 +815,13 @@ sap.ui.define([
         resumoCombFmt: "Comb: " + this.formatter.fmtBrl(totCombR$),
         resumoLitrosFmt: "Litros: " + this.formatter.fmtLitros(totLitros),
         resumoMatFmt: "Mat/Serv: " + this.formatter.fmtBrl(totMatR$),
-        resumoPrecoFmt: "Preço Médio: " + this.formatter.fmtNum(precoMedio) + " R$/L"
+        resumoPrecoFmt: "PreÃ§o MÃ©dio: " + this.formatter.fmtNum(precoMedio) + " R$/L"
       }, true);
     },
 
-    _onDowntimeReady: function () {
+    _onDowntimeReady: async function () {
       try {
+        await this._updateReliabilityForVehicles(this._currentRangeObj());
         this._recalcAndRefresh();
       } catch (e) {
         // ignore failures triggered during teardown
@@ -536,9 +838,9 @@ sap.ui.define([
       this._applyTableFilters();
       this.byId("tbl")?.getBinding("rows")?.refresh(true);
 
-      const vKey = this.byId("inpVeiculo")?.getSelectedKey();
-      const cKey = this.byId("segCat")?.getSelectedKey();
-      KpiService.recalc(this.getView(), { vehicleKey: vKey, categoryKey: cKey });
+      const vehicleKeys = this._getSelectedVehicleKeys();
+      const categoryKeys = this._getSelectedCategoryKeys();
+      KpiService.recalc(this.getView(), { vehicleKeys, categoryKeys });
     },
 
     _todayPair: function () {
@@ -603,6 +905,10 @@ sap.ui.define([
     }
   });
 });
+
+
+
+
 
 
 

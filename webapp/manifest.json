@@ -54,7 +54,9 @@
         "sap.ui.table": {},
         "sap.uxap": {},
         "sap.ui.layout": {},
-        "sap.viz": {}
+        "sap.viz": {},
+        "sap.f": {},
+        "sap.suite.ui.microchart": {}
       }
     },
     "contentDensities": {

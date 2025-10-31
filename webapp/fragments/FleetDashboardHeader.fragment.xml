@@ -1,0 +1,240 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:mc="sap.suite.ui.microchart">
+    <VBox width="100%" class="sapUiSmallMarginBeginEnd sapUiSmallMarginTop sapUiMediumMarginBottom">
+
+        <!-- KPI Row -->
+        <f:GridContainer id="fleetSummaryKpiGrid"
+            width="100%"
+            class="sapUiSmallMarginBottom"
+            wrapAfter="4">
+            <f:layout>
+                <f:GridContainerSettings columnSize="18rem" rowSize="10rem" gap="1rem"/>
+            </f:layout>
+
+            <!-- Gasto combustível -->
+            <f:content>
+                <f:GridContainerItem>
+                    <Panel backgroundDesign="Translucent"
+                        class="sapUiNoContentPadding kpiTile"
+                        tooltip="{FleetSummary>/fuelSpend/tooltip}">
+                        <VBox class="sapUiSmallMargin">
+                            <HBox alignItems="Center" justifyContent="SpaceBetween">
+                                <HBox alignItems="Center">
+                                    <Avatar displayShape="Circle"
+                                        displaySize="S"
+                                        backgroundColor="Transparent"
+                                        icon="sap-icon://gas-station"/>
+                                    <VBox class="sapUiTinyMarginBegin">
+                                        <ObjectNumber number="{FleetSummary>/fuelSpend/value}"
+                                            unit="{FleetSummary>/fuelSpend/unit}"
+                                            emphasized="true"
+                                            state="{FleetSummary>/fuelSpend/state}"/>
+                                        <Text text="{FleetSummary>/fuelSpend/title}" design="Bold"/>
+                                        <Text text="{FleetSummary>/fuelSpend/subtitle}" wrapping="false"/>
+                                    </VBox>
+                                </HBox>
+                                <GenericTag
+                                    status="{FleetSummary>/fuelSpend/tag/status}"
+                                    text="{FleetSummary>/fuelSpend/tag/text}"
+                                    value="{FleetSummary>/fuelSpend/tag/value}"
+                                    tooltip="{FleetSummary>/fuelSpend/tag/tooltip}"/>
+                            </HBox>
+                            <mc:BulletMicroChart size="S"
+                                actualValueLabel="{FleetSummary>/fuelSpend/trend/actualLabel}"
+                                targetValueLabel="{FleetSummary>/fuelSpend/trend/targetLabel}"
+                                scale="%"
+                                tooltip="{FleetSummary>/fuelSpend/trend/tooltip}">
+                                <mc:actual>
+                                    <mc:BulletMicroChartData value="{FleetSummary>/fuelSpend/trend/actual}"
+                                        color="{FleetSummary>/fuelSpend/trend/color}"/>
+                                </mc:actual>
+                                <mc:targetValues>
+                                    <mc:BulletMicroChartData value="{FleetSummary>/fuelSpend/trend/target}"/>
+                                </mc:targetValues>
+                            </mc:BulletMicroChart>
+                        </VBox>
+                    </Panel>
+                </f:GridContainerItem>
+
+                <!-- Litros totais -->
+                <f:GridContainerItem>
+                    <Panel backgroundDesign="Translucent"
+                        class="sapUiNoContentPadding kpiTile"
+                        tooltip="{FleetSummary>/totalLiters/tooltip}">
+                        <VBox class="sapUiSmallMargin">
+                            <HBox alignItems="Center" justifyContent="SpaceBetween">
+                                <HBox alignItems="Center">
+                                    <Avatar displayShape="Circle"
+                                        displaySize="S"
+                                        backgroundColor="Transparent"
+                                        icon="sap-icon://filter-fuel"/>
+                                    <VBox class="sapUiTinyMarginBegin">
+                                        <ObjectNumber number="{FleetSummary>/totalLiters/value}"
+                                            unit="{FleetSummary>/totalLiters/unit}"
+                                            emphasized="true"
+                                            state="{FleetSummary>/totalLiters/state}"/>
+                                        <Text text="{FleetSummary>/totalLiters/title}" design="Bold"/>
+                                        <Text text="{FleetSummary>/totalLiters/subtitle}" wrapping="false"/>
+                                    </VBox>
+                                </HBox>
+                                <GenericTag
+                                    status="{FleetSummary>/totalLiters/tag/status}"
+                                    text="{FleetSummary>/totalLiters/tag/text}"
+                                    value="{FleetSummary>/totalLiters/tag/value}"
+                                    tooltip="{FleetSummary>/totalLiters/tag/tooltip}"/>
+                            </HBox>
+                            <mc:DeltaMicroChart size="S"
+                                title="{FleetSummary>/totalLiters/trend/title}"
+                                value1="{FleetSummary>/totalLiters/trend/current}"
+                                value2="{FleetSummary>/totalLiters/trend/previous}"
+                                tooltip="{FleetSummary>/totalLiters/trend/tooltip}"/>
+                        </VBox>
+                    </Panel>
+                </f:GridContainerItem>
+
+                <!-- Custo material/serviço -->
+                <f:GridContainerItem>
+                    <Panel backgroundDesign="Translucent"
+                        class="sapUiNoContentPadding kpiTile"
+                        tooltip="{FleetSummary>/serviceCost/tooltip}">
+                        <VBox class="sapUiSmallMargin">
+                            <HBox alignItems="Center" justifyContent="SpaceBetween">
+                                <HBox alignItems="Center">
+                                    <Avatar displayShape="Circle"
+                                        displaySize="S"
+                                        backgroundColor="Transparent"
+                                        icon="sap-icon://wrench"/>
+                                    <VBox class="sapUiTinyMarginBegin">
+                                        <ObjectNumber number="{FleetSummary>/serviceCost/value}"
+                                            unit="{FleetSummary>/serviceCost/unit}"
+                                            emphasized="true"
+                                            state="{FleetSummary>/serviceCost/state}"/>
+                                        <Text text="{FleetSummary>/serviceCost/title}" design="Bold"/>
+                                        <Text text="{FleetSummary>/serviceCost/subtitle}" wrapping="false"/>
+                                    </VBox>
+                                </HBox>
+                                <GenericTag
+                                    status="{FleetSummary>/serviceCost/tag/status}"
+                                    text="{FleetSummary>/serviceCost/tag/text}"
+                                    value="{FleetSummary>/serviceCost/tag/value}"
+                                    tooltip="{FleetSummary>/serviceCost/tag/tooltip}"/>
+                            </HBox>
+                            <mc:ComparisonMicroChart size="S"
+                                tooltip="{FleetSummary>/serviceCost/trend/tooltip}">
+                                <mc:data>
+                                    <mc:ComparisonMicroChartData title="{FleetSummary>/serviceCost/trend/title}"
+                                        value="{FleetSummary>/serviceCost/trend/value}"
+                                        color="{FleetSummary>/serviceCost/trend/color}"/>
+                                </mc:data>
+                            </mc:ComparisonMicroChart>
+                        </VBox>
+                    </Panel>
+                </f:GridContainerItem>
+
+                <!-- Preço médio/L -->
+                <f:GridContainerItem>
+                    <Panel backgroundDesign="Translucent"
+                        class="sapUiNoContentPadding kpiTile"
+                        tooltip="{FleetSummary>/avgPrice/tooltip}">
+                        <VBox class="sapUiSmallMargin">
+                            <HBox alignItems="Center" justifyContent="SpaceBetween">
+                                <HBox alignItems="Center">
+                                    <Avatar displayShape="Circle"
+                                        displaySize="S"
+                                        backgroundColor="Transparent"
+                                        icon="sap-icon://competitor"/>
+                                    <VBox class="sapUiTinyMarginBegin">
+                                        <ObjectNumber number="{FleetSummary>/avgPrice/value}"
+                                            unit="{FleetSummary>/avgPrice/unit}"
+                                            emphasized="true"
+                                            state="{FleetSummary>/avgPrice/state}"/>
+                                        <Text text="{FleetSummary>/avgPrice/title}" design="Bold"/>
+                                        <Text text="{FleetSummary>/avgPrice/subtitle}" wrapping="false"/>
+                                    </VBox>
+                                </HBox>
+                                <GenericTag
+                                    status="{FleetSummary>/avgPrice/tag/status}"
+                                    text="{FleetSummary>/avgPrice/tag/text}"
+                                    value="{FleetSummary>/avgPrice/tag/value}"
+                                    tooltip="{FleetSummary>/avgPrice/tag/tooltip}"/>
+                            </HBox>
+                            <mc:AreaMicroChart size="S"
+                                tooltip="{FleetSummary>/avgPrice/trend/tooltip}">
+                                <mc:firstYLabel label="{FleetSummary>/avgPrice/trend/lowLabel}"/>
+                                <mc:lastYLabel label="{FleetSummary>/avgPrice/trend/highLabel}"/>
+                                <mc:points>
+                                    <mc:AreaMicroChartPoint x="0" y="{FleetSummary>/avgPrice/trend/points/0}"/>
+                                    <mc:AreaMicroChartPoint x="1" y="{FleetSummary>/avgPrice/trend/points/1}"/>
+                                    <mc:AreaMicroChartPoint x="2" y="{FleetSummary>/avgPrice/trend/points/2}"/>
+                                    <mc:AreaMicroChartPoint x="3" y="{FleetSummary>/avgPrice/trend/points/3}"/>
+                                </mc:points>
+                            </mc:AreaMicroChart>
+                        </VBox>
+                    </Panel>
+                </f:GridContainerItem>
+            </f:content>
+        </f:GridContainer>
+
+        <!-- Filters Row -->
+        <OverflowToolbar id="fleetSummaryFilterBar"
+            width="100%"
+            design="Transparent"
+            style="Clear"
+            ariaLabel="Filtros do resumo da frota">
+            <Label text="Categoria" labelFor="segCat"/>
+            <MultiComboBox id="segCat"
+                width="16rem"
+                placeholder="Filtrar categorias"
+                showSelectAll="true"
+                showSecondaryValues="false"
+                filterSecondaryValues="false"
+                selectedKeys="{FleetFilters>/selectedCategories}"
+                selectionFinish=".onFilterChange"
+                selectionChange=".onMultiCategoryChange"
+                showClearIcon="true"
+                items="{
+                    path: 'FleetFilters>/categories'
+                }">
+                <core:ListItem key="{FleetFilters>key}"
+                    text="{FleetFilters>text}"
+                    additionalText="{FleetFilters>group}"/>
+            </MultiComboBox>
+
+            <Label text="Veículos" labelFor="inpVeiculo"/>
+            <MultiComboBox id="inpVeiculo"
+                width="18rem"
+                placeholder="Filtrar veículos"
+                showSelectAll="true"
+                showSecondaryValues="false"
+                filterSecondaryValues="false"
+                selectedKeys="{FleetFilters>/selectedVehicles}"
+                selectionFinish=".onFilterChange"
+                selectionChange=".onMultiVehicleChange"
+                showClearIcon="true"
+                items="{
+                    path: 'FleetFilters>/vehicles'
+                }">
+                <core:ListItem key="{FleetFilters>key}"
+                    text="{FleetFilters>text}"
+                    additionalText="{FleetFilters>secondary}"/>
+            </MultiComboBox>
+
+            <Label text="Período" labelFor="drs"/>
+            <DateRangeSelection id="drs"
+                width="17rem"
+                displayFormat="dd/MM/yyyy"
+                delimiter=" - "
+                change=".onFilterChange"/>
+
+            <ToolbarSpacer/>
+
+            <Button text="Limpar" type="Transparent" press=".onClearFilters"/>
+            <Button icon="sap-icon://action-settings"
+                type="Transparent"
+                tooltip="Configurações de exibição"
+                press=".onOpenSettings"/>
+        </OverflowToolbar>
+    </VBox>
+</core:FragmentDefinition>

@@ -1,4 +1,4 @@
-﻿<mvc:View
+<mvc:View
   controllerName="com.skysinc.frota.frota.controller.Main"
   xmlns:mvc="sap.ui.core.mvc"
   xmlns="sap.m"
@@ -8,99 +8,8 @@
 
   <Page id="page" showHeader="false">
     <content>
-
-      <!-- Barra superior: título + filtro Período + limpar + configuraÃ§Ã£o -->
-      <OverflowToolbar>
-        <core:Icon src="sap-icon://car-rental" size="1.5rem"/>
-        <Title text="Gestão de Frota" level="H3"/>
-        <ToolbarSpacer/>
-
-        <!-- Período (obrigatorio no OData â€“ o controller garante default = ontem) -->
-        <Label text="Período:">
-          <layoutData>
-            <OverflowToolbarLayoutData priority="NeverOverflow"/>
-          </layoutData>
-        </Label>
-        <DateRangeSelection
-            id="drs"
-            displayFormat="long"
-            width="18rem"
-            change=".onFilterChange">
-          <layoutData>
-            <OverflowToolbarLayoutData priority="NeverOverflow"/>
-          </layoutData>
-        </DateRangeSelection>
-
-        <Button text="Limpar" type="Transparent" press=".onClearFilters">
-          <layoutData>
-            <OverflowToolbarLayoutData priority="NeverOverflow"/>
-          </layoutData>
-        </Button>
-
-      <Button
-        id="btnSettings"
-        icon="sap-icon://action-settings"
-        text="Configurações"
-        type="Transparent"
-        press=".onOpenSettings">
-        <layoutData>
-          <OverflowToolbarLayoutData priority="NeverOverflow"/>
-        </layoutData>
-      </Button>
-      </OverflowToolbar>
-
-      <!-- KPIs -->
-      <OverflowToolbar width="100%">
-        <ObjectStatus text="Gasto em combustível" icon="sap-icon://expense-report" state="Information"/>
-        <ObjectNumber number="{kpi>/gastoCombustivelFmt}" state="Information"/>
-        <ToolbarSeparator/>
-        <ObjectStatus text="Litros totais" icon="sap-icon://measure" state="Warning"/>
-        <ObjectNumber number="{kpi>/totalLitrosFmt}" state="Warning"/>
-        <ToolbarSeparator/>
-        <ObjectStatus text="Custo material/serviço" icon="sap-icon://wrench" state="Success"/>
-        <ObjectNumber number="{kpi>/custoMateriaisFmt}" state="Success"/>
-        <ToolbarSeparator/>
-        <ObjectStatus text="Preço médio" icon="sap-icon://expense-report" state="None"/>
-        <ObjectNumber number="{kpi>/precoMedioFmt}" unit="R$/L" state="None"/>
-      </OverflowToolbar>
-
-      <!-- Filtros -->
-      <OverflowToolbar>
-        <Text text="Filtro por Categorias:">
-          <layoutData>
-            <OverflowToolbarLayoutData priority="NeverOverflow"/>
-          </layoutData>
-        </Text>
-
-        <ComboBox id="segCat" selectionChange=".onFilterChange" width="20rem" selectedKey="__ALL__">
-          <items>
-            <core:Item key="__ALL__" text="Todas"/>
-            <!-- Demais itens preenchidos no onInit -->
-          </items>
-        </ComboBox>
-
-        <Text text="Filtro por Veículo:">
-          <layoutData>
-            <OverflowToolbarLayoutData priority="NeverOverflow"/>
-          </layoutData>
-        </Text>
-
-        <ComboBox id="inpVeiculo" selectionChange=".onFilterChange" width="12rem" selectedKey="__ALL__">
-          <items>
-            <core:Item key="__ALL__" text="Todos"/>
-            <!-- Demais itens preenchidos no onInit -->
-          </items>
-        </ComboBox>
-        <Button
-          icon="sap-icon://hint"
-          type="Transparent"
-          tooltip="Disponibilidade (%) = 100 - Indisponibilidade (%). Indisponibilidade (%) = (Horas em OS / (Dias x 24)) x 100. Dias x 24 representam o total de horas do período.">
-          <layoutData>
-            <OverflowToolbarLayoutData priority="NeverOverflow"/>
-          </layoutData>
-        </Button>
-        <ToolbarSpacer/>
-      </OverflowToolbar>
+      <!-- Barra superior remodelada -->
+      <core:Fragment fragmentName="com.skysinc.frota.frota.fragments.FleetDashboardHeader" type="XML"/>
 
       <!-- Tabela principal -->
       <table:Table
