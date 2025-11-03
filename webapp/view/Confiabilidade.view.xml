@@ -1,0 +1,315 @@
+<mvc:View
+  controllerName="com.skysinc.frota.frota.controller.Confiabilidade"
+  displayBlock="true"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  xmlns:uxap="sap.uxap"
+  xmlns:l="sap.ui.layout">
+
+  <uxap:ObjectPageLayout
+    id="objectPage"
+    useIconTabBar="false"
+    showTitleInHeaderContent="true"
+    upperCaseAnchorBar="false">
+
+    <uxap:headerTitle>
+      <uxap:ObjectPageHeader
+        id="objectHeader"
+        objectTitle="{reliab>/vehicle/title}"
+        objectSubtitle="{reliab>/vehicle/subtitle}"
+        isObjectIconAlwaysVisible="true"
+        isObjectTitleAlwaysVisible="true"
+        showNavButton="true"
+        navButtonPress=".onNavBack"
+        breadCrumbsLinks="{reliab>/breadcrumbs}">
+        <uxap:actions>
+          <Button
+            id="btnExportFailures"
+            icon="sap-icon://download"
+            type="Transparent"
+            text="{i18n>common.export}"
+            tooltip="{i18n>reliab.failures.export}"
+            press=".onExportFailures" />
+        </uxap:actions>
+      </uxap:ObjectPageHeader>
+    </uxap:headerTitle>
+
+    <uxap:headerContent>
+      <VBox width="100%" class="sapUiMediumMarginBottom">
+        <Toolbar design="Transparent" ariaLabelledBy="lblVehicle">
+          <Label id="lblVehicle" text="{i18n>filter.vehicles}" labelFor="filterVehicles" />
+          <MultiComboBox
+            id="filterVehicles"
+            width="18rem"
+            selectionFinish=".onFilterChanged"
+            showClearIcon="true"
+            placeholder="{i18n>filter.vehicles}"
+            items="{
+              path: 'filters>/lists/vehicles'
+            }">
+            <core:Item key="{filters>key}" text="{filters>text}" />
+          </MultiComboBox>
+
+          <Label text="{i18n>filter.categories}" class="sapUiTinyMarginBegin" labelFor="filterCategories" />
+          <MultiComboBox
+            id="filterCategories"
+            width="16rem"
+            selectionFinish=".onFilterChanged"
+            showClearIcon="true"
+            placeholder="{i18n>filter.categories}"
+            items="{
+              path: 'filters>/lists/categories'
+            }">
+            <core:Item key="{filters>key}" text="{filters>text}" />
+          </MultiComboBox>
+
+          <Label text="{i18n>filter.period}" class="sapUiTinyMarginBegin" labelFor="filterDateRange" />
+          <DateRangeSelection
+            id="filterDateRange"
+            displayFormat="dd/MM/yyyy"
+            change=".onFilterChanged"
+            delimiter=" - " />
+
+          <ToolbarSpacer />
+          <SearchField
+            id="filterSearch"
+            placeholder="{i18n>reliab.failures.search}"
+            search=".onSearchFailures"
+            liveChange=".onSearchFailures" />
+        </Toolbar>
+      </VBox>
+    </uxap:headerContent>
+
+    <uxap:sections>
+      <uxap:ObjectPageSection title="{i18n>reliab.section.summary}">
+        <uxap:subSections>
+          <uxap:ObjectPageSubSection>
+            <uxap:blocks>
+              <VBox class="sapUiResponsiveContentPadding">
+                <HBox wrap="Wrap" justifyContent="SpaceBetween">
+                  <VBox width="15rem" class="sapUiMediumMarginBottom">
+                    <Title text="{i18n>reliab.kpi.mtbf}" level="H6" />
+                    <ObjectNumber
+                      number="{reliab>/kpis/mtbfFmt}"
+                      state="Information"
+                      emphasized="true"
+                      ariaLabelledBy="sapUiInvisibleText" />
+                  </VBox>
+                  <VBox width="15rem" class="sapUiMediumMarginBottom">
+                    <Title text="{i18n>reliab.kpi.mttr}" level="H6" />
+                    <ObjectNumber
+                      number="{reliab>/kpis/mttrFmt}"
+                      state="Warning"
+                      emphasized="true" />
+                  </VBox>
+                  <VBox width="15rem" class="sapUiMediumMarginBottom">
+                    <Title text="{i18n>reliab.kpi.avail}" level="H6" />
+                    <ObjectNumber
+                      number="{reliab>/kpis/disponibilidadeFmt}"
+                      state="Success"
+                      emphasized="true" />
+                  </VBox>
+                  <VBox width="15rem" class="sapUiMediumMarginBottom">
+                    <Title text="{i18n>reliab.kpi.kmPerFailure}" level="H6" />
+                    <ObjectNumber number="{reliab>/kpis/kmPorQuebraFmt}" />
+                  </VBox>
+                  <VBox width="15rem" class="sapUiMediumMarginBottom">
+                    <Title text="{i18n>reliab.kpi.hPerFailure}" level="H6" />
+                    <ObjectNumber number="{reliab>/kpis/hrPorQuebraFmt}" />
+                  </VBox>
+                  <VBox width="15rem" class="sapUiMediumMarginBottom">
+                    <Title text="{i18n>reliab.kpi.nextBreakKm}" level="H6" />
+                    <ObjectNumber number="{reliab>/kpis/proximaQuebraKmFmt}" />
+                  </VBox>
+                  <VBox width="15rem" class="sapUiMediumMarginBottom">
+                    <Title text="{i18n>reliab.kpi.nextBreakH}" level="H6" />
+                    <ObjectNumber number="{reliab>/kpis/proximaQuebraHrFmt}" />
+                  </VBox>
+                </HBox>
+
+                <HBox class="sapUiTinyMarginTop" wrap="Wrap">
+                  <ObjectStatus text="{reliab>/kpis/falhasResumo}" state="Information" />
+                  <ObjectStatus text="{reliab>/kpis/downtimeResumo}" state="Warning" class="sapUiTinyMarginBegin" />
+                </HBox>
+              </VBox>
+            </uxap:blocks>
+          </uxap:ObjectPageSubSection>
+        </uxap:subSections>
+      </uxap:ObjectPageSection>
+
+      <uxap:ObjectPageSection title="{i18n>reliab.section.trend}">
+        <uxap:subSections>
+          <uxap:ObjectPageSubSection>
+            <uxap:blocks>
+              <VBox class="sapUiResponsiveContentPadding">
+                <Title text="{i18n>reliab.trend.failures}" level="H6" />
+                <VBox id="trendChartContainer" class="sapUiSmallMarginBottom" />
+                <Title text="{i18n>reliab.trend.availability}" level="H6" />
+                <VBox id="availabilityChartContainer" class="sapUiSmallMarginBottom" />
+                <Title text="{i18n>reliab.trend.cost}" level="H6" />
+                <VBox id="costChartContainer" />
+              </VBox>
+            </uxap:blocks>
+          </uxap:ObjectPageSubSection>
+        </uxap:subSections>
+      </uxap:ObjectPageSection>
+
+      <uxap:ObjectPageSection title="{i18n>reliab.section.failures}">
+        <uxap:subSections>
+          <uxap:ObjectPageSubSection>
+            <uxap:blocks>
+              <VBox class="sapUiResponsiveContentPadding">
+                <Toolbar design="Transparent">
+                  <Label text="{i18n>reliab.failures.type}" class="sapUiTinyMarginEnd" labelFor="selFailureType" />
+                  <Select
+                    id="selFailureType"
+                    width="12rem"
+                    change=".onFailureFilterChange"
+                    forceSelection="false"
+                    items="{
+                      path: 'reliab>/failureFilters/typeOptions'
+                    }">
+                    <core:Item key="{reliab>key}" text="{reliab>text}" />
+                  </Select>
+                  <Label text="{i18n>reliab.failures.severity}" class="sapUiTinyMarginBegin" labelFor="selFailureSeverity" />
+                  <Select
+                    id="selFailureSeverity"
+                    width="12rem"
+                    change=".onFailureFilterChange"
+                    forceSelection="false"
+                    items="{
+                      path: 'reliab>/failureFilters/severityOptions'
+                    }">
+                    <core:Item key="{reliab>key}" text="{reliab>text}" />
+                  </Select>
+                  <Label text="{i18n>reliab.failures.subsystem}" class="sapUiTinyMarginBegin" labelFor="selFailureSubsystem" />
+                  <Select
+                    id="selFailureSubsystem"
+                    width="12rem"
+                    change=".onFailureFilterChange"
+                    forceSelection="false"
+                    items="{
+                      path: 'reliab>/failureFilters/subsystemOptions'
+                    }">
+                    <core:Item key="{reliab>key}" text="{reliab>text}" />
+                  </Select>
+                  <ToolbarSpacer />
+                  <Button
+                    text="{i18n>reliab.failures.reset}"
+                    type="Transparent"
+                    icon="sap-icon://refresh"
+                    press=".onResetFailureFilters" />
+                </Toolbar>
+
+                <Table
+                  id="tblFailures"
+                  inset="false"
+                  width="100%"
+                  mode="None"
+                  busyIndicatorDelay="0"
+                  busy="{reliab>/loadingFailures}"
+                  items="{
+                    path: 'reliab>/failures',
+                    sorter: { path: 'inicio', descending: true }
+                  }">
+                  <headerToolbar>
+                    <Toolbar>
+                      <Title text="{i18n>reliab.failures.title}" level="H6" />
+                      <ToolbarSpacer />
+                      <Text text="{reliab>/failuresCountText}" />
+                    </Toolbar>
+                  </headerToolbar>
+                  <columns>
+                    <Column width="6rem">
+                      <Text text="{i18n>reliab.failures.os}" />
+                    </Column>
+                    <Column minScreenWidth="Tablet" demandPopin="true" width="18rem">
+                      <Text text="{i18n>reliab.failures.description}" />
+                    </Column>
+                    <Column width="10rem">
+                      <Text text="{i18n>reliab.failures.start}" />
+                    </Column>
+                    <Column width="10rem">
+                      <Text text="{i18n>reliab.failures.end}" />
+                    </Column>
+                    <Column hAlign="End" width="8rem">
+                      <Text text="{i18n>reliab.failures.downtime}" />
+                    </Column>
+                    <Column width="8rem" hAlign="End">
+                      <Text text="{i18n>reliab.failures.km}" />
+                    </Column>
+                    <Column width="8rem" hAlign="End">
+                      <Text text="{i18n>reliab.failures.hours}" />
+                    </Column>
+                    <Column minScreenWidth="Desktop" demandPopin="true" width="10rem">
+                      <Text text="{i18n>reliab.failures.type}" />
+                    </Column>
+                    <Column minScreenWidth="Desktop" demandPopin="true" width="10rem">
+                      <Text text="{i18n>reliab.failures.severity}" />
+                    </Column>
+                    <Column minScreenWidth="Desktop" demandPopin="true" width="10rem">
+                      <Text text="{i18n>reliab.failures.subsystem}" />
+                    </Column>
+                  </columns>
+                  <items>
+                    <ColumnListItem type="Active" press=".onOpenFailureDetail">
+                      <cells>
+                        <ObjectIdentifier title="{reliab>os}" />
+                        <Text text="{reliab>descricao}" maxLines="2" />
+                        <Text text="{reliab>inicioFmt}" />
+                        <Text text="{reliab>fimFmt}" />
+                        <ObjectNumber number="{reliab>downtimeFmt}" />
+                        <ObjectNumber number="{reliab>kmEventoFmt}" />
+                        <ObjectNumber number="{reliab>horasEventoFmt}" />
+                        <Text text="{reliab>categoria}" />
+                        <Text text="{reliab>severidade}" />
+                        <Text text="{reliab>subsistema}" />
+                      </cells>
+                    </ColumnListItem>
+                  </items>
+                  <noDataText>{i18n>reliab.failures.empty}</noDataText>
+                </Table>
+              </VBox>
+            </uxap:blocks>
+          </uxap:ObjectPageSubSection>
+        </uxap:subSections>
+      </uxap:ObjectPageSection>
+
+      <uxap:ObjectPageSection title="{i18n>reliab.section.compare}">
+        <uxap:subSections>
+          <uxap:ObjectPageSubSection>
+            <uxap:blocks>
+              <VBox class="sapUiResponsiveContentPadding">
+                <VBox id="comparisonChartContainer" class="sapUiSmallMarginBottom" />
+                <List
+                  headerText="{i18n>reliab.compare.header}"
+                  items="{reliab>/comparisons}">
+                  <StandardListItem
+                    title="{reliab>title}"
+                    info="{reliab>displayValue}"
+                    description="{reliab>description}" />
+                </List>
+              </VBox>
+            </uxap:blocks>
+          </uxap:ObjectPageSubSection>
+        </uxap:subSections>
+      </uxap:ObjectPageSection>
+
+      <uxap:ObjectPageSection title="{i18n>reliab.section.map}">
+        <uxap:subSections>
+          <uxap:ObjectPageSubSection>
+            <uxap:blocks>
+              <VBox class="sapUiResponsiveContentPadding">
+                <MessageStrip
+                  text="{i18n>reliab.map.placeholder}"
+                  showIcon="true"
+                  type="Information" />
+              </VBox>
+            </uxap:blocks>
+          </uxap:ObjectPageSubSection>
+        </uxap:subSections>
+      </uxap:ObjectPageSection>
+    </uxap:sections>
+  </uxap:ObjectPageLayout>
+</mvc:View>

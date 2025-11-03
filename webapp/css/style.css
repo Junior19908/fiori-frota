@@ -157,14 +157,26 @@ html.sap-desktop body.sapUiSizeCompact .f-form .sapMLabel {
   margin-left: 0.5rem;
 }
 
+/* ================================
+   >>> Barra horizontal “sempre visível” no Table
+   ================================ */
+
+/* 1) Tornar a barra horizontal sticky dentro da tabela */
 #tbl .sapUiTableHSb {
-  position: sticky;
-  bottom: 0;
+  position: sticky;      /* fixa no contêiner de rolagem vertical do Table */
+  bottom: 0;             /* fixa no rodapé do Table */
   background: var(--sapList_Background);
-  box-shadow: 0 -1px 0 0 var(--sapList_BorderColor);
+  box-shadow: 0 -1px 0 0 var(--sapList_BorderColor); /* pequena linha superior */
   z-index: 2;
 }
 
+/* 2) Ajuste fino para remover espacinho extra da barra nativa */
 #tbl .sapUiTableHSb > div {
   margin-bottom: 0;
+}
+
+/* 3) Garante espaço para a barra não cobrir a última linha
+   (apenas quando a rolagem vertical estiver ativa) */
+#tbl .sapUiTableCnt {
+  padding-bottom: 16px; /* altura aproximada da barra horizontal */
 }

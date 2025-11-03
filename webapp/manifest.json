@@ -21,7 +21,12 @@
         "settings": {
           "odataVersion": "2.0"
         }
+      },
+      "notifications": {
+        "uri": "com/skysinc/frota/frota/model/localdata/notifications.json",
+        "type": "JSON"
       }
+
     }
   },
   "sap.ui": {
@@ -115,6 +120,13 @@
           ]
         },
         {
+          "name": "confiabilidade",
+          "pattern": "confiabilidade/{vehicleId}?query:",
+          "target": [
+            "Confiabilidade"
+          ]
+        },
+        {
           "name": "RouteConverter",
           "pattern": "converter",
           "target": [
@@ -172,6 +184,10 @@
           "id": "Converter",
           "name": "Converter"
         },
+        "Confiabilidade": {
+          "id": "Confiabilidade",
+          "name": "Confiabilidade"
+        },
         "historico": {
           "viewName": "HistoricalPage",
           "id": "Historico",
@@ -197,3 +213,4 @@
     }
   }
 }
+

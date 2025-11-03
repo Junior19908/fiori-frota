@@ -14,10 +14,17 @@ sap.ui.define([
   "com/skysinc/frota/frota/services/ODataMovtos",
   "com/skysinc/frota/frota/services/VehiclesService",
   "com/skysinc/frota/frota/Aggregation",
-  "com/skysinc/frota/frota/services/ReliabilityService"
+  "com/skysinc/frota/frota/services/ReliabilityService",
+  "com/skysinc/frota/frota/model/FilterState",
+  "com/skysinc/frota/frota/util/FilterBuilder",
+  "com/skysinc/frota/frota/util/Storage",
+  "com/skysinc/frota/frota/util/KpiUpdater",
+  "com/skysinc/frota/frota/util/NotificationService",
+  "com/skysinc/frota/frota/model/NotificationModel"
 ], function (
   Controller, JSONModel, Filter, FilterOperator, Fragment, MessageToast, MessageBox,
-  formatter, FilterUtil, MaterialsService, FuelService, KpiService, ODataMovtos, VehiclesService, Aggregation, ReliabilityService
+  formatter, FilterUtil, MaterialsService, FuelService, KpiService, ODataMovtos, VehiclesService, Aggregation, ReliabilityService,
+  FilterState, FilterBuilder, Storage, KpiUpdater, NotificationService, NotificationModel
 ) {
   "use strict";
 
@@ -33,6 +40,18 @@ sap.ui.define([
     const mm = pad2(x.getMinutes());
     const ss = pad2(x.getSeconds());
     return `${y}-${m}-${day}T${hh}:${mm}:${ss}`;
+  }
+
+  function debounce(fn, delay) {
+    let handle;
+    return function () {
+      const ctx = this;
+      const args = arguments;
+      clearTimeout(handle);
+      handle = setTimeout(function () {
+        fn.apply(ctx, args);
+      }, delay);
+    };
   }
 
   function createSummarySkeleton() {
@@ -107,15 +126,6 @@ sap.ui.define([
     };
   }
 
-  function createEmptyFiltersModel() {
-    return {
-      categories: [],
-      vehicles: [],
-      selectedCategories: [],
-      selectedVehicles: []
-    };
-  }
-
   return Controller.extend("com.skysinc.frota.frota.controller.Main", {
     formatter: formatter,
 
@@ -139,170 +149,172 @@ sap.ui.define([
         resumoCombFmt: "Comb: R$ 0,00",
         resumoLitrosFmt: "Litros: 0,00 L",
         resumoMatFmt: "Mat/Serv: R$ 0,00",
-        resumoPrecoFmt: "PreÃ§o MÃ©dio: 0,00 R$/L"
+        resumoPrecoFmt: "Preco medio: 0,00 R$/L"
       });
+
+      const persistedFilters = Storage.load() || {};
+      this._oFilterModel = FilterState.create(persistedFilters);
+      this.getView().setModel(this.oKpi, "kpi");
+      this._summaryModel = new JSONModel(createSummarySkeleton());
+      this.getView().setModel(this._summaryModel, "FleetSummary");
+      this.getView().setModel(this._oFilterModel);
+
+      this._notifModel = NotificationModel.create();
+      this.getView().setModel(this._notifModel, "notifModel");
+      this._notifPopover = null;
+      NotificationService.init({
+        view: this.getView(),
+        component: this.getOwnerComponent(),
+        intervalMs: 60000,
+        model: this._notifModel
+      }).catch((err) => {
+        try {
+          console.warn("[Main] Notificacoes indisponiveis", err);
+        } catch (e) {
+          // ignore console availability issues
+        }
+      });
+
+      this._applyFiltersDebounced = debounce(this._applyFilters.bind(this), 300);
+
+      this._applyHashToState();
+      this._ensureDefaultDateRange();
+      this._applyStateToControls();
+      Storage.save(this._oFilterModel.getData());
+
       try {
         const router = this.getOwnerComponent().getRouter && this.getOwnerComponent().getRouter();
         if (router && router.getRoute) {
           const r = router.getRoute("RouteMain");
-          if (r && r.attachPatternMatched) { r.attachPatternMatched(() => { this._applyMainDatePref(); this.onFilterChange(); }); }
+          if (r && r.attachPatternMatched) {
+            r.attachPatternMatched(() => {
+              this._applyHashToState(true);
+              this._ensureDefaultDateRange(true);
+              this._applyStateToControls();
+              this._applyFilters();
+            });
+          }
         }
-      } catch(e){}
+      } catch (e) {
+        // router not available, ignore
+      }
+
       try {
-        const s = this.getOwnerComponent().getModel && this.getOwnerComponent().getModel("settings");
-        if (s && s.attachPropertyChange) {
-          s.attachPropertyChange((ev)=>{
+        const settingsModel = this.getOwnerComponent().getModel && this.getOwnerComponent().getModel("settings");
+        if (settingsModel && settingsModel.attachPropertyChange) {
+          settingsModel.attachPropertyChange((ev) => {
             try {
               const path = ev && ev.getParameter && ev.getParameter("path");
-              if (path === "/mainDatePref") { this._applyMainDatePref(); this.onFilterChange(); }
-            } catch(__){}
+              if (path === "/mainDatePref") {
+                this._ensureDefaultDateRange(true);
+                this._applyStateToControls();
+                this._applyFilters();
+              }
+            } catch (err) {
+              // ignore property change issues
+            }
           });
         }
-      } catch(e){}
-      this.getView().setModel(this.oKpi, "kpi");
-      this._summaryModel = new JSONModel(createSummarySkeleton());
-      this.getView().setModel(this._summaryModel, "FleetSummary");
-      this._filtersModel = new JSONModel(createEmptyFiltersModel());
-      this.getView().setModel(this._filtersModel, "FleetFilters");
+      } catch (err) {
+        // ignore settings binding issues
+      }
 
       this._eventBus = sap.ui.getCore().getEventBus();
       if (this._eventBus && this._eventBus.subscribe) {
         this._eventBus.subscribe("downtime", "ready", this._onDowntimeReady, this);
       }
+
       const doInitAsync = async () => {
         try {
-          this._isSummaryReady = false;
-          this._applyMainDatePref();
-          await this._reloadDistinctOnly();
-          const range = FilterUtil.currentRange(this.byId("drs"));
-          try {
-            const comp = this.getOwnerComponent && this.getOwnerComponent();
-            if (comp && typeof comp.loadAllHistoryInRange === "function" && Array.isArray(range)) {
-              const months = this._monthsSpan(range[0], range[1]);
-              if (months > 12) {
-                sap.m.MessageToast.show(`PerÃ­odo selecionado muito grande (${months} meses). MÃ¡ximo: 12.`);
-              } else {
-                await comp.loadAllHistoryInRange(range[0], range[1]);
-              }
-            }
-          } catch(_){}
-          await Aggregation.recalcAggByRange(this.getView(), range);
-          await this._updateReliabilityForVehicles(this._currentRangeObj());
-          this._isSummaryReady = true;
-          this._ensureVehiclesCombo();
-          this._ensureCategoriasCombo();
-          this._recalcAndRefresh();
+          await this._applyFilters();
         } catch (e) {
-          try { sap.m.MessageToast.show("Falha na inicializaÃ§Ã£ assÃ­ncrona."); } catch(_){}
+          try {
+            sap.m.MessageToast.show("Falha na inicializacao assincrona.");
+          } catch (_) {
+            // noop
+          }
         }
       };
       void doInitAsync();
     },
-    onFilterChange: async function () {
+    onFilterChanged: function () {
+      const view = this.getView();
+      const model = this._oFilterModel;
+      if (!model || !view) {
+        return;
+      }
+
+      const categoriesCtrl = view.byId("filterCategories");
+      const vehiclesCtrl = view.byId("filterVehicles");
+      const drs = view.byId("filterDateRange");
+      const categories = categoriesCtrl && categoriesCtrl.getSelectedKeys ? categoriesCtrl.getSelectedKeys() : [];
+      const vehicles = vehiclesCtrl && vehiclesCtrl.getSelectedKeys ? vehiclesCtrl.getSelectedKeys() : [];
+      const dateFrom = drs && drs.getDateValue ? drs.getDateValue() : null;
+      const dateTo = drs && drs.getSecondDateValue ? drs.getSecondDateValue() : null;
+
+      model.setProperty("/selection/categories", Array.isArray(categories) ? categories : []);
+      model.setProperty("/selection/vehicles", Array.isArray(vehicles) ? vehicles : []);
+      model.setProperty("/selection/dateFrom", dateFrom || null);
+      model.setProperty("/selection/dateTo", dateTo || null);
+
+      Storage.save(model.getData());
+      this._updateHashFromState();
+      this._applyFiltersDebounced();
+    },
+
+    _applyFilters: async function () {
       try {
         this._isSummaryReady = false;
         await this._reloadDistinctOnly();
-        const range = FilterUtil.currentRange(this.byId("drs"));
-        try {
-          const comp = this.getOwnerComponent && this.getOwnerComponent();
-          if (comp && typeof comp.loadAllHistoryInRange === "function" && Array.isArray(range)) {
-            const months = this._monthsSpan(range[0], range[1]);
-            if (months > 12) {
-              sap.m.MessageToast.show(`PerÃ­odo selecionado muito grande (${months} meses). MÃ¡ximo: 12.`);
-            } else {
-              await comp.loadAllHistoryInRange(range[0], range[1]);
+        const range = this._currentRangeArray();
+        if (Array.isArray(range)) {
+          try {
+            const comp = this.getOwnerComponent && this.getOwnerComponent();
+            if (comp && typeof comp.loadAllHistoryInRange === "function") {
+              const months = this._monthsSpan(range[0], range[1]);
+              if (months > 12) {
+                MessageToast.show("Periodo selecionado muito grande (" + months + " meses). Maximo: 12.");
+              } else {
+                await comp.loadAllHistoryInRange(range[0], range[1]);
+              }
             }
+          } catch (err) {
+            // ignore history load errors
           }
-        } catch(_){}
-        await Aggregation.recalcAggByRange(this.getView(), range);
+          await Aggregation.recalcAggByRange(this.getView(), range);
+        }
         await this._updateReliabilityForVehicles(this._currentRangeObj());
+        this._refreshFilterLists();
         this._isSummaryReady = true;
-        this._ensureVehiclesCombo();
-        this._ensureCategoriasCombo();
         this._recalcAndRefresh();
-      } catch (e) {
+        KpiUpdater.refresh(this.getView(), this._oFilterModel.getData());
+      } catch (error) {
         MessageToast.show("Falha ao recarregar.");
       }
     },
 
-    onMultiCategoryChange: function (oEvent) {
-      if (!this._filtersModel) { return; }
-      const src = oEvent && oEvent.getSource && oEvent.getSource();
-      const keys = (src && typeof src.getSelectedKeys === "function") ? src.getSelectedKeys() : [];
-      this._filtersModel.setProperty("/selectedCategories", Array.isArray(keys) ? keys : []);
-    },
-
-    onMultiVehicleChange: function (oEvent) {
-      if (!this._filtersModel) { return; }
-      const src = oEvent && oEvent.getSource && oEvent.getSource();
-      const keys = (src && typeof src.getSelectedKeys === "function") ? src.getSelectedKeys() : [];
-      this._filtersModel.setProperty("/selectedVehicles", Array.isArray(keys) ? keys : []);
-    },
-
     onClearFilters: async function () {
-      this._applyMainDatePref();
-
-      const inpVeh = this.byId("inpVeiculo");
-      inpVeh?.setSelectedKeys([]);
-      inpVeh?.setValue("");
-
-      const inpCat = this.byId("segCat");
-      inpCat?.setSelectedKeys([]);
-      inpCat?.setValue("");
-      if (this._filtersModel) {
-        this._filtersModel.setProperty("/selectedVehicles", []);
-        this._filtersModel.setProperty("/selectedCategories", []);
+      if (!this._oFilterModel) {
+        return;
       }
+      this._oFilterModel.setProperty("/selection/categories", []);
+      this._oFilterModel.setProperty("/selection/vehicles", []);
 
-      this._isSummaryReady = false;
-      await this._reloadDistinctOnly();
-      const range = FilterUtil.currentRange(this.byId("drs"));
-      try {
-        const comp = this.getOwnerComponent && this.getOwnerComponent();
-        if (comp && typeof comp.loadAllHistoryInRange === "function" && Array.isArray(range)) {
-          const months = this._monthsSpan(range[0], range[1]);
-          if (months > 12) {
-            sap.m.MessageToast.show(`PerÃ­odo selecionado muito grande (${months} meses). MÃ¡ximo: 12.`);
-          } else {
-            await comp.loadAllHistoryInRange(range[0], range[1]);
-          }
-        }
-      } catch(_){}
-      await Aggregation.recalcAggByRange(this.getView(), range);
-      await this._updateReliabilityForVehicles(this._currentRangeObj());
-      this._isSummaryReady = true;
-      this._ensureVehiclesCombo();
-      this._ensureCategoriasCombo();
-      this._recalcAndRefresh();
+      this._ensureDefaultDateRange(true);
+      this._applyStateToControls();
+      Storage.save(this._oFilterModel.getData());
+      this._updateHashFromState();
+      await this._applyFilters();
     },
 
-    // ========= NOVO: Botâ”œÃ¢â”¬Ãºo de Configuraâ”œÃ¢â”¬Âºâ”œÃ¢â”¬Ãºo =========
-    onOpenConfig: function () {
-      // Usa o veÃ­culo selecionado no ComboBox "inpVeiculo"
-      const oVehCombo = this.byId("inpVeiculo");
-      const selectedKeys = (oVehCombo && typeof oVehCombo.getSelectedKeys === "function")
-        ? oVehCombo.getSelectedKeys()
-        : (this._filtersModel?.getProperty("/selectedVehicles") || []);
-      const sEqunr = Array.isArray(selectedKeys) && selectedKeys.length > 0 ? selectedKeys[0] : null;
-
-      try {
-        const oRouter = this.getOwnerComponent().getRouter && this.getOwnerComponent().getRouter();
-        if (oRouter && oRouter.navTo) {
-          if (sEqunr) {
-            oRouter.navTo("config", { equnr: sEqunr });
-          } else {
-            oRouter.navTo("config"); // sem parâ”œÃ¢â”¬Ã³metro: usuâ”œÃ¢â”¬Ã­rio escolhe na tela
-          }
-          return;
-        }
-      } catch (e) {
-        // segue para fallback
+    onOpenFilterConfig: function () {
+      if (typeof this.onOpenSettings === "function") {
+        this.onOpenSettings();
+        return;
       }
-      MessageToast.show("Rota 'config' nÃ£o encontrada. Configure o routing no manifest.json.");
+      MessageToast.show("Configuracoes nao disponiveis.");
     },
-    // ========= FIM DO NOVO =========
 
-    // Abre pâ”œÃ¢â”¬Ã­gina de Configuraâ”œÃ¢â”¬Âºâ”œÃ¢â”¬Ães (preferâ”œÃ¢â”¬Â¬ncias do usuâ”œÃ¢â”¬Ã­rio)
     onOpenSettings: function () {
       try {
         const oRouter = this.getOwnerComponent().getRouter && this.getOwnerComponent().getRouter();
@@ -313,7 +325,7 @@ sap.ui.define([
       } catch (e) {
         // fallback abaixo
       }
-      sap.m.MessageToast.show("Rota 'settings' nÃ£o encontrada. Verifique o routing no manifest.json.");
+      sap.m.MessageToast.show("Rota 'settings' nao encontrada. Verifique o routing no manifest.json.");
     },
 
     onOpenHistorico: function (oEvent) {
@@ -327,7 +339,7 @@ sap.ui.define([
       try {
         const ctxObj = oEvent?.getSource?.()?.getBindingContext("vm")?.getObject?.();
         const equnr = String(ctxObj?.equnr || ctxObj?.veiculo || "");
-        const range = FilterUtil.currentRange(this.byId("drs"));
+        const range = this._currentRangeArray();
         const rangeObj = this._currentRangeObj();
         const metrics = {
           kmRodados: Number(ctxObj?.kmRodadosAgg || 0),
@@ -372,11 +384,11 @@ sap.ui.define([
       }
     },
 
-    // Abre a visualizaâ”œÃ¢â”¬Âºâ”œÃ¢â”¬Ãºo/preview da IW38 (mock local por enquanto)
+    // Abre a visualizacao/preview da IW38 (mock local por enquanto)
     onOpenIW38Preview: function (oEvent) {
       try {
         const ctxObj = oEvent?.getSource?.()?.getBindingContext("vm")?.getObject?.();
-        // Usa alguma possÃ­vel ordem vinda do contexto, senÃ£o um valor padrâ”œÃ¢â”¬Ãºo do mock
+        // Usa alguma possivel ordem vinda do contexto, senao um valor padrao do mock
         const equnr = String(ctxObj?.equnr || ctxObj?.veiculo || "");
         const oRouter = this.getOwnerComponent().getRouter && this.getOwnerComponent().getRouter();
         if (oRouter && oRouter.navTo) {
@@ -386,7 +398,7 @@ sap.ui.define([
       } catch (e) {
         // segue para fallback
       }
-      sap.m.MessageToast.show("Rota 'RouteIW38' nÃ£o encontrada. Verifique o routing no manifest.json.");
+      sap.m.MessageToast.show("Rota 'RouteIW38' nao encontrada. Verifique o routing no manifest.json.");
     },
 
     onOpenMateriais: function (oEvent) {
@@ -394,20 +406,20 @@ sap.ui.define([
       return MaterialsService.openDialog(
         this.getView(),
         { equnr: item.equnr, descricaoVeiculo: item.eqktx },
-        FilterUtil.currentRange(this.byId("drs"))
+        this._currentRangeArray()
       );
     },
 
     onExportMateriais: function () {
-      if (!this._dlgModel) { MessageToast.show("Abra o diâ”œÃ¢â”¬Ã­logo de materiais primeiro."); return; }
+      if (!this._dlgModel) { MessageToast.show("Abra o dialogo de materiais primeiro."); return; }
       sap.ui.require(["com/skysinc/frota/frota/services/MaterialsService"], (Svc) => {
-        Svc.exportCsv(this._dlgModel, this.byId("drs"));
+        Svc.exportCsv(this._dlgModel, this.byId("filterDateRange"));
       });
     },
 
     onPrintMateriais: function () {
       const dlg = this.byId("dlgMateriais");
-      if (!dlg) { MessageToast.show("Abra o diÃ¡logo de materiais primeiro."); return; }
+      if (!dlg) { MessageToast.show("Abra o dialogo de materiais primeiro."); return; }
       const win = window.open("", "_blank", "noopener,noreferrer");
       if (!win) { MessageBox.warning("Bloqueador de pop-up? Permita para imprimir."); return; }
 
@@ -432,12 +444,12 @@ sap.ui.define([
     },
 
     _getPeriodoAtual: function () {
-      const drs = this.byId("drs");
-      const d1  = drs?.getDateValue?.();
-      const d2  = drs?.getSecondDateValue?.();
+      const range = this._currentRangeObj();
+      const start = range.from instanceof Date ? range.from : new Date();
+      const end = range.to instanceof Date ? range.to : start;
       return {
-        startIso: this._toIso(d1 || new Date(), false),
-        endIso:   this._toIso(d2 || d1 || new Date(), true)
+        startIso: this._toIso(start, false),
+        endIso:   this._toIso(end, true)
       };
     },
 
@@ -468,16 +480,16 @@ sap.ui.define([
       const item = ctx && ctx.getObject ? ctx.getObject() : null;
 
       if (!item || !item.equnr) {
-        sap.m.MessageToast.show("Selecione um veÃ­culo vÃ¡lido.");
+        sap.m.MessageToast.show("Selecione um veiculo valido.");
         return;
       }
 
-      const drs = this.byId("drs");
+      const drs = this.byId("filterDateRange");
       if (!drs) {
-        sap.m.MessageToast.show("Componente de perÃ­odo nÃ£o encontrado.");
+        sap.m.MessageToast.show("Componente de periodo nao encontrado.");
         return;
       }
-      const range = FilterUtil.currentRange(drs);
+      const range = this._currentRangeArray();
 
       return FuelService.openFuelDialog(
         this,
@@ -505,10 +517,10 @@ sap.ui.define([
         FuelService.saveFuelLimits(this, { reason: "manual" })
           .then((ok) => {
             if (ok) MessageToast.show("Limites salvos.");
-            else MessageToast.show("nÃ£o foi possÃ­vel salvar os limites.");
+            else MessageToast.show("Nao foi possivel salvar os limites.");
           });
       } catch (e) {
-        MessageToast.show("nÃ£o foi possÃ­vel salvar os limites.");
+        MessageToast.show("Nao foi possivel salvar os limites.");
       }
     },
 
@@ -566,109 +578,227 @@ sap.ui.define([
 
     onDumpVm: function () {},
 
+
+
+    _buildQueryString: function () {
+      if (!this._oFilterModel) {
+        return "";
+      }
+      const selection = this._oFilterModel.getProperty("/selection") || {};
+      const params = new URLSearchParams();
+      const categories = Array.isArray(selection.categories) ? selection.categories.filter(Boolean) : [];
+      if (categories.length) {
+        params.set("cat", categories.join(","));
+      }
+      const vehicles = Array.isArray(selection.vehicles) ? selection.vehicles.filter(Boolean) : [];
+      if (vehicles.length) {
+        params.set("veh", vehicles.join(","));
+      }
+      const formatDate = function (date) {
+        if (!(date instanceof Date) || isNaN(date)) {
+          return "";
+        }
+        return date.toISOString().slice(0, 10);
+      };
+      const from = formatDate(selection.dateFrom);
+      const to = formatDate(selection.dateTo);
+      if (from) {
+        params.set("from", from);
+      }
+      if (to) {
+        params.set("to", to);
+      }
+      return params.toString();
+    },
+
+    _applyHashToState: function () {
+      if (!this._oFilterModel) {
+        return;
+      }
+      try {
+        const hashChanger = sap.ui.core.routing.HashChanger.getInstance();
+        const rawHash = hashChanger && typeof hashChanger.getHash === "function" ? hashChanger.getHash() : "";
+        let queryString = "";
+        if (rawHash && rawHash.indexOf("?") !== -1) {
+          queryString = rawHash.slice(rawHash.indexOf("?") + 1);
+        } else {
+          queryString = rawHash || "";
+        }
+        if (queryString.indexOf("query=") === 0) {
+          queryString = queryString.slice("query=".length);
+        }
+        this._lastHashParams = queryString;
+        const params = new URLSearchParams(queryString);
+        const parseKeys = function (value) {
+          if (!value) {
+            return [];
+          }
+          return value.split(",").map(function (item) {
+            return item.trim();
+          }).filter(Boolean);
+        };
+        const parseDate = function (value) {
+          if (!value) {
+            return null;
+          }
+          const parts = value.split("-");
+          if (parts.length !== 3) {
+            return null;
+          }
+          const year = Number(parts[0]);
+          const month = Number(parts[1]) - 1;
+          const day = Number(parts[2]);
+          if (!Number.isFinite(year) || !Number.isFinite(month) || !Number.isFinite(day)) {
+            return null;
+          }
+          return new Date(year, month, day, 0, 0, 0, 0);
+        };
+        this._oFilterModel.setProperty("/selection/categories", parseKeys(params.get("cat")));
+        this._oFilterModel.setProperty("/selection/vehicles", parseKeys(params.get("veh")));
+        const fromDate = parseDate(params.get("from"));
+        const toDate = parseDate(params.get("to"));
+        if (fromDate) {
+          this._oFilterModel.setProperty("/selection/dateFrom", fromDate);
+        }
+        if (toDate) {
+          this._oFilterModel.setProperty("/selection/dateTo", toDate);
+        }
+        Storage.save(this._oFilterModel.getData());
+      } catch (err) {
+        // ignore malformed hash values
+      }
+    },
+
+    _updateHashFromState: function () {
+      try {
+        const queryString = this._buildQueryString();
+        if (this._lastHashParams === queryString) {
+          return;
+        }
+        this._lastHashParams = queryString;
+        const router = sap.ui.core.UIComponent.getRouterFor(this);
+        if (router && router.navTo) {
+          router.navTo("RouteMain", { query: queryString }, true);
+        }
+      } catch (err) {
+        // best-effort routing update
+      }
+    },
+
+    _refreshFilterLists: function () {
+      if (!this._oFilterModel) {
+        return;
+      }
+      this._ensureVehiclesCombo();
+      this._ensureCategoriasCombo();
+      this._applyStateToControls();
+      Storage.save(this._oFilterModel.getData());
+    },
+
     _ensureVehiclesCombo: function () {
-      const filtersModel = this.getView().getModel("FleetFilters");
-      if (!filtersModel) { return; }
-      const rawVehicles = (this.getView().getModel("vm")?.getProperty("/veiculos") || []);
+      if (!this._oFilterModel) {
+        return;
+      }
+      const vmModel = this.getView().getModel("vm");
+      const rawVehicles = (vmModel && vmModel.getProperty("/veiculos")) || [];
       const map = new Map();
 
       rawVehicles.forEach((row) => {
         const key = row?.equnr || row?.veiculo || row?.id;
-        if (!key) { return; }
+        if (!key && key !== 0) {
+          return;
+        }
         const keyStr = String(key);
         if (!map.has(keyStr)) {
-          const secondary = row?.eqktx || row?.DESCR || row?.descricao || "";
+          const description = row?.eqktx || row?.DESCR || row?.descricao || "";
           map.set(keyStr, {
             key: keyStr,
-            text: keyStr,
-            secondary: secondary || ""
+            text: description ? keyStr + " - " + description : keyStr
           });
         }
       });
 
       const sorter = (a, b) => {
-        try { return a.text.localeCompare(b.text, "pt-BR"); } catch(e) { return a.text < b.text ? -1 : (a.text > b.text ? 1 : 0); }
+        try {
+          return a.text.localeCompare(b.text, "pt-BR");
+        } catch (e) {
+          return a.text < b.text ? -1 : (a.text > b.text ? 1 : 0);
+        }
       };
 
       const vehicles = Array.from(map.values()).sort(sorter);
-      const selected = filtersModel.getProperty("/selectedVehicles") || [];
-      const filteredSelected = selected.filter((key) => map.has(String(key)));
+      const currentSelection = this._oFilterModel.getProperty("/selection/vehicles") || [];
+      const validSelection = currentSelection.filter((key) => map.has(String(key)));
 
-      filtersModel.setProperty("/vehicles", vehicles);
-      filtersModel.setProperty("/selectedVehicles", filteredSelected);
+      this._oFilterModel.setProperty("/lists/vehicles", vehicles);
+      this._oFilterModel.setProperty("/selection/vehicles", validSelection.slice());
 
-      const control = this.byId("inpVeiculo");
+      const control = this.byId("filterVehicles");
       if (control && typeof control.setSelectedKeys === "function") {
-        control.setSelectedKeys(filteredSelected);
+        control.setSelectedKeys(validSelection);
       }
     },
 
     _ensureCategoriasCombo: function () {
-      const filtersModel = this.getView().getModel("FleetFilters");
-      if (!filtersModel) { return; }
-
-      const rawVehicles = (this.getView().getModel("vm")?.getProperty("/veiculos") || []);
+      if (!this._oFilterModel) {
+        return;
+      }
+      const vmModel = this.getView().getModel("vm");
+      const rawVehicles = (vmModel && vmModel.getProperty("/veiculos")) || [];
       const map = new Map();
 
       rawVehicles.forEach((row) => {
-        const catRaw = (row && row.CATEGORIA != null && row.CATEGORIA !== "") ? row.CATEGORIA : null;
-        if (!catRaw) { return; }
-        const key = String(catRaw);
+        const category = row && row.CATEGORIA != null ? row.CATEGORIA : null;
+        if (category == null || category === "") {
+          return;
+        }
+        const key = String(category);
         if (!map.has(key)) {
+          const group = row?.GRUPO || row?.grupo || "";
           map.set(key, {
-            key,
+            key: key,
             text: key,
-            group: row?.GRUPO || row?.grupo || ""
+            group: group
           });
         }
       });
 
       const sorter = (a, b) => {
-        try { return a.text.localeCompare(b.text, "pt-BR"); } catch(e) { return a.text < b.text ? -1 : (a.text > b.text ? 1 : 0); }
+        try {
+          return a.text.localeCompare(b.text, "pt-BR");
+        } catch (e) {
+          return a.text < b.text ? -1 : (a.text > b.text ? 1 : 0);
+        }
       };
 
       const categories = Array.from(map.values()).sort(sorter);
-      const selected = filtersModel.getProperty("/selectedCategories") || [];
-      const filteredSelected = selected.filter((key) => map.has(String(key)));
+      const currentSelection = this._oFilterModel.getProperty("/selection/categories") || [];
+      const validSelection = currentSelection.filter((key) => map.has(String(key)));
 
-      filtersModel.setProperty("/categories", categories);
-      filtersModel.setProperty("/selectedCategories", filteredSelected);
+      this._oFilterModel.setProperty("/lists/categories", categories);
+      this._oFilterModel.setProperty("/selection/categories", validSelection.slice());
 
-      const control = this.byId("segCat");
+      const control = this.byId("filterCategories");
       if (control && typeof control.setSelectedKeys === "function") {
-        control.setSelectedKeys(filteredSelected);
+        control.setSelectedKeys(validSelection);
       }
     },
 
     _getSelectedVehicleKeys: function () {
-      const ctrl = this.byId("inpVeiculo");
-      let keys = [];
-      if (ctrl && typeof ctrl.getSelectedKeys === "function") {
-        keys = ctrl.getSelectedKeys() || [];
-      }
-      if (!Array.isArray(keys) || keys.length === 0) {
-        const fromModel = this._filtersModel?.getProperty("/selectedVehicles");
-        keys = Array.isArray(fromModel) ? fromModel : [];
-      }
-      const dedup = Array.from(new Set((keys || []).map((k) => String(k))));
-      return dedup;
+      const normalised = this._oFilterModel
+        ? FilterBuilder.normaliseSelection(this._oFilterModel.getProperty("/selection"))
+        : FilterBuilder.normaliseSelection();
+      const arr = Array.isArray(normalised.vehicles) ? normalised.vehicles : [];
+      return Array.from(new Set(arr.map(function (key) { return String(key); })));
     },
 
     _getSelectedCategoryKeys: function () {
-      const ctrl = this.byId("segCat");
-      let keys = [];
-      if (ctrl && typeof ctrl.getSelectedKeys === "function") {
-        keys = ctrl.getSelectedKeys() || [];
-      }
-      if (!Array.isArray(keys) || keys.length === 0) {
-        const fromModel = this._filtersModel?.getProperty("/selectedCategories");
-        keys = Array.isArray(fromModel) ? fromModel : [];
-      }
-      const dedup = Array.from(new Set((keys || []).map((k) => String(k))));
-      return dedup;
-    },
-
-    _updateReliabilityForVehicles: async function (rangeObj) {
+      const normalised = this._oFilterModel
+        ? FilterBuilder.normaliseSelection(this._oFilterModel.getProperty("/selection"))
+        : FilterBuilder.normaliseSelection();
+      const arr = Array.isArray(normalised.categories) ? normalised.categories : [];
+      return Array.from(new Set(arr.map(function (key) { return String(key); })));
+    },_updateReliabilityForVehicles: async function (rangeObj) {
       const vmModel = this.getView().getModel("vm");
       if (!vmModel) { return; }
       const vehicles = vmModel.getProperty("/veiculos") || [];
@@ -823,7 +953,7 @@ sap.ui.define([
         resumoCombFmt: "Comb: " + this.formatter.fmtBrl(totCombR$),
         resumoLitrosFmt: "Litros: " + this.formatter.fmtLitros(totLitros),
         resumoMatFmt: "Mat/Serv: " + this.formatter.fmtBrl(totMatR$),
-        resumoPrecoFmt: "PreÃ§o MÃ©dio: " + this.formatter.fmtNum(precoMedio) + " R$/L"
+        resumoPrecoFmt: "Preco medio: " + this.formatter.fmtNum(precoMedio) + " R$/L"
       }, true);
     },
 
@@ -839,9 +969,125 @@ sap.ui.define([
       }
     },
 
+    onOpenNotifications: function (oEvent) {
+      const source = oEvent && oEvent.getSource ? oEvent.getSource() : this.byId("btnNotifications");
+      const openPopover = () => {
+        if (!this._notifPopover) {
+          return;
+        }
+        this._notifPopover.openBy(source);
+        NotificationService.toggleOpen(true);
+        NotificationService.fetch(true).catch(() => {
+          // ignore fetch errors while opening
+        });
+      };
+      if (!this._notifPopover) {
+        Fragment.load({
+          id: this.getView().getId(),
+          name: "com.skysinc.frota.frota.fragments.NotificationsPopover",
+          controller: this
+        }).then((popover) => {
+          this._notifPopover = popover;
+          this.getView().addDependent(popover);
+          openPopover();
+        });
+      } else if (this._notifPopover.isOpen()) {
+        this._notifPopover.close();
+      } else {
+        openPopover();
+      }
+    },
+
+    onNotificationsOpened: function () {
+      NotificationService.toggleOpen(true);
+    },
+
+    onNotificationsClosed: function () {
+      NotificationService.toggleOpen(false);
+    },
+
+    onNotificationPress: function (oEvent) {
+      const source = oEvent.getSource && oEvent.getSource();
+      const context = source && source.getBindingContext && source.getBindingContext("notifModel");
+      if (!context) {
+        return;
+      }
+      const data = context.getObject();
+      if (!data) {
+        return;
+      }
+      NotificationService.markAsRead(data.id);
+      if (data.actionRoute) {
+        try {
+          const router = this.getOwnerComponent().getRouter();
+          if (router && router.navTo) {
+            router.navTo(data.actionRoute, data.actionParams || {});
+          }
+        } catch (err) {
+          MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("notif.nav.error"));
+        }
+      }
+      if (this._notifPopover) {
+        this._notifPopover.close();
+      }
+    },
+
+    onNotificationMarkRead: function (oEvent) {
+      const source = oEvent.getSource && oEvent.getSource();
+      const context = source && source.getBindingContext && source.getBindingContext("notifModel");
+      if (!context) {
+        return;
+      }
+      const data = context.getObject();
+      if (!data) {
+        return;
+      }
+      NotificationService.markAsRead(data.id);
+    },
+
+    onNotificationDismiss: function (oEvent) {
+      const source = oEvent.getSource && oEvent.getSource();
+      const context = source && source.getBindingContext && source.getBindingContext("notifModel");
+      if (!context) {
+        return;
+      }
+      const data = context.getObject();
+      if (!data) {
+        return;
+      }
+      NotificationService.markAsRead(data.id);
+      this._removeNotification(data.id);
+    },
+
+    onNotificationMarkAll: function () {
+      NotificationService.markAll();
+    },
+
+    onNotificationClear: function () {
+      NotificationService.clearAll();
+    },
+
+    _removeNotification: function (id) {
+      if (!this._notifModel) {
+        return;
+      }
+      const remaining = (this._notifModel.getProperty("/items") || []).filter(function (item) {
+        return item.id !== id;
+      });
+      this._notifModel.setProperty("/items", remaining);
+      const unread = remaining.filter(function (item) {
+        return !item.read;
+      }).length;
+      this._notifModel.setProperty("/unread", unread);
+    },
+
     onExit: function () {
       if (this._eventBus && this._eventBus.unsubscribe) {
         this._eventBus.unsubscribe("downtime", "ready", this._onDowntimeReady, this);
+      }
+      if (this._notifPopover) {
+        this._notifPopover.destroy();
+        this._notifPopover = null;
       }
     },
 
@@ -864,54 +1110,101 @@ sap.ui.define([
 
     _todayPair: function () {
       const now = new Date();
-      const t = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 0, 0, 0);
-      return [t, t];
-    },
-
-    _applyMainDatePref: function () {
-      try {
-        const drs = this.byId("drs");
-        if (!drs) return;
-        const s = this.getOwnerComponent().getModel && this.getOwnerComponent().getModel("settings");
-        const pref = s && s.getProperty ? s.getProperty("/mainDatePref") : null;
-        let d1d2;
-        if (pref === "today") d1d2 = this._todayPair();
-        else d1d2 = this._yesterdayPair();
-        drs.setDateValue(d1d2[0]);
-        drs.setSecondDateValue(d1d2[1]);
-      } catch(e){}
+      const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
+      const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+      return [start, end];
     },
 
     _yesterdayPair: function () {
       const now = new Date();
-      const y = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, 12, 0, 0, 0);
-      return [y, y];
+      const start = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, 0, 0, 0, 0);
+      const end = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, 23, 59, 59, 999);
+      return [start, end];
     },
 
-    _setDefaultYesterdayOnDRS: function () {
-      const drs = this.byId("drs");
-      if (!drs) return;
-      const [d1, d2] = this._yesterdayPair();
-      drs.setDateValue(d1);
-      drs.setSecondDateValue(d2);
+    _getDefaultDateRangePair: function () {
+      let pref = null;
+      try {
+        const settingsModel = this.getOwnerComponent().getModel && this.getOwnerComponent().getModel("settings");
+        pref = settingsModel && settingsModel.getProperty ? settingsModel.getProperty("/mainDatePref") : null;
+      } catch (e) {
+        // ignore missing settings model
+      }
+      if (pref === "today") {
+        return this._todayPair();
+      }
+      return this._yesterdayPair();
+    },
+
+    _ensureDefaultDateRange: function (force) {
+      if (!this._oFilterModel) {
+        return;
+      }
+      const selection = this._oFilterModel.getProperty("/selection") || {};
+      let from = selection.dateFrom instanceof Date ? selection.dateFrom : (selection.dateFrom ? new Date(selection.dateFrom) : null);
+      let to = selection.dateTo instanceof Date ? selection.dateTo : (selection.dateTo ? new Date(selection.dateTo) : null);
+      if (!from || !to || force === true) {
+        const pair = this._getDefaultDateRangePair();
+        from = pair[0];
+        to = pair[1];
+      }
+      this._oFilterModel.setProperty("/selection/dateFrom", from);
+      this._oFilterModel.setProperty("/selection/dateTo", to);
+    },
+
+    _applyStateToControls: function () {
+      if (!this._oFilterModel) {
+        return;
+      }
+      const selection = this._oFilterModel.getProperty("/selection") || {};
+      const categoriesCtrl = this.byId("filterCategories");
+      if (categoriesCtrl && typeof categoriesCtrl.setSelectedKeys === "function") {
+        categoriesCtrl.setSelectedKeys(selection.categories || []);
+      }
+      const vehiclesCtrl = this.byId("filterVehicles");
+      if (vehiclesCtrl && typeof vehiclesCtrl.setSelectedKeys === "function") {
+        vehiclesCtrl.setSelectedKeys(selection.vehicles || []);
+      }
+      const drs = this.byId("filterDateRange");
+      if (drs) {
+        drs.setDateValue(selection.dateFrom || null);
+        drs.setSecondDateValue(selection.dateTo || null);
+      }
+    },
+
+    _currentRangeArray: function () {
+      if (!this._oFilterModel) {
+        return null;
+      }
+      const selection = this._oFilterModel.getProperty("/selection") || {};
+      const from = selection.dateFrom instanceof Date ? selection.dateFrom : (selection.dateFrom ? new Date(selection.dateFrom) : null);
+      const to = selection.dateTo instanceof Date ? selection.dateTo : (selection.dateTo ? new Date(selection.dateTo) : null);
+      if (!(from instanceof Date) || isNaN(from) || !(to instanceof Date) || isNaN(to)) {
+        return null;
+      }
+      const start = new Date(from.getFullYear(), from.getMonth(), from.getDate(), 0, 0, 0, 0);
+      const end = new Date(to.getFullYear(), to.getMonth(), to.getDate(), 23, 59, 59, 999);
+      return [start, end];
     },
 
     _currentRangeObj: function () {
-      const drs = this.byId("drs");
-      const d1 = drs?.getDateValue?.();
-      const d2 = drs?.getSecondDateValue?.();
-      const [y1, y2] = this._yesterdayPair();
-      const range = { from: d1 || y1, to: d2 || d1 || y2 };
-      return range;
+      const range = this._currentRangeArray();
+      if (!Array.isArray(range)) {
+        const fallback = this._getDefaultDateRangePair();
+        return { from: fallback[0], to: fallback[1] };
+      }
+      return { from: range[0], to: range[1] };
     },
 
     _monthsSpan: function (d1, d2) {
-      if (!(d1 instanceof Date) || !(d2 instanceof Date)) return 0;
+      if (!(d1 instanceof Date) || isNaN(d1) || !(d2 instanceof Date) || isNaN(d2)) {
+        return 0;
+      }
       const y1 = d1.getFullYear();
-      const m1 = d1.getMonth(); // 0..11
+      const m1 = d1.getMonth();
       const y2 = d2.getFullYear();
-      const m2 = d2.getMonth(); // 0..11
-      return (y2 - y1) * 12 + (m2 - m1) + 1; // inclusivo
+      const m2 = d2.getMonth();
+      return (y2 - y1) * 12 + (m2 - m1) + 1;
     },
 
     _reloadDistinctOnly: function () {
@@ -924,6 +1217,24 @@ sap.ui.define([
     }
   });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

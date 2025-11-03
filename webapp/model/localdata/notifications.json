@@ -1,0 +1,40 @@
+[
+  {
+    "id": "notif-001",
+    "title": "Confiabilidade em atenção",
+    "body": "O MTTR do veículo 20011100 ultrapassou o limite esperado no período selecionado.",
+    "severity": "Warning",
+    "createdAt": "2025-11-03T10:15:00Z",
+    "read": false,
+    "actionRoute": "confiabilidade",
+    "actionParams": {
+      "vehicleId": "20011100",
+      "query": "veh=20011100"
+    }
+  },
+  {
+    "id": "notif-002",
+    "title": "Nova OS registrada",
+    "body": "Foi criada uma nova OS para o veículo 20020207.",
+    "severity": "Information",
+    "createdAt": "2025-11-02T18:42:00Z",
+    "read": false,
+    "actionRoute": "RouteHistorico",
+    "actionParams": {
+      "id": "20020207"
+    }
+  },
+  {
+    "id": "notif-003",
+    "title": "Disponibilidade baixa",
+    "body": "Disponibilidade abaixo de 85% no último mês para o veículo 20030305.",
+    "severity": "Error",
+    "createdAt": "2025-10-30T07:05:00Z",
+    "read": true,
+    "actionRoute": "confiabilidade",
+    "actionParams": {
+      "vehicleId": "20030305",
+      "query": "veh=20030305"
+    }
+  }
+]

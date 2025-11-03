@@ -1,0 +1,63 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+  <Popover
+    id="notificationsPopover"
+    placement="Bottom"
+    contentWidth="24rem"
+    horizontalScrolling="false"
+    afterClose=".onNotificationsClosed"
+    afterOpen=".onNotificationsOpened"
+    ariaLabelledBy="notifPopoverTitle">
+    <customHeader>
+      <Bar>
+        <Title id="notifPopoverTitle" text="{i18n>notif.title}" level="H6" />
+      </Bar>
+    </customHeader>
+    <content>
+      <List
+        id="notificationsList"
+        items="{
+          path: 'notifModel>/items',
+          sorter: { path: 'createdAt', descending: true }
+        }"
+        noDataText="{i18n>notif.empty}">
+        <items>
+          <NotificationListItem
+            title="{notifModel>title}"
+            description="{notifModel>body}"
+            priority="{notifModel>priority}"
+            datetime="{notifModel>relativeTime}"
+            showCloseButton="true"
+            close=".onNotificationDismiss"
+            press=".onNotificationPress"
+            type="Active"
+            read="{notifModel>read}"
+            authorAvatarColor="Accent6">
+            <buttons>
+              <Button
+                text="{i18n>notif.markRead}"
+                type="Transparent"
+                visible="{= !${notifModel>read} }"
+                press=".onNotificationMarkRead" />
+            </buttons>
+          </NotificationListItem>
+        </items>
+      </List>
+    </content>
+    <footer>
+      <Bar>
+        <contentLeft>
+          <Button
+            text="{i18n>notif.markAll}"
+            type="Transparent"
+            press=".onNotificationMarkAll" />
+        </contentLeft>
+        <contentRight>
+          <Button
+            text="{i18n>notif.clearAll}"
+            type="Transparent"
+            press=".onNotificationClear" />
+        </contentRight>
+      </Bar>
+    </footer>
+  </Popover>
+</core:FragmentDefinition>
