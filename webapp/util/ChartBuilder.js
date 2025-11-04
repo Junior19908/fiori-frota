@@ -2,6 +2,7 @@ sap.ui.define([
   "sap/viz/ui5/controls/VizFrame",
   "sap/viz/ui5/data/FlattenedDataset",
   "sap/viz/ui5/controls/common/feeds/FeedItem",
+  "sap/ui/model/json/JSONModel",
   "sap/suite/ui/microchart/LineMicroChart",
   "sap/suite/ui/microchart/LineMicroChartPoint",
   "sap/suite/ui/microchart/ComparisonMicroChart",
@@ -10,6 +11,7 @@ sap.ui.define([
   VizFrame,
   FlattenedDataset,
   FeedItem,
+  JSONModel,
   LineMicroChart,
   LineMicroChartPoint,
   ComparisonMicroChart,
@@ -17,7 +19,7 @@ sap.ui.define([
 ) {
   "use strict";
 
-  function createVizFrame(type, datasetConfig, properties) {
+  function createVizFrame(type, datasetConfig, properties, dataCollection) {
     const frame = new VizFrame({
       uiConfig: {
         applicationSet: "fiori"
@@ -31,6 +33,8 @@ sap.ui.define([
     if (properties) {
       frame.setVizProperties(properties);
     }
+    const data = Array.isArray(dataCollection) ? dataCollection : [];
+    frame.setModel(new JSONModel(data));
     return frame;
   }
 
@@ -51,7 +55,7 @@ sap.ui.define([
     });
     const datasetConfig = {
       data: {
-        data: opts.data || []
+        path: "/"
       },
       dimensions: [{
         name: opts.dimensionName || "Periodo",
@@ -60,7 +64,7 @@ sap.ui.define([
       measures: measures
     };
 
-    return applyFeeds(createVizFrame("column", datasetConfig, opts.properties), [{
+    return applyFeeds(createVizFrame("column", datasetConfig, opts.properties, opts.data), [{
       uid: "categoryAxis",
       type: "Dimension",
       values: [opts.dimensionName || "Periodo"]
@@ -83,7 +87,7 @@ sap.ui.define([
     });
     const datasetConfig = {
       data: {
-        data: opts.data || []
+        path: "/"
       },
       dimensions: [{
         name: opts.dimensionName || "Periodo",
@@ -92,7 +96,7 @@ sap.ui.define([
       measures: measures
     };
 
-    return applyFeeds(createVizFrame("line", datasetConfig, opts.properties), [{
+    return applyFeeds(createVizFrame("line", datasetConfig, opts.properties, opts.data), [{
       uid: "categoryAxis",
       type: "Dimension",
       values: [opts.dimensionName || "Periodo"]
