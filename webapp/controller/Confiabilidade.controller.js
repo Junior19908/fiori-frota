@@ -190,7 +190,9 @@ sap.ui.define([
   return Controller.extend("com.skysinc.frota.frota.controller.Confiabilidade", {
     onInit: function () {
       this._component = this.getOwnerComponent();
-      this._resourceBundle = this.getView().getModel("i18n").getResourceBundle();
+      const view = this.getView();
+      const model = view && view.getModel && view.getModel("i18n");
+      this._resourceBundle = model && model.getResourceBundle ? model.getResourceBundle() : null;
 
       const persistedFilters = Storage.load() || {};
       this._filterModel = FilterState.create(persistedFilters);
@@ -890,3 +892,4 @@ sap.ui.define([
     }
   });
 });
+
