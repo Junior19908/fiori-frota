@@ -572,11 +572,7 @@ function safeText(controller, key, args, fallback) {
       }
       const model = this._component.getModel && this._component.getModel("svc");
       const selection = this._filterModel.getData();
-      const options = {
-        model: model,
-        vehicleId: this._vehicleId,
-        selection: selection
-      };
+      const options = {\n        model: model,\n        vehicleId: this._vehicleId,\n        selection: selection,\n        component: this._component\n      };
 
       this._reliabModel.setProperty("/busy", true);
       this._reliabModel.setProperty("/loadingFailures", true);
@@ -925,6 +921,7 @@ function safeText(controller, key, args, fallback) {
     }
   });
 });
+
 
 
 

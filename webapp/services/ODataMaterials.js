@@ -1,109 +1,144 @@
-// File: com/skysinc/frota/frota/services/ODataMaterials.js
 sap.ui.define([
   "sap/ui/model/odata/v2/ODataModel",
-  "sap/m/MessageBox"
-], function (ODataModel, MessageBox) {
+  "sap/m/MessageBox",
+  "sap/ui/core/BusyIndicator"
+], function (ODataModel, MessageBox, BusyIndicator) {
   "use strict";
 
-  function pad2(n){ return String(n).padStart(2,"0"); }
-  function ymd(d){ return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate()); }
-  function nextDay(d){ return new Date(d.getFullYear(), d.getMonth(), d.getDate()+1); }
+  function pad(num, size) {
+    const digits = String(num || "").replace(/\D/g, "");
+    return digits.padStart(size, "0");
+  }
 
-  function padEqunr(e) {
-    const digits = String(e || "").replace(/\D/g, "");
-    return digits.padStart(18, "0");
+  function ymd(date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    const d = String(date.getDate()).padStart(2, "0");
+    return y + "-" + m + "-" + d;
+  }
+
+  function nextDay(date) {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
   }
 
   const SELECT = [
-    "ID","equnr","eqktx",
-    "matnr","maktx",
-    "menge","meins",
-    "dmbtr","waers",
+    "ID", "equnr", "eqktx",
+    "matnr", "maktx",
+    "menge", "meins",
+    "dmbtr", "waers",
     "lgort",
-    "budat_mkpf","cpudt_mkpf","cputm_mkpf",
-    "aufnr","rsnum","rspos",
-    "wempf","usnam_mkpf",
+    "budat_mkpf", "cpudt_mkpf", "cputm_mkpf",
+    "aufnr", "rsnum", "rspos",
+    "wempf", "usnam_mkpf",
     "servpc",
-    "CATEGORIA","matkl","wgbez"
+    "CATEGORIA", "matkl", "wgbez"
   ].join(",");
 
   const ORDERBY = "budat_mkpf asc, cpudt_mkpf asc, cputm_mkpf asc";
 
-  function mapResult(r) {
-    const qtde  = Number(r.menge || 0);
-    const valor = Number(r.dmbtr || 0);
-    const custoUnit = qtde ? (valor / qtde) : 0;
+  function mapResult(row) {
+    const quantity = Number(row.menge || 0);
+    const amount = Number(row.dmbtr || 0);
+    const unitCost = quantity ? (amount / quantity) : 0;
 
-    let horaEntrada = "";
-    if (r.cputm_mkpf && r.cputm_mkpf.ms !== undefined) {
-      const ms = Number(r.cputm_mkpf.ms) || 0;
-      const sec = Math.floor(ms / 1000);
-      const H = String(Math.floor(sec/3600)).padStart(2,"0");
-      const M = String(Math.floor((sec%3600)/60)).padStart(2,"0");
-      const S = String(sec%60).padStart(2,"0");
-      horaEntrada = `${H}:${M}:${S}`;
+    let timeStr = "";
+    if (row.cputm_mkpf && row.cputm_mkpf.ms !== undefined) {
+      const ms = Number(row.cputm_mkpf.ms) || 0;
+      const seconds = Math.floor(ms / 1000);
+      const h = String(Math.floor(seconds / 3600)).padStart(2, "0");
+      const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, "0");
+      const s = String(seconds % 60).padStart(2, "0");
+      timeStr = h + ":" + m + ":" + s;
     }
 
-    const dataStr = (() => {
-      if (r.budat_mkpf && r.budat_mkpf.getTime) {
-        const d = r.budat_mkpf;
-        const y = d.getFullYear();
-        const m = String(d.getMonth()+1).padStart(2,"0");
-        const x = String(d.getDate()).padStart(2,"0");
-        return `${y}-${m}-${x}`;
+    const dateStr = (function () {
+      if (row.budat_mkpf && row.budat_mkpf.getTime) {
+        const d = row.budat_mkpf;
+        return ymd(d);
       }
-      return r.budat_mkpf || "";
+      return row.budat_mkpf || "";
     })();
 
     return {
-      idEvento: r.ID || `${r.equnr || ""}-${r.rsnum || ""}-${r.rspos || ""}-${r.matnr || ""}-${r.budat_mkpf || ""}`,
-      veiculo: r.equnr || "",
-      descricaoVeiculo: r.eqktx || "",
-      codMaterial: r.matnr || "",
-      nome: r.maktx || "",
-      tipo: r.servpc || "",
-      unid: r.meins || "",
-      deposito: r.lgort || "",
-      qtde: qtde,
-      custoUnit: custoUnit,
-      valorTotal: valor,
-      moeda: r.waers || "",
-      data: dataStr,
-      dataEntrada: r.cpudt_mkpf || "",
-      horaEntrada: horaEntrada,
-      nOrdem: r.aufnr || "",
-      nReserva: r.rsnum || "",
-      nItem: r.rspos || "",
-      recebedor: r.wempf || "",
-      usuario: r.usnam_mkpf || "",
-      categoria: r.CATEGORIA || "",
-      grpMerc: r.matkl || "",
-      grpMercDesc: r.wgbez || ""
+      idEvento: row.ID || [
+        row.equnr || "",
+        row.rsnum || "",
+        row.rspos || "",
+        row.matnr || "",
+        row.budat_mkpf || ""
+      ].join("-"),
+      veiculo: row.equnr || "",
+      descricaoVeiculo: row.eqktx || "",
+      codMaterial: row.matnr || "",
+      nome: row.maktx || "",
+      tipo: row.servpc || "",
+      unid: row.meins || "",
+      deposito: row.lgort || "",
+      qtde: quantity,
+      custoUnit: unitCost,
+      valorTotal: amount,
+      moeda: row.waers || "",
+      data: dateStr,
+      dataEntrada: row.cpudt_mkpf || "",
+      horaEntrada: timeStr,
+      nOrdem: row.aufnr || "",
+      nReserva: row.rsnum || "",
+      nItem: row.rspos || "",
+      recebedor: row.wempf || "",
+      usuario: row.usnam_mkpf || "",
+      categoria: row.CATEGORIA || "",
+      grpMerc: row.matkl || "",
+      grpMercDesc: row.wgbez || ""
     };
+  }
+
+  function buildOrderFilter(orders) {
+    if (!Array.isArray(orders) || orders.length === 0) {
+      return "";
+    }
+    const parts = orders
+      .map(function (order) {
+        return pad(order, 12);
+      })
+      .filter(Boolean)
+      .map(function (value) {
+        return "aufnr eq '" + value + "'";
+      });
+    if (!parts.length) {
+      return "";
+    }
+    return "(" + parts.join(" or ") + ")";
   }
 
   /**
    * Carrega materiais respeitando datas locais (sem UTC manual).
    * Usa meia-aberta: GE <start 00:00> e LT <end+1 00:00>.
    */
-  function loadMaterials(oComponent, { equnr, startDate, endDate }) {
+  function loadMaterials(oComponent, options) {
+    const settings = options || {};
     const oSvc = oComponent.getModel("svc");
     if (!oSvc || !(oSvc instanceof ODataModel)) {
-      MessageBox.error("OData 'svc' nÃ£o configurado no manifest.");
+      MessageBox.error("OData 'svc' não configurado no manifest.");
       return Promise.resolve([]);
     }
 
-    const equnr18 = padEqunr(equnr);
+    const equnr18 = pad(settings.equnr, 18);
 
-    // Normaliza para 00:00 local e 00:00 do dia seguinte
+    const startDate = settings.startDate || new Date();
+    const endDate = settings.endDate || startDate;
+
     const start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
     const endNext = nextDay(new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()));
 
-    // Monta $filter como STRING para evitar conversÃ£o Date->UTC pelo ODataModel
     const fEqunr = "equnr eq '" + equnr18 + "'";
     const fGe = "budat_mkpf ge datetime'" + ymd(start) + "T00:00:00'";
     const fLt = "budat_mkpf lt datetime'" + ymd(endNext) + "T00:00:00'";
-    const filterStr = "(" + fGe + " and " + fLt + ") and " + fEqunr;
+    const orderFilter = buildOrderFilter(settings.orders);
+
+    let filterStr = "(" + fGe + " and " + fLt + ") and " + fEqunr;
+    if (orderFilter) {
+      filterStr += " and " + orderFilter;
+    }
 
     const urlParameters = {
       "$select": SELECT,
@@ -111,17 +146,24 @@ sap.ui.define([
       "$filter": filterStr
     };
 
-    sap.ui.core.BusyIndicator.show(0);
-    return new Promise((resolve) => {
+    const showBusy = settings.showBusy !== false;
+    if (showBusy) {
+      BusyIndicator.show(0);
+    }
+    return new Promise(function (resolve) {
       oSvc.read("/ZC_EQ_MOVTO", {
-        urlParameters,
-        success: (oData) => {
-          sap.ui.core.BusyIndicator.hide();
-          const results = (oData && oData.results) || [];
+        urlParameters: urlParameters,
+        success: function (data) {
+          if (showBusy) {
+            BusyIndicator.hide();
+          }
+          const results = data && data.results ? data.results : [];
           resolve(results.map(mapResult));
         },
-        error: () => {
-          sap.ui.core.BusyIndicator.hide();
+        error: function () {
+          if (showBusy) {
+            BusyIndicator.hide();
+          }
           MessageBox.error("Falha ao consultar materiais em ZC_EQ_MOVTO.");
           resolve([]);
         }
@@ -129,5 +171,7 @@ sap.ui.define([
     });
   }
 
-  return { loadMaterials };
+  return {
+    loadMaterials: loadMaterials
+  };
 });

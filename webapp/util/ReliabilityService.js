@@ -4,8 +4,9 @@ sap.ui.define([
   "sap/ui/model/FilterOperator",
   "sap/base/Log",
   "com/skysinc/frota/frota/util/FilterBuilder",
-  "com/skysinc/frota/frota/services/ReliabilityService"
-], function (Core, Filter, FilterOperator, Log, FilterBuilder, LegacyReliabilityService) {
+  "com/skysinc/frota/frota/services/ReliabilityService",
+  "com/skysinc/frota/frota/util/MaterialCostService"
+], function (Core, Filter, FilterOperator, Log, FilterBuilder, LegacyReliabilityService, MaterialCostService) {
   "use strict";
 
   const DEFAULT_PATHS = {
@@ -293,6 +294,7 @@ sap.ui.define([
         });
 
         const events = mapLegacyFailures(payload, selection);
+        const orderMonthMap = new Map();
         events.forEach(function (item) {
           const startIso = item.inicio;
           if (!startIso) {
@@ -313,16 +315,59 @@ sap.ui.define([
           }
           const entry = monthMap.get(key);
           entry.falhas += 1;
-          entry.custoFalhas += Number(item.custoTotal || 0);
           const downtime = Number(item.downtimeH || 0);
           const monthReference = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
           const hoursInMonth = getMonthHours(monthReference);
           const disponibilidade = hoursInMonth > 0 ? Math.max(0, 1 - (downtime / hoursInMonth)) : 1;
           entry.disponibilidadePct = disponibilidade;
+          if (item.os) {
+            orderMonthMap.set(item.os, key);
+          }
         });
 
-        return Array.from(monthMap.values()).sort(function (a, b) {
-          return a.mes.localeCompare(b.mes);
+        function finalize(costs) {
+          if (costs && costs.size) {
+            costs.forEach(function (value, order) {
+              const monthKey = orderMonthMap.get(order);
+              if (!monthKey) {
+                return;
+              }
+              if (!monthMap.has(monthKey)) {
+                monthMap.set(monthKey, {
+                  mes: monthKey,
+                  falhas: 0,
+                  disponibilidadePct: 1,
+                  custoFalhas: 0
+                });
+              }
+              const entry = monthMap.get(monthKey);
+              entry.custoFalhas += Number(value || 0);
+            });
+          }
+          return Array.from(monthMap.values()).sort(function (a, b) {
+            return a.mes.localeCompare(b.mes);
+          });
+        }
+
+        const uniqueOrders = Array.from(orderMonthMap.keys());
+        if (!options.component || !uniqueOrders.length) {
+          return Promise.resolve(finalize(new Map()));
+        }
+
+        return MaterialCostService.loadCostsByOrders({
+          component: options.component,
+          vehicleId: options.vehicleId,
+          orders: uniqueOrders,
+          range: {
+            from: selection.dateFrom,
+            to: selection.dateTo
+          },
+          showBusy: false
+        }).then(function (result) {
+          return finalize(result.byOrder || new Map());
+        }).catch(function (err) {
+          Log.debug("[ReliabilityService] Falha ao obter custos de materiais", err);
+          return finalize(new Map());
         });
       }
     }),
@@ -355,3 +400,4 @@ sap.ui.define([
     })
   };
 });
+

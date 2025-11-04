@@ -1327,8 +1327,8 @@ sap.ui.define([
       const svcModel = this.getOwnerComponent().getModel("svc");
 
       Promise.all([
-        ReliabilityService.getKpis(Object.assign({ model: svcModel, vehicleId: vehicleId }, selection)),
-        ReliabilityService.getTrend(Object.assign({ model: svcModel, vehicleId: vehicleId }, selection))
+        ReliabilityService.getKpis(Object.assign({ model: svcModel, vehicleId: vehicleId, component: this.getOwnerComponent() }, selection)),
+        ReliabilityService.getTrend(Object.assign({ model: svcModel, vehicleId: vehicleId, component: this.getOwnerComponent() }, selection))
       ]).then((results) => {
         const kpiData = results[0] || {};
         const trendData = Array.isArray(results[1]) ? results[1] : [];
@@ -1566,6 +1566,8 @@ sap.ui.define([
     }
   });
 });
+
+
 
 
 
