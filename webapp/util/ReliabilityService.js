@@ -51,7 +51,19 @@ sap.ui.define([
     return filters;
   }
 
+  let _odataUnavailable = false;
+
+  function disableOData(reason) {
+    if (!_odataUnavailable) {
+      Log.warning("[ReliabilityService] Desativando chamadas OData para confiabilidade: " + (reason && reason.message ? reason.message : reason));
+      _odataUnavailable = true;
+    }
+  }
+
   function readOData(model, path, filters, parameters) {
+    if (_odataUnavailable) {
+      return Promise.reject(new Error("OData reliability endpoint disabled"));
+    }
     return new Promise(function (resolve, reject) {
       if (!model || !model.read) {
         reject(new Error("OData model unavailable"));
@@ -64,6 +76,13 @@ sap.ui.define([
           resolve(data && (data.results || data));
         },
         error: function (err) {
+          const status = err && err.statusCode;
+          if (status === 404) {
+            disableOData(err);
+          }
+          if (status >= 500) {
+            Log.error("[ReliabilityService] OData error (" + status + ")", err);
+          }
           reject(err);
         }
       });

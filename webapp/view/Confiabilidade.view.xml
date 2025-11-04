@@ -14,15 +14,14 @@
     upperCaseAnchorBar="false">
 
     <uxap:headerTitle>
-      <uxap:ObjectPageHeader
+    <uxap:ObjectPageHeader
         id="objectHeader"
         objectTitle="{reliab>/vehicle/title}"
         objectSubtitle="{reliab>/vehicle/subtitle}"
         isObjectIconAlwaysVisible="true"
         isObjectTitleAlwaysVisible="true"
         showNavButton="true"
-        navButtonPress=".onNavBack"
-        breadCrumbsLinks="{reliab>/breadcrumbs}">
+        navButtonPress=".onNavBack">
         <uxap:actions>
           <Button
             id="btnExportFailures"
@@ -209,6 +208,7 @@
                   mode="None"
                   busyIndicatorDelay="0"
                   busy="{reliab>/loadingFailures}"
+                  noDataText="{i18n>reliab.failures.empty}"
                   items="{
                     path: 'reliab>/failures',
                     sorter: { path: 'inicio', descending: true }
@@ -268,7 +268,6 @@
                       </cells>
                     </ColumnListItem>
                   </items>
-                  <noDataText>{i18n>reliab.failures.empty}</noDataText>
                 </Table>
               </VBox>
             </uxap:blocks>
