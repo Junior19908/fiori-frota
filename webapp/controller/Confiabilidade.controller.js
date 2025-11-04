@@ -1,4 +1,4 @@
-sap.ui.define([
+ï»¿sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/ui/model/json/JSONModel",
   "sap/base/Log",
@@ -572,7 +572,12 @@ function safeText(controller, key, args, fallback) {
       }
       const model = this._component.getModel && this._component.getModel("svc");
       const selection = this._filterModel.getData();
-      const options = {\n        model: model,\n        vehicleId: this._vehicleId,\n        selection: selection,\n        component: this._component\n      };
+      const options = {
+        model: model,
+        vehicleId: this._vehicleId,
+        selection: selection,
+        component: this._component
+      };
 
       this._reliabModel.setProperty("/busy", true);
       this._reliabModel.setProperty("/loadingFailures", true);
@@ -608,7 +613,7 @@ function safeText(controller, key, args, fallback) {
         hrPorQuebraFmt: formatHours(kpis.horasPorQuebra),
         proximaQuebraKmFmt: formatKm(kpis.proximaQuebraKm),
         proximaQuebraHrFmt: formatHours(kpis.proximaQuebraH),
-        falhasResumo: safeText(this, "reliab.kpi.failures", [INTEGER_FORMAT.format(falhas)], "Falhas no período: " + INTEGER_FORMAT.format(falhas)),
+        falhasResumo: safeText(this, "reliab.kpi.failures", [INTEGER_FORMAT.format(falhas)], "Falhas no perï¿½odo: " + INTEGER_FORMAT.format(falhas)),
         downtimeResumo: safeText(this, "reliab.kpi.downtime", [formatHours(downtime)], "Indisponibilidade total: " + formatHours(downtime))
       };
       this._reliabModel.setProperty("/kpis", summary);
@@ -921,6 +926,7 @@ function safeText(controller, key, args, fallback) {
     }
   });
 });
+
 
 
 
