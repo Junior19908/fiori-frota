@@ -5,6 +5,7 @@ sap.ui.define([
   "sap/ui/core/routing/History",
   "sap/ui/core/ResizeHandler",
   "sap/ui/Device",
+  "sap/ui/core/Core",
   "sap/m/MessageToast",
   "com/skysinc/frota/frota/util/ReliabilityService",
   "com/skysinc/frota/frota/util/ChartBuilder",
@@ -19,6 +20,7 @@ sap.ui.define([
   History,
   ResizeHandler,
   Device,
+  Core,
   MessageToast,
   ReliabilityService,
   ChartBuilder,
@@ -120,12 +122,45 @@ sap.ui.define([
     return NUMBER_FORMAT.format(value) + " km";
   }
 
-  function formatPercent(value) {
-    if (!Number.isFinite(value) || value <= 0) {
-      return "-";
-    }
-    return PERCENT_FORMAT.format(Math.max(0, Math.min(1, value)));
+function formatPercent(value) {
+  if (!Number.isFinite(value) || value <= 0) {
+    return "-";
   }
+  return PERCENT_FORMAT.format(Math.max(0, Math.min(1, value)));
+}
+
+function resolveBundle(controller) {
+  if (!controller) {
+    return null;
+  }
+  const view = controller.getView && controller.getView();
+  const viewModel = view && view.getModel && view.getModel("i18n");
+  if (viewModel && viewModel.getResourceBundle) {
+    return viewModel.getResourceBundle();
+  }
+  const component = controller.getOwnerComponent && controller.getOwnerComponent();
+  const compModel = component && component.getModel && component.getModel("i18n");
+  if (compModel && compModel.getResourceBundle) {
+    return compModel.getResourceBundle();
+  }
+  const coreModel = Core.getModel && Core.getModel("i18n");
+  return coreModel && coreModel.getResourceBundle ? coreModel.getResourceBundle() : null;
+}
+
+function safeText(controller, key, args, fallback) {
+  const bundle = controller._resourceBundle || resolveBundle(controller);
+  if (bundle && typeof bundle.getText === "function") {
+    if (!controller._resourceBundle) {
+      controller._resourceBundle = bundle;
+    }
+    try {
+      return bundle.getText(key, args);
+    } catch (err) {
+      // ignore missing key
+    }
+  }
+  return fallback != null ? fallback : key;
+}
 
   function normaliseDate(date) {
     if (date instanceof Date && !Number.isNaN(date.getTime())) {
@@ -190,9 +225,7 @@ sap.ui.define([
   return Controller.extend("com.skysinc.frota.frota.controller.Confiabilidade", {
     onInit: function () {
       this._component = this.getOwnerComponent();
-      const view = this.getView();
-      const model = view && view.getModel && view.getModel("i18n");
-      this._resourceBundle = model && model.getResourceBundle ? model.getResourceBundle() : null;
+      this._resourceBundle = resolveBundle(this);
 
       const persistedFilters = Storage.load() || {};
       this._filterModel = FilterState.create(persistedFilters);
@@ -323,7 +356,7 @@ sap.ui.define([
 
     onExportFailures: function () {
       if (!this._allFailures.length) {
-        MessageToast.show(this._resourceBundle.getText("reliab.failures.export.empty"));
+        MessageToast.show(safeText(this, "reliab.failures.export.empty"));
         return;
       }
       const filename = "confiabilidade_" + (this._vehicleId || "veiculo") + ".csv";
@@ -346,7 +379,7 @@ sap.ui.define([
     },
 
     onOpenFailureDetail: function () {
-      MessageToast.show(this._resourceBundle.getText("reliab.failures.detailSoon"));
+      MessageToast.show(safeText(this, "reliab.failures.detailSoon"));
     },
 
     _onRouteMatched: function (oEvent) {
@@ -488,7 +521,7 @@ sap.ui.define([
       this._reliabModel.setProperty("/vehicle/title", title || "-");
       this._reliabModel.setProperty("/vehicle/subtitle", subtitle || "");
       this._reliabModel.setProperty("/breadcrumbs", [{
-        text: this._resourceBundle.getText("reliab.title")
+        text: safeText(this, "reliab.title", [], "Confiabilidade")
       }]);
     },
 
@@ -564,7 +597,7 @@ sap.ui.define([
         this._reliabModel.setProperty("/busy", false);
         this._reliabModel.setProperty("/loadingFailures", false);
         Log.error("[Confiabilidade] Failed to load data", err);
-        MessageToast.show(this._resourceBundle.getText("reliab.load.error"));
+        MessageToast.show(safeText(this, "reliab.load.error"));
       }.bind(this));
     },
 
@@ -579,8 +612,8 @@ sap.ui.define([
         hrPorQuebraFmt: formatHours(kpis.horasPorQuebra),
         proximaQuebraKmFmt: formatKm(kpis.proximaQuebraKm),
         proximaQuebraHrFmt: formatHours(kpis.proximaQuebraH),
-        falhasResumo: this._resourceBundle.getText("reliab.kpi.failures", INTEGER_FORMAT.format(falhas)),
-        downtimeResumo: this._resourceBundle.getText("reliab.kpi.downtime", formatHours(downtime))
+        falhasResumo: safeText(this, "reliab.kpi.failures", [INTEGER_FORMAT.format(falhas)], "Falhas no período: " + INTEGER_FORMAT.format(falhas)),
+        downtimeResumo: safeText(this, "reliab.kpi.downtime", [formatHours(downtime)], "Indisponibilidade total: " + formatHours(downtime))
       };
       this._reliabModel.setProperty("/kpis", summary);
     },
@@ -604,7 +637,7 @@ sap.ui.define([
       this._reliabModel.setProperty("/trend", trend);
       this._reliabModel.setProperty("/availability", trend);
       this._reliabModel.setProperty("/cost", trend);
-      this._reliabModel.setProperty("/comparisons", buildComparisonItems(trend, this._resourceBundle));
+      this._reliabModel.setProperty("/comparisons", buildComparisonItems(trend, this._resourceBundle || resolveBundle(this)));
     },
 
     _applyFailures: function (failuresData) {
@@ -664,7 +697,7 @@ sap.ui.define([
         return true;
       });
 
-      const countText = this._resourceBundle.getText("reliab.failures.count", [filtered.length]);
+      const countText = safeText(this, "reliab.failures.count", [filtered.length], filtered.length + " registro(s)");
       this._reliabModel.setProperty("/failures", filtered);
       this._reliabModel.setProperty("/failuresCountText", countText);
     },
@@ -688,7 +721,7 @@ sap.ui.define([
 
       const allOption = {
         key: "",
-        text: this._resourceBundle.getText("common.all")
+        text: safeText(this, "common.all", [], "Todos")
       };
 
       this._reliabModel.setProperty("/failureFilters/typeOptions", [allOption].concat(types.map(toOption)));
@@ -717,10 +750,10 @@ sap.ui.define([
         trendContainer.removeAllItems();
         const chart = ChartBuilder.buildColumn({
           data: trendData,
-          dimensionName: this._resourceBundle.getText("reliab.chart.month"),
+          dimensionName: safeText(this, "reliab.chart.month", [], "Mes"),
           dimensionPath: "label",
           measures: [{
-            name: this._resourceBundle.getText("reliab.trend.failures"),
+            name: safeText(this, "reliab.trend.failures", [], "Falhas"),
             path: "falhas",
             feed: "valueAxis"
           }],
@@ -751,10 +784,10 @@ sap.ui.define([
         availabilityContainer.removeAllItems();
         const chart = ChartBuilder.buildLine({
           data: availabilityData,
-          dimensionName: this._resourceBundle.getText("reliab.chart.month"),
+          dimensionName: safeText(this, "reliab.chart.month", [], "Mes"),
           dimensionPath: "label",
           measures: [{
-            name: this._resourceBundle.getText("reliab.trend.availability"),
+            name: safeText(this, "reliab.trend.availability", [], "Disponibilidade"),
             path: "disponibilidadePct",
             feed: "valueAxis"
           }],
@@ -785,10 +818,10 @@ sap.ui.define([
         costContainer.removeAllItems();
         const chart = ChartBuilder.buildColumn({
           data: costData,
-          dimensionName: this._resourceBundle.getText("reliab.chart.month"),
+          dimensionName: safeText(this, "reliab.chart.month", [], "Mes"),
           dimensionPath: "label",
           measures: [{
-            name: this._resourceBundle.getText("reliab.trend.cost"),
+            name: safeText(this, "reliab.trend.cost", [], "Custo por falha"),
             path: "custoFalhas",
             feed: "valueAxis"
           }],
@@ -892,4 +925,19 @@ sap.ui.define([
     }
   });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
