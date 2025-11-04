@@ -3,12 +3,13 @@ sap.ui.define([
   "sap/ui/model/json/JSONModel",
   "sap/m/MessageToast",
   "sap/base/Log",
+  "sap/ui/core/Core",
   "com/skysinc/frota/frota/util/formatter",
   "com/skysinc/frota/frota/services/ODataMaterials",
   "com/skysinc/frota/frota/services/AvailabilityService",
   "com/skysinc/frota/frota/util/ReliabilityService",
   "com/skysinc/frota/frota/util/ChartBuilder"
-], function (Controller, JSONModel, MessageToast, Log, formatter, ODataMaterials, AvailabilityService, ReliabilityService, ChartBuilder) {
+], function (Controller, JSONModel, MessageToast, Log, Core, formatter, ODataMaterials, AvailabilityService, ReliabilityService, ChartBuilder) {
   "use strict";
 
   // ===== helpers numericos / formatacao =====
@@ -47,6 +48,35 @@ sap.ui.define([
     const clamped = Math.max(0, Math.min(1, num));
     return pctFmt.format(clamped);
   };
+
+  function resolveBundle(controller) {
+    if (!controller || !controller.getView) {
+      return null;
+    }
+    const view = controller.getView();
+    const viewModel = view && view.getModel && view.getModel("i18n");
+    if (viewModel && viewModel.getResourceBundle) {
+      return viewModel.getResourceBundle();
+    }
+    const component = controller.getOwnerComponent && controller.getOwnerComponent();
+    const compModel = component && component.getModel && component.getModel("i18n");
+    if (compModel && compModel.getResourceBundle) {
+      return compModel.getResourceBundle();
+    }
+    const coreModel = Core.getModel && Core.getModel("i18n");
+    return coreModel && coreModel.getResourceBundle ? coreModel.getResourceBundle() : null;
+  }
+
+  function safeText(bundle, key, args, fallback) {
+    if (bundle && typeof bundle.getText === "function") {
+      try {
+        return bundle.getText(key, args);
+      } catch (err) {
+        // ignore
+      }
+    }
+    return fallback != null ? fallback : key;
+  }
   const MONTH_LABELS = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
   const sum = (arr, pick) => (arr||[]).reduce((s,x)=> s + toNum(pick(x)), 0);
 
@@ -285,6 +315,7 @@ sap.ui.define([
 
     /* ======================== LIFECYCLE ======================== */
     onInit: function () {
+      this._i18n = resolveBundle(this);
       this.getOwnerComponent().getRouter()
         .getRoute("RouteHistorico")
         .attachPatternMatched(this._onRouteMatched, this);
@@ -1313,13 +1344,14 @@ sap.ui.define([
     },
 
     _applyReliabilitySummary: function (kpis, trend) {
+      const bundle = this._i18n || resolveBundle(this);
       const metrics = Object.assign({}, createReliabilityState().metrics, {
         mtbfFmt: fmtHours(kpis?.mtbfH),
         mttrFmt: fmtHours(kpis?.mttrH),
         disponibilidadeFmt: fmtPct(kpis?.disponibilidadePct),
         kmPorQuebraFmt: fmtKm(kpis?.kmPorQuebra),
-        falhasResumo: this._i18n.getText("reliab.kpi.failures", [Number(kpis?.totalFalhas || 0)]),
-        downtimeResumo: this._i18n.getText("reliab.kpi.downtime", [fmtHours(kpis?.downtimeHoras)])
+        falhasResumo: safeText(bundle, "reliab.kpi.failures", [Number(kpis?.totalFalhas || 0)], "Falhas: " + Number(kpis?.totalFalhas || 0)),
+        downtimeResumo: safeText(bundle, "reliab.kpi.downtime", [fmtHours(kpis?.downtimeHoras)], "Indisponibilidade: " + fmtHours(kpis?.downtimeHoras))
       });
       this._reliabilityModel.setProperty("/metrics", metrics);
 
@@ -1344,7 +1376,8 @@ sap.ui.define([
       const chart = ChartBuilder.buildSparklines({
         points: points.map((item) => item.y)
       });
-      chart.setTooltip(this._i18n.getText("reliab.sparkline.tooltip"));
+      const bundle = this._i18n || resolveBundle(this);
+      chart.setTooltip(safeText(bundle, "reliab.sparkline.tooltip", [], ""));
       container.addItem(chart);
     },
 

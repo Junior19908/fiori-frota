@@ -9,7 +9,9 @@
     ariaLabelledBy="notifPopoverTitle">
     <customHeader>
       <Bar>
-        <Title id="notifPopoverTitle" text="{i18n>notif.title}" level="H6" />
+        <contentMiddle>
+          <Title id="notifPopoverTitle" text="{i18n>notif.title}" level="H6" />
+        </contentMiddle>
       </Bar>
     </customHeader>
     <content>
