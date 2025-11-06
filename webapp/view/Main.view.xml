@@ -201,7 +201,7 @@
           <table:Column width="6rem" hAlign="End">
             <Label text="Hr Paradas (Teste)"/>
             <table:template>
-              <Text text="{ path:'vm>totalHorasIndisponiveis', formatter: '.formatter.formatacaoHorasNovo' }"/>
+              <Text text="{vm>horasParadasFmt}"/>
             </table:template>
           </table:Column>
 
@@ -211,10 +211,7 @@
               tooltip="Disponibilidade (%) = 100 - Indisponibilidade (%). Indisponibilidade (%) = (Horas em OS / Total de horas do periodo) x 100."/>
             <table:template>
               <ObjectStatus
-                text="{
-                        parts:['vm>pctDisp','vm>pctIndisp'],
-                        formatter: '.formatter.fmtDisponibilidade'
-                      }"
+                text="{vm>disponibilidadeFmt}"
                 state="{ path:'vm>pctDisp', formatter:'.formatter.stateDisponibilidade' }"
                 tooltip="{
                   parts: [
@@ -232,21 +229,21 @@
           <table:Column width="6rem" hAlign="End">
             <Label text="Numero de paradas"/>
             <table:template>
-              <Text text="{vm>osCountRange}"/>
+              <Text text="{vm>falhas}"/>
             </table:template>
           </table:Column>
 
           <table:Column width="6rem" hAlign="End">
-            <Label text="MTBF (Teste)"/>
+            <Label text="MTBF"/>
             <table:template>
-              <Text text="0"/>
+              <Text text="{vm>mtbfFmt}"/>
             </table:template>
           </table:Column>
 
           <table:Column width="6rem" hAlign="End">
-            <Label text="MTTR (Teste)"/>
+            <Label text="MTTR"/>
             <table:template>
-              <Text text="0"/>
+              <Text text="{vm>mttrFmt}"/>
             </table:template>
           </table:Column>
 

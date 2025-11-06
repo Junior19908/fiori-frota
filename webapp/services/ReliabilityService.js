@@ -1,6 +1,7 @@
 sap.ui.define([
-  "sap/ui/thirdparty/jquery"
-], function (jQuery) {
+  "sap/ui/thirdparty/jquery",
+  "com/skysinc/frota/frota/services/ReliabilityCore"
+], function (jQuery, ReliabilityCore) {
   "use strict";
 
   const MODULE_PREFIX = "com/skysinc/frota/frota";
@@ -10,16 +11,22 @@ sap.ui.define([
     2025: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"]
   };
 
-  const OS_INDEX = {
-    2024: ["08"],
-    2025: ["09", "10"]
-  };
-
   const NUM_FMT = new Intl.NumberFormat("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const PCT_FMT = new Intl.NumberFormat("pt-BR", { style: "percent", minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
   let _telemetryPromise = null;
-  let _osPromise = null;
+  const _osMonthCache = new Map();
+
+  const {
+    sliceIntervalToRange,
+    mergeOverlaps,
+    sumIntervalsHours,
+    computeReliabilityMetrics,
+    buildUnifiedReliabilityByVehicle: buildUnifiedReliabilityByVehicleCore,
+    buildUnifiedReliabilityByVehicleFromMap,
+    normalizeVehicleIds,
+    coerceDate
+  } = ReliabilityCore;
 
   function _buildPaths(index, basePath) {
     const files = [];
@@ -30,6 +37,153 @@ sap.ui.define([
       });
     });
     return files;
+  }
+
+  function _pad2(value) {
+    return String(value).padStart(2, "0");
+  }
+
+  function _extractOsArray(payload) {
+    if (!payload) {
+      return [];
+    }
+    if (Array.isArray(payload)) {
+      return payload;
+    }
+    if (Array.isArray(payload.os)) {
+      return payload.os;
+    }
+    if (Array.isArray(payload.ordens)) {
+      return payload.ordens;
+    }
+    return [];
+  }
+
+  function _normalizeTipoFilter(tiposOS) {
+    if (!Array.isArray(tiposOS) || !tiposOS.length) {
+      return null;
+    }
+    const set = new Set();
+    tiposOS.forEach((tipo) => {
+      const code = String(tipo || "").trim().toUpperCase();
+      if (code) {
+        set.add(code);
+      }
+    });
+    return set.size ? set : null;
+  }
+
+  function _resolveHasStop(entry) {
+    const candidates = [
+      entry?.hasStop,
+      entry?.HasStop,
+      entry?.parada,
+      entry?.Parada,
+      entry?.temParada,
+      entry?.TemParada
+    ];
+    for (let i = 0; i < candidates.length; i++) {
+      const flag = candidates[i];
+      if (typeof flag === "boolean") {
+        return flag;
+      }
+      if (typeof flag === "string") {
+        const normalized = flag.trim().toLowerCase();
+        if (!normalized) {
+          continue;
+        }
+        if (["sim", "s", "true", "1", "y"].includes(normalized)) {
+          return true;
+        }
+        if (["nao", "não", "n", "false", "0"].includes(normalized)) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  function _normalizeOsRecord(entry) {
+    if (!entry) {
+      return null;
+    }
+    const vehicleId = String(entry.Equipamento || entry.equipamento || entry.veiculo || entry.Veiculo || "").trim();
+    if (!vehicleId) {
+      return null;
+    }
+    const start = _combineDateTime(
+      entry.DataAbertura || entry.dataAbertura || entry.Abertura || entry.AberturaData,
+      entry.HoraInicio || entry.horaInicio || entry.HoraAbertura || entry.horaAbertura
+    );
+    if (!(start instanceof Date) || Number.isNaN(start.getTime())) {
+      return null;
+    }
+    const end = _combineDateTime(
+      entry.DataFechamento || entry.dataFechamento || entry.Fechamento || entry.FechamentoData,
+      entry.HoraFim || entry.horaFim || entry.HoraFechamento || entry.horaFechamento
+    );
+    const numero = String(entry.NumeroOS || entry.numero || entry.Ordem || entry.ordem || entry.os || entry.OS || "").trim();
+    const categoria = String(entry.Categoria || entry.categoria || entry.TipoOS || entry.tipoOS || entry.Tipo || entry.tipo || "").trim().toUpperCase();
+    const descricao = String(entry.Descricao || entry.descricao || entry.Titulo || entry.titulo || "").trim();
+    const hasStop = _resolveHasStop(entry);
+    return {
+      id: numero || `${vehicleId}-${start.getTime()}`,
+      numero,
+      vehicleId,
+      descricao,
+      categoria,
+      tipo: categoria,
+      dataAbertura: entry.DataAbertura || entry.dataAbertura || "",
+      dataFechamento: entry.DataFechamento || entry.dataFechamento || "",
+      horaInicio: entry.HoraInicio || entry.horaInicio || "",
+      horaFim: entry.HoraFim || entry.horaFim || "",
+      start,
+      end,
+      startDate: start,
+      endDate: end,
+      hasStop,
+      status: entry.Status || entry.status || "",
+      prioridade: entry.Prioridade || entry.prioridade || "",
+      tipoManual: entry.TipoManual || entry.tipoManual || "",
+      raw: entry
+    };
+  }
+
+  function _enumerateMonths(from, to) {
+    if (!(from instanceof Date) || !(to instanceof Date) || to.getTime() < from.getTime()) {
+      return [];
+    }
+    const months = [];
+    const cursor = new Date(Date.UTC(from.getUTCFullYear(), from.getUTCMonth(), 1, 0, 0, 0, 0));
+    const limit = new Date(Date.UTC(to.getUTCFullYear(), to.getUTCMonth(), 1, 0, 0, 0, 0));
+    while (cursor.getTime() <= limit.getTime()) {
+      months.push({ year: cursor.getUTCFullYear(), month: cursor.getUTCMonth() + 1 });
+      cursor.setUTCMonth(cursor.getUTCMonth() + 1);
+      cursor.setUTCDate(1);
+    }
+    return months;
+  }
+
+  function _loadOsMonth(year, month) {
+    const key = `${year}-${_pad2(month)}`;
+    if (_osMonthCache.has(key)) {
+      return _osMonthCache.get(key);
+    }
+    const promise = (async () => {
+      const mm = _pad2(month);
+      const basePath = `model/localdata/os/${year}/${mm}`;
+      const candidates = [`${basePath}/os.json`, `${basePath}/ordens.json`];
+      for (let i = 0; i < candidates.length; i++) {
+        const payload = await _fetchJson(candidates[i]);
+        const entries = _extractOsArray(payload);
+        if (entries.length) {
+          return entries.map(_normalizeOsRecord).filter(Boolean);
+        }
+      }
+      return [];
+    })();
+    _osMonthCache.set(key, promise);
+    return promise;
   }
 
   function _normalizeOsFilter(options) {
@@ -150,62 +304,20 @@ sap.ui.define([
     return _telemetryPromise;
   }
 
-  function loadOS() {
-    if (_osPromise) {
-      return _osPromise;
-    }
-    const files = _buildPaths(OS_INDEX, "model/localdata/os");
-    _osPromise = Promise.all(files.map(_fetchJson)).then((payloads) => {
-      const list = [];
-      payloads.forEach((payload) => {
-        if (!Array.isArray(payload)) {
-          return;
-        }
-        payload.forEach((entry) => {
-          const start = _combineDateTime(entry.DataAbertura, entry.HoraInicio);
-          const finish = _combineDateTime(entry.DataFechamento, entry.HoraFim);
-          list.push({
-            numero: String(entry.NumeroOS || ""),
-            equipamento: String(entry.Equipamento || ""),
-            descricao: String(entry.Descricao || "").trim(),
-            categoria: String(entry.Categoria || "").trim(),
-            dataAbertura: entry.DataAbertura || "",
-            horaInicio: entry.HoraInicio || "",
-            dataFechamento: entry.DataFechamento || "",
-            horaFim: entry.HoraFim || "",
-            startDate: start instanceof Date && !Number.isNaN(start.getTime()) ? start : null,
-            endDate: finish instanceof Date && !Number.isNaN(finish.getTime()) ? finish : null,
-            raw: entry
-          });
-        });
-      });
-      return list;
-    });
-    return _osPromise;
-  }
-
   function calcDowntimeHoras(os, range) {
-    if (!os || !(os.startDate instanceof Date)) {
+    if (!os) {
       return 0;
     }
-    const now = new Date();
-    const start = os.startDate;
-    const endCandidate = os.endDate instanceof Date ? os.endDate : now;
-    const from = range && range.from instanceof Date ? range.from : null;
-    const to = range && range.to instanceof Date ? range.to : null;
-    if (to && start.getTime() > to.getTime()) {
+    const rangeFrom = (range && range.from instanceof Date) ? range.from : (Array.isArray(range) ? range[0] : null);
+    const rangeTo = (range && range.to instanceof Date) ? range.to : (Array.isArray(range) ? range[1] : null);
+    if (!(rangeFrom instanceof Date && rangeTo instanceof Date)) {
       return 0;
     }
-    let effectiveStart = start;
-    if (from && start.getTime() < from.getTime()) {
-      effectiveStart = from;
+    const clamped = sliceIntervalToRange(os.startDate || os.start, os.endDate || os.end, rangeFrom, rangeTo);
+    if (!clamped) {
+      return 0;
     }
-    let effectiveEnd = endCandidate;
-    if (to && endCandidate.getTime() > to.getTime()) {
-      effectiveEnd = to;
-    }
-    const diff = effectiveEnd.getTime() - effectiveStart.getTime();
-    return diff > 0 ? diff / 36e5 : 0;
+    return (clamped[1] - clamped[0]) / 36e5;
   }
 
   function calcIntervalsKm(osEvents) {
@@ -300,61 +412,117 @@ sap.ui.define([
     return candidate;
   }
 
+  async function fetchOsUnifiedByVehiclesAndRange(options = {}) {
+    const vehicles = normalizeVehicleIds(options.vehicles || []);
+    const vehicleSet = vehicles.length ? new Set(vehicles) : null;
+    const dateFrom = coerceDate(options.dateFrom);
+    const dateTo = coerceDate(options.dateTo);
+    const tipoFilter = _normalizeTipoFilter(options.tiposOS);
+    const result = new Map();
+    if (!(dateFrom && dateTo) || dateTo.getTime() <= dateFrom.getTime()) {
+      vehicles.forEach((id) => result.set(id, []));
+      return result;
+    }
+    const months = _enumerateMonths(dateFrom, dateTo);
+    const now = new Date();
+
+    const monthEntries = await Promise.all(months.map(({ year, month }) => _loadOsMonth(year, month)));
+    monthEntries.forEach((entries) => {
+      entries.forEach((entry) => {
+        if (!entry || !entry.vehicleId) {
+          return;
+        }
+        if (vehicleSet && !vehicleSet.has(entry.vehicleId)) {
+          return;
+        }
+        if (tipoFilter && tipoFilter.size) {
+          const categoria = String(entry.categoria || "").toUpperCase();
+          if (!categoria || !tipoFilter.has(categoria)) {
+            return;
+          }
+        }
+        const clamped = sliceIntervalToRange(entry.startDate, entry.endDate, dateFrom, dateTo, now);
+        if (!clamped) {
+          return;
+        }
+        if (!result.has(entry.vehicleId)) {
+          result.set(entry.vehicleId, []);
+        }
+        result.get(entry.vehicleId).push(Object.assign({}, entry));
+      });
+    });
+
+    if (vehicleSet) {
+      vehicleSet.forEach((id) => {
+        if (!result.has(id)) {
+          result.set(id, []);
+        }
+      });
+    }
+
+    result.forEach((list) => {
+      list.sort((a, b) => {
+        const at = a.startDate instanceof Date ? a.startDate.getTime() : 0;
+        const bt = b.startDate instanceof Date ? b.startDate.getTime() : 0;
+        return at - bt;
+      });
+    });
+
+    return result;
+  }
+
+  function buildUnifiedReliabilityByVehicle(options) {
+    return buildUnifiedReliabilityByVehicleCore(options, {
+      osProvider: fetchOsUnifiedByVehiclesAndRange
+    });
+  }
+
+  function buildUnifiedReliabilityByVehicleFromMapPublic(osMap, options) {
+    return buildUnifiedReliabilityByVehicleFromMap(osMap, options);
+  }
+
   function mergeDataPorVeiculo(options) {
     const opts = options || {};
     const vehicleId = String(opts.vehicleId || opts.equnr || opts.veiculo || "").trim();
-    const range = opts.range && opts.range.from instanceof Date && opts.range.to instanceof Date ? opts.range : {
-      from: opts.range?.from instanceof Date ? opts.range.from : (Array.isArray(opts.range) ? opts.range[0] : null),
-      to: opts.range?.to instanceof Date ? opts.range.to : (Array.isArray(opts.range) ? opts.range[1] : null)
-    };
+    const range = (opts.range && opts.range.from instanceof Date && opts.range.to instanceof Date)
+      ? opts.range
+      : {
+          from: opts.range?.from instanceof Date ? opts.range.from : (Array.isArray(opts.range) ? opts.range[0] : null),
+          to: opts.range?.to instanceof Date ? opts.range.to : (Array.isArray(opts.range) ? opts.range[1] : null)
+        };
     const osFilter = _normalizeOsFilter(opts);
+    const tipoFilter = (!osFilter.showAllOS && osFilter.allowedSet.size) ? Array.from(osFilter.allowedSet.values()) : null;
+    const providedOsList = Array.isArray(opts.osList) ? opts.osList : null;
+    const shouldFetchOs = !providedOsList && vehicleId && range.from instanceof Date && range.to instanceof Date;
+    const osPromise = shouldFetchOs
+      ? fetchOsUnifiedByVehiclesAndRange({
+          vehicles: vehicleId ? [vehicleId] : [],
+          dateFrom: range.from,
+          dateTo: range.to,
+          tiposOS: tipoFilter
+        })
+      : Promise.resolve(providedOsList && vehicleId ? new Map([[vehicleId, providedOsList]]) : new Map());
 
-    return Promise.all([loadTelemetry(), loadOS()]).then((resolved) => {
+    return Promise.all([
+      loadTelemetry(),
+      osPromise
+    ]).then((resolved) => {
       const telemetryMap = resolved[0];
-      const osList = resolved[1] || [];
+      const osMap = resolved[1] || new Map();
       const vehicleTelemetry = telemetryMap.get(vehicleId) || [];
 
-      const telemetryInRange = range && (range.from instanceof Date || range.to instanceof Date)
+      const telemetryInRange = (range.from instanceof Date || range.to instanceof Date)
         ? vehicleTelemetry.filter((entry) => entry.dateTime && _withinRange(entry.dateTime, range))
         : vehicleTelemetry.slice();
 
-      const osForVehicle = osList.filter((item) => item.equipamento === vehicleId);
-      const osWithinRange = range && (range.from instanceof Date || range.to instanceof Date)
-        ? osForVehicle.filter((item) => {
-            const start = item.startDate;
-            const end = item.endDate || new Date();
-            if (!start) {
-              return false;
-          }
-          const from = range.from instanceof Date ? range.from : null;
-          const to = range.to instanceof Date ? range.to : null;
-          if (to && start.getTime() > to.getTime()) {
-            return false;
-          }
-          if (from && end.getTime() < from.getTime()) {
-            return false;
-          }
-          return true;
-        })
-        : osForVehicle.slice();
-
-      const osFiltered = (!osFilter.showAllOS && osFilter.allowedSet.size)
-        ? osWithinRange.filter((item) => {
-            const categoria = String(item.categoria || item.raw?.Categoria || "").trim().toUpperCase();
-            if (!categoria) {
-              return false;
-            }
-            return osFilter.allowedSet.has(categoria);
-          })
-        : osWithinRange;
-
-      osFiltered.sort((a, b) => {
+      const osList = providedOsList && vehicleId ? providedOsList : (osMap.get(vehicleId) || []);
+      osList.sort((a, b) => {
         const at = a.startDate instanceof Date ? a.startDate.getTime() : 0;
         const bt = b.startDate instanceof Date ? b.startDate.getTime() : 0;
         return at - bt;
       });
 
-      const tableRows = osFiltered.map((os) => {
+      const tableRows = osList.map((os) => {
         const downtime = calcDowntimeHoras(os, range);
         const snapshot = _findSnapshot(vehicleTelemetry, os.startDate);
         const kmEvento = snapshot ? snapshot.km : NaN;
@@ -376,8 +544,15 @@ sap.ui.define([
         };
       });
 
-      const falhas = tableRows.filter((row) => row.downtimeHoras > 0).length;
-      const downtimeTotal = tableRows.reduce((acc, row) => acc + (Number(row.downtimeHoras) || 0), 0);
+      const reliabilityByVehicle = buildUnifiedReliabilityByVehicleFromMap(osMap, {
+        vehicles: vehicleId ? [vehicleId] : [],
+        dateFrom: range.from,
+        dateTo: range.to
+      });
+      const summary = vehicleId ? (reliabilityByVehicle[vehicleId] || null) : null;
+
+      const falhas = summary ? summary.falhas : tableRows.filter((row) => row.downtimeHoras > 0).length;
+      const downtimeTotal = summary ? summary.downtimeTotal : tableRows.reduce((acc, row) => acc + (Number(row.downtimeHoras) || 0), 0);
 
       let rangeStart = range && range.from instanceof Date ? range.from : null;
       let rangeEnd = range && range.to instanceof Date ? range.to : null;
@@ -394,11 +569,11 @@ sap.ui.define([
       if (rangeStart instanceof Date && rangeEnd instanceof Date && rangeEnd.getTime() > rangeStart.getTime()) {
         totalRangeHours = (rangeEnd.getTime() - rangeStart.getTime()) / 36e5;
       }
-      const operationalHours = Math.max(0, totalRangeHours - downtimeTotal);
+      const operationalHours = summary ? summary.operationalHours : Math.max(0, totalRangeHours - downtimeTotal);
 
-      const mttr = calcMTTR(downtimeTotal, falhas);
-      const mtbf = calcMTBF(operationalHours, falhas);
-      const disponibilidade = calcDisponibilidade(mtbf, mttr);
+      const mttr = summary ? summary.mttr : calcMTTR(downtimeTotal, falhas);
+      const mtbf = summary ? summary.mtbf : calcMTBF(operationalHours, falhas);
+      const disponibilidade = summary ? summary.availability : calcDisponibilidade(mtbf, mttr);
 
       const kmEventosValidos = tableRows.filter((row) => Number.isFinite(row.kmEvento));
       const hrEventosValidos = tableRows.filter((row) => Number.isFinite(row.hrEvento));
@@ -431,13 +606,13 @@ sap.ui.define([
         metrics: {
           falhas,
           downtimeTotal,
-          downtimeFmt: _formatHours(downtimeTotal),
+          downtimeFmt: summary ? summary.downtimeFmt : _formatHours(downtimeTotal),
           mtbf,
-          mtbfFmt: mtbf ? NUM_FMT.format(mtbf) + " h" : "-",
+          mtbfFmt: summary ? summary.mtbfFmt : (mtbf ? NUM_FMT.format(mtbf) + " h" : "-"),
           mttr,
-          mttrFmt: mttr ? NUM_FMT.format(mttr) + " h" : "-",
+          mttrFmt: summary ? summary.mttrFmt : (mttr ? NUM_FMT.format(mttr) + " h" : "-"),
           disponibilidade,
-          disponibilidadeFmt: disponibilidade ? PCT_FMT.format(disponibilidade) : "-",
+          disponibilidadeFmt: summary ? summary.disponibilidadeFmt : (disponibilidade ? PCT_FMT.format(disponibilidade) : "-"),
           kmPorQuebra,
           kmPorQuebraFmt: kmPorQuebra ? NUM_FMT.format(kmPorQuebra) + " km" : "-",
           hrPorQuebra,
@@ -459,7 +634,6 @@ sap.ui.define([
 
   return {
     loadTelemetry,
-    loadOS,
     mergeDataPorVeiculo,
     calcDowntimeHoras,
     calcIntervalsKm,
@@ -468,6 +642,13 @@ sap.ui.define([
     calcMTTR,
     calcDisponibilidade,
     calcProximaQuebraKm,
-    calcProximaQuebraHr
+    calcProximaQuebraHr,
+    sliceIntervalToRange,
+    mergeOverlaps,
+    sumIntervalsHours,
+    computeReliabilityMetrics,
+    fetchOsUnifiedByVehiclesAndRange,
+    buildUnifiedReliabilityByVehicle,
+    buildUnifiedReliabilityByVehicleFromMap: buildUnifiedReliabilityByVehicleFromMapPublic
   };
 });

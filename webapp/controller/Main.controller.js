@@ -342,6 +342,7 @@ sap.ui.define([
         const range = this._currentRangeArray();
         const rangeObj = this._currentRangeObj();
         const osFilterPrefs = this._getOsFilterPrefs();
+        const useUnifiedReliability = this._isUnifiedReliabilityEnabled();
         const metrics = {
           kmRodados: Number(ctxObj?.kmRodadosAgg || 0),
           horasRodadas: Number(ctxObj?.hrRodadosAgg || 0),
@@ -349,10 +350,38 @@ sap.ui.define([
           totalHorasIndisponiveis: Number(ctxObj?.totalHorasIndisponiveis || ctxObj?.downtimeHorasRange || 0),
           totalHorasDisponiveis: Number(ctxObj?.totalHorasDisponiveis || 0),
           downtimeEventos: Number(ctxObj?.downtimeEventosRange || 0),
-          osCount: Number(ctxObj?.osCountRange || 0)
+          osCount: Number(ctxObj?.osCountRange || 0),
+          falhas: Number(ctxObj?.osCountRange || 0),
+          horasParadasFmt: ctxObj?.horasParadasFmt || "",
+          disponibilidadeFmt: ctxObj?.disponibilidadeFmt || "",
+          mtbfFmt: ctxObj?.mtbfFmt || "",
+          mttrFmt: ctxObj?.mttrFmt || ""
         };
         let reliabilityMetrics = {};
-        if (equnr) {
+        let unifiedOsMap = null;
+        const hasRange = rangeObj && rangeObj.from instanceof Date && rangeObj.to instanceof Date;
+        if (equnr && useUnifiedReliability && hasRange) {
+          try {
+            unifiedOsMap = await ReliabilityService.fetchOsUnifiedByVehiclesAndRange({
+              vehicles: [equnr],
+              dateFrom: rangeObj.from,
+              dateTo: rangeObj.to,
+              tiposOS: osFilterPrefs.showAllOS ? undefined : osFilterPrefs.allowedOsTypes
+            });
+            const summaryMap = ReliabilityService.buildUnifiedReliabilityByVehicleFromMap(unifiedOsMap, {
+              vehicles: [equnr],
+              dateFrom: rangeObj.from,
+              dateTo: rangeObj.to
+            }) || {};
+            const summary = summaryMap[equnr];
+            if (summary) {
+              reliabilityMetrics = Object.assign({}, summary);
+            }
+          } catch (err) {
+            try { console.warn('[Main.onOpenOSDialog] Unified reliability metrics unavailable', err); } catch (_) {}
+          }
+        }
+        if (equnr && (!Object.keys(reliabilityMetrics).length || !useUnifiedReliability)) {
           try {
             const rel = await ReliabilityService.mergeDataPorVeiculo({
               vehicleId: equnr,
@@ -377,12 +406,14 @@ sap.ui.define([
           reliabilityMetrics.downtimeTotalFmt = reliabilityMetrics.downtimeFmt;
         }
         const mergedMetrics = Object.assign({}, metrics, reliabilityMetrics);
+        const preloadedOsData = useUnifiedReliability && unifiedOsMap ? { map: unifiedOsMap } : null;
         sap.ui.require(["com/skysinc/frota/frota/controller/OSDialog"], (OSDlg) => {
           OSDlg.open(this.getView(), {
             equnr,
             range,
             titulo: equnr ? ("OS - " + equnr) : "OS",
-            metrics: mergedMetrics
+            metrics: mergedMetrics,
+            osData: preloadedOsData
           });
         });
       } catch (e) {
@@ -825,6 +856,20 @@ sap.ui.define([
       return { showAllOS, allowedOsTypes };
     },
 
+    _isUnifiedReliabilityEnabled: function () {
+      try {
+        const component = this.getOwnerComponent && this.getOwnerComponent();
+        const settingsModel = component && component.getModel && component.getModel("settings");
+        if (!settingsModel || typeof settingsModel.getProperty !== "function") {
+          return true;
+        }
+        const flag = settingsModel.getProperty("/reliability/unifiedPipeline");
+        return flag !== false;
+      } catch (err) {
+        return true;
+      }
+    },
+
     _updateReliabilityForVehicles: async function (rangeObj) {
       const vmModel = this.getView().getModel("vm");
       if (!vmModel) { return; }
@@ -859,6 +904,7 @@ sap.ui.define([
           vehicle.proximaQuebraHr = vehicle.proximaQuebraHr || 0;
           vehicle.proximaQuebraHrFmt = vehicle.proximaQuebraHrFmt || "-";
           vehicle.downtimeTotalFmt = vehicle.downtimeTotalFmt || "0h00";
+          vehicle.osCountRange = 0;
           return;
         }
         try {
@@ -869,6 +915,8 @@ sap.ui.define([
             allowedOsTypes: osFilterPrefs.allowedOsTypes
           });
           const metrics = (rel && rel.metrics) ? Object.assign({}, rel.metrics) : null;
+          const osEvents = (rel && Array.isArray(rel.osEventos)) ? rel.osEventos : [];
+          const osEventsCount = Number.isFinite(osEvents.length) ? osEvents.length : 0;
           if (metrics) {
             if (metrics.kmPorQuebraFmt && !metrics.kmPerFailureFmt) { metrics.kmPerFailureFmt = metrics.kmPorQuebraFmt; }
             if (metrics.hrPorQuebraFmt && !metrics.hrPerFailureFmt) { metrics.hrPerFailureFmt = metrics.hrPorQuebraFmt; }
@@ -892,6 +940,7 @@ sap.ui.define([
             vehicle.proximaQuebraHr = metrics.proximaQuebraHr || 0;
             vehicle.proximaQuebraHrFmt = metrics.proximaQuebraHrFmt || "-";
             vehicle.downtimeTotalFmt = metrics.downtimeFmt || metrics.downtimeTotalFmt || "0h00";
+            vehicle.osCountRange = osEventsCount;
           } else {
             vehicle.reliability = { };
             vehicle.mtbf = 0; vehicle.mtbfFmt = "-";
@@ -903,6 +952,7 @@ sap.ui.define([
             vehicle.proximaQuebraKm = 0; vehicle.proximaQuebraKmFmt = "-";
             vehicle.proximaQuebraHr = 0; vehicle.proximaQuebraHrFmt = "-";
             vehicle.downtimeTotalFmt = "0h00";
+            vehicle.osCountRange = 0;
           }
         } catch (err) {
           try { console.warn('[Main._updateReliabilityForVehicles] Falha ao calcular para ' + vehId, err); } catch (_) {}
@@ -916,6 +966,7 @@ sap.ui.define([
           vehicle.proximaQuebraKm = 0; vehicle.proximaQuebraKmFmt = "-";
           vehicle.proximaQuebraHr = 0; vehicle.proximaQuebraHrFmt = "-";
           vehicle.downtimeTotalFmt = "0h00";
+          vehicle.osCountRange = 0;
         }
       });
 

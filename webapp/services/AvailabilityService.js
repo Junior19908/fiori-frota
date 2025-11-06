@@ -67,6 +67,12 @@ sap.ui.define([], function () {
 
   async function fetchOsByVehiclesAndRange(ids, range) {
     try {
+      try {
+        const vehiclesLabel = Array.isArray(ids) && ids.length ? ids.join(",") : "ALL";
+        console.warn(`[RELIABILITY] Mixed sources detected for vehicle(s) ${vehiclesLabel}. Please migrate to unified pipeline.`);
+      } catch (warnErr) {
+        // ignore logging failures
+      }
       const from = range && range.from instanceof Date ? range.from : null;
       const to   = range && range.to   instanceof Date ? range.to   : null;
       if (!from || !to) return new Map();

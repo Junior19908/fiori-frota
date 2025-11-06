@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`buildUnifiedReliabilityByVehicle snapshot matches expected metrics for vehicle 20010035 in Oct/2025 1`] = `
+{
+  "availability": 0.985103,
+  "disponibilidadeFmt": "98,5% disponível | 1,5% indisponível",
+  "downtimeFmt": "11,08 h",
+  "downtimeTotal": 11.083333,
+  "falhas": 10,
+  "horasParadasFmt": "11,08 h",
+  "mtbf": 73.291639,
+  "mtbfFmt": "73,29 h",
+  "mttr": 1.108333,
+  "mttrFmt": "1,11 h",
+  "operationalHours": 732.916389,
+  "pctDisp": 98.51,
+  "pctIndisp": 1.49,
+  "totalRangeHours": 743.999722,
+}
+`;

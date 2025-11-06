@@ -4,9 +4,8 @@ sap.ui.define([
   "sap/m/MessageToast",
   "sap/m/MessageBox",
   "com/skysinc/frota/frota/util/formatter",
-  "com/skysinc/frota/frota/services/AvailabilityService",
   "com/skysinc/frota/frota/services/ReliabilityService"
-], function (JSONModel, Fragment, MessageToast, MessageBox, formatter, AvailabilityService, ReliabilityService) {
+], function (JSONModel, Fragment, MessageToast, MessageBox, formatter, ReliabilityService) {
   "use strict";
 
   const _byViewId = new Map();
@@ -59,6 +58,33 @@ sap.ui.define([
     }
   }
 
+  function _isUnifiedReliabilityEnabled(view) {
+    try {
+      const settings = view && view.getModel && view.getModel('settings');
+      if (!settings || typeof settings.getProperty !== 'function') {
+        return true;
+      }
+      const flag = settings.getProperty('/reliability/unifiedPipeline');
+      return flag !== false;
+    } catch (err) {
+      return true;
+    }
+  }
+
+  const LEGACY_WARNED = new Set();
+  function _warnLegacyReliability(vehicleId) {
+    const key = String(vehicleId || '').trim();
+    if (!key || LEGACY_WARNED.has(key)) {
+      return;
+    }
+    LEGACY_WARNED.add(key);
+    try {
+      console.warn(`[RELIABILITY] Mixed sources detected for vehicle ${key}. Please migrate to unified pipeline.`);
+    } catch (err) {
+      // ignore
+    }
+  }
+
   function _typeLabel(code) {
     try {
       const c = String(code || '').toUpperCase();
@@ -71,26 +97,30 @@ sap.ui.define([
 
   function _mapToView(list) {
     return (list || []).map(function (o) {
-      const ab = _combineDateTime(o.DataAbertura, o.HoraInicio, true) || (o.DataAbertura ? new Date(o.DataAbertura) : null);
-      const fe = _combineDateTime(o.DataFechamento, o.HoraFim, false) || (o.DataFechamento ? new Date(o.DataFechamento) : null);
+      const dataInicio = o.DataAbertura || o.dataAbertura;
+      const dataFim = o.DataFechamento || o.dataFechamento;
+      const horaInicio = o.HoraInicio || o.horaInicio;
+      const horaFim = o.HoraFim || o.horaFim;
+      const ab = _combineDateTime(dataInicio, horaInicio, true) || (dataInicio ? new Date(dataInicio) : null);
+      const fe = _combineDateTime(dataFim, horaFim, false) || (dataFim ? new Date(dataFim) : null);
       const downtime = (ab && fe && fe.getTime() > ab.getTime()) ? ((fe.getTime() - ab.getTime())/36e5) : 0;
       const categoria = String(o.Categoria || o.categoria || '').toUpperCase();
       const progress = _calcProgress(downtime);
       return {
         _id: String(o._id || ""),
-        ordem: String(o.NumeroOS || ""),
-        veiculo: String(o.Equipamento || ""),
-        titulo: String(o.Descricao || ""),
-        inicio: _toYmd(o.DataAbertura),
-        fim: _toYmd(o.DataFechamento),
-        horaInicio: String(o.HoraInicio || ''),
-        horaFim: String(o.HoraFim || ''),
-        _abertura: ab || (o.DataAbertura || null),
-        _fechamento: fe || (o.DataFechamento || null),
+        ordem: String(o.NumeroOS || o.numero || ""),
+        veiculo: String(o.Equipamento || o.equipamento || ""),
+        titulo: String(o.Descricao || o.descricao || ""),
+        inicio: _toYmd(dataInicio),
+        fim: _toYmd(dataFim),
+        horaInicio: String(horaInicio || ''),
+        horaFim: String(horaFim || ''),
+        _abertura: ab || (dataInicio || null),
+        _fechamento: fe || (dataFim || null),
         parada: downtime > 0,
         downtime: downtime,
         downtimeFmt: _formatDowntime(Number(downtime) || 0),
-        tipoManual: String(o.TipoManual || ""),
+        tipoManual: String(o.TipoManual || o.tipoManual || ""),
         categoria: categoria,
         tipoLabel: (categoria === 'ZF03' ? 'Preventiva Basica/Mecanica' : _typeLabel(categoria)),
         progressPct: progress.pct,
@@ -192,7 +222,7 @@ sap.ui.define([
         try { const t=String(tipoLabel||'').toLowerCase(); const base='osBarFill'; if(t.indexOf('corretiva')>=0) return base+' osBarFillCorretiva'; if(t.indexOf('preventiva')>=0) return base+' osBarFillPreventiva'; if(t.indexOf('projeto')>=0||t.indexOf('melhoria')>=0||t.indexOf('reforma')>=0) return base+' osBarFillProjeto'; return base; } catch(_) { return 'osBarFill'; }
       },
       fmtBarTooltip: function (inicio, horaIni, fim, horaFim, durFmt) {
-        try { const i = (inicio||'') + (horaIni?(' '+horaIni):''); const f=(fim||'') + (horaFim?(' '+horaFim):''); const d = durFmt||''; return 'In+¡cio: '+i+'\nFim: '+f+'\nDura+º+úo: '+d; } catch(_) { return ''; }
+        try { const i = (inicio||'') + (horaIni?(' '+horaIni):''); const f=(fim||'') + (horaFim?(' '+horaFim):''); const d = durFmt||''; return 'In+Â¡cio: '+i+'\nFim: '+f+'\nDura+Âº+Ãºo: '+d; } catch(_) { return ''; }
       },
 
       onShowOSDetails: function (oEvent) {
@@ -205,7 +235,7 @@ sap.ui.define([
           const dlg = new sap.m.Dialog({ title: title, contentWidth: '32rem', horizontalScrolling: true });
           function row(label, value){ return new sap.m.HBox({ alignItems:'Center', items:[ new sap.m.Label({ text: label, width: '11rem', design:'Bold' }), new sap.m.Text({ text: String(value==null?'':value) }) ] }); }
           const vb = new sap.m.VBox({ width:'100%', items:[
-            row('Ve+¡culo', o.veiculo||''), row('Ordem', o.ordem||''), row('T+¡tulo', o.titulo||''), row('Tipo OS', o.tipoLabel||''), row('Tipo (manual)', o.tipoManual||''), row('In+¡cio', (o.inicio||'') + (o.horaInicio?(' '+o.horaInicio):'')), row('Fim', (o.fim||'') + (o.horaFim?(' '+o.horaFim):'')), row('Parada', o.parada?'Sim':'N+úo'), row('Inatividade', o.downtimeFmt||'')
+            row('Ve+Â¡culo', o.veiculo||''), row('Ordem', o.ordem||''), row('T+Â¡tulo', o.titulo||''), row('Tipo OS', o.tipoLabel||''), row('Tipo (manual)', o.tipoManual||''), row('In+Â¡cio', (o.inicio||'') + (o.horaInicio?(' '+o.horaInicio):'')), row('Fim', (o.fim||'') + (o.horaFim?(' '+o.horaFim):'')), row('Parada', o.parada?'Sim':'N+Ãºo'), row('Inatividade', o.downtimeFmt||'')
           ]});
           dlg.addContent(vb);
           dlg.addButton(new sap.m.Button({ text:'Fechar', type:'Transparent', press: function(){ dlg.close(); } }));
@@ -234,23 +264,23 @@ sap.ui.define([
       onExportOS: function () {
         const data = dlgModel.getData() || {};
         const rows = (data.os || []).map((o)=>({
-          'Ve+¡culo': o.veiculo || '',
+          'Ve+Â¡culo': o.veiculo || '',
           Ordem: o.ordem || '',
-          'T+¡tulo': o.titulo || '',
-          'In+¡cio': o.inicio || '',
+          'T+Â¡tulo': o.titulo || '',
+          'In+Â¡cio': o.inicio || '',
           Fim: o.fim || '',
-          Parada: o.parada ? 'Sim' : 'N+úo',
+          Parada: o.parada ? 'Sim' : 'N+Ãºo',
           'Inatividade (h)': String(o.downtimeFmt || ''),
           'Progresso': o.progressText || '',
           'Tipo (manual)': o.tipoManual || '',
-          'Hora In+¡cio': o.horaInicio || '',
+          'Hora In+Â¡cio': o.horaInicio || '',
           'Hora Fim': o.horaFim || '',
           'Tipo OS': o.tipoLabel || ''
         }));
         if (!rows.length) { MessageToast.show('Sem OS no filtro atual.'); return; }
         const headers = Object.keys(rows[0]); const esc=(v)=>{ if(v==null) return ''; if(typeof v==='number') return v.toString(); let s=String(v); if(/[;"\n\r]/.test(s)) s='"'+s.replace(/"/g,'""')+'"'; return s; };
         const lines=[headers.join(';')]; rows.forEach(r=>lines.push(headers.map(h=>esc(r[h])).join(';'))); const csv='\uFEFF'+lines.join('\n');
-        try{ const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='os_lista.csv'; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(()=>URL.revokeObjectURL(url),1000); MessageToast.show('CSV gerado com sucesso.'); }catch(e){ console.error('[OSDialog.onExportOS]',e); MessageBox.error('N+úo foi poss+¡vel gerar o CSV.'); }
+        try{ const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='os_lista.csv'; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(()=>URL.revokeObjectURL(url),1000); MessageToast.show('CSV gerado com sucesso.'); }catch(e){ console.error('[OSDialog.onExportOS]',e); MessageBox.error('N+Ãºo foi poss+Â¡vel gerar o CSV.'); }
       },
 
       onCloseSelectedOS: async function () {
@@ -259,11 +289,11 @@ sap.ui.define([
           const idxs = tbl?.getSelectedIndices?.() || [];
           if (!idxs.length) { MessageToast.show('Selecione ao menos uma OS.'); return; }
           const data = dlgModel.getData() || {}; const list = data.os || []; const sel = idxs.map(i=>list[i]).filter(Boolean);
-          if (!sel.length) { MessageToast.show('Sele+º+úo vazia.'); return; }
+          if (!sel.length) { MessageToast.show('Sele+Âº+Ãºo vazia.'); return; }
           const nowIso = new Date().toISOString(); const nowYmd = nowIso.substring(0,10);
-          const fb = await (function(){ MessageToast.show("Indispon+¡vel em modo local."); })();
+          const fb = await (function(){ MessageToast.show("Indispon+Â¡vel em modo local."); })();
           const updates = sel.map(async (o)=>{ if(!o._id) return {ok:false}; const dref = fb.doc(fb.db,'ordensServico', o._id); try { await fb.updateDoc(dref, { DataFechamento: nowYmd }); o.fim = _toYmd(nowYmd); const A = o._abertura ? new Date(o._abertura).toISOString() : null; const dt = (A ? ((new Date(nowIso).getTime() - new Date(A).getTime())/36e5) : 0); o.downtime = dt; o.downtimeFmt = _formatDowntime(dt); o.parada = (dt>0); const pr = _calcProgress(dt); o.progressPct = pr.pct; o.progressText = pr.text; o.progressState = pr.state; return {ok:true}; } catch(e){ return {ok:false, reason:e && (e.code||e.message)} } });
-          const results = await Promise.all(updates); const ok = results.filter(r=>r.ok).length; dlgModel.refresh(true); MessageToast.show(ok + ' OS conclu+¡da(s).');
+          const results = await Promise.all(updates); const ok = results.filter(r=>r.ok).length; dlgModel.refresh(true); MessageToast.show(ok + ' OS conclu+Â¡da(s).');
         } catch(e){ console.error('[OSDialog.onCloseSelectedOS]', e); MessageBox.error('Falha ao concluir OS selecionadas.'); }
       },
 
@@ -276,7 +306,7 @@ sap.ui.define([
         dlg.addButton(new sap.m.Button({ text:'Cancelar', press: ()=> dlg.close() }));
         dlg.addButton(new sap.m.Button({ text:'Aplicar', type:'Emphasized', press: async ()=>{
           const val = (inp.getValue()||'').trim(); if(!val){ MessageToast.show('Informe um tipo.'); return; }
-          try { const data = dlgModel.getData()||{}; const list = data.os||[]; const sel = idxs.map(i=>list[i]).filter(Boolean); const fb = await (function(){ MessageToast.show("Indispon+¡vel em modo local."); })(); const updates = sel.map(async (o)=>{ if(!o._id) return {ok:false}; const dref = fb.doc(fb.db,'ordensServico', o._id); try { await fb.updateDoc(dref, { TipoManual: val }); o.tipoManual = val; return {ok:true}; } catch(e){ return {ok:false, reason:e && (e.code||e.message)} } }); const res = await Promise.all(updates); const ok = res.filter(r=>r.ok).length; dlgModel.refresh(true); MessageToast.show(ok + ' OS atualizada(s).'); } catch(e){ console.error('[OSDialog.onSetTypeSelectedOS]', e); MessageBox.error('Falha ao atualizar tipo.'); } finally { dlg.close(); }
+          try { const data = dlgModel.getData()||{}; const list = data.os||[]; const sel = idxs.map(i=>list[i]).filter(Boolean); const fb = await (function(){ MessageToast.show("Indispon+Â¡vel em modo local."); })(); const updates = sel.map(async (o)=>{ if(!o._id) return {ok:false}; const dref = fb.doc(fb.db,'ordensServico', o._id); try { await fb.updateDoc(dref, { TipoManual: val }); o.tipoManual = val; return {ok:true}; } catch(e){ return {ok:false, reason:e && (e.code||e.message)} } }); const res = await Promise.all(updates); const ok = res.filter(r=>r.ok).length; dlgModel.refresh(true); MessageToast.show(ok + ' OS atualizada(s).'); } catch(e){ console.error('[OSDialog.onSetTypeSelectedOS]', e); MessageBox.error('Falha ao atualizar tipo.'); } finally { dlg.close(); }
         }}));
         dlg.attachAfterClose(()=> dlg.destroy()); view.addDependent(dlg); dlg.open();
       }
@@ -294,15 +324,56 @@ sap.ui.define([
       const range = payload?.range || null;
       const start = Array.isArray(range) ? range[0] : (range?.from || null);
       const end   = Array.isArray(range) ? range[1] : (range?.to   || null);
+      const useUnifiedReliability = _isUnifiedReliabilityEnabled(view);
       let list = [];
-      try {
-        if (start instanceof Date && end instanceof Date) {
-          const ids = veh ? [veh] : [];
-          const map = await AvailabilityService.fetchOsByVehiclesAndRange(ids, { from: start, to: end });
-          if (veh) list = map.get(veh) || [];
-          else { map.forEach((arr)=>{ if (Array.isArray(arr)) list.push.apply(list, arr); }); }
+      let unifiedOsMap = null;
+      const providedOsMap = payload && payload.osData && payload.osData.map;
+      if (useUnifiedReliability && providedOsMap instanceof Map) {
+        unifiedOsMap = providedOsMap;
+        if (veh) {
+          list = unifiedOsMap.get(veh) || [];
+        } else if (unifiedOsMap.size) {
+          unifiedOsMap.forEach((arr) => {
+            if (Array.isArray(arr) && arr.length) {
+              list.push.apply(list, arr);
+            }
+          });
         }
-      } catch(_) {}
+      } else {
+        try {
+          if (start instanceof Date && end instanceof Date && useUnifiedReliability) {
+            const ids = veh ? [veh] : [];
+            unifiedOsMap = await ReliabilityService.fetchOsUnifiedByVehiclesAndRange({
+              vehicles: ids,
+              dateFrom: start,
+              dateTo: end,
+              tiposOS: osFilter.showAll ? undefined : osFilter.allowed
+            });
+            if (veh) {
+              list = unifiedOsMap.get(veh) || [];
+            } else if (unifiedOsMap && unifiedOsMap.size) {
+              unifiedOsMap.forEach((arr) => {
+                if (Array.isArray(arr) && arr.length) {
+                  list.push.apply(list, arr);
+                }
+              });
+            }
+          } else if (start instanceof Date && end instanceof Date && !useUnifiedReliability) {
+            const ids = veh ? [veh] : [];
+            const legacySvc = await new Promise((resolve) => {
+              sap.ui.require(["com/skysinc/frota/frota/services/AvailabilityService"], function (svc) { resolve(svc); });
+            });
+            if (legacySvc && legacySvc.fetchOsByVehiclesAndRange) {
+              const map = await legacySvc.fetchOsByVehiclesAndRange(ids, { from: start, to: end });
+              if (veh) { list = map.get(veh) || []; }
+              else { map.forEach((arr)=>{ if (Array.isArray(arr)) list.push.apply(list, arr); }); }
+              if (veh) { _warnLegacyReliability(veh); }
+            }
+          }
+        } catch (err) {
+          try { console.warn("[OSDialog.open] Falha ao carregar OS unificada", err); } catch (_) {}
+        }
+      }
       if (!Array.isArray(list) || !list.length) {
         try {
           const url = sap.ui.require.toUrl('com/skysinc/frota/frota/model/localdata/os/os.json');
@@ -332,7 +403,7 @@ sap.ui.define([
         filtered = filtered.filter((o)=> !o.categoria || osFilter.allowedSet.has(String(o.categoria||'').toUpperCase()));
       }
 
-      const title = payload?.titulo || ('Ordens de Servi+ºo' + (veh ? (' - ' + veh) : ''));
+      const title = payload?.titulo || ('Ordens de Servi+Âºo' + (veh ? (' - ' + veh) : ''));
       st.dlgModel.setProperty('/__meta', meta);
       st.dlgModel.setProperty('/titulo', title);
       st.dlgModel.setProperty('/os', filtered);
@@ -347,6 +418,19 @@ sap.ui.define([
 
       let combinedMetrics = Object.assign({}, st.dlgModel.getProperty('/metrics') || {});
       const mergedPayload = Object.assign({}, payloadMetrics);
+      let unifiedSummary = null;
+      if (veh && useUnifiedReliability && unifiedOsMap) {
+        try {
+          const summaryMap = ReliabilityService.buildUnifiedReliabilityByVehicleFromMap(unifiedOsMap, {
+            vehicles: [veh],
+            dateFrom: start instanceof Date ? start : null,
+            dateTo: end instanceof Date ? end : null
+          }) || {};
+          unifiedSummary = summaryMap[veh] || null;
+        } catch (err) {
+          try { console.warn('[OSDialog.open] Falha ao sintetizar mÃ©tricas unificadas', err); } catch (_) {}
+        }
+      }
       try {
         if (veh) {
           const relRange = {
@@ -357,7 +441,8 @@ sap.ui.define([
             vehicleId: veh,
             range: relRange,
             showAllOS: osFilter.showAll,
-            allowedOsTypes: osFilter.allowed
+            allowedOsTypes: osFilter.allowed,
+            osList: (useUnifiedReliability && unifiedOsMap) ? (unifiedOsMap.get(veh) || []) : null
           });
           if (rel && rel.metrics) {
             Object.assign(mergedPayload, rel.metrics);
@@ -365,6 +450,9 @@ sap.ui.define([
         }
       } catch (err) {
         try { console.warn('[OSDialog.open] Reliability metrics unavailable', err); } catch (_) {}
+      }
+      if (unifiedSummary) {
+        Object.assign(mergedPayload, unifiedSummary);
       }
       if (mergedPayload.kmPorQuebraFmt && !mergedPayload.kmPerFailureFmt) {
         mergedPayload.kmPerFailureFmt = mergedPayload.kmPorQuebraFmt;

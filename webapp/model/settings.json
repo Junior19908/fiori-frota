@@ -12,5 +12,8 @@
   "saveLocal": true,
   "theme": "sap_horizon_dark",
   "avatarSrc": "",
-  "avatarInitials": "CJ"
+  "avatarInitials": "CJ",
+  "reliability": {
+    "unifiedPipeline": true
+  }
 }

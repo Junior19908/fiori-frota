@@ -1,6 +1,7 @@
 sap.ui.define([
-  "com/skysinc/frota/frota/util/FilterUtil"
-], function (FilterUtil) {
+  "com/skysinc/frota/frota/util/FilterUtil",
+  "com/skysinc/frota/frota/services/ReliabilityService"
+], function (FilterUtil, ReliabilityService) {
   "use strict";
 
   const MS_PER_DAY  = 24 * 60 * 60 * 1000;
@@ -10,6 +11,33 @@ sap.ui.define([
   // Penalidade por evento (em horas) — opcional, para priorizar muitos eventos curtos.
   const EVENT_PENALTY_HOURS = 1;
   const EVENT_PENALTY_MS    = EVENT_PENALTY_HOURS * MS_PER_HOUR;
+  const MIXED_SOURCE_WARNED = new Set();
+
+  function isUnifiedPipelineEnabled(oView) {
+    try {
+      const settingsModel = oView && oView.getModel && oView.getModel("settings");
+      if (!settingsModel || typeof settingsModel.getProperty !== "function") {
+        return true;
+      }
+      const flag = settingsModel.getProperty("/reliability/unifiedPipeline");
+      return flag !== false;
+    } catch (err) {
+      return true;
+    }
+  }
+
+  function warnMixedSource(vehicleId) {
+    const key = String(vehicleId || "").trim();
+    if (!key || MIXED_SOURCE_WARNED.has(key)) {
+      return;
+    }
+    MIXED_SOURCE_WARNED.add(key);
+    try {
+      console.warn(`[RELIABILITY] Mixed sources detected for vehicle ${key}. Please migrate to unified pipeline.`);
+    } catch (err) {
+      // ignore logging failures
+    }
+  }
 
   // -------------------- Utils básicas --------------------
 
@@ -346,21 +374,42 @@ sap.ui.define([
     // Evita “fantasma” de cálculo anterior
     vlist.forEach(v => { v.pctDisp = 0; v.pctIndisp = 0; });
 
-    // Busca OS por veículo no Firestore
+    const useUnifiedReliability = isUnifiedPipelineEnabled(oView);
+    const vehicleIds = Array.from(new Set(
+      vlist.map((v) => v.id || v.veiculo || v.equnr || v.Equipamento || "").filter(Boolean)
+    ));
+    const allowedTipos = (!osFilter.showAllOS && osFilter.allowedSet.size) ? Array.from(osFilter.allowedSet.values()) : undefined;
+
+    let reliabilityByVehicle = {};
+    if (useUnifiedReliability && vehicleIds.length && hasRange) {
+      try {
+        reliabilityByVehicle = await ReliabilityService.buildUnifiedReliabilityByVehicle({
+          vehicles: vehicleIds,
+          dateFrom: start,
+          dateTo: end,
+          tiposOS: allowedTipos,
+          includeOsList: false
+        });
+      } catch (err) {
+        try { console.warn("[Aggregation] buildUnifiedReliabilityByVehicle falhou", err && (err.code || err.message || err)); } catch (_) {}
+        reliabilityByVehicle = {};
+      }
+    }
+
+    // Fallback legado (AvailabilityService) apenas se flag estiver desligada
     let __osMap = new Map();
-    try {
-      if (vlist.length && hasRange) {
+    if (!useUnifiedReliability && vlist.length && hasRange) {
+      try {
         const service = await new Promise(function (resolve) {
           sap.ui.require(["com/skysinc/frota/frota/services/AvailabilityService"], function (svc) { resolve(svc); });
         });
-        const ids = vlist.map(v => v.id || v.veiculo || v.equnr || v.Equipamento || "").filter(Boolean);
-        if (ids.length && service && service.fetchOsByVehiclesAndRange) {
-          __osMap = await service.fetchOsByVehiclesAndRange(ids, { from: start, to: end });
+        if (vehicleIds.length && service && service.fetchOsByVehiclesAndRange) {
+          __osMap = await service.fetchOsByVehiclesAndRange(vehicleIds, { from: start, to: end });
         }
+      } catch (e) {
+        try { console.warn("[Aggregation] fetchOsByVehiclesAndRange falhou", e && (e.code || e.message || e)); } catch (_){}
+        __osMap = new Map();
       }
-    } catch (e) {
-      try { console.warn("[Aggregation] fetchOsByVehiclesAndRange falhou", e && (e.code || e.message || e)); } catch (_){}
-      __osMap = new Map();
     }
 
     vlist.forEach((v) => {
@@ -523,36 +572,95 @@ sap.ui.define([
       v.uptimeHorasRange      = windowMs ? Number(Math.max(0, uptimeHours).toFixed(2)) : 0;
       v.downtimeEventosRange  = downtimeCount;
 
-      // Disponibilidade baseada em OS (com regra nova)
-      try {
-        const keyOs  = key;
-        const osRawList = (keyOs && __osMap && __osMap.get && __osMap.get(String(keyOs))) || [];
-        const osList = (!osFilter.showAllOS && osFilter.allowedSet.size)
-          ? osRawList.filter((item) => osMatchesFilter(item, osFilter))
-          : osRawList;
-        const resultDisp = calcDisponibilidade(osList, { from: start, to: end });
-        const tempoTotalH = resultDisp.tempoTotalH;
-        const indispH = resultDisp.indispH;
-        const pctDisp = resultDisp.pctDisp;
-        const pctIndisp = resultDisp.pctIndisp;
-        const countOs = Number(resultDisp.countOs || 0);
-        const totalHoras = Number(Math.max(0, tempoTotalH).toFixed(2));
-        const horasIndisp = Number(Math.max(0, indispH).toFixed(2));
-        const horasDisp = Number(Math.max(0, tempoTotalH - indispH).toFixed(2));
+      const relSummary = useUnifiedReliability ? (reliabilityByVehicle[String(key)] || null) : null;
 
-        v.pctDisp                = pctDisp;
-        v.pctIndisp              = pctIndisp;
-        v.totalHorasPeriodo      = totalHoras;
-        v.totalHorasIndisponiveis = horasIndisp;
-        v.totalHorasDisponiveis  = horasDisp;
-        v.osCountRange           = countOs;
-      } catch (e) {
+      if (relSummary) {
+        const downtimeHours = Number(Math.max(0, relSummary.downtimeTotal || 0).toFixed(2));
+        const totalHorasPeriodo = Number(Math.max(0, relSummary.totalRangeHours || 0).toFixed(2));
+        const horasDisp = Number(Math.max(0, relSummary.operationalHours || 0).toFixed(2));
+        const pctDispRaw = Math.max(0, Math.min(100, relSummary.pctDisp || (relSummary.availability * 100) || 0));
+        const pctIndispRaw = Math.max(0, Math.min(100, relSummary.pctIndisp || (100 - pctDispRaw)));
+        const pctDisp = Number(pctDispRaw.toFixed(2));
+        const pctIndisp = Number(pctIndispRaw.toFixed(2));
+
+        v.pctDisp = pctDisp;
+        v.pctIndisp = pctIndisp;
+        v.disponibilidadePerc = pctDisp;
+        v.indisponibilidadePerc = pctIndisp;
+        v.disponibilidade = relSummary.availability || (pctDisp / 100);
+        v.totalHorasPeriodo = totalHorasPeriodo;
+        v.totalHorasIndisponiveis = downtimeHours;
+        v.totalHorasDisponiveis = horasDisp;
+        v.osCountRange = relSummary.falhas || 0;
+        v.falhas = relSummary.falhas || 0;
+        v.horasParadasFmt = relSummary.horasParadasFmt || (downtimeHours.toFixed(2) + " h");
+        v.disponibilidadeFmt = relSummary.disponibilidadeFmt || "";
+        v.mtbf = relSummary.mtbf || 0;
+        v.mtbfFmt = relSummary.mtbfFmt || "-";
+        v.mttr = relSummary.mttr || 0;
+        v.mttrFmt = relSummary.mttrFmt || "-";
+      } else if (!useUnifiedReliability) {
+        try {
+          const keyOs  = key;
+          const osRawList = (keyOs && __osMap && __osMap.get && __osMap.get(String(keyOs))) || [];
+          const osList = (!osFilter.showAllOS && osFilter.allowedSet.size)
+            ? osRawList.filter((item) => osMatchesFilter(item, osFilter))
+            : osRawList;
+          const resultDisp = calcDisponibilidade(osList, { from: start, to: end });
+          const tempoTotalH = resultDisp.tempoTotalH;
+          const indispH = resultDisp.indispH;
+          const pctDisp = resultDisp.pctDisp;
+          const pctIndisp = resultDisp.pctIndisp;
+          const countOs = Number(resultDisp.countOs || 0);
+          const totalHoras = Number(Math.max(0, tempoTotalH).toFixed(2));
+          const horasIndisp = Number(Math.max(0, indispH).toFixed(2));
+          const horasDisp = Number(Math.max(0, tempoTotalH - indispH).toFixed(2));
+
+          v.pctDisp                = pctDisp;
+          v.pctIndisp              = pctIndisp;
+          v.disponibilidadePerc    = pctDisp;
+          v.indisponibilidadePerc  = pctIndisp;
+          v.disponibilidade        = pctDisp / 100;
+          v.totalHorasPeriodo      = totalHoras;
+          v.totalHorasIndisponiveis = horasIndisp;
+          v.totalHorasDisponiveis  = horasDisp;
+          v.osCountRange           = countOs;
+          v.falhas                 = countOs;
+          const horasIndispTxt = horasIndisp.toFixed(2).replace(".", ",");
+          const dispTxt = pctDisp.toFixed(1).replace(".", ",");
+          const indispTxt = pctIndisp.toFixed(1).replace(".", ",");
+          v.horasParadasFmt        = `${horasIndispTxt} h`;
+          v.disponibilidadeFmt     = `${dispTxt}% disponível | ${indispTxt}% indisponível`;
+          v.mtbfFmt = v.mtbfFmt || "-";
+          v.mttrFmt = v.mttrFmt || "-";
+          warnMixedSource(key);
+        } catch (e) {
+          v.pctDisp = 100.0;
+          v.pctIndisp = 0.0;
+          v.disponibilidadePerc = 100.0;
+          v.indisponibilidadePerc = 0.0;
+          v.disponibilidade = 1;
+          v.totalHorasPeriodo = 0;
+          v.totalHorasIndisponiveis = 0;
+          v.totalHorasDisponiveis = 0;
+          v.osCountRange = 0;
+          v.falhas = 0;
+          v.horasParadasFmt = "0,00 h";
+          v.disponibilidadeFmt = "100,0% disponível | 0,0% indisponível";
+        }
+      } else {
         v.pctDisp = 100.0;
         v.pctIndisp = 0.0;
-        v.totalHorasPeriodo = 0;
+        v.disponibilidadePerc = 100.0;
+        v.indisponibilidadePerc = 0.0;
+        v.disponibilidade = 1;
+        v.totalHorasPeriodo = Number(hasRange ? Math.max(0, (end.getTime() - start.getTime()) / MS_PER_HOUR).toFixed(2) : 0);
         v.totalHorasIndisponiveis = 0;
-        v.totalHorasDisponiveis = 0;
+        v.totalHorasDisponiveis = v.totalHorasPeriodo;
         v.osCountRange = 0;
+        v.falhas = 0;
+        v.horasParadasFmt = "0,00 h";
+        v.disponibilidadeFmt = "100,0% disponível | 0,0% indisponível";
       }
     });
 
