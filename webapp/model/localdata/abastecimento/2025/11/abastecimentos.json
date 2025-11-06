@@ -1,0 +1,7747 @@
+{
+  "abastecimentosPorVeiculo": {
+    "20010013": [
+      {
+        "data": "2025-11-02",
+        "hora": "11:34:00",
+        "km": 94626,
+        "hr": 0,
+        "litros": 16.67,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 1,
+        "idEvento": "A-202511-000001"
+      }
+    ],
+    "20010034": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:48:00",
+        "km": 459382,
+        "hr": 0,
+        "litros": 44.58,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 2,
+        "idEvento": "A-202511-000002"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "22:16:00",
+        "km": 459660,
+        "hr": 0,
+        "litros": 43.38,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 3,
+        "idEvento": "A-202511-000003"
+      }
+    ],
+    "20010035": [
+      {
+        "data": "2025-11-01",
+        "hora": "10:11:00",
+        "km": 377280,
+        "hr": 0,
+        "litros": 38.38,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 4,
+        "idEvento": "A-202511-000004"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "21:14:00",
+        "km": 377393,
+        "hr": 0,
+        "litros": 16.97,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 5,
+        "idEvento": "A-202511-000005"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "16:51:00",
+        "km": 377693,
+        "hr": 0,
+        "litros": 29.24,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 6,
+        "idEvento": "A-202511-000006"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:44:00",
+        "km": 377963,
+        "hr": 0,
+        "litros": 30.01,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 7,
+        "idEvento": "A-202511-000007"
+      }
+    ],
+    "20010036": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:38:00",
+        "km": 349927,
+        "hr": 0,
+        "litros": 24.16,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 8,
+        "idEvento": "A-202511-000008"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "21:14:00",
+        "km": 350125,
+        "hr": 0,
+        "litros": 21.78,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 9,
+        "idEvento": "A-202511-000009"
+      }
+    ],
+    "20010042": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:49:00",
+        "km": 315257,
+        "hr": 0,
+        "litros": 15.22,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 10,
+        "idEvento": "A-202511-000010"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "11:34:00",
+        "km": 315509,
+        "hr": 0,
+        "litros": 25.44,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 11,
+        "idEvento": "A-202511-000011"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "09:43:00",
+        "km": 315692,
+        "hr": 0,
+        "litros": 21.76,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 12,
+        "idEvento": "A-202511-000012"
+      }
+    ],
+    "20010043": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:48:00",
+        "km": 248251,
+        "hr": 0,
+        "litros": 44.89,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 13,
+        "idEvento": "A-202511-000013"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "19:27:00",
+        "km": 248613,
+        "hr": 0,
+        "litros": 39.57,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 14,
+        "idEvento": "A-202511-000014"
+      }
+    ],
+    "20010046": [
+      {
+        "data": "2025-11-01",
+        "hora": "10:11:00",
+        "km": 217603,
+        "hr": 0,
+        "litros": 38.32,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 15,
+        "idEvento": "A-202511-000015"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "11:35:00",
+        "km": 217792,
+        "hr": 0,
+        "litros": 23.75,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 16,
+        "idEvento": "A-202511-000016"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "19:32:00",
+        "km": 217974,
+        "hr": 0,
+        "litros": 21.18,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 17,
+        "idEvento": "A-202511-000017"
+      }
+    ],
+    "20010048": [
+      {
+        "data": "2025-11-03",
+        "hora": "09:36:00",
+        "km": 237722,
+        "hr": 0,
+        "litros": 22.64,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 18,
+        "idEvento": "A-202511-000018"
+      }
+    ],
+    "20010049": [
+      {
+        "data": "2025-11-01",
+        "hora": "13:51:00",
+        "km": 157552,
+        "hr": 0,
+        "litros": 22.44,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 19,
+        "idEvento": "A-202511-000019"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:00:00",
+        "km": 157699,
+        "hr": 0,
+        "litros": 16.52,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 20,
+        "idEvento": "A-202511-000020"
+      }
+    ],
+    "20010053": [
+      {
+        "data": "2025-11-02",
+        "hora": "07:38:00",
+        "km": 169347,
+        "hr": 0,
+        "litros": 29.31,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 21,
+        "idEvento": "A-202511-000021"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:02:00",
+        "km": 169551,
+        "hr": 0,
+        "litros": 28.45,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 22,
+        "idEvento": "A-202511-000022"
+      }
+    ],
+    "20010054": [
+      {
+        "data": "2025-11-03",
+        "hora": "09:58:00",
+        "km": 109307,
+        "hr": 0,
+        "litros": 26.54,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 23,
+        "idEvento": "A-202511-000023"
+      }
+    ],
+    "20010055": [
+      {
+        "data": "2025-11-03",
+        "hora": "14:18:00",
+        "km": 152676,
+        "hr": 0,
+        "litros": 49.01,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 24,
+        "idEvento": "A-202511-000024"
+      }
+    ],
+    "20010057": [
+      {
+        "data": "2025-11-03",
+        "hora": "09:41:00",
+        "km": 93922,
+        "hr": 0,
+        "litros": 38.08,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 25,
+        "idEvento": "A-202511-000025"
+      }
+    ],
+    "20010058": [
+      {
+        "data": "2025-11-02",
+        "hora": "11:36:00",
+        "km": 134324,
+        "hr": 0,
+        "litros": 29.69,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 26,
+        "idEvento": "A-202511-000026"
+      }
+    ],
+    "20010059": [
+      {
+        "data": "2025-11-01",
+        "hora": "21:12:00",
+        "km": 85567,
+        "hr": 0,
+        "litros": 27.83,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 27,
+        "idEvento": "A-202511-000027"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:28:00",
+        "km": 85785,
+        "hr": 0,
+        "litros": 24.64,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 28,
+        "idEvento": "A-202511-000028"
+      }
+    ],
+    "20010060": [
+      {
+        "data": "2025-11-02",
+        "hora": "07:38:00",
+        "km": 109423,
+        "hr": 0,
+        "litros": 33.23,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 29,
+        "idEvento": "A-202511-000029"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "14:33:00",
+        "km": 109692,
+        "hr": 0,
+        "litros": 32.11,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 30,
+        "idEvento": "A-202511-000030"
+      }
+    ],
+    "20010062": [
+      {
+        "data": "2025-11-02",
+        "hora": "22:17:00",
+        "km": 56490,
+        "hr": 0,
+        "litros": 23.81,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 31,
+        "idEvento": "A-202511-000031"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "19:59:00",
+        "km": 56733,
+        "hr": 0,
+        "litros": 25.59,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 32,
+        "idEvento": "A-202511-000032"
+      }
+    ],
+    "20010063": [
+      {
+        "data": "2025-11-01",
+        "hora": "10:12:00",
+        "km": 45543,
+        "hr": 0,
+        "litros": 23.14,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 33,
+        "idEvento": "A-202511-000033"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:48:00",
+        "km": 45719,
+        "hr": 0,
+        "litros": 18.97,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 34,
+        "idEvento": "A-202511-000034"
+      }
+    ],
+    "20010064": [
+      {
+        "data": "2025-11-03",
+        "hora": "09:38:00",
+        "km": 15070,
+        "hr": 0,
+        "litros": 48.63,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 35,
+        "idEvento": "A-202511-000035"
+      }
+    ],
+    "20010065": [
+      {
+        "data": "2025-11-02",
+        "hora": "19:50:00",
+        "km": 8516,
+        "hr": 0,
+        "litros": 28.47,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 36,
+        "idEvento": "A-202511-000036"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:45:00",
+        "km": 8817,
+        "hr": 0,
+        "litros": 25.14,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 37,
+        "idEvento": "A-202511-000037"
+      }
+    ],
+    "20010066": [
+      {
+        "data": "2025-11-01",
+        "hora": "21:11:00",
+        "km": 9711,
+        "hr": 0,
+        "litros": 24.58,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 38,
+        "idEvento": "A-202511-000038"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "14:13:00",
+        "km": 9924,
+        "hr": 0,
+        "litros": 21.48,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 39,
+        "idEvento": "A-202511-000039"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "22:17:00",
+        "km": 10165,
+        "hr": 0,
+        "litros": 26.71,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 40,
+        "idEvento": "A-202511-000040"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:01:00",
+        "km": 10419,
+        "hr": 0,
+        "litros": 21.48,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 41,
+        "idEvento": "A-202511-000041"
+      }
+    ],
+    "20010067": [
+      {
+        "data": "2025-11-01",
+        "hora": "21:12:00",
+        "km": 5963,
+        "hr": 0,
+        "litros": 28.8,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 42,
+        "idEvento": "A-202511-000042"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "14:32:00",
+        "km": 6137,
+        "hr": 0,
+        "litros": 25.82,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 43,
+        "idEvento": "A-202511-000043"
+      }
+    ],
+    "20010068": [
+      {
+        "data": "2025-11-03",
+        "hora": "10:04:00",
+        "km": 23772,
+        "hr": 0,
+        "litros": 36,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 44,
+        "idEvento": "A-202511-000044"
+      }
+    ],
+    "20010103": [
+      {
+        "data": "2025-11-03",
+        "hora": "09:40:00",
+        "km": 742768,
+        "hr": 0,
+        "litros": 19.57,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 45,
+        "idEvento": "A-202511-000045"
+      }
+    ],
+    "20010104": [
+      {
+        "data": "2025-11-01",
+        "hora": "12:40:00",
+        "km": 231148,
+        "hr": 0,
+        "litros": 63.31,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 46,
+        "idEvento": "A-202511-000046"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:02:00",
+        "km": 231297,
+        "hr": 0,
+        "litros": 50.52,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 47,
+        "idEvento": "A-202511-000047"
+      }
+    ],
+    "20010105": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:53:00",
+        "km": 470574,
+        "hr": 0,
+        "litros": 182.15,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 48,
+        "idEvento": "A-202511-000048"
+      }
+    ],
+    "20010109": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:35:00",
+        "km": 30754,
+        "hr": 0,
+        "litros": 279.15,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 49,
+        "idEvento": "A-202511-000049"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "22:59:00",
+        "km": 31207,
+        "hr": 0,
+        "litros": 196.14,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 50,
+        "idEvento": "A-202511-000050"
+      }
+    ],
+    "20010116": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:38:00",
+        "km": 231594,
+        "hr": 0,
+        "litros": 68.79,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 51,
+        "idEvento": "A-202511-000051"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:52:00",
+        "km": 231752,
+        "hr": 0,
+        "litros": 61.72,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 52,
+        "idEvento": "A-202511-000052"
+      }
+    ],
+    "20010117": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:42:00",
+        "km": 667182,
+        "hr": 0,
+        "litros": 91.44,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 53,
+        "idEvento": "A-202511-000053"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:53:00",
+        "km": 667288,
+        "hr": 0,
+        "litros": 58.39,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 54,
+        "idEvento": "A-202511-000054"
+      }
+    ],
+    "20010118": [
+      {
+        "data": "2025-11-01",
+        "hora": "21:15:00",
+        "km": 3766,
+        "hr": 0,
+        "litros": 42.44,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 55,
+        "idEvento": "A-202511-000055"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:12:00",
+        "km": 3801,
+        "hr": 0,
+        "litros": 41.99,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 56,
+        "idEvento": "A-202511-000056"
+      }
+    ],
+    "20010119": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:47:00",
+        "km": 29472,
+        "hr": 0,
+        "litros": 74.01,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 57,
+        "idEvento": "A-202511-000057"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:59:00",
+        "km": 29700,
+        "hr": 0,
+        "litros": 140.01,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 58,
+        "idEvento": "A-202511-000058"
+      }
+    ],
+    "20010120": [
+      {
+        "data": "2025-11-01",
+        "hora": "12:44:00",
+        "km": 408083,
+        "hr": 0,
+        "litros": 53.86,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 59,
+        "idEvento": "A-202511-000059"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "14:20:00",
+        "km": 408248,
+        "hr": 0,
+        "litros": 62.86,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 60,
+        "idEvento": "A-202511-000060"
+      }
+    ],
+    "20010121": [
+      {
+        "data": "2025-11-01",
+        "hora": "21:03:00",
+        "km": 382082,
+        "hr": 0,
+        "litros": 63.77,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 61,
+        "idEvento": "A-202511-000061"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "11:33:00",
+        "km": 382136,
+        "hr": 0,
+        "litros": 31.66,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 62,
+        "idEvento": "A-202511-000062"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:01:00",
+        "km": 382303,
+        "hr": 0,
+        "litros": 41.07,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 63,
+        "idEvento": "A-202511-000063"
+      }
+    ],
+    "20010124": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:50:00",
+        "km": 632669,
+        "hr": 0,
+        "litros": 51.71,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 64,
+        "idEvento": "A-202511-000064"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:37:00",
+        "km": 632721,
+        "hr": 0,
+        "litros": 35.91,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 65,
+        "idEvento": "A-202511-000065"
+      }
+    ],
+    "20010125": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:43:00",
+        "km": 498713,
+        "hr": 0,
+        "litros": 360.05,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 66,
+        "idEvento": "A-202511-000066"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:59:00",
+        "km": 499184,
+        "hr": 0,
+        "litros": 323.35,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 67,
+        "idEvento": "A-202511-000067"
+      }
+    ],
+    "20010126": [
+      {
+        "data": "2025-11-01",
+        "hora": "12:44:00",
+        "km": 8576,
+        "hr": 0,
+        "litros": 52.87,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 68,
+        "idEvento": "A-202511-000068"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "09:42:00",
+        "km": 8701,
+        "hr": 0,
+        "litros": 46.82,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 69,
+        "idEvento": "A-202511-000069"
+      }
+    ],
+    "20010127": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:57:00",
+        "km": 526057,
+        "hr": 0,
+        "litros": 244.33,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 70,
+        "idEvento": "A-202511-000070"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:43:00",
+        "km": 526280,
+        "hr": 0,
+        "litros": 313.56,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 71,
+        "idEvento": "A-202511-000071"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:09:00",
+        "km": 526405,
+        "hr": 0,
+        "litros": 156.42,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 72,
+        "idEvento": "A-202511-000072"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:57:00",
+        "km": 526452,
+        "hr": 0,
+        "litros": 47.04,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 73,
+        "idEvento": "A-202511-000073"
+      }
+    ],
+    "20010128": [
+      {
+        "data": "2025-11-01",
+        "hora": "10:09:00",
+        "km": 697904,
+        "hr": 0,
+        "litros": 113.04,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 74,
+        "idEvento": "A-202511-000074"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "19:31:00",
+        "km": 697947,
+        "hr": 0,
+        "litros": 12.67,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 75,
+        "idEvento": "A-202511-000075"
+      }
+    ],
+    "20010131": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:48:00",
+        "km": 469263,
+        "hr": 0,
+        "litros": 48.33,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 76,
+        "idEvento": "A-202511-000076"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:00:00",
+        "km": 469416,
+        "hr": 0,
+        "litros": 41.3,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 77,
+        "idEvento": "A-202511-000077"
+      }
+    ],
+    "20010135": [
+      {
+        "data": "2025-11-02",
+        "hora": "11:30:00",
+        "km": 390583,
+        "hr": 0,
+        "litros": 62.32,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 78,
+        "idEvento": "A-202511-000078"
+      }
+    ],
+    "20010138": [
+      {
+        "data": "2025-11-01",
+        "hora": "21:13:00",
+        "km": 671040,
+        "hr": 0,
+        "litros": 109.02,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 79,
+        "idEvento": "A-202511-000079"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:35:00",
+        "km": 671096,
+        "hr": 0,
+        "litros": 42.65,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 80,
+        "idEvento": "A-202511-000080"
+      }
+    ],
+    "20010139": [
+      {
+        "data": "2025-11-02",
+        "hora": "19:41:00",
+        "km": 603600,
+        "hr": 0,
+        "litros": 243.28,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 81,
+        "idEvento": "A-202511-000081"
+      }
+    ],
+    "20010143": [
+      {
+        "data": "2025-11-01",
+        "hora": "12:42:00",
+        "km": 3388,
+        "hr": 0,
+        "litros": 50.72,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 82,
+        "idEvento": "A-202511-000082"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "11:31:00",
+        "km": 3500,
+        "hr": 0,
+        "litros": 38.44,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 83,
+        "idEvento": "A-202511-000083"
+      }
+    ],
+    "20010147": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:49:00",
+        "km": 264800,
+        "hr": 0,
+        "litros": 88.17,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 84,
+        "idEvento": "A-202511-000084"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:12:00",
+        "km": 265097,
+        "hr": 0,
+        "litros": 87.74,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 85,
+        "idEvento": "A-202511-000085"
+      }
+    ],
+    "20010154": [
+      {
+        "data": "2025-11-01",
+        "hora": "13:50:00",
+        "km": 10011,
+        "hr": 0,
+        "litros": 43.51,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 86,
+        "idEvento": "A-202511-000086"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "14:15:00",
+        "km": 10170,
+        "hr": 0,
+        "litros": 65.86,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 87,
+        "idEvento": "A-202511-000087"
+      }
+    ],
+    "20010155": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:54:00",
+        "km": 636679,
+        "hr": 0,
+        "litros": 163.62,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 88,
+        "idEvento": "A-202511-000088"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:04:00",
+        "km": 636910,
+        "hr": 0,
+        "litros": 129.1,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 89,
+        "idEvento": "A-202511-000089"
+      }
+    ],
+    "20010156": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:58:00",
+        "km": 477793,
+        "hr": 0,
+        "litros": 130.04,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 90,
+        "idEvento": "A-202511-000090"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:39:00",
+        "km": 478016,
+        "hr": 0,
+        "litros": 223.01,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 91,
+        "idEvento": "A-202511-000091"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "21:08:00",
+        "km": 478533,
+        "hr": 0,
+        "litros": 224.72,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 92,
+        "idEvento": "A-202511-000092"
+      }
+    ],
+    "20010157": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:41:00",
+        "km": 610922,
+        "hr": 0,
+        "litros": 280.82,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 93,
+        "idEvento": "A-202511-000093"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:35:00",
+        "km": 611179,
+        "hr": 0,
+        "litros": 299.03,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 94,
+        "idEvento": "A-202511-000094"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:58:00",
+        "km": 611421,
+        "hr": 0,
+        "litros": 268.57,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 95,
+        "idEvento": "A-202511-000095"
+      }
+    ],
+    "20010160": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:49:00",
+        "km": 422455,
+        "hr": 0,
+        "litros": 53.53,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 96,
+        "idEvento": "A-202511-000096"
+      }
+    ],
+    "20010169": [
+      {
+        "data": "2025-11-01",
+        "hora": "21:03:00",
+        "km": 276673,
+        "hr": 0,
+        "litros": 36.98,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 97,
+        "idEvento": "A-202511-000097"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "21:02:00",
+        "km": 276741,
+        "hr": 0,
+        "litros": 31.05,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 98,
+        "idEvento": "A-202511-000098"
+      }
+    ],
+    "20010172": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:40:00",
+        "km": 530180,
+        "hr": 0,
+        "litros": 294.76,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 99,
+        "idEvento": "A-202511-000099"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:40:00",
+        "km": 530485,
+        "hr": 0,
+        "litros": 305.81,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 100,
+        "idEvento": "A-202511-000100"
+      }
+    ],
+    "20010173": [
+      {
+        "data": "2025-11-03",
+        "hora": "19:28:00",
+        "km": 922626,
+        "hr": 0,
+        "litros": 57.42,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 101,
+        "idEvento": "A-202511-000101"
+      }
+    ],
+    "20010175": [
+      {
+        "data": "2025-11-03",
+        "hora": "10:11:00",
+        "km": 445913,
+        "hr": 0,
+        "litros": 24.03,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 102,
+        "idEvento": "A-202511-000102"
+      }
+    ],
+    "20010177": [
+      {
+        "data": "2025-11-03",
+        "hora": "19:28:00",
+        "km": 429830,
+        "hr": 0,
+        "litros": 65.31,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 103,
+        "idEvento": "A-202511-000103"
+      }
+    ],
+    "20010179": [
+      {
+        "data": "2025-11-03",
+        "hora": "09:39:00",
+        "km": 425952,
+        "hr": 0,
+        "litros": 81.26,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 104,
+        "idEvento": "A-202511-000104"
+      }
+    ],
+    "20010180": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:36:00",
+        "km": 639831,
+        "hr": 0,
+        "litros": 46.27,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 105,
+        "idEvento": "A-202511-000105"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:08:00",
+        "km": 639951,
+        "hr": 0,
+        "litros": 40.22,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 106,
+        "idEvento": "A-202511-000106"
+      }
+    ],
+    "20010182": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:36:00",
+        "km": 424517,
+        "hr": 0,
+        "litros": 51.81,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 107,
+        "idEvento": "A-202511-000107"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "14:14:00",
+        "km": 424681,
+        "hr": 0,
+        "litros": 53.15,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 108,
+        "idEvento": "A-202511-000108"
+      }
+    ],
+    "20010183": [
+      {
+        "data": "2025-11-01",
+        "hora": "12:41:00",
+        "km": 430658,
+        "hr": 0,
+        "litros": 48.4,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 109,
+        "idEvento": "A-202511-000109"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "21:00:00",
+        "km": 430778,
+        "hr": 0,
+        "litros": 32.27,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 110,
+        "idEvento": "A-202511-000110"
+      }
+    ],
+    "20010184": [
+      {
+        "data": "2025-11-01",
+        "hora": "12:38:00",
+        "km": 346958,
+        "hr": 0,
+        "litros": 24,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 111,
+        "idEvento": "A-202511-000111"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "11:33:00",
+        "km": 347039,
+        "hr": 0,
+        "litros": 74.55,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 112,
+        "idEvento": "A-202511-000112"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:06:00",
+        "km": 347271,
+        "hr": 0,
+        "litros": 77.91,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 113,
+        "idEvento": "A-202511-000113"
+      }
+    ],
+    "20010186": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:37:00",
+        "km": 999172,
+        "hr": 0,
+        "litros": 41.72,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 114,
+        "idEvento": "A-202511-000114"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "14:16:00",
+        "km": 999287,
+        "hr": 0,
+        "litros": 41.02,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 115,
+        "idEvento": "A-202511-000115"
+      }
+    ],
+    "20010187": [
+      {
+        "data": "2025-11-01",
+        "hora": "12:39:00",
+        "km": 367788,
+        "hr": 0,
+        "litros": 72.57,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 116,
+        "idEvento": "A-202511-000116"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "11:31:00",
+        "km": 368082,
+        "hr": 0,
+        "litros": 123.65,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 117,
+        "idEvento": "A-202511-000117"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "19:30:00",
+        "km": 368336,
+        "hr": 0,
+        "litros": 70.73,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 118,
+        "idEvento": "A-202511-000118"
+      }
+    ],
+    "20010188": [
+      {
+        "data": "2025-11-01",
+        "hora": "10:11:00",
+        "km": 736494,
+        "hr": 0,
+        "litros": 48,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 119,
+        "idEvento": "A-202511-000119"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "09:37:00",
+        "km": 736647,
+        "hr": 0,
+        "litros": 51.96,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 120,
+        "idEvento": "A-202511-000120"
+      }
+    ],
+    "20010189": [
+      {
+        "data": "2025-11-01",
+        "hora": "10:10:00",
+        "km": 372443,
+        "hr": 0,
+        "litros": 63,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 121,
+        "idEvento": "A-202511-000121"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "06:09:03",
+        "km": 372702,
+        "hr": 0,
+        "litros": 84,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 122,
+        "idEvento": "A-202511-000122"
+      }
+    ],
+    "20010190": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:39:00",
+        "km": 306512,
+        "hr": 0,
+        "litros": 32.46,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 123,
+        "idEvento": "A-202511-000123"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "14:19:00",
+        "km": 306600,
+        "hr": 0,
+        "litros": 34.43,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 124,
+        "idEvento": "A-202511-000124"
+      }
+    ],
+    "20010191": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:55:00",
+        "km": 325550,
+        "hr": 0,
+        "litros": 44.61,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 125,
+        "idEvento": "A-202511-000125"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "16:51:00",
+        "km": 325664,
+        "hr": 0,
+        "litros": 39.56,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 126,
+        "idEvento": "A-202511-000126"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "21:02:00",
+        "km": 325776,
+        "hr": 0,
+        "litros": 37.02,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 127,
+        "idEvento": "A-202511-000127"
+      }
+    ],
+    "20010192": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:39:00",
+        "km": 313768,
+        "hr": 0,
+        "litros": 50.37,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 128,
+        "idEvento": "A-202511-000128"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "22:16:00",
+        "km": 313928,
+        "hr": 0,
+        "litros": 299.95,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 129,
+        "idEvento": "A-202511-000129"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "21:04:00",
+        "km": 314089,
+        "hr": 0,
+        "litros": 161.77,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 130,
+        "idEvento": "A-202511-000130"
+      }
+    ],
+    "20010193": [
+      {
+        "data": "2025-11-01",
+        "hora": "12:38:00",
+        "km": 318445,
+        "hr": 0,
+        "litros": 237.2,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 131,
+        "idEvento": "A-202511-000131"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:52:00",
+        "km": 318657,
+        "hr": 0,
+        "litros": 326.51,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 132,
+        "idEvento": "A-202511-000132"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:08:00",
+        "km": 318742,
+        "hr": 0,
+        "litros": 132.49,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 133,
+        "idEvento": "A-202511-000133"
+      }
+    ],
+    "20010194": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:45:00",
+        "km": 280396,
+        "hr": 0,
+        "litros": 266.85,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 134,
+        "idEvento": "A-202511-000134"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:44:00",
+        "km": 280746,
+        "hr": 0,
+        "litros": 414.93,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 135,
+        "idEvento": "A-202511-000135"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "21:03:00",
+        "km": 280989,
+        "hr": 0,
+        "litros": 245.38,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 136,
+        "idEvento": "A-202511-000136"
+      }
+    ],
+    "20010195": [
+      {
+        "data": "2025-11-02",
+        "hora": "14:12:00",
+        "km": 313031,
+        "hr": 0,
+        "litros": 452.72,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 137,
+        "idEvento": "A-202511-000137"
+      }
+    ],
+    "20011100": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:37:00",
+        "km": 333625,
+        "hr": 0,
+        "litros": 185.76,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 138,
+        "idEvento": "A-202511-000138"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:40:00",
+        "km": 334003,
+        "hr": 0,
+        "litros": 384.32,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 139,
+        "idEvento": "A-202511-000139"
+      }
+    ],
+    "20011101": [
+      {
+        "data": "2025-11-02",
+        "hora": "22:15:00",
+        "km": 315763,
+        "hr": 0,
+        "litros": 457.19,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 140,
+        "idEvento": "A-202511-000140"
+      }
+    ],
+    "20011102": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:43:00",
+        "km": 291468,
+        "hr": 0,
+        "litros": 212.14,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 141,
+        "idEvento": "A-202511-000141"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:03:00",
+        "km": 291750,
+        "hr": 0,
+        "litros": 407.22,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 142,
+        "idEvento": "A-202511-000142"
+      }
+    ],
+    "20011103": [
+      {
+        "data": "2025-11-02",
+        "hora": "11:32:00",
+        "km": 278252,
+        "hr": 0,
+        "litros": 455.11,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 143,
+        "idEvento": "A-202511-000143"
+      }
+    ],
+    "20011104": [
+      {
+        "data": "2025-11-01",
+        "hora": "12:41:00",
+        "km": 172163,
+        "hr": 0,
+        "litros": 246.25,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 144,
+        "idEvento": "A-202511-000144"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "22:15:00",
+        "km": 172631,
+        "hr": 0,
+        "litros": 494.43,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 145,
+        "idEvento": "A-202511-000145"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:54:00",
+        "km": 172754,
+        "hr": 0,
+        "litros": 133.49,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 146,
+        "idEvento": "A-202511-000146"
+      }
+    ],
+    "20011105": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:46:00",
+        "km": 159738,
+        "hr": 0,
+        "litros": 424.28,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 147,
+        "idEvento": "A-202511-000147"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:41:00",
+        "km": 160093,
+        "hr": 0,
+        "litros": 407.89,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 148,
+        "idEvento": "A-202511-000148"
+      }
+    ],
+    "20011109": [
+      {
+        "data": "2025-11-03",
+        "hora": "20:44:00",
+        "km": 224824,
+        "hr": 0,
+        "litros": 110.01,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 149,
+        "idEvento": "A-202511-000149"
+      }
+    ],
+    "20011110": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:43:00",
+        "km": 94840,
+        "hr": 0,
+        "litros": 175.86,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 150,
+        "idEvento": "A-202511-000150"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "14:52:00",
+        "km": 95041,
+        "hr": 0,
+        "litros": 127.64,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 151,
+        "idEvento": "A-202511-000151"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "14:40:00",
+        "km": 95203,
+        "hr": 0,
+        "litros": 121.64,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 152,
+        "idEvento": "A-202511-000152"
+      }
+    ],
+    "20011111": [
+      {
+        "data": "2025-11-01",
+        "hora": "21:17:00",
+        "km": 27360,
+        "hr": 0,
+        "litros": 135.53,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 153,
+        "idEvento": "A-202511-000153"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:53:00",
+        "km": 27544,
+        "hr": 0,
+        "litros": 109.01,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 154,
+        "idEvento": "A-202511-000154"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "14:31:00",
+        "km": 27688,
+        "hr": 0,
+        "litros": 99.43,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 155,
+        "idEvento": "A-202511-000155"
+      }
+    ],
+    "20011112": [
+      {
+        "data": "2025-11-01",
+        "hora": "12:39:00",
+        "km": 64669,
+        "hr": 0,
+        "litros": 227.14,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 156,
+        "idEvento": "A-202511-000156"
+      }
+    ],
+    "20011113": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:55:00",
+        "km": 6288,
+        "hr": 0,
+        "litros": 460.59,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 157,
+        "idEvento": "A-202511-000157"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:36:00",
+        "km": 6570,
+        "hr": 0,
+        "litros": 305.88,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 158,
+        "idEvento": "A-202511-000158"
+      }
+    ],
+    "20011120": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:35:00",
+        "km": 173294,
+        "hr": 0,
+        "litros": 57.63,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 159,
+        "idEvento": "A-202511-000159"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "14:15:00",
+        "km": 173449,
+        "hr": 0,
+        "litros": 51.58,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 160,
+        "idEvento": "A-202511-000160"
+      }
+    ],
+    "20011121": [
+      {
+        "data": "2025-11-03",
+        "hora": "09:36:00",
+        "km": 178060,
+        "hr": 0,
+        "litros": 101.85,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 161,
+        "idEvento": "A-202511-000161"
+      }
+    ],
+    "20011122": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:38:00",
+        "km": 282572,
+        "hr": 0,
+        "litros": 59.34,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 162,
+        "idEvento": "A-202511-000162"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "14:18:00",
+        "km": 282872,
+        "hr": 0,
+        "litros": 91.57,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 163,
+        "idEvento": "A-202511-000163"
+      }
+    ],
+    "20011123": [
+      {
+        "data": "2025-11-01",
+        "hora": "10:09:00",
+        "km": 317851,
+        "hr": 0,
+        "litros": 90.01,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 164,
+        "idEvento": "A-202511-000164"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "14:14:00",
+        "km": 318060,
+        "hr": 0,
+        "litros": 63.61,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 165,
+        "idEvento": "A-202511-000165"
+      }
+    ],
+    "20011124": [
+      {
+        "data": "2025-11-03",
+        "hora": "14:19:00",
+        "km": 181228,
+        "hr": 0,
+        "litros": 71.71,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 166,
+        "idEvento": "A-202511-000166"
+      }
+    ],
+    "20011125": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:47:00",
+        "km": 228736,
+        "hr": 0,
+        "litros": 56.73,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 167,
+        "idEvento": "A-202511-000167"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:05:00",
+        "km": 229164,
+        "hr": 0,
+        "litros": 103.58,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 168,
+        "idEvento": "A-202511-000168"
+      }
+    ],
+    "20011126": [
+      {
+        "data": "2025-11-01",
+        "hora": "12:38:00",
+        "km": 179858,
+        "hr": 0,
+        "litros": 129.97,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 169,
+        "idEvento": "A-202511-000169"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "09:38:00",
+        "km": 180077,
+        "hr": 0,
+        "litros": 63.47,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 170,
+        "idEvento": "A-202511-000170"
+      }
+    ],
+    "20011130": [
+      {
+        "data": "2025-11-02",
+        "hora": "14:12:00",
+        "km": 405462,
+        "hr": 0,
+        "litros": 126.44,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 171,
+        "idEvento": "A-202511-000171"
+      }
+    ],
+    "20011150": [
+      {
+        "data": "2025-11-01",
+        "hora": "21:15:00",
+        "km": 202871,
+        "hr": 0,
+        "litros": 65.06,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 172,
+        "idEvento": "A-202511-000172"
+      }
+    ],
+    "20011151": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:48:00",
+        "km": 161385,
+        "hr": 0,
+        "litros": 98.73,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 173,
+        "idEvento": "A-202511-000173"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "22:14:00",
+        "km": 161563,
+        "hr": 0,
+        "litros": 106.04,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 174,
+        "idEvento": "A-202511-000174"
+      }
+    ],
+    "20011152": [
+      {
+        "data": "2025-11-03",
+        "hora": "20:45:00",
+        "km": 134705,
+        "hr": 0,
+        "litros": 180.39,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 175,
+        "idEvento": "A-202511-000175"
+      }
+    ],
+    "20011153": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:44:00",
+        "km": 94846,
+        "hr": 0,
+        "litros": 286.66,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 176,
+        "idEvento": "A-202511-000176"
+      }
+    ],
+    "20011154": [
+      {
+        "data": "2025-11-02",
+        "hora": "11:35:00",
+        "km": 52258,
+        "hr": 0,
+        "litros": 244.51,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 177,
+        "idEvento": "A-202511-000177"
+      }
+    ],
+    "20011196": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:49:00",
+        "km": 291233,
+        "hr": 0,
+        "litros": 474.53,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 178,
+        "idEvento": "A-202511-000178"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:43:00",
+        "km": 291427,
+        "hr": 0,
+        "litros": 292.74,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 179,
+        "idEvento": "A-202511-000179"
+      }
+    ],
+    "20011197": [
+      {
+        "data": "2025-11-01",
+        "hora": "21:16:00",
+        "km": 192431,
+        "hr": 0,
+        "litros": 292.01,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 180,
+        "idEvento": "A-202511-000180"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "14:51:00",
+        "km": 192643,
+        "hr": 0,
+        "litros": 236.05,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 181,
+        "idEvento": "A-202511-000181"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:55:00",
+        "km": 192815,
+        "hr": 0,
+        "litros": 212.05,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 182,
+        "idEvento": "A-202511-000182"
+      }
+    ],
+    "20011198": [
+      {
+        "data": "2025-11-01",
+        "hora": "21:02:00",
+        "km": 206456,
+        "hr": 0,
+        "litros": 273.11,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 183,
+        "idEvento": "A-202511-000183"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:39:00",
+        "km": 206659,
+        "hr": 0,
+        "litros": 247.87,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 184,
+        "idEvento": "A-202511-000184"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "21:01:00",
+        "km": 206833,
+        "hr": 0,
+        "litros": 195.61,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 185,
+        "idEvento": "A-202511-000185"
+      }
+    ],
+    "20012038": [
+      {
+        "data": "2025-11-01",
+        "hora": "21:11:00",
+        "km": 237864,
+        "hr": 0,
+        "litros": 6.35,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 186,
+        "idEvento": "A-202511-000186"
+      }
+    ],
+    "20012039": [
+      {
+        "data": "2025-11-03",
+        "hora": "09:57:00",
+        "km": 139259,
+        "hr": 0,
+        "litros": 8.02,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 187,
+        "idEvento": "A-202511-000187"
+      }
+    ],
+    "20012042": [
+      {
+        "data": "2025-11-01",
+        "hora": "10:12:00",
+        "km": 147316,
+        "hr": 0,
+        "litros": 7.71,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 188,
+        "idEvento": "A-202511-000188"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:01:00",
+        "km": 147544,
+        "hr": 0,
+        "litros": 6.86,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 189,
+        "idEvento": "A-202511-000189"
+      }
+    ],
+    "20012043": [
+      {
+        "data": "2025-11-02",
+        "hora": "19:49:00",
+        "km": 115335,
+        "hr": 0,
+        "litros": 9.1,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 190,
+        "idEvento": "A-202511-000190"
+      }
+    ],
+    "20012044": [
+      {
+        "data": "2025-11-01",
+        "hora": "10:13:00",
+        "km": 15569,
+        "hr": 0,
+        "litros": 4.47,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 191,
+        "idEvento": "A-202511-000191"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "14:13:00",
+        "km": 15708,
+        "hr": 0,
+        "litros": 6.01,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 192,
+        "idEvento": "A-202511-000192"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "14:33:00",
+        "km": 15870,
+        "hr": 0,
+        "litros": 6.11,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 193,
+        "idEvento": "A-202511-000193"
+      }
+    ],
+    "20012046": [
+      {
+        "data": "2025-11-01",
+        "hora": "13:52:00",
+        "km": 115172,
+        "hr": 0,
+        "litros": 8.18,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 194,
+        "idEvento": "A-202511-000194"
+      }
+    ],
+    "20012047": [
+      {
+        "data": "2025-11-02",
+        "hora": "19:49:00",
+        "km": 119096,
+        "hr": 0,
+        "litros": 7.42,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 195,
+        "idEvento": "A-202511-000195"
+      }
+    ],
+    "20012048": [
+      {
+        "data": "2025-11-03",
+        "hora": "20:01:00",
+        "km": 91698,
+        "hr": 0,
+        "litros": 8.35,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 196,
+        "idEvento": "A-202511-000196"
+      }
+    ],
+    "20012049": [
+      {
+        "data": "2025-11-03",
+        "hora": "14:32:00",
+        "km": 31957,
+        "hr": 0,
+        "litros": 8.94,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 197,
+        "idEvento": "A-202511-000197"
+      }
+    ],
+    "20012050": [
+      {
+        "data": "2025-11-01",
+        "hora": "02:31:13",
+        "km": 112099,
+        "hr": 0,
+        "litros": 5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 198,
+        "idEvento": "A-202511-000198"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "12:07:30",
+        "km": 112202,
+        "hr": 0,
+        "litros": 5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 199,
+        "idEvento": "A-202511-000199"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "03:49:44",
+        "km": 112339,
+        "hr": 0,
+        "litros": 5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 200,
+        "idEvento": "A-202511-000200"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "12:26:54",
+        "km": 112514,
+        "hr": 0,
+        "litros": 5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 201,
+        "idEvento": "A-202511-000201"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "03:27:43",
+        "km": 112800,
+        "hr": 0,
+        "litros": 10,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 202,
+        "idEvento": "A-202511-000202"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "18:01:23",
+        "km": 112970,
+        "hr": 0,
+        "litros": 5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 203,
+        "idEvento": "A-202511-000203"
+      }
+    ],
+    "20012051": [
+      {
+        "data": "2025-11-01",
+        "hora": "10:14:00",
+        "km": 83957,
+        "hr": 0,
+        "litros": 6.09,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 204,
+        "idEvento": "A-202511-000204"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "14:14:00",
+        "km": 84089,
+        "hr": 0,
+        "litros": 5.32,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 205,
+        "idEvento": "A-202511-000205"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "09:58:00",
+        "km": 84226,
+        "hr": 0,
+        "litros": 5.17,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 206,
+        "idEvento": "A-202511-000206"
+      }
+    ],
+    "20012053": [
+      {
+        "data": "2025-11-03",
+        "hora": "19:59:00",
+        "km": 29420,
+        "hr": 0,
+        "litros": 7.26,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 207,
+        "idEvento": "A-202511-000207"
+      }
+    ],
+    "20012054": [
+      {
+        "data": "2025-11-01",
+        "hora": "09:54:58",
+        "km": 37300,
+        "hr": 0,
+        "litros": 6,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 208,
+        "idEvento": "A-202511-000208"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "09:55:07",
+        "km": 37498,
+        "hr": 0,
+        "litros": 5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 209,
+        "idEvento": "A-202511-000209"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:03:53",
+        "km": 37695,
+        "hr": 0,
+        "litros": 7,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 210,
+        "idEvento": "A-202511-000210"
+      }
+    ],
+    "20012056": [
+      {
+        "data": "2025-11-02",
+        "hora": "12:27:00",
+        "km": 38355,
+        "hr": 0,
+        "litros": 2,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 211,
+        "idEvento": "A-202511-000211"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "09:59:00",
+        "km": 38834,
+        "hr": 0,
+        "litros": 11.89,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 212,
+        "idEvento": "A-202511-000212"
+      }
+    ],
+    "20012057": [
+      {
+        "data": "2025-11-03",
+        "hora": "09:56:00",
+        "km": 3874,
+        "hr": 0,
+        "litros": 9.14,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 213,
+        "idEvento": "A-202511-000213"
+      }
+    ],
+    "20012058": [
+      {
+        "data": "2025-11-02",
+        "hora": "14:14:00",
+        "km": 5638,
+        "hr": 0,
+        "litros": 7.8,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 214,
+        "idEvento": "A-202511-000214"
+      }
+    ],
+    "20012059": [
+      {
+        "data": "2025-11-03",
+        "hora": "20:02:00",
+        "km": 6258,
+        "hr": 0,
+        "litros": 7.43,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 215,
+        "idEvento": "A-202511-000215"
+      }
+    ],
+    "20012060": [
+      {
+        "data": "2025-11-01",
+        "hora": "01:54:00",
+        "km": 6067,
+        "hr": 0,
+        "litros": 5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 216,
+        "idEvento": "A-202511-000216"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "08:31:00",
+        "km": 6207,
+        "hr": 0,
+        "litros": 4.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 217,
+        "idEvento": "A-202511-000217"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "10:07:00",
+        "km": 6332,
+        "hr": 0,
+        "litros": 8,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 218,
+        "idEvento": "A-202511-000218"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "09:41:00",
+        "km": 6602,
+        "hr": 0,
+        "litros": 9.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 219,
+        "idEvento": "A-202511-000219"
+      }
+    ],
+    "20012061": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:31:00",
+        "km": 4751,
+        "hr": 0,
+        "litros": 5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 220,
+        "idEvento": "A-202511-000220"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "20:17:00",
+        "km": 4957,
+        "hr": 0,
+        "litros": 5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 221,
+        "idEvento": "A-202511-000221"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:21:00",
+        "km": 5139,
+        "hr": 0,
+        "litros": 5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 222,
+        "idEvento": "A-202511-000222"
+      }
+    ],
+    "20020207": [
+      {
+        "data": "2025-11-02",
+        "hora": "07:46:53",
+        "km": 0,
+        "hr": 37621,
+        "litros": 23,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 223,
+        "idEvento": "A-202511-000223"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "19:28:00",
+        "km": 0,
+        "hr": 37626,
+        "litros": 45.04,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 224,
+        "idEvento": "A-202511-000224"
+      }
+    ],
+    "20020213": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:43:51",
+        "km": 0,
+        "hr": 6704,
+        "litros": 40,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 225,
+        "idEvento": "A-202511-000225"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "10:24:18",
+        "km": 0,
+        "hr": 6721,
+        "litros": 87,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 226,
+        "idEvento": "A-202511-000226"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "09:11:41",
+        "km": 0,
+        "hr": 6732,
+        "litros": 46,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 227,
+        "idEvento": "A-202511-000227"
+      }
+    ],
+    "20020233": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:58:00",
+        "km": 0,
+        "hr": 32671,
+        "litros": 62.74,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 228,
+        "idEvento": "A-202511-000228"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "22:15:00",
+        "km": 0,
+        "hr": 32676,
+        "litros": 27.37,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 229,
+        "idEvento": "A-202511-000229"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "19:31:00",
+        "km": 0,
+        "hr": 32688,
+        "litros": 31.77,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 230,
+        "idEvento": "A-202511-000230"
+      }
+    ],
+    "20020236": [
+      {
+        "data": "2025-11-01",
+        "hora": "12:40:00",
+        "km": 0,
+        "hr": 6901,
+        "litros": 35.87,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 231,
+        "idEvento": "A-202511-000231"
+      }
+    ],
+    "20020238": [
+      {
+        "data": "2025-11-03",
+        "hora": "14:17:00",
+        "km": 0,
+        "hr": 30261,
+        "litros": 39.67,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 232,
+        "idEvento": "A-202511-000232"
+      }
+    ],
+    "20020239": [
+      {
+        "data": "2025-11-03",
+        "hora": "09:43:00",
+        "km": 0,
+        "hr": 29619,
+        "litros": 52.07,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 233,
+        "idEvento": "A-202511-000233"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "19:29:00",
+        "km": 0,
+        "hr": 29623,
+        "litros": 17.32,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 234,
+        "idEvento": "A-202511-000234"
+      }
+    ],
+    "20020240": [
+      {
+        "data": "2025-11-02",
+        "hora": "11:31:00",
+        "km": 0,
+        "hr": 12497,
+        "litros": 46.29,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 235,
+        "idEvento": "A-202511-000235"
+      }
+    ],
+    "20020247": [
+      {
+        "data": "2025-11-01",
+        "hora": "10:49:27",
+        "km": 0,
+        "hr": 1288,
+        "litros": 90,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 236,
+        "idEvento": "A-202511-000236"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "03:22:54",
+        "km": 0,
+        "hr": 1298,
+        "litros": 91,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 237,
+        "idEvento": "A-202511-000237"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "14:41:25",
+        "km": 0,
+        "hr": 1300,
+        "litros": 34,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 238,
+        "idEvento": "A-202511-000238"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "22:22:37",
+        "km": 0,
+        "hr": 1303,
+        "litros": 32,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 239,
+        "idEvento": "A-202511-000239"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "08:30:21",
+        "km": 0,
+        "hr": 1309,
+        "litros": 45,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 240,
+        "idEvento": "A-202511-000240"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:04:47",
+        "km": 0,
+        "hr": 1312,
+        "litros": 39,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 241,
+        "idEvento": "A-202511-000241"
+      }
+    ],
+    "20020248": [
+      {
+        "data": "2025-11-01",
+        "hora": "04:13:41",
+        "km": 0,
+        "hr": 19668,
+        "litros": 77,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 242,
+        "idEvento": "A-202511-000242"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "15:12:11",
+        "km": 0,
+        "hr": 19673,
+        "litros": 56.8,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 243,
+        "idEvento": "A-202511-000243"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "02:59:10",
+        "km": 0,
+        "hr": 19684,
+        "litros": 60.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 244,
+        "idEvento": "A-202511-000244"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "14:18:13",
+        "km": 0,
+        "hr": 19693,
+        "litros": 61.3,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 245,
+        "idEvento": "A-202511-000245"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "22:53:59",
+        "km": 0,
+        "hr": 19700,
+        "litros": 45,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 246,
+        "idEvento": "A-202511-000246"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "03:13:23",
+        "km": 0,
+        "hr": 19703,
+        "litros": 30,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 247,
+        "idEvento": "A-202511-000247"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "18:00:52",
+        "km": 0,
+        "hr": 19713,
+        "litros": 92.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 248,
+        "idEvento": "A-202511-000248"
+      }
+    ],
+    "20020249": [
+      {
+        "data": "2025-11-01",
+        "hora": "03:48:58",
+        "km": 0,
+        "hr": 4746,
+        "litros": 75,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 249,
+        "idEvento": "A-202511-000249"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "15:44:59",
+        "km": 0,
+        "hr": 4753,
+        "litros": 52.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 250,
+        "idEvento": "A-202511-000250"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "01:55:20",
+        "km": 0,
+        "hr": 4757,
+        "litros": 27.3,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 251,
+        "idEvento": "A-202511-000251"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "15:11:35",
+        "km": 0,
+        "hr": 4766,
+        "litros": 72.3,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 252,
+        "idEvento": "A-202511-000252"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "03:00:51",
+        "km": 0,
+        "hr": 4774,
+        "litros": 85,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 253,
+        "idEvento": "A-202511-000253"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "16:15:08",
+        "km": 0,
+        "hr": 4778,
+        "litros": 30.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 254,
+        "idEvento": "A-202511-000254"
+      }
+    ],
+    "20020250": [
+      {
+        "data": "2025-11-01",
+        "hora": "21:23:38",
+        "km": 0,
+        "hr": 50386,
+        "litros": 65.2,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 255,
+        "idEvento": "A-202511-000255"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "10:46:42",
+        "km": 0,
+        "hr": 50396,
+        "litros": 102,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 256,
+        "idEvento": "A-202511-000256"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "21:51:19",
+        "km": 0,
+        "hr": 50404,
+        "litros": 84,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 257,
+        "idEvento": "A-202511-000257"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "09:24:17",
+        "km": 0,
+        "hr": 50412,
+        "litros": 69,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 258,
+        "idEvento": "A-202511-000258"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "21:02:48",
+        "km": 0,
+        "hr": 50421,
+        "litros": 94,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 259,
+        "idEvento": "A-202511-000259"
+      }
+    ],
+    "20020251": [
+      {
+        "data": "2025-11-01",
+        "hora": "16:06:59",
+        "km": 0,
+        "hr": 19536,
+        "litros": 73.7,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 260,
+        "idEvento": "A-202511-000260"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "02:18:57",
+        "km": 0,
+        "hr": 19542,
+        "litros": 43,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 261,
+        "idEvento": "A-202511-000261"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "13:20:29",
+        "km": 0,
+        "hr": 19552,
+        "litros": 86,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 262,
+        "idEvento": "A-202511-000262"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "02:19:23",
+        "km": 0,
+        "hr": 19559,
+        "litros": 54.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 263,
+        "idEvento": "A-202511-000263"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "17:04:39",
+        "km": 0,
+        "hr": 19565,
+        "litros": 51.1,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 264,
+        "idEvento": "A-202511-000264"
+      }
+    ],
+    "20020252": [
+      {
+        "data": "2025-11-01",
+        "hora": "15:02:43",
+        "km": 0,
+        "hr": 17717,
+        "litros": 85,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 265,
+        "idEvento": "A-202511-000265"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "01:39:49",
+        "km": 0,
+        "hr": 17724,
+        "litros": 90,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 266,
+        "idEvento": "A-202511-000266"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "16:09:31",
+        "km": 0,
+        "hr": 17733,
+        "litros": 92.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 267,
+        "idEvento": "A-202511-000267"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "02:47:10",
+        "km": 0,
+        "hr": 17740,
+        "litros": 56,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 268,
+        "idEvento": "A-202511-000268"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "17:52:45",
+        "km": 0,
+        "hr": 17744,
+        "litros": 43.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 269,
+        "idEvento": "A-202511-000269"
+      }
+    ],
+    "20020253": [
+      {
+        "data": "2025-11-01",
+        "hora": "14:53:54",
+        "km": 0,
+        "hr": 530,
+        "litros": 36,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 270,
+        "idEvento": "A-202511-000270"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "01:44:57",
+        "km": 0,
+        "hr": 549,
+        "litros": 61.9,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 271,
+        "idEvento": "A-202511-000271"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "13:26:03",
+        "km": 0,
+        "hr": 558,
+        "litros": 61.4,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 272,
+        "idEvento": "A-202511-000272"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "02:32:59",
+        "km": 0,
+        "hr": 564,
+        "litros": 41.4,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 273,
+        "idEvento": "A-202511-000273"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "17:58:12",
+        "km": 0,
+        "hr": 568,
+        "litros": 29,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 274,
+        "idEvento": "A-202511-000274"
+      }
+    ],
+    "20020255": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:47:11",
+        "km": 0,
+        "hr": 23622,
+        "litros": 61,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 275,
+        "idEvento": "A-202511-000275"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "22:58:00",
+        "km": 0,
+        "hr": 23625,
+        "litros": 64,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 276,
+        "idEvento": "A-202511-000276"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "10:58:40",
+        "km": 0,
+        "hr": 23632,
+        "litros": 71,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 277,
+        "idEvento": "A-202511-000277"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "21:53:51",
+        "km": 0,
+        "hr": 23637,
+        "litros": 35,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 278,
+        "idEvento": "A-202511-000278"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "08:18:54",
+        "km": 0,
+        "hr": 23642,
+        "litros": 34,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 279,
+        "idEvento": "A-202511-000279"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:37:00",
+        "km": 0,
+        "hr": 23650,
+        "litros": 71,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 280,
+        "idEvento": "A-202511-000280"
+      }
+    ],
+    "20020256": [
+      {
+        "data": "2025-11-01",
+        "hora": "03:19:02",
+        "km": 0,
+        "hr": 884,
+        "litros": 91,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 281,
+        "idEvento": "A-202511-000281"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "10:37:20",
+        "km": 0,
+        "hr": 889,
+        "litros": 36,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 282,
+        "idEvento": "A-202511-000282"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "01:37:41",
+        "km": 0,
+        "hr": 897,
+        "litros": 74,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 283,
+        "idEvento": "A-202511-000283"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "15:51:50",
+        "km": 0,
+        "hr": 908,
+        "litros": 75.6,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 284,
+        "idEvento": "A-202511-000284"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "04:43:53",
+        "km": 0,
+        "hr": 915,
+        "litros": 65,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 285,
+        "idEvento": "A-202511-000285"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "17:00:46",
+        "km": 0,
+        "hr": 922,
+        "litros": 61,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 286,
+        "idEvento": "A-202511-000286"
+      }
+    ],
+    "20020257": [
+      {
+        "data": "2025-11-01",
+        "hora": "04:23:54",
+        "km": 0,
+        "hr": 27087,
+        "litros": 60,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 287,
+        "idEvento": "A-202511-000287"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "15:18:40",
+        "km": 0,
+        "hr": 27095,
+        "litros": 58.3,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 288,
+        "idEvento": "A-202511-000288"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "01:51:47",
+        "km": 0,
+        "hr": 27104,
+        "litros": 64.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 289,
+        "idEvento": "A-202511-000289"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "15:39:13",
+        "km": 0,
+        "hr": 27114,
+        "litros": 67.8,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 290,
+        "idEvento": "A-202511-000290"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "03:31:27",
+        "km": 0,
+        "hr": 27122,
+        "litros": 67,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 291,
+        "idEvento": "A-202511-000291"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "18:12:48",
+        "km": 0,
+        "hr": 27133,
+        "litros": 74,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 292,
+        "idEvento": "A-202511-000292"
+      }
+    ],
+    "20020258": [
+      {
+        "data": "2025-11-01",
+        "hora": "04:41:06",
+        "km": 0,
+        "hr": 35573,
+        "litros": 78,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 293,
+        "idEvento": "A-202511-000293"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "15:37:34",
+        "km": 0,
+        "hr": 35581,
+        "litros": 59,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 294,
+        "idEvento": "A-202511-000294"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "02:15:22",
+        "km": 0,
+        "hr": 35590,
+        "litros": 55.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 295,
+        "idEvento": "A-202511-000295"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "08:12:10",
+        "km": 0,
+        "hr": 35594,
+        "litros": 25,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 296,
+        "idEvento": "A-202511-000296"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "13:33:37",
+        "km": 0,
+        "hr": 35596,
+        "litros": 17,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 297,
+        "idEvento": "A-202511-000297"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "02:42:16",
+        "km": 0,
+        "hr": 35605,
+        "litros": 59,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 298,
+        "idEvento": "A-202511-000298"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "17:24:28",
+        "km": 0,
+        "hr": 35609,
+        "litros": 35.1,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 299,
+        "idEvento": "A-202511-000299"
+      }
+    ],
+    "20020259": [
+      {
+        "data": "2025-11-01",
+        "hora": "09:37:45",
+        "km": 0,
+        "hr": 711,
+        "litros": 59.3,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 300,
+        "idEvento": "A-202511-000300"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "20:05:09",
+        "km": 0,
+        "hr": 719,
+        "litros": 59.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 301,
+        "idEvento": "A-202511-000301"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "10:14:04",
+        "km": 0,
+        "hr": 729,
+        "litros": 67,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 302,
+        "idEvento": "A-202511-000302"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:35:17",
+        "km": 0,
+        "hr": 23650,
+        "litros": 71,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 303,
+        "idEvento": "A-202511-000303"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:59:08",
+        "km": 0,
+        "hr": 733,
+        "litros": 49,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 304,
+        "idEvento": "A-202511-000304"
+      }
+    ],
+    "20020260": [
+      {
+        "data": "2025-11-01",
+        "hora": "16:46:45",
+        "km": 0,
+        "hr": 543,
+        "litros": 47,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 305,
+        "idEvento": "A-202511-000305"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "00:52:07",
+        "km": 0,
+        "hr": 546,
+        "litros": 23,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 306,
+        "idEvento": "A-202511-000306"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "13:53:02",
+        "km": 0,
+        "hr": 558,
+        "litros": 97.2,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 307,
+        "idEvento": "A-202511-000307"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "01:43:35",
+        "km": 0,
+        "hr": 540,
+        "litros": 63,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 308,
+        "idEvento": "A-202511-000308"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "16:01:33",
+        "km": 0,
+        "hr": 545,
+        "litros": 63.9,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 309,
+        "idEvento": "A-202511-000309"
+      }
+    ],
+    "20020261": [
+      {
+        "data": "2025-11-01",
+        "hora": "02:30:29",
+        "km": 0,
+        "hr": 18135,
+        "litros": 42.7,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 310,
+        "idEvento": "A-202511-000310"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "08:55:42",
+        "km": 0,
+        "hr": 18140,
+        "litros": 38,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 311,
+        "idEvento": "A-202511-000311"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "20:56:25",
+        "km": 0,
+        "hr": 18150,
+        "litros": 84.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 312,
+        "idEvento": "A-202511-000312"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "08:13:43",
+        "km": 0,
+        "hr": 18152,
+        "litros": 15,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 313,
+        "idEvento": "A-202511-000313"
+      }
+    ],
+    "20020262": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:40:41",
+        "km": 0,
+        "hr": 625,
+        "litros": 37.3,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 314,
+        "idEvento": "A-202511-000314"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "22:34:45",
+        "km": 0,
+        "hr": 636,
+        "litros": 105,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 315,
+        "idEvento": "A-202511-000315"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "10:58:56",
+        "km": 0,
+        "hr": 646,
+        "litros": 93,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 316,
+        "idEvento": "A-202511-000316"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "00:05:32",
+        "km": 0,
+        "hr": 658,
+        "litros": 100.3,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 317,
+        "idEvento": "A-202511-000317"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "08:46:41",
+        "km": 0,
+        "hr": 664.9,
+        "litros": 68,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 318,
+        "idEvento": "A-202511-000318"
+      }
+    ],
+    "20020263": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:26:50",
+        "km": 0,
+        "hr": 20253,
+        "litros": 47.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 319,
+        "idEvento": "A-202511-000319"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "20:35:03",
+        "km": 0,
+        "hr": 20264,
+        "litros": 73.4,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 320,
+        "idEvento": "A-202511-000320"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "09:09:29",
+        "km": 0,
+        "hr": 20273,
+        "litros": 73.6,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 321,
+        "idEvento": "A-202511-000321"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "20:30:55",
+        "km": 0,
+        "hr": 20283,
+        "litros": 82.2,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 322,
+        "idEvento": "A-202511-000322"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "08:48:30",
+        "km": 0,
+        "hr": 20291,
+        "litros": 68.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 323,
+        "idEvento": "A-202511-000323"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "18:43:56",
+        "km": 0,
+        "hr": 20294,
+        "litros": 20.3,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 324,
+        "idEvento": "A-202511-000324"
+      }
+    ],
+    "20020264": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:33:35",
+        "km": 0,
+        "hr": 15780,
+        "litros": 45.4,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 325,
+        "idEvento": "A-202511-000325"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "08:08:33",
+        "km": 0,
+        "hr": 15784,
+        "litros": 32.2,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 326,
+        "idEvento": "A-202511-000326"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "22:27:14",
+        "km": 0,
+        "hr": 15790,
+        "litros": 45,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 327,
+        "idEvento": "A-202511-000327"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "04:34:04",
+        "km": 0,
+        "hr": 15794,
+        "litros": 12,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 328,
+        "idEvento": "A-202511-000328"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "15:49:49",
+        "km": 0,
+        "hr": 15797,
+        "litros": 39.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 329,
+        "idEvento": "A-202511-000329"
+      }
+    ],
+    "20020265": [
+      {
+        "data": "2025-11-01",
+        "hora": "09:49:01",
+        "km": 0,
+        "hr": 18548,
+        "litros": 53,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 330,
+        "idEvento": "A-202511-000330"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "20:43:20",
+        "km": 0,
+        "hr": 18557,
+        "litros": 66.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 331,
+        "idEvento": "A-202511-000331"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "10:00:21",
+        "km": 0,
+        "hr": 18568,
+        "litros": 83.4,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 332,
+        "idEvento": "A-202511-000332"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "20:08:30",
+        "km": 0,
+        "hr": 18574,
+        "litros": 49,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 333,
+        "idEvento": "A-202511-000333"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "11:09:52",
+        "km": 0,
+        "hr": 18586,
+        "litros": 89.2,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 334,
+        "idEvento": "A-202511-000334"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "18:50:55",
+        "km": 0,
+        "hr": 18591,
+        "litros": 33.7,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 335,
+        "idEvento": "A-202511-000335"
+      }
+    ],
+    "20020270": [
+      {
+        "data": "2025-11-02",
+        "hora": "14:40:52",
+        "km": 0,
+        "hr": 26293,
+        "litros": 123,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 336,
+        "idEvento": "A-202511-000336"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "01:30:14",
+        "km": 0,
+        "hr": 26297,
+        "litros": 19,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 337,
+        "idEvento": "A-202511-000337"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "14:52:03",
+        "km": 0,
+        "hr": 26302,
+        "litros": 30,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 338,
+        "idEvento": "A-202511-000338"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "21:00:00",
+        "km": 0,
+        "hr": 26303,
+        "litros": 9.56,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 339,
+        "idEvento": "A-202511-000339"
+      }
+    ],
+    "20020272": [
+      {
+        "data": "2025-11-01",
+        "hora": "10:22:39",
+        "km": 0,
+        "hr": 1566,
+        "litros": 35,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 340,
+        "idEvento": "A-202511-000340"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "20:26:15",
+        "km": 0,
+        "hr": 1573,
+        "litros": 34,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 341,
+        "idEvento": "A-202511-000341"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "08:30:44",
+        "km": 0,
+        "hr": 1581,
+        "litros": 38,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 342,
+        "idEvento": "A-202511-000342"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "21:08:23",
+        "km": 0,
+        "hr": 1590,
+        "litros": 39.9,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 343,
+        "idEvento": "A-202511-000343"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:23:13",
+        "km": 0,
+        "hr": 1597,
+        "litros": 38.4,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 344,
+        "idEvento": "A-202511-000344"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "19:18:57",
+        "km": 0,
+        "hr": 1599,
+        "litros": 19,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 345,
+        "idEvento": "A-202511-000345"
+      }
+    ],
+    "20020275": [
+      {
+        "data": "2025-11-01",
+        "hora": "13:50:00",
+        "km": 0,
+        "hr": 26546,
+        "litros": 68.03,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 346,
+        "idEvento": "A-202511-000346"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "11:36:00",
+        "km": 0,
+        "hr": 26563,
+        "litros": 68.37,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 347,
+        "idEvento": "A-202511-000347"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "22:14:00",
+        "km": 0,
+        "hr": 26572,
+        "litros": 32,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 348,
+        "idEvento": "A-202511-000348"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "09:41:00",
+        "km": 0,
+        "hr": 26582,
+        "litros": 35.1,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 349,
+        "idEvento": "A-202511-000349"
+      }
+    ],
+    "20020277": [
+      {
+        "data": "2025-11-01",
+        "hora": "09:49:58",
+        "km": 0,
+        "hr": 38101,
+        "litros": 32.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 350,
+        "idEvento": "A-202511-000350"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "21:34:50",
+        "km": 0,
+        "hr": 38110,
+        "litros": 50.8,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 351,
+        "idEvento": "A-202511-000351"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "11:01:50",
+        "km": 0,
+        "hr": 38121,
+        "litros": 42.6,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 352,
+        "idEvento": "A-202511-000352"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "21:37:38",
+        "km": 0,
+        "hr": 38131,
+        "litros": 51.4,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 353,
+        "idEvento": "A-202511-000353"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "09:49:06",
+        "km": 0,
+        "hr": 38137,
+        "litros": 29,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 354,
+        "idEvento": "A-202511-000354"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "18:27:25",
+        "km": 0,
+        "hr": 38142,
+        "litros": 26.7,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 355,
+        "idEvento": "A-202511-000355"
+      }
+    ],
+    "20020278": [
+      {
+        "data": "2025-11-03",
+        "hora": "14:28:59",
+        "km": 0,
+        "hr": 7038,
+        "litros": 45,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 356,
+        "idEvento": "A-202511-000356"
+      }
+    ],
+    "20020279": [
+      {
+        "data": "2025-11-03",
+        "hora": "19:29:00",
+        "km": 0,
+        "hr": 528,
+        "litros": 40.34,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 357,
+        "idEvento": "A-202511-000357"
+      }
+    ],
+    "20020281": [
+      {
+        "data": "2025-11-01",
+        "hora": "12:58:01",
+        "km": 0,
+        "hr": 24344,
+        "litros": 36,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 358,
+        "idEvento": "A-202511-000358"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "22:37:37",
+        "km": 0,
+        "hr": 24352,
+        "litros": 29.4,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 359,
+        "idEvento": "A-202511-000359"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "11:03:36",
+        "km": 0,
+        "hr": 24362,
+        "litros": 40,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 360,
+        "idEvento": "A-202511-000360"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "23:40:08",
+        "km": 0,
+        "hr": 24371,
+        "litros": 35.3,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 361,
+        "idEvento": "A-202511-000361"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "08:38:05",
+        "km": 0,
+        "hr": 24375,
+        "litros": 17,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 362,
+        "idEvento": "A-202511-000362"
+      }
+    ],
+    "20020284": [
+      {
+        "data": "2025-11-01",
+        "hora": "14:33:24",
+        "km": 0,
+        "hr": 37998,
+        "litros": 56,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 363,
+        "idEvento": "A-202511-000363"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "00:59:26",
+        "km": 0,
+        "hr": 38004,
+        "litros": 52.9,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 364,
+        "idEvento": "A-202511-000364"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "13:12:33",
+        "km": 0,
+        "hr": 38013,
+        "litros": 56,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 365,
+        "idEvento": "A-202511-000365"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "01:34:25",
+        "km": 0,
+        "hr": 38021,
+        "litros": 43.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 366,
+        "idEvento": "A-202511-000366"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "17:06:50",
+        "km": 0,
+        "hr": 38025,
+        "litros": 22.4,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 367,
+        "idEvento": "A-202511-000367"
+      }
+    ],
+    "20020285": [
+      {
+        "data": "2025-11-01",
+        "hora": "15:11:38",
+        "km": 0,
+        "hr": 861,
+        "litros": 34,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 368,
+        "idEvento": "A-202511-000368"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "00:47:04",
+        "km": 0,
+        "hr": 867,
+        "litros": 27.8,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 369,
+        "idEvento": "A-202511-000369"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "13:08:17",
+        "km": 0,
+        "hr": 877,
+        "litros": 50,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 370,
+        "idEvento": "A-202511-000370"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "13:58:33",
+        "km": 0,
+        "hr": 884,
+        "litros": 43.2,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 371,
+        "idEvento": "A-202511-000371"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "02:14:28",
+        "km": 0,
+        "hr": 887,
+        "litros": 39,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 372,
+        "idEvento": "A-202511-000372"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "18:08:18",
+        "km": 0,
+        "hr": 887,
+        "litros": 3.9,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 373,
+        "idEvento": "A-202511-000373"
+      }
+    ],
+    "20020286": [
+      {
+        "data": "2025-11-01",
+        "hora": "16:14:45",
+        "km": 0,
+        "hr": 28278,
+        "litros": 55,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 374,
+        "idEvento": "A-202511-000374"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "11:33:00",
+        "km": 0,
+        "hr": 28289,
+        "litros": 58.31,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 375,
+        "idEvento": "A-202511-000375"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "15:57:14",
+        "km": 0,
+        "hr": 28297,
+        "litros": 47.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 376,
+        "idEvento": "A-202511-000376"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "02:10:19",
+        "km": 0,
+        "hr": 28302,
+        "litros": 31,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 377,
+        "idEvento": "A-202511-000377"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "16:33:17",
+        "km": 0,
+        "hr": 28304,
+        "litros": 7.6,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 378,
+        "idEvento": "A-202511-000378"
+      }
+    ],
+    "20020288": [
+      {
+        "data": "2025-11-01",
+        "hora": "02:39:59",
+        "km": 0,
+        "hr": 37853,
+        "litros": 24.1,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 379,
+        "idEvento": "A-202511-000379"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "11:16:00",
+        "km": 0,
+        "hr": 37860,
+        "litros": 25,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 380,
+        "idEvento": "A-202511-000380"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "02:49:51",
+        "km": 0,
+        "hr": 37870,
+        "litros": 53,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 381,
+        "idEvento": "A-202511-000381"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "12:37:05",
+        "km": 0,
+        "hr": 37877,
+        "litros": 31,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 382,
+        "idEvento": "A-202511-000382"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "22:08:45",
+        "km": 0,
+        "hr": 37884,
+        "litros": 30,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 383,
+        "idEvento": "A-202511-000383"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "15:57:19",
+        "km": 0,
+        "hr": 37891,
+        "litros": 43,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 384,
+        "idEvento": "A-202511-000384"
+      }
+    ],
+    "20020289": [
+      {
+        "data": "2025-11-01",
+        "hora": "10:56:07",
+        "km": 0,
+        "hr": 5688,
+        "litros": 25,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 385,
+        "idEvento": "A-202511-000385"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "05:29:32",
+        "km": 0,
+        "hr": 5699,
+        "litros": 62,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 386,
+        "idEvento": "A-202511-000386"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "14:40:40",
+        "km": 0,
+        "hr": 5705,
+        "litros": 23,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 387,
+        "idEvento": "A-202511-000387"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "22:45:02",
+        "km": 0,
+        "hr": 5706,
+        "litros": 16,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 388,
+        "idEvento": "A-202511-000388"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "17:42:43",
+        "km": 0,
+        "hr": 5714,
+        "litros": 35.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 389,
+        "idEvento": "A-202511-000389"
+      }
+    ],
+    "20020290": [
+      {
+        "data": "2025-11-01",
+        "hora": "09:10:42",
+        "km": 0,
+        "hr": 33744,
+        "litros": 35,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 390,
+        "idEvento": "A-202511-000390"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "20:30:22",
+        "km": 0,
+        "hr": 33751,
+        "litros": 26,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 391,
+        "idEvento": "A-202511-000391"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "12:42:43",
+        "km": 0,
+        "hr": 33761,
+        "litros": 47,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 392,
+        "idEvento": "A-202511-000392"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "21:59:11",
+        "km": 0,
+        "hr": 33765,
+        "litros": 23,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 393,
+        "idEvento": "A-202511-000393"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "09:01:30",
+        "km": 0,
+        "hr": 33770,
+        "litros": 19.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 394,
+        "idEvento": "A-202511-000394"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "21:09:48",
+        "km": 0,
+        "hr": 33778,
+        "litros": 32.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 395,
+        "idEvento": "A-202511-000395"
+      }
+    ],
+    "20020291": [
+      {
+        "data": "2025-11-01",
+        "hora": "04:29:01",
+        "km": 0,
+        "hr": 2007,
+        "litros": 31,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 396,
+        "idEvento": "A-202511-000396"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "15:54:58",
+        "km": 0,
+        "hr": 2014,
+        "litros": 46,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 397,
+        "idEvento": "A-202511-000397"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "02:01:28",
+        "km": 0,
+        "hr": 2019,
+        "litros": 23,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 398,
+        "idEvento": "A-202511-000398"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "15:38:58",
+        "km": 0,
+        "hr": 2029,
+        "litros": 14,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 399,
+        "idEvento": "A-202511-000399"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "04:57:51",
+        "km": 0,
+        "hr": 2037,
+        "litros": 101,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 400,
+        "idEvento": "A-202511-000400"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "16:44:34",
+        "km": 0,
+        "hr": 2041,
+        "litros": 25.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 401,
+        "idEvento": "A-202511-000401"
+      }
+    ],
+    "20020292": [
+      {
+        "data": "2025-11-01",
+        "hora": "03:10:12",
+        "km": 0,
+        "hr": 33690,
+        "litros": 37.3,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 402,
+        "idEvento": "A-202511-000402"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "14:31:00",
+        "km": 0,
+        "hr": 33695,
+        "litros": 28.3,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 403,
+        "idEvento": "A-202511-000403"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "16:08:27",
+        "km": 7443,
+        "hr": 7443,
+        "litros": 156,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 404,
+        "idEvento": "A-202511-000404"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "03:03:53",
+        "km": 0,
+        "hr": 33700,
+        "litros": 25.6,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 405,
+        "idEvento": "A-202511-000405"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "13:20:47",
+        "km": 0,
+        "hr": 33706,
+        "litros": 38.4,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 406,
+        "idEvento": "A-202511-000406"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "23:01:29",
+        "km": 0,
+        "hr": 33711,
+        "litros": 25,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 407,
+        "idEvento": "A-202511-000407"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "15:35:56",
+        "km": 0,
+        "hr": 33718,
+        "litros": 31,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 408,
+        "idEvento": "A-202511-000408"
+      }
+    ],
+    "20020293": [
+      {
+        "data": "2025-11-01",
+        "hora": "10:52:37",
+        "km": 0,
+        "hr": 22530,
+        "litros": 22.2,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 409,
+        "idEvento": "A-202511-000409"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "14:29:01",
+        "km": 0,
+        "hr": 33695,
+        "litros": 28.3,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 410,
+        "idEvento": "A-202511-000410"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "20:39:23",
+        "km": 0,
+        "hr": 22537,
+        "litros": 48.2,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 411,
+        "idEvento": "A-202511-000411"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "09:17:33",
+        "km": 0,
+        "hr": 22547,
+        "litros": 58,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 412,
+        "idEvento": "A-202511-000412"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "20:10:53",
+        "km": 0,
+        "hr": 22554,
+        "litros": 40,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 413,
+        "idEvento": "A-202511-000413"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "09:52:35",
+        "km": 0,
+        "hr": 22559,
+        "litros": 27.6,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 414,
+        "idEvento": "A-202511-000414"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "19:57:19",
+        "km": 0,
+        "hr": 22568,
+        "litros": 42.7,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 415,
+        "idEvento": "A-202511-000415"
+      }
+    ],
+    "20020294": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:58:15",
+        "km": 0,
+        "hr": 38606,
+        "litros": 32,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 416,
+        "idEvento": "A-202511-000416"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "21:12:44",
+        "km": 0,
+        "hr": 38616,
+        "litros": 49.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 417,
+        "idEvento": "A-202511-000417"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "09:37:42",
+        "km": 0,
+        "hr": 38620,
+        "litros": 25,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 418,
+        "idEvento": "A-202511-000418"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:58:27",
+        "km": 0,
+        "hr": 38628,
+        "litros": 47.6,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 419,
+        "idEvento": "A-202511-000419"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "07:37:38",
+        "km": 0,
+        "hr": 38635,
+        "litros": 31,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 420,
+        "idEvento": "A-202511-000420"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:21:08",
+        "km": 0,
+        "hr": 38642,
+        "litros": 35.6,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 421,
+        "idEvento": "A-202511-000421"
+      }
+    ],
+    "20020295": [
+      {
+        "data": "2025-11-01",
+        "hora": "03:55:47",
+        "km": 0,
+        "hr": 617,
+        "litros": 50.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 422,
+        "idEvento": "A-202511-000422"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "15:00:41",
+        "km": 0,
+        "hr": 622,
+        "litros": 18.3,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 423,
+        "idEvento": "A-202511-000423"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "05:34:39",
+        "km": 0,
+        "hr": 631,
+        "litros": 50.7,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 424,
+        "idEvento": "A-202511-000424"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "22:33:27",
+        "km": 0,
+        "hr": 642,
+        "litros": 29,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 425,
+        "idEvento": "A-202511-000425"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "17:50:19",
+        "km": 0,
+        "hr": 654,
+        "litros": 59,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 426,
+        "idEvento": "A-202511-000426"
+      }
+    ],
+    "20020296": [
+      {
+        "data": "2025-11-01",
+        "hora": "03:51:00",
+        "km": 0,
+        "hr": 641,
+        "litros": 51.2,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 427,
+        "idEvento": "A-202511-000427"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "14:21:43",
+        "km": 0,
+        "hr": 648,
+        "litros": 43.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 428,
+        "idEvento": "A-202511-000428"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "01:23:08",
+        "km": 0,
+        "hr": 656,
+        "litros": 38.1,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 429,
+        "idEvento": "A-202511-000429"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "14:07:54",
+        "km": 0,
+        "hr": 664,
+        "litros": 49,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 430,
+        "idEvento": "A-202511-000430"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "17:32:25",
+        "km": 0,
+        "hr": 675,
+        "litros": 59.4,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 431,
+        "idEvento": "A-202511-000431"
+      }
+    ],
+    "20020297": [
+      {
+        "data": "2025-11-01",
+        "hora": "09:20:34",
+        "km": 0,
+        "hr": 674,
+        "litros": 40,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 432,
+        "idEvento": "A-202511-000432"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "21:11:20",
+        "km": 0,
+        "hr": 682,
+        "litros": 50,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 433,
+        "idEvento": "A-202511-000433"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "09:16:31",
+        "km": 0,
+        "hr": 691,
+        "litros": 57.3,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 434,
+        "idEvento": "A-202511-000434"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "20:42:42",
+        "km": 0,
+        "hr": 700,
+        "litros": 53.6,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 435,
+        "idEvento": "A-202511-000435"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "09:08:55",
+        "km": 0,
+        "hr": 704,
+        "litros": 13.4,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 436,
+        "idEvento": "A-202511-000436"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "18:57:06",
+        "km": 0,
+        "hr": 714,
+        "litros": 58,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 437,
+        "idEvento": "A-202511-000437"
+      }
+    ],
+    "20020298": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:25:08",
+        "km": 0,
+        "hr": 82,
+        "litros": 23,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 438,
+        "idEvento": "A-202511-000438"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "20:23:06",
+        "km": 0,
+        "hr": 92,
+        "litros": 70,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 439,
+        "idEvento": "A-202511-000439"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "08:56:07",
+        "km": 0,
+        "hr": 101,
+        "litros": 46,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 440,
+        "idEvento": "A-202511-000440"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "20:26:06",
+        "km": 0,
+        "hr": 108,
+        "litros": 60,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 441,
+        "idEvento": "A-202511-000441"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "09:51:00",
+        "km": 0,
+        "hr": 112,
+        "litros": 17,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 442,
+        "idEvento": "A-202511-000442"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "21:41:00",
+        "km": 0,
+        "hr": 121,
+        "litros": 55,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 443,
+        "idEvento": "A-202511-000443"
+      }
+    ],
+    "20020302": [
+      {
+        "data": "2025-11-01",
+        "hora": "14:05:01",
+        "km": 0,
+        "hr": 20894,
+        "litros": 130,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 444,
+        "idEvento": "A-202511-000444"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "14:26:25",
+        "km": 0,
+        "hr": 20905,
+        "litros": 179,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 445,
+        "idEvento": "A-202511-000445"
+      }
+    ],
+    "20020303": [
+      {
+        "data": "2025-11-01",
+        "hora": "04:31:00",
+        "km": 0,
+        "hr": 1681,
+        "litros": 3.3,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 446,
+        "idEvento": "A-202511-000446"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "15:35:05",
+        "km": 0,
+        "hr": 1684,
+        "litros": 30.6,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 447,
+        "idEvento": "A-202511-000447"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "01:57:00",
+        "km": 0,
+        "hr": 1685,
+        "litros": 3.9,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 448,
+        "idEvento": "A-202511-000448"
+      }
+    ],
+    "20020304": [
+      {
+        "data": "2025-11-01",
+        "hora": "14:15:03",
+        "km": 0,
+        "hr": 1876,
+        "litros": 40,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 449,
+        "idEvento": "A-202511-000449"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "13:09:21",
+        "km": 0,
+        "hr": 1879,
+        "litros": 20,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 450,
+        "idEvento": "A-202511-000450"
+      }
+    ],
+    "20020305": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:54:01",
+        "km": 0,
+        "hr": 1862,
+        "litros": 10,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 451,
+        "idEvento": "A-202511-000451"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "08:28:46",
+        "km": 0,
+        "hr": 1868,
+        "litros": 37,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 452,
+        "idEvento": "A-202511-000452"
+      }
+    ],
+    "20020306": [
+      {
+        "data": "2025-11-01",
+        "hora": "04:24:00",
+        "km": 0,
+        "hr": 1400,
+        "litros": 3,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 453,
+        "idEvento": "A-202511-000453"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "14:15:24",
+        "km": 0,
+        "hr": 1406,
+        "litros": 23.3,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 454,
+        "idEvento": "A-202511-000454"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "02:01:00",
+        "km": 0,
+        "hr": 1407,
+        "litros": 3.7,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 455,
+        "idEvento": "A-202511-000455"
+      }
+    ],
+    "20020405": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:37:00",
+        "km": 0,
+        "hr": 20718,
+        "litros": 168.34,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 456,
+        "idEvento": "A-202511-000456"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "20:16:41",
+        "km": 0,
+        "hr": 20726,
+        "litros": 210.9,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 457,
+        "idEvento": "A-202511-000457"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "11:32:00",
+        "km": 0,
+        "hr": 20734,
+        "litros": 126.15,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 458,
+        "idEvento": "A-202511-000458"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "06:03:14",
+        "km": 0,
+        "hr": 20746,
+        "litros": 180,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 459,
+        "idEvento": "A-202511-000459"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:55:00",
+        "km": 0,
+        "hr": 20753,
+        "litros": 153.51,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 460,
+        "idEvento": "A-202511-000460"
+      }
+    ],
+    "20020406": [
+      {
+        "data": "2025-11-02",
+        "hora": "03:12:17",
+        "km": 0,
+        "hr": 23246,
+        "litros": 130.8,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 461,
+        "idEvento": "A-202511-000461"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "06:40:19",
+        "km": 0,
+        "hr": 23266,
+        "litros": 19.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 462,
+        "idEvento": "A-202511-000462"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:51:00",
+        "km": 0,
+        "hr": 23277,
+        "litros": 224.35,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 463,
+        "idEvento": "A-202511-000463"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "05:52:16",
+        "km": 0,
+        "hr": 23287,
+        "litros": 161,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 464,
+        "idEvento": "A-202511-000464"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "19:31:00",
+        "km": 0,
+        "hr": 23296,
+        "litros": 111.17,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 465,
+        "idEvento": "A-202511-000465"
+      }
+    ],
+    "20020407": [
+      {
+        "data": "2025-11-01",
+        "hora": "05:40:42",
+        "km": 0,
+        "hr": 22638,
+        "litros": 119,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 466,
+        "idEvento": "A-202511-000466"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "17:41:03",
+        "km": 0,
+        "hr": 22647,
+        "litros": 180,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 467,
+        "idEvento": "A-202511-000467"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "06:16:59",
+        "km": 0,
+        "hr": 22657,
+        "litros": 169,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 468,
+        "idEvento": "A-202511-000468"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:52:00",
+        "km": 0,
+        "hr": 22669,
+        "litros": 174.89,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 469,
+        "idEvento": "A-202511-000469"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "06:04:06",
+        "km": 0,
+        "hr": 22673,
+        "litros": 62.4,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 470,
+        "idEvento": "A-202511-000470"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "21:04:00",
+        "km": 0,
+        "hr": 22684,
+        "litros": 150.02,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 471,
+        "idEvento": "A-202511-000471"
+      }
+    ],
+    "20020502": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:40:00",
+        "km": 0,
+        "hr": 30561,
+        "litros": 46.98,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 472,
+        "idEvento": "A-202511-000472"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "20:49:00",
+        "km": 0,
+        "hr": 30565,
+        "litros": 37.53,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 473,
+        "idEvento": "A-202511-000473"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:07:00",
+        "km": 0,
+        "hr": 30569,
+        "litros": 43.54,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 474,
+        "idEvento": "A-202511-000474"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "21:05:00",
+        "km": 0,
+        "hr": 30579,
+        "litros": 103.86,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 475,
+        "idEvento": "A-202511-000475"
+      }
+    ],
+    "20020508": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:46:00",
+        "km": 0,
+        "hr": 18652,
+        "litros": 86.1,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 476,
+        "idEvento": "A-202511-000476"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:38:00",
+        "km": 0,
+        "hr": 18660,
+        "litros": 109.61,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 477,
+        "idEvento": "A-202511-000477"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:53:00",
+        "km": 0,
+        "hr": 18674,
+        "litros": 80.03,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 478,
+        "idEvento": "A-202511-000478"
+      }
+    ],
+    "20020510": [
+      {
+        "data": "2025-11-02",
+        "hora": "07:58:00",
+        "km": 0,
+        "hr": 7439,
+        "litros": 111.3,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 479,
+        "idEvento": "A-202511-000479"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "09:03:36",
+        "km": 0,
+        "hr": 7447,
+        "litros": 50,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 480,
+        "idEvento": "A-202511-000480"
+      }
+    ],
+    "20020901": [
+      {
+        "data": "2025-11-01",
+        "hora": "01:46:00",
+        "km": 0,
+        "hr": 942,
+        "litros": 69,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 481,
+        "idEvento": "A-202511-000481"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "08:52:03",
+        "km": 0,
+        "hr": 947,
+        "litros": 96.2,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 482,
+        "idEvento": "A-202511-000482"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "14:57:40",
+        "km": 0,
+        "hr": 950,
+        "litros": 55,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 483,
+        "idEvento": "A-202511-000483"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "23:23:06",
+        "km": 0,
+        "hr": 954,
+        "litros": 95.7,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 484,
+        "idEvento": "A-202511-000484"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "09:05:41",
+        "km": 0,
+        "hr": 960,
+        "litros": 103,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 485,
+        "idEvento": "A-202511-000485"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "14:42:11",
+        "km": 0,
+        "hr": 963,
+        "litros": 50,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 486,
+        "idEvento": "A-202511-000486"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "23:20:34",
+        "km": 0,
+        "hr": 969,
+        "litros": 110,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 487,
+        "idEvento": "A-202511-000487"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:36:00",
+        "km": 0,
+        "hr": 974,
+        "litros": 92,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 488,
+        "idEvento": "A-202511-000488"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "16:11:00",
+        "km": 0,
+        "hr": 977,
+        "litros": 49,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 489,
+        "idEvento": "A-202511-000489"
+      }
+    ],
+    "20020902": [
+      {
+        "data": "2025-11-01",
+        "hora": "01:21:00",
+        "km": 0,
+        "hr": 891,
+        "litros": 72,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 490,
+        "idEvento": "A-202511-000490"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "08:32:27",
+        "km": 0,
+        "hr": 895,
+        "litros": 75.4,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 491,
+        "idEvento": "A-202511-000491"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "14:49:54",
+        "km": 0,
+        "hr": 900,
+        "litros": 83,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 492,
+        "idEvento": "A-202511-000492"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "23:50:40",
+        "km": 0,
+        "hr": 904,
+        "litros": 87.6,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 493,
+        "idEvento": "A-202511-000493"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "09:59:44",
+        "km": 0,
+        "hr": 911,
+        "litros": 135,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 494,
+        "idEvento": "A-202511-000494"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "14:40:43",
+        "km": 0,
+        "hr": 915,
+        "litros": 63,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 495,
+        "idEvento": "A-202511-000495"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "22:59:49",
+        "km": 0,
+        "hr": 920,
+        "litros": 89.6,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 496,
+        "idEvento": "A-202511-000496"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:11:00",
+        "km": 0,
+        "hr": 927,
+        "litros": 122,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 497,
+        "idEvento": "A-202511-000497"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "16:26:00",
+        "km": 0,
+        "hr": 931,
+        "litros": 66,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 498,
+        "idEvento": "A-202511-000498"
+      }
+    ],
+    "20020903": [
+      {
+        "data": "2025-11-01",
+        "hora": "01:34:00",
+        "km": 0,
+        "hr": 803,
+        "litros": 70.6,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 499,
+        "idEvento": "A-202511-000499"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "09:36:30",
+        "km": 0,
+        "hr": 805,
+        "litros": 48,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 500,
+        "idEvento": "A-202511-000500"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "14:29:11",
+        "km": 0,
+        "hr": 809,
+        "litros": 66,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 501,
+        "idEvento": "A-202511-000501"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "23:41:24",
+        "km": 0,
+        "hr": 812,
+        "litros": 44.7,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 502,
+        "idEvento": "A-202511-000502"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "09:31:00",
+        "km": 0,
+        "hr": 812,
+        "litros": 9,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 503,
+        "idEvento": "A-202511-000503"
+      }
+    ],
+    "20020904": [
+      {
+        "data": "2025-11-01",
+        "hora": "09:50:55",
+        "km": 0,
+        "hr": 770,
+        "litros": 47,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 504,
+        "idEvento": "A-202511-000504"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "14:22:51",
+        "km": 0,
+        "hr": 773,
+        "litros": 53,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 505,
+        "idEvento": "A-202511-000505"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "23:35:04",
+        "km": 0,
+        "hr": 776,
+        "litros": 52.4,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 506,
+        "idEvento": "A-202511-000506"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "09:32:55",
+        "km": 0,
+        "hr": 778,
+        "litros": 38,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 507,
+        "idEvento": "A-202511-000507"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "15:04:58",
+        "km": 0,
+        "hr": 780,
+        "litros": 40,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 508,
+        "idEvento": "A-202511-000508"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "00:08:23",
+        "km": 0,
+        "hr": 783,
+        "litros": 60,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 509,
+        "idEvento": "A-202511-000509"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "16:37:00",
+        "km": 0,
+        "hr": 788,
+        "litros": 92,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 510,
+        "idEvento": "A-202511-000510"
+      }
+    ],
+    "20022244": [
+      {
+        "data": "2025-11-01",
+        "hora": "15:27:24",
+        "km": 0,
+        "hr": 598,
+        "litros": 102,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 511,
+        "idEvento": "A-202511-000511"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "12:56:33",
+        "km": 0,
+        "hr": 611,
+        "litros": 93,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 512,
+        "idEvento": "A-202511-000512"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "16:05:42",
+        "km": 0,
+        "hr": 629,
+        "litros": 121,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 513,
+        "idEvento": "A-202511-000513"
+      }
+    ],
+    "20022246": [
+      {
+        "data": "2025-11-02",
+        "hora": "08:13:29",
+        "km": 0,
+        "hr": 24308,
+        "litros": 40.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 514,
+        "idEvento": "A-202511-000514"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "13:27:30",
+        "km": 0,
+        "hr": 24316,
+        "litros": 60,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 515,
+        "idEvento": "A-202511-000515"
+      }
+    ],
+    "20022247": [
+      {
+        "data": "2025-11-01",
+        "hora": "11:11:46",
+        "km": 0,
+        "hr": 35680,
+        "litros": 63,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 516,
+        "idEvento": "A-202511-000516"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "13:01:10",
+        "km": 0,
+        "hr": 35692,
+        "litros": 72,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 517,
+        "idEvento": "A-202511-000517"
+      }
+    ],
+    "20022249": [
+      {
+        "data": "2025-11-01",
+        "hora": "10:51:18",
+        "km": 0,
+        "hr": 43694,
+        "litros": 73.6,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 518,
+        "idEvento": "A-202511-000518"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "12:49:26",
+        "km": 0,
+        "hr": 43706,
+        "litros": 84.3,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 519,
+        "idEvento": "A-202511-000519"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "18:21:42",
+        "km": 0,
+        "hr": 43727,
+        "litros": 143,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 520,
+        "idEvento": "A-202511-000520"
+      }
+    ],
+    "20022250": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:59:36",
+        "km": 0,
+        "hr": 20360,
+        "litros": 118,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 521,
+        "idEvento": "A-202511-000521"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "10:20:28",
+        "km": 0,
+        "hr": 20372,
+        "litros": 67,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 522,
+        "idEvento": "A-202511-000522"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:27:37",
+        "km": 0,
+        "hr": 20381,
+        "litros": 22,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 523,
+        "idEvento": "A-202511-000523"
+      }
+    ],
+    "20022251": [
+      {
+        "data": "2025-11-01",
+        "hora": "09:20:07",
+        "km": 0,
+        "hr": 39745,
+        "litros": 57.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 524,
+        "idEvento": "A-202511-000524"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "09:35:16",
+        "km": 0,
+        "hr": 39751,
+        "litros": 38.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 525,
+        "idEvento": "A-202511-000525"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "13:58:31",
+        "km": 0,
+        "hr": 39756,
+        "litros": 29,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 526,
+        "idEvento": "A-202511-000526"
+      }
+    ],
+    "20022252": [
+      {
+        "data": "2025-11-01",
+        "hora": "14:08:31",
+        "km": 0,
+        "hr": 27813,
+        "litros": 36.4,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 527,
+        "idEvento": "A-202511-000527"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "02:41:56",
+        "km": 0,
+        "hr": 27820,
+        "litros": 35,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 528,
+        "idEvento": "A-202511-000528"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "21:05:00",
+        "km": 0,
+        "hr": 27825,
+        "litros": 15.01,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 529,
+        "idEvento": "A-202511-000529"
+      }
+    ],
+    "20022253": [
+      {
+        "data": "2025-11-01",
+        "hora": "11:02:45",
+        "km": 0,
+        "hr": 29401,
+        "litros": 22,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 530,
+        "idEvento": "A-202511-000530"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "11:24:00",
+        "km": 0,
+        "hr": 29404,
+        "litros": 16,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 531,
+        "idEvento": "A-202511-000531"
+      }
+    ],
+    "20022254": [
+      {
+        "data": "2025-11-03",
+        "hora": "14:22:50",
+        "km": 0,
+        "hr": 33581,
+        "litros": 9.7,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 532,
+        "idEvento": "A-202511-000532"
+      }
+    ],
+    "20022255": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:08:03",
+        "km": 2361,
+        "hr": 2361,
+        "litros": 64,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 533,
+        "idEvento": "A-202511-000533"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "10:09:26",
+        "km": 0,
+        "hr": 30915,
+        "litros": 12,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 534,
+        "idEvento": "A-202511-000534"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "13:10:49",
+        "km": 0,
+        "hr": 30923,
+        "litros": 20.2,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 535,
+        "idEvento": "A-202511-000535"
+      }
+    ],
+    "20022256": [
+      {
+        "data": "2025-11-03",
+        "hora": "14:41:00",
+        "km": 0,
+        "hr": 25979,
+        "litros": 86.26,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 536,
+        "idEvento": "A-202511-000536"
+      }
+    ],
+    "20022257": [
+      {
+        "data": "2025-11-01",
+        "hora": "10:10:00",
+        "km": 0,
+        "hr": 26665,
+        "litros": 19.74,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 537,
+        "idEvento": "A-202511-000537"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:10:00",
+        "km": 0,
+        "hr": 26667,
+        "litros": 9.42,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 538,
+        "idEvento": "A-202511-000538"
+      }
+    ],
+    "20022258": [
+      {
+        "data": "2025-11-03",
+        "hora": "14:51:26",
+        "km": 0,
+        "hr": 20961,
+        "litros": 38,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 539,
+        "idEvento": "A-202511-000539"
+      }
+    ],
+    "20022259": [
+      {
+        "data": "2025-11-01",
+        "hora": "15:25:11",
+        "km": 0,
+        "hr": 24536,
+        "litros": 25,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 540,
+        "idEvento": "A-202511-000540"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "14:37:24",
+        "km": 0,
+        "hr": 24542,
+        "litros": 37,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 541,
+        "idEvento": "A-202511-000541"
+      }
+    ],
+    "20022260": [
+      {
+        "data": "2025-11-03",
+        "hora": "14:16:00",
+        "km": 0,
+        "hr": 24557,
+        "litros": 43.21,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 542,
+        "idEvento": "A-202511-000542"
+      }
+    ],
+    "20022262": [
+      {
+        "data": "2025-11-01",
+        "hora": "02:55:51",
+        "km": 0,
+        "hr": 34791,
+        "litros": 50,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 543,
+        "idEvento": "A-202511-000543"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "13:55:54",
+        "km": 0,
+        "hr": 34797,
+        "litros": 27.7,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 544,
+        "idEvento": "A-202511-000544"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "20:02:27",
+        "km": 0,
+        "hr": 34799,
+        "litros": 13,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 545,
+        "idEvento": "A-202511-000545"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "09:49:17",
+        "km": 0,
+        "hr": 34805,
+        "litros": 4.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 546,
+        "idEvento": "A-202511-000546"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "19:02:32",
+        "km": 0,
+        "hr": 34806,
+        "litros": 3.9,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 547,
+        "idEvento": "A-202511-000547"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "19:30:00",
+        "km": 0,
+        "hr": 34807,
+        "litros": 7.03,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 548,
+        "idEvento": "A-202511-000548"
+      }
+    ],
+    "20022263": [
+      {
+        "data": "2025-11-03",
+        "hora": "10:11:00",
+        "km": 0,
+        "hr": 171,
+        "litros": 10.7,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 549,
+        "idEvento": "A-202511-000549"
+      }
+    ],
+    "20022265": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:46:38",
+        "km": 0,
+        "hr": 22003,
+        "litros": 10,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 550,
+        "idEvento": "A-202511-000550"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "09:02:11",
+        "km": 0,
+        "hr": 22018,
+        "litros": 59,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 551,
+        "idEvento": "A-202511-000551"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "20:14:48",
+        "km": 0,
+        "hr": 22026,
+        "litros": 28,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 552,
+        "idEvento": "A-202511-000552"
+      }
+    ],
+    "20022269": [
+      {
+        "data": "2025-11-01",
+        "hora": "15:30:12",
+        "km": 0,
+        "hr": 6185,
+        "litros": 45,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 553,
+        "idEvento": "A-202511-000553"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "14:44:10",
+        "km": 0,
+        "hr": 6192,
+        "litros": 51.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 554,
+        "idEvento": "A-202511-000554"
+      }
+    ],
+    "20022271": [
+      {
+        "data": "2025-11-01",
+        "hora": "02:48:52",
+        "km": 0,
+        "hr": 5032,
+        "litros": 40,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 555,
+        "idEvento": "A-202511-000555"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "20:50:00",
+        "km": 0,
+        "hr": 5036,
+        "litros": 22,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 556,
+        "idEvento": "A-202511-000556"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "08:36:41",
+        "km": 0,
+        "hr": 5042,
+        "litros": 42.2,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 557,
+        "idEvento": "A-202511-000557"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "21:37:13",
+        "km": 0,
+        "hr": 5050,
+        "litros": 54,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 558,
+        "idEvento": "A-202511-000558"
+      }
+    ],
+    "20022272": [
+      {
+        "data": "2025-11-01",
+        "hora": "15:28:19",
+        "km": 0,
+        "hr": 6101,
+        "litros": 23,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 559,
+        "idEvento": "A-202511-000559"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "09:45:00",
+        "km": 0,
+        "hr": 6107,
+        "litros": 22,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 560,
+        "idEvento": "A-202511-000560"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "18:05:22",
+        "km": 0,
+        "hr": 6111,
+        "litros": 17.5,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 561,
+        "idEvento": "A-202511-000561"
+      }
+    ],
+    "20022273": [
+      {
+        "data": "2025-11-01",
+        "hora": "13:44:21",
+        "km": 0,
+        "hr": 358,
+        "litros": 14,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 562,
+        "idEvento": "A-202511-000562"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "09:54:44",
+        "km": 0,
+        "hr": 362,
+        "litros": 10,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 563,
+        "idEvento": "A-202511-000563"
+      }
+    ],
+    "20022274": [
+      {
+        "data": "2025-11-01",
+        "hora": "13:43:57",
+        "km": 0,
+        "hr": 64,
+        "litros": 39,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 564,
+        "idEvento": "A-202511-000564"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "09:52:39",
+        "km": 0,
+        "hr": 66,
+        "litros": 18,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 565,
+        "idEvento": "A-202511-000565"
+      }
+    ],
+    "20022281": [
+      {
+        "data": "2025-11-01",
+        "hora": "09:46:44",
+        "km": 0,
+        "hr": 3811,
+        "litros": 53,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 566,
+        "idEvento": "A-202511-000566"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "09:19:29",
+        "km": 0,
+        "hr": 3826,
+        "litros": 50,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 567,
+        "idEvento": "A-202511-000567"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "14:30:59",
+        "km": 0,
+        "hr": 3835,
+        "litros": 83,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 568,
+        "idEvento": "A-202511-000568"
+      }
+    ],
+    "20022282": [
+      {
+        "data": "2025-11-01",
+        "hora": "09:27:14",
+        "km": 0,
+        "hr": 10889,
+        "litros": 42,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 569,
+        "idEvento": "A-202511-000569"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "10:10:52",
+        "km": 0,
+        "hr": 10901,
+        "litros": 73.8,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 570,
+        "idEvento": "A-202511-000570"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:42:31",
+        "km": 0,
+        "hr": 10913,
+        "litros": 60,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 571,
+        "idEvento": "A-202511-000571"
+      }
+    ],
+    "20022283": [
+      {
+        "data": "2025-11-01",
+        "hora": "09:39:25",
+        "km": 0,
+        "hr": 25190,
+        "litros": 44,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 572,
+        "idEvento": "A-202511-000572"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "10:36:24",
+        "km": 0,
+        "hr": 25198,
+        "litros": 43,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 573,
+        "idEvento": "A-202511-000573"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "14:49:17",
+        "km": 0,
+        "hr": 25205,
+        "litros": 40,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 574,
+        "idEvento": "A-202511-000574"
+      }
+    ],
+    "20022284": [
+      {
+        "data": "2025-11-01",
+        "hora": "09:15:44",
+        "km": 0,
+        "hr": 24816,
+        "litros": 60,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 575,
+        "idEvento": "A-202511-000575"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "10:27:12",
+        "km": 0,
+        "hr": 24823,
+        "litros": 32,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 576,
+        "idEvento": "A-202511-000576"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "09:49:56",
+        "km": 0,
+        "hr": 24826,
+        "litros": 10,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 577,
+        "idEvento": "A-202511-000577"
+      }
+    ],
+    "20022286": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:44:14",
+        "km": 0,
+        "hr": 17550,
+        "litros": 36.8,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 578,
+        "idEvento": "A-202511-000578"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "11:12:27",
+        "km": 0,
+        "hr": 17576,
+        "litros": 131,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 579,
+        "idEvento": "A-202511-000579"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "14:24:10",
+        "km": 0,
+        "hr": 17593,
+        "litros": 97,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 580,
+        "idEvento": "A-202511-000580"
+      }
+    ],
+    "20022287": [
+      {
+        "data": "2025-11-01",
+        "hora": "09:18:12",
+        "km": 0,
+        "hr": 18251,
+        "litros": 83,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 581,
+        "idEvento": "A-202511-000581"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "13:14:24",
+        "km": 0,
+        "hr": 18273,
+        "litros": 118,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 582,
+        "idEvento": "A-202511-000582"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "21:09:00",
+        "km": 0,
+        "hr": 18286,
+        "litros": 102.02,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 583,
+        "idEvento": "A-202511-000583"
+      }
+    ],
+    "20022288": [
+      {
+        "data": "2025-11-01",
+        "hora": "09:02:15",
+        "km": 0,
+        "hr": 12491,
+        "litros": 89,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 584,
+        "idEvento": "A-202511-000584"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "08:40:54",
+        "km": 0,
+        "hr": 12514,
+        "litros": 89,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 585,
+        "idEvento": "A-202511-000585"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:28:35",
+        "km": 0,
+        "hr": 12529,
+        "litros": 115,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 586,
+        "idEvento": "A-202511-000586"
+      }
+    ],
+    "20022290": [
+      {
+        "data": "2025-11-01",
+        "hora": "10:30:44",
+        "km": 0,
+        "hr": 11646,
+        "litros": 103,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 587,
+        "idEvento": "A-202511-000587"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "08:33:33",
+        "km": 0,
+        "hr": 11663,
+        "litros": 106,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 588,
+        "idEvento": "A-202511-000588"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "09:33:02",
+        "km": 0,
+        "hr": 11684,
+        "litros": 119.3,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 589,
+        "idEvento": "A-202511-000589"
+      }
+    ],
+    "20022291": [
+      {
+        "data": "2025-11-01",
+        "hora": "15:22:40",
+        "km": 0,
+        "hr": 9042,
+        "litros": 128,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 590,
+        "idEvento": "A-202511-000590"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:01:26",
+        "km": 0,
+        "hr": 9053,
+        "litros": 113,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 591,
+        "idEvento": "A-202511-000591"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "23:51:19",
+        "km": 0,
+        "hr": 9062,
+        "litros": 152,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 592,
+        "idEvento": "A-202511-000592"
+      }
+    ],
+    "20022292": [
+      {
+        "data": "2025-11-01",
+        "hora": "16:09:00",
+        "km": 0,
+        "hr": 7443,
+        "litros": 156,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 593,
+        "idEvento": "A-202511-000593"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "15:17:08",
+        "km": 0,
+        "hr": 7461,
+        "litros": 157,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 594,
+        "idEvento": "A-202511-000594"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "17:14:39",
+        "km": 0,
+        "hr": 7465,
+        "litros": 31,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 595,
+        "idEvento": "A-202511-000595"
+      }
+    ],
+    "20022293": [
+      {
+        "data": "2025-11-01",
+        "hora": "09:11:34",
+        "km": 0,
+        "hr": 7187,
+        "litros": 131,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 596,
+        "idEvento": "A-202511-000596"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "08:58:56",
+        "km": 0,
+        "hr": 7205,
+        "litros": 110,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 597,
+        "idEvento": "A-202511-000597"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "08:32:12",
+        "km": 0,
+        "hr": 7222,
+        "litros": 134,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 598,
+        "idEvento": "A-202511-000598"
+      }
+    ],
+    "20022294": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:36:00",
+        "km": 0,
+        "hr": 4697,
+        "litros": 209.86,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 599,
+        "idEvento": "A-202511-000599"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:36:00",
+        "km": 0,
+        "hr": 4720,
+        "litros": 207.39,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 600,
+        "idEvento": "A-202511-000600"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:56:00",
+        "km": 0,
+        "hr": 4737,
+        "litros": 137.55,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 601,
+        "idEvento": "A-202511-000601"
+      }
+    ],
+    "20022295": [
+      {
+        "data": "2025-11-01",
+        "hora": "21:13:00",
+        "km": 0,
+        "hr": 4470,
+        "litros": 160.08,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 602,
+        "idEvento": "A-202511-000602"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:38:00",
+        "km": 0,
+        "hr": 4491,
+        "litros": 184.95,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 603,
+        "idEvento": "A-202511-000603"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:55:00",
+        "km": 0,
+        "hr": 4506,
+        "litros": 131.95,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 604,
+        "idEvento": "A-202511-000604"
+      }
+    ],
+    "20022296": [
+      {
+        "data": "2025-11-01",
+        "hora": "21:16:00",
+        "km": 0,
+        "hr": 3998,
+        "litros": 177.19,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 605,
+        "idEvento": "A-202511-000605"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:44:00",
+        "km": 0,
+        "hr": 4019,
+        "litros": 187.01,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 606,
+        "idEvento": "A-202511-000606"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "21:01:00",
+        "km": 0,
+        "hr": 4031,
+        "litros": 91.02,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 607,
+        "idEvento": "A-202511-000607"
+      }
+    ],
+    "20022297": [
+      {
+        "data": "2025-11-03",
+        "hora": "10:23:39",
+        "km": 0,
+        "hr": 2599,
+        "litros": 188,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 608,
+        "idEvento": "A-202511-000608"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "23:42:34",
+        "km": 0,
+        "hr": 2608,
+        "litros": 120,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 609,
+        "idEvento": "A-202511-000609"
+      }
+    ],
+    "20022298": [
+      {
+        "data": "2025-11-01",
+        "hora": "22:07:00",
+        "km": 0,
+        "hr": 3960,
+        "litros": 195.28,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 610,
+        "idEvento": "A-202511-000610"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:37:00",
+        "km": 0,
+        "hr": 3976,
+        "litros": 137.36,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 611,
+        "idEvento": "A-202511-000611"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "21:03:00",
+        "km": 0,
+        "hr": 3987,
+        "litros": 117.02,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 612,
+        "idEvento": "A-202511-000612"
+      }
+    ],
+    "20022299": [
+      {
+        "data": "2025-11-01",
+        "hora": "08:31:00",
+        "km": 0,
+        "hr": 3557,
+        "litros": 95.2,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 613,
+        "idEvento": "A-202511-000613"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "09:11:00",
+        "km": 0,
+        "hr": 3574,
+        "litros": 117,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 614,
+        "idEvento": "A-202511-000614"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "08:51:59",
+        "km": 0,
+        "hr": 3587,
+        "litros": 101,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 615,
+        "idEvento": "A-202511-000615"
+      }
+    ],
+    "20022300": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:56:00",
+        "km": 0,
+        "hr": 797,
+        "litros": 165.28,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 616,
+        "idEvento": "A-202511-000616"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:50:00",
+        "km": 0,
+        "hr": 818,
+        "litros": 176.06,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 617,
+        "idEvento": "A-202511-000617"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "23:17:41",
+        "km": 0,
+        "hr": 841,
+        "litros": 207,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 618,
+        "idEvento": "A-202511-000618"
+      }
+    ],
+    "20022301": [
+      {
+        "data": "2025-11-01",
+        "hora": "20:58:00",
+        "km": 0,
+        "hr": 407,
+        "litros": 219.3,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 619,
+        "idEvento": "A-202511-000619"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "19:42:00",
+        "km": 0,
+        "hr": 427,
+        "litros": 207.02,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 620,
+        "idEvento": "A-202511-000620"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:54:00",
+        "km": 0,
+        "hr": 437,
+        "litros": 115.06,
+        "precoLitro": 5.31,
+        "comboio": "Posto de Combustível",
+        "sequencia": 621,
+        "idEvento": "A-202511-000621"
+      }
+    ],
+    "20022350": [
+      {
+        "data": "2025-11-01",
+        "hora": "10:23:14",
+        "km": 0,
+        "hr": 766,
+        "litros": 55.3,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 622,
+        "idEvento": "A-202511-000622"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "21:05:03",
+        "km": 0,
+        "hr": 775,
+        "litros": 102,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 623,
+        "idEvento": "A-202511-000623"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "10:15:53",
+        "km": 0,
+        "hr": 785,
+        "litros": 82,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 624,
+        "idEvento": "A-202511-000624"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "12:19:55",
+        "km": 0,
+        "hr": 789,
+        "litros": 40,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 625,
+        "idEvento": "A-202511-000625"
+      }
+    ],
+    "20022351": [
+      {
+        "data": "2025-11-01",
+        "hora": "09:07:30",
+        "km": 0,
+        "hr": 763,
+        "litros": 65,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 626,
+        "idEvento": "A-202511-000626"
+      },
+      {
+        "data": "2025-11-01",
+        "hora": "21:04:30",
+        "km": 0,
+        "hr": 773,
+        "litros": 76,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 627,
+        "idEvento": "A-202511-000627"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "08:24:50",
+        "km": 0,
+        "hr": 784,
+        "litros": 66.2,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 628,
+        "idEvento": "A-202511-000628"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "20:32:47",
+        "km": 0,
+        "hr": 793,
+        "litros": 86,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 629,
+        "idEvento": "A-202511-000629"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "10:23:48",
+        "km": 0,
+        "hr": 800,
+        "litros": 49,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 630,
+        "idEvento": "A-202511-000630"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "20:15:07",
+        "km": 0,
+        "hr": 807,
+        "litros": 56,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 2",
+        "sequencia": 631,
+        "idEvento": "A-202511-000631"
+      }
+    ],
+    "24051001": [
+      {
+        "data": "2025-11-01",
+        "hora": "14:18:29",
+        "km": 0,
+        "hr": 2792,
+        "litros": 215,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 632,
+        "idEvento": "A-202511-000632"
+      }
+    ],
+    "24051004": [
+      {
+        "data": "2025-11-03",
+        "hora": "13:55:21",
+        "km": 0,
+        "hr": 828,
+        "litros": 152,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 633,
+        "idEvento": "A-202511-000633"
+      }
+    ],
+    "24051005": [
+      {
+        "data": "2025-11-01",
+        "hora": "14:28:39",
+        "km": 0,
+        "hr": 1309,
+        "litros": 271,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 634,
+        "idEvento": "A-202511-000634"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "16:46:58",
+        "km": 0,
+        "hr": 1316,
+        "litros": 73,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 635,
+        "idEvento": "A-202511-000635"
+      }
+    ],
+    "24051009": [
+      {
+        "data": "2025-11-02",
+        "hora": "09:25:49",
+        "km": 0,
+        "hr": 9272,
+        "litros": 100,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 636,
+        "idEvento": "A-202511-000636"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "09:13:41",
+        "km": 0,
+        "hr": 9287,
+        "litros": 170,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 637,
+        "idEvento": "A-202511-000637"
+      }
+    ],
+    "24051014": [
+      {
+        "data": "2025-11-02",
+        "hora": "09:39:06",
+        "km": 0,
+        "hr": 1219,
+        "litros": 150,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 638,
+        "idEvento": "A-202511-000638"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "23:42:54",
+        "km": 0,
+        "hr": 1230,
+        "litros": 220,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 5",
+        "sequencia": 639,
+        "idEvento": "A-202511-000639"
+      }
+    ],
+    "24051022": [
+      {
+        "data": "2025-11-03",
+        "hora": "15:01:57",
+        "km": 0,
+        "hr": 2563,
+        "litros": 57.6,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 640,
+        "idEvento": "A-202511-000640"
+      }
+    ],
+    "24051025": [
+      {
+        "data": "2025-11-02",
+        "hora": "08:27:45",
+        "km": 0,
+        "hr": 1772,
+        "litros": 113,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 641,
+        "idEvento": "A-202511-000641"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "08:12:16",
+        "km": 0,
+        "hr": 1774,
+        "litros": 10,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 642,
+        "idEvento": "A-202511-000642"
+      }
+    ],
+    "24051043": [
+      {
+        "data": "2025-11-01",
+        "hora": "11:19:23",
+        "km": 0,
+        "hr": 1268,
+        "litros": 130,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 643,
+        "idEvento": "A-202511-000643"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "09:10:52",
+        "km": 0,
+        "hr": 1282,
+        "litros": 84,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 644,
+        "idEvento": "A-202511-000644"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "08:54:51",
+        "km": 0,
+        "hr": 1289,
+        "litros": 54,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 645,
+        "idEvento": "A-202511-000645"
+      }
+    ],
+    "24051044": [
+      {
+        "data": "2025-11-01",
+        "hora": "10:51:50",
+        "km": 0,
+        "hr": 1991,
+        "litros": 118,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 646,
+        "idEvento": "A-202511-000646"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "08:48:51",
+        "km": 0,
+        "hr": 2004,
+        "litros": 107,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 647,
+        "idEvento": "A-202511-000647"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "08:31:27",
+        "km": 0,
+        "hr": 2013,
+        "litros": 56,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 648,
+        "idEvento": "A-202511-000648"
+      }
+    ],
+    "24051045": [
+      {
+        "data": "2025-11-01",
+        "hora": "16:11:50",
+        "km": 0,
+        "hr": 10883,
+        "litros": 100,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 649,
+        "idEvento": "A-202511-000649"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "14:13:32",
+        "km": 0,
+        "hr": 10891,
+        "litros": 45,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 650,
+        "idEvento": "A-202511-000650"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "14:07:33",
+        "km": 0,
+        "hr": 10900,
+        "litros": 66,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 651,
+        "idEvento": "A-202511-000651"
+      }
+    ],
+    "24051047": [
+      {
+        "data": "2025-11-01",
+        "hora": "13:35:29",
+        "km": 0,
+        "hr": 11043,
+        "litros": 175,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 652,
+        "idEvento": "A-202511-000652"
+      }
+    ],
+    "24051050": [
+      {
+        "data": "2025-11-01",
+        "hora": "11:06:35",
+        "km": 0,
+        "hr": 10271,
+        "litros": 57,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 653,
+        "idEvento": "A-202511-000653"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "08:44:17",
+        "km": 0,
+        "hr": 10283,
+        "litros": 95,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 654,
+        "idEvento": "A-202511-000654"
+      }
+    ],
+    "24051062": [
+      {
+        "data": "2025-11-02",
+        "hora": "14:33:19",
+        "km": 0,
+        "hr": 895,
+        "litros": 143,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 655,
+        "idEvento": "A-202511-000655"
+      }
+    ],
+    "24051065": [
+      {
+        "data": "2025-11-01",
+        "hora": "16:06:32",
+        "km": 0,
+        "hr": 11739,
+        "litros": 204,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 656,
+        "idEvento": "A-202511-000656"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "14:08:53",
+        "km": 0,
+        "hr": 11748,
+        "litros": 52.4,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 657,
+        "idEvento": "A-202511-000657"
+      }
+    ],
+    "24051069": [
+      {
+        "data": "2025-11-01",
+        "hora": "10:44:00",
+        "km": 0,
+        "hr": 38,
+        "litros": 100,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 658,
+        "idEvento": "A-202511-000658"
+      },
+      {
+        "data": "2025-11-02",
+        "hora": "09:41:00",
+        "km": 0,
+        "hr": 49,
+        "litros": 94,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 659,
+        "idEvento": "A-202511-000659"
+      },
+      {
+        "data": "2025-11-03",
+        "hora": "08:31:00",
+        "km": 0,
+        "hr": 66,
+        "litros": 119,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 1",
+        "sequencia": 660,
+        "idEvento": "A-202511-000660"
+      }
+    ],
+    "24051071": [
+      {
+        "data": "2025-11-01",
+        "hora": "13:21:00",
+        "km": 0,
+        "hr": 1091,
+        "litros": 144,
+        "precoLitro": 5.31,
+        "comboio": "Comboio 4",
+        "sequencia": 661,
+        "idEvento": "A-202511-000661"
+      }
+    ]
+  }
+}
