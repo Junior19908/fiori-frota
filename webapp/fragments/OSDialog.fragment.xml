@@ -39,12 +39,12 @@
                      width="100%"
                      visibleRowCountMode="Auto"
                      minAutoRowCount="10"
-                     fixedColumnCount="4"
+                     fixedColumnCount="5"
                      noDataText="Sem OS para exibir">
 
           <table:columns>
             <!-- Duracao: Detalhes da OS -->
-            <table:Column width="3rem" hAlign="Center">
+            <table:Column width="5rem" hAlign="Center">
               <Label text=""/>
               <table:template>
                 <Button icon="sap-icon://inspect" type="Transparent" tooltip="Detalhes"
@@ -52,17 +52,25 @@
               </table:template>
             </table:Column>
 
-            <table:Column width="7rem" sortProperty="veiculo" filterProperty="veiculo" hAlign="Begin">
+            <table:Column width="6rem" sortProperty="veiculo" filterProperty="veiculo" hAlign="Begin">
               <Label text="Veiculo" textAlign="Center" width="100%"/>
               <table:template>
                 <Text text="{osDlg>veiculo}" tooltip="{osDlg>veiculo}"/>
               </table:template>
             </table:Column>
 
-            <table:Column width="8rem" sortProperty="ordem" filterProperty="ordem" hAlign="End">
+            <table:Column width="6rem" sortProperty="ordem" filterProperty="ordem" hAlign="End">
               <Label text="Ordem" textAlign="Center" width="100%"/>
               <table:template>
                 <Text text="{osDlg>ordem}" tooltip="{osDlg>ordem}"/>
+              </table:template>
+            </table:Column>
+			
+			<table:Column width="6rem" sortProperty="tipoLabel" filterProperty="tipoLabel" hAlign="Center">
+              <Label text="Tipo OS" textAlign="Center" width="100%"/>
+              <table:template>
+                <ObjectStatus text="{osDlg>tipoLabel}"
+                              state="{ path:'osDlg>categoria', formatter: '.formatter.osTypeState' }"/>
               </table:template>
             </table:Column>
 
@@ -98,6 +106,13 @@
               <Label text="Hr Paradas" textAlign="Center" width="100%"/>
               <table:template>
                 <Text text="{ path:'osDlg>downtime', formatter: '.formatter.formatacaoHorasNovo' }"/>
+              </table:template>
+            </table:Column>
+
+            <table:Column width="9rem" hAlign="End">
+              <Label text="Inatividade" textAlign="Center" width="100%"/>
+              <table:template>
+                <Text text="{osDlg>downtimeFmt}"/>
               </table:template>
             </table:Column>
 
@@ -137,31 +152,6 @@
               </table:template>
             </table:Column>
 
-            <table:Column width="9rem" hAlign="End">
-              <Label text="Inatividade" textAlign="Center" width="100%"/>
-              <table:template>
-                <Text text="{osDlg>downtimeFmt}"/>
-              </table:template>
-            </table:Column>
-
-            <!-- Duracao (Progress Bar) -->
-            <table:Column width="18rem" hAlign="Center">
-              <Label text="Duracao" textAlign="Center" width="100%"/>
-              <table:template>
-                <ProgressIndicator width="100%"
-                                   percentValue="{ parts: [ {path:'osDlg>downtime'}, {path:'osDlg>/__stats/max'} ], formatter: '.formatter.hoursPctOfMax' }"
-                                   displayValue="{osDlg>downtimeFmt}"
-                                   state="{ path:'osDlg>categoria', formatter: '.formatter.osTypeState' }"/>
-              </table:template>
-            </table:Column>
-
-            <table:Column width="12rem" sortProperty="tipoLabel" filterProperty="tipoLabel" hAlign="Center">
-              <Label text="Tipo OS" textAlign="Center" width="100%"/>
-              <table:template>
-                <ObjectStatus text="{osDlg>tipoLabel}"
-                              state="{ path:'osDlg>categoria', formatter: '.formatter.osTypeState' }"/>
-              </table:template>
-            </table:Column>
 
             <table:Column width="10rem" sortProperty="tipoManual" filterProperty="tipoManual" hAlign="Center">
               <Label text="Tipo (manual)" textAlign="Center" width="100%"/>
