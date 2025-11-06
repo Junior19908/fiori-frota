@@ -2588,7 +2588,12 @@
       },
       "deltaHr": {
         "min": 1,
-        "max": 16
+        "max": 24
+      },
+      "_meta": {
+        "source": "FuelDialog",
+        "savedAt": "2025-11-06T12:19:36.890Z",
+        "reason": "manual"
       }
     },
     {
@@ -3102,7 +3107,12 @@
       },
       "deltaHr": {
         "min": 1,
-        "max": 17
+        "max": 24
+      },
+      "_meta": {
+        "source": "FuelDialog",
+        "savedAt": "2025-11-06T11:09:00.005Z",
+        "reason": "manual"
       }
     },
     {
@@ -3707,7 +3717,12 @@
       },
       "deltaHr": {
         "min": 1,
-        "max": 13
+        "max": 24
+      },
+      "_meta": {
+        "source": "FuelDialog",
+        "savedAt": "2025-11-06T11:09:56.838Z",
+        "reason": "manual"
       }
     },
     {
