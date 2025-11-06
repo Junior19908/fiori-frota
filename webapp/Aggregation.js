@@ -68,6 +68,54 @@ sap.ui.define([
     return delta > 0 ? delta : 0;
   }
 
+  function normaliseOsFilter(oView, opts) {
+    let showAllOS = true;
+    let allowedTypes = [];
+    if (oView && typeof oView.getModel === "function") {
+      try {
+        const settingsModel = oView.getModel("settings");
+        if (settingsModel && typeof settingsModel.getProperty === "function") {
+          showAllOS = !!settingsModel.getProperty("/showAllOS");
+          const stored = settingsModel.getProperty("/osTypes");
+          if (Array.isArray(stored)) {
+            allowedTypes = stored.slice();
+          }
+        }
+      } catch (err) {
+        // ignore inability to resolve settings from view
+      }
+    }
+    if (opts && typeof opts.showAllOS === "boolean") {
+      showAllOS = opts.showAllOS;
+    }
+    if (opts && Array.isArray(opts.allowedOsTypes)) {
+      allowedTypes = opts.allowedOsTypes.slice();
+    }
+    const normalizedSet = new Set(
+      (Array.isArray(allowedTypes) ? allowedTypes : [])
+        .map((code) => String(code || "").trim().toUpperCase())
+        .filter(Boolean)
+    );
+    return {
+      showAllOS,
+      allowedSet: normalizedSet
+    };
+  }
+
+  function osMatchesFilter(entry, filterCfg) {
+    if (!filterCfg || filterCfg.showAllOS || !(filterCfg.allowedSet instanceof Set) || filterCfg.allowedSet.size === 0) {
+      return true;
+    }
+    if (!entry) {
+      return false;
+    }
+    const categoria = String(entry.Categoria || entry.categoria || entry.TipoOS || entry.tipo || "").trim().toUpperCase();
+    if (!categoria) {
+      return true;
+    }
+    return filterCfg.allowedSet.has(categoria);
+  }
+
   // -------------------- Parsers de data/hora (materiais/abastec) --------------------
 
   function parseMaterialDateTime(material) {
@@ -274,12 +322,14 @@ sap.ui.define([
 
   // -------------------- Recalcular agregados da página --------------------
 
-  async function recalcAggByRange(oView, range) {
+  async function recalcAggByRange(oView, range, filterOptions) {
     const vm        = oView.getModel("vm");
     const matModel  = oView.getModel("materiais");
     const abModel   = oView.getModel("abast");
     const downModel = oView.getModel("downtime");
     if (!vm) return;
+
+    const osFilter = normaliseOsFilter(oView, filterOptions);
 
     const rObj   = _toRangeObj(range);
     const start  = rObj ? rObj.from : null;
@@ -476,7 +526,10 @@ sap.ui.define([
       // Disponibilidade baseada em OS (com regra nova)
       try {
         const keyOs  = key;
-        const osList = (keyOs && __osMap && __osMap.get && __osMap.get(String(keyOs))) || [];
+        const osRawList = (keyOs && __osMap && __osMap.get && __osMap.get(String(keyOs))) || [];
+        const osList = (!osFilter.showAllOS && osFilter.allowedSet.size)
+          ? osRawList.filter((item) => osMatchesFilter(item, osFilter))
+          : osRawList;
         const resultDisp = calcDisponibilidade(osList, { from: start, to: end });
         const tempoTotalH = resultDisp.tempoTotalH;
         const indispH = resultDisp.indispH;

@@ -100,6 +100,30 @@ sap.ui.define([
     });
   }
 
+  function _resolveOsFilter(view) {
+    let showAll = true;
+    let allowed = [];
+    try {
+      const sModel = view && view.getModel && view.getModel('settings');
+      if (sModel && typeof sModel.getProperty === 'function') {
+        showAll = !!sModel.getProperty('/showAllOS');
+        const selected = sModel.getProperty('/osTypes');
+        if (Array.isArray(selected)) {
+          allowed = selected.slice();
+        }
+      }
+    } catch (_) {
+      showAll = true;
+      allowed = [];
+    }
+    const allowedSet = new Set(
+      (Array.isArray(allowed) ? allowed : [])
+        .map((code) => String(code || '').trim().toUpperCase())
+        .filter(Boolean)
+    );
+    return { showAll, allowed, allowedSet };
+  }
+
   function _ensure(view) {
     const vid = view.getId();
     if (_byViewId.has(vid)) return _byViewId.get(vid);
@@ -290,6 +314,7 @@ sap.ui.define([
       const mapped = _mapToView(list);
       const meta = { equnr: veh, start, end };
       const payloadMetrics = payload?.metrics || {};
+      const osFilter = _resolveOsFilter(view);
       let filtered = mapped;
       if (start instanceof Date && end instanceof Date) {
         const startMs = start.getTime();
@@ -303,15 +328,9 @@ sap.ui.define([
         };
         filtered = filtered.filter(withinRange);
       }
-      try {
-        const sModel = view.getModel && view.getModel('settings');
-        const showAll = !!(sModel && sModel.getProperty && sModel.getProperty('/showAllOS'));
-        const allowed = (sModel && sModel.getProperty && sModel.getProperty('/osTypes')) || [];
-        if (!showAll && Array.isArray(allowed) && allowed.length) {
-          const allowedSet = new Set(allowed.map((x)=>String(x).toUpperCase()));
-          filtered = filtered.filter((o)=> !o.categoria || allowedSet.has(String(o.categoria||'').toUpperCase()));
-        }
-      } catch(_) { /* keep previous filtered list */ }
+      if (!osFilter.showAll && osFilter.allowedSet.size) {
+        filtered = filtered.filter((o)=> !o.categoria || osFilter.allowedSet.has(String(o.categoria||'').toUpperCase()));
+      }
 
       const title = payload?.titulo || ('Ordens de Servi+ºo' + (veh ? (' - ' + veh) : ''));
       st.dlgModel.setProperty('/__meta', meta);
@@ -334,7 +353,12 @@ sap.ui.define([
             from: start instanceof Date ? start : null,
             to:   end   instanceof Date ? end   : null
           };
-          const rel = await ReliabilityService.mergeDataPorVeiculo({ vehicleId: veh, range: relRange });
+          const rel = await ReliabilityService.mergeDataPorVeiculo({
+            vehicleId: veh,
+            range: relRange,
+            showAllOS: osFilter.showAll,
+            allowedOsTypes: osFilter.allowed
+          });
           if (rel && rel.metrics) {
             Object.assign(mergedPayload, rel.metrics);
           }
@@ -360,25 +384,19 @@ sap.ui.define([
       let dlg = Array.isArray(loaded) ? (loaded.find && loaded.find(c=>c && c.isA && c.isA('sap.m.Dialog'))) || loaded[0] : loaded;
       st.dialogRef = dlg; if (dlg && dlg.addDependent) view.addDependent(dlg); if (dlg && dlg.setModel) dlg.setModel(st.dlgModel, 'osDlg'); else throw new TypeError('OSDialog fragment did not resolve to a Dialog control');
       // aplica filtro de tipos permitido conforme settings (se existir)
-      try {
-        const sModel = view.getModel && view.getModel('settings');
-        const showAll = !!(sModel && sModel.getProperty && sModel.getProperty('/showAllOS'));
-        const allowed = (sModel && sModel.getProperty && sModel.getProperty('/osTypes')) || [];
-        if (!showAll && Array.isArray(allowed) && allowed.length){
-          const allowedSet = new Set(allowed.map((x)=>String(x).toUpperCase()));
-          const arr = st.dlgModel.getProperty('/_base') || [];
-          const filteredArr = arr.filter((o)=> !o.categoria || allowedSet.has(String(o.categoria||'').toUpperCase()));
-          st.dlgModel.setProperty('/_base', filteredArr.slice());
-          st.dlgModel.setProperty('/os', filteredArr.slice());
-          st.dlgModel.setProperty('/total', filteredArr.length);
-          try {
-            const mxLive = filteredArr.length ? filteredArr.reduce((m,o)=>Math.max(m, Number(o.downtime)||0), 0) : 0;
-            st.dlgModel.setProperty('/__stats', { max: mxLive });
-          } catch(_) {
-            st.dlgModel.setProperty('/__stats', { max: 0 });
-          }
+      if (!osFilter.showAll && osFilter.allowedSet.size){
+        const arr = st.dlgModel.getProperty('/_base') || [];
+        const filteredArr = arr.filter((o)=> !o.categoria || osFilter.allowedSet.has(String(o.categoria||'').toUpperCase()));
+        st.dlgModel.setProperty('/_base', filteredArr.slice());
+        st.dlgModel.setProperty('/os', filteredArr.slice());
+        st.dlgModel.setProperty('/total', filteredArr.length);
+        try {
+          const mxLive = filteredArr.length ? filteredArr.reduce((m,o)=>Math.max(m, Number(o.downtime)||0), 0) : 0;
+          st.dlgModel.setProperty('/__stats', { max: mxLive });
+        } catch(_) {
+          st.dlgModel.setProperty('/__stats', { max: 0 });
         }
-      } catch(_){ }
+      }
       dlg.open();
       return dlg;
     } catch(e){ try{ console.error('[OSDialog.open] Falha ao abrir OS', e);}catch(_){} MessageToast.show('Falha ao abrir OS.'); }

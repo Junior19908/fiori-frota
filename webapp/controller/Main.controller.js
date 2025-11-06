@@ -281,7 +281,7 @@ sap.ui.define([
           } catch (err) {
             // ignore history load errors
           }
-          await Aggregation.recalcAggByRange(this.getView(), range);
+          await Aggregation.recalcAggByRange(this.getView(), range, this._getOsFilterPrefs());
         }
         await this._updateReliabilityForVehicles(this._currentRangeObj());
         this._refreshFilterLists();
@@ -341,6 +341,7 @@ sap.ui.define([
         const equnr = String(ctxObj?.equnr || ctxObj?.veiculo || "");
         const range = this._currentRangeArray();
         const rangeObj = this._currentRangeObj();
+        const osFilterPrefs = this._getOsFilterPrefs();
         const metrics = {
           kmRodados: Number(ctxObj?.kmRodadosAgg || 0),
           horasRodadas: Number(ctxObj?.hrRodadosAgg || 0),
@@ -353,7 +354,12 @@ sap.ui.define([
         let reliabilityMetrics = {};
         if (equnr) {
           try {
-            const rel = await ReliabilityService.mergeDataPorVeiculo({ vehicleId: equnr, range: rangeObj });
+            const rel = await ReliabilityService.mergeDataPorVeiculo({
+              vehicleId: equnr,
+              range: rangeObj,
+              showAllOS: osFilterPrefs.showAllOS,
+              allowedOsTypes: osFilterPrefs.allowedOsTypes
+            });
             if (rel && rel.metrics) {
               reliabilityMetrics = Object.assign({}, rel.metrics);
             }
@@ -798,7 +804,28 @@ sap.ui.define([
         : FilterBuilder.normaliseSelection();
       const arr = Array.isArray(normalised.categories) ? normalised.categories : [];
       return Array.from(new Set(arr.map(function (key) { return String(key); })));
-    },_updateReliabilityForVehicles: async function (rangeObj) {
+    },
+
+    _getOsFilterPrefs: function () {
+      let showAllOS = true;
+      let allowedOsTypes = [];
+      try {
+        const component = this.getOwnerComponent && this.getOwnerComponent();
+        const settingsModel = component && component.getModel && component.getModel("settings");
+        if (settingsModel && typeof settingsModel.getProperty === "function") {
+          showAllOS = !!settingsModel.getProperty("/showAllOS");
+          const selected = settingsModel.getProperty("/osTypes");
+          if (Array.isArray(selected)) {
+            allowedOsTypes = selected.slice();
+          }
+        }
+      } catch (err) {
+        // ignore inability to resolve settings
+      }
+      return { showAllOS, allowedOsTypes };
+    },
+
+    _updateReliabilityForVehicles: async function (rangeObj) {
       const vmModel = this.getView().getModel("vm");
       if (!vmModel) { return; }
       const vehicles = vmModel.getProperty("/veiculos") || [];
@@ -809,6 +836,7 @@ sap.ui.define([
       const from = (rangeObj && rangeObj.from instanceof Date) ? rangeObj.from : null;
       const to   = (rangeObj && rangeObj.to   instanceof Date) ? rangeObj.to   : null;
       const rangePayload = { from, to };
+      const osFilterPrefs = this._getOsFilterPrefs();
 
       const tasks = vehicles.map(async (vehicle) => {
         const vehId = String(vehicle.equnr || vehicle.veiculo || vehicle.id || "").trim();
@@ -834,7 +862,12 @@ sap.ui.define([
           return;
         }
         try {
-          const rel = await ReliabilityService.mergeDataPorVeiculo({ vehicleId: vehId, range: rangePayload });
+          const rel = await ReliabilityService.mergeDataPorVeiculo({
+            vehicleId: vehId,
+            range: rangePayload,
+            showAllOS: osFilterPrefs.showAllOS,
+            allowedOsTypes: osFilterPrefs.allowedOsTypes
+          });
           const metrics = (rel && rel.metrics) ? Object.assign({}, rel.metrics) : null;
           if (metrics) {
             if (metrics.kmPorQuebraFmt && !metrics.kmPerFailureFmt) { metrics.kmPerFailureFmt = metrics.kmPorQuebraFmt; }

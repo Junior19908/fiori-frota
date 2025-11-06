@@ -32,6 +32,27 @@ sap.ui.define([
     return files;
   }
 
+  function _normalizeOsFilter(options) {
+    const opts = options || {};
+    let showAllOS = true;
+    let allowedTypes = [];
+    if (typeof opts.showAllOS === "boolean") {
+      showAllOS = opts.showAllOS;
+    }
+    if (Array.isArray(opts.allowedOsTypes)) {
+      allowedTypes = opts.allowedOsTypes.slice();
+    }
+    const normalizedSet = new Set(
+      allowedTypes
+        .map((code) => String(code || "").trim().toUpperCase())
+        .filter(Boolean)
+    );
+    return {
+      showAllOS,
+      allowedSet: normalizedSet
+    };
+  }
+
   function _fetchJson(relativePath) {
     return new Promise((resolve) => {
       const url = sap.ui.require.toUrl(`${MODULE_PREFIX}/${relativePath}`);
@@ -286,6 +307,7 @@ sap.ui.define([
       from: opts.range?.from instanceof Date ? opts.range.from : (Array.isArray(opts.range) ? opts.range[0] : null),
       to: opts.range?.to instanceof Date ? opts.range.to : (Array.isArray(opts.range) ? opts.range[1] : null)
     };
+    const osFilter = _normalizeOsFilter(opts);
 
     return Promise.all([loadTelemetry(), loadOS()]).then((resolved) => {
       const telemetryMap = resolved[0];
@@ -297,12 +319,12 @@ sap.ui.define([
         : vehicleTelemetry.slice();
 
       const osForVehicle = osList.filter((item) => item.equipamento === vehicleId);
-      const osFiltered = range && (range.from instanceof Date || range.to instanceof Date)
+      const osWithinRange = range && (range.from instanceof Date || range.to instanceof Date)
         ? osForVehicle.filter((item) => {
-          const start = item.startDate;
-          const end = item.endDate || new Date();
-          if (!start) {
-            return false;
+            const start = item.startDate;
+            const end = item.endDate || new Date();
+            if (!start) {
+              return false;
           }
           const from = range.from instanceof Date ? range.from : null;
           const to = range.to instanceof Date ? range.to : null;
@@ -315,6 +337,16 @@ sap.ui.define([
           return true;
         })
         : osForVehicle.slice();
+
+      const osFiltered = (!osFilter.showAllOS && osFilter.allowedSet.size)
+        ? osWithinRange.filter((item) => {
+            const categoria = String(item.categoria || item.raw?.Categoria || "").trim().toUpperCase();
+            if (!categoria) {
+              return false;
+            }
+            return osFilter.allowedSet.has(categoria);
+          })
+        : osWithinRange;
 
       osFiltered.sort((a, b) => {
         const at = a.startDate instanceof Date ? a.startDate.getTime() : 0;
