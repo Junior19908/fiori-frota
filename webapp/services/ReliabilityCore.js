@@ -11,6 +11,11 @@
 
   const HOURS_FMT = new Intl.NumberFormat("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const PCT_FMT = new Intl.NumberFormat("pt-BR", { style: "percent", minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const DEFAULT_BREAK_SETTINGS = {
+    breakEstimator: { mode: "percentile", p: 0.8, emaAlpha: 0.3 },
+    minDeltaKm: 1,
+    minDeltaHr: 0.01
+  };
 
   function coerceDate(value) {
     if (value instanceof Date && !Number.isNaN(value.getTime())) {
@@ -39,6 +44,142 @@
       }
     });
     return Array.from(set.values());
+  }
+
+  function percentile(arr, p) {
+    const values = positiveFinite(arr).sort((a, b) => a - b);
+    if (!values.length) {
+      return 0;
+    }
+    const fraction = Math.max(0, Math.min(1, Number(p)));
+    if (!Number.isFinite(fraction)) {
+      return values[values.length - 1];
+    }
+    if (values.length === 1) {
+      return values[0];
+    }
+    const idx = fraction * (values.length - 1);
+    const lower = Math.floor(idx);
+    const upper = Math.ceil(idx);
+    if (lower === upper) {
+      return values[lower];
+    }
+    const weight = idx - lower;
+    return values[lower] + (values[upper] - values[lower]) * weight;
+  }
+
+  function ema(arr, alpha = 0.3) {
+    const values = positiveFinite(arr);
+    if (!values.length) {
+      return 0;
+    }
+    const factor = Number.isFinite(alpha) ? Math.max(0.01, Math.min(0.99, alpha)) : 0.3;
+    let acc = values[0];
+    for (let i = 1; i < values.length; i++) {
+      acc = factor * values[i] + (1 - factor) * acc;
+    }
+    return acc;
+  }
+
+  function positiveFinite(arr) {
+    return (Array.isArray(arr) ? arr : [])
+      .map((value) => Number(value))
+      .filter((value) => Number.isFinite(value) && value > 0);
+  }
+
+  function interFailureDeltas(events, accessor) {
+    const deltas = [];
+    let prev = null;
+    (Array.isArray(events) ? events : []).forEach((event) => {
+      if (!event) {
+        return;
+      }
+      const value = typeof accessor === "function" ? accessor(event) : null;
+      if (!Number.isFinite(value)) {
+        return;
+      }
+      if (Number.isFinite(prev) && value > prev) {
+        deltas.push(value - prev);
+      }
+      prev = value;
+    });
+    return deltas;
+  }
+
+  function robustInterval(deltas, options = {}) {
+    const values = positiveFinite(deltas);
+    if (!values.length) {
+      return 0;
+    }
+    const mode = String(options.mode || DEFAULT_BREAK_SETTINGS.breakEstimator.mode).toLowerCase();
+    if (mode === "ema") {
+      return ema(values, options.emaAlpha);
+    }
+    const percentileValue = Number.isFinite(options.p) ? options.p : DEFAULT_BREAK_SETTINGS.breakEstimator.p;
+    return percentile(values, percentileValue);
+  }
+
+  function normalizeReliabilitySettings(settings) {
+    const cfg = settings && typeof settings === "object" ? settings : {};
+    const estimator = Object.assign({}, DEFAULT_BREAK_SETTINGS.breakEstimator, cfg.breakEstimator || {});
+    const normalized = {
+      breakEstimator: {
+        mode: String(estimator.mode || DEFAULT_BREAK_SETTINGS.breakEstimator.mode).toLowerCase() === "ema" ? "ema" : "percentile",
+        p: Number.isFinite(estimator.p) ? Math.max(0, Math.min(1, estimator.p)) : DEFAULT_BREAK_SETTINGS.breakEstimator.p,
+        emaAlpha: Number.isFinite(estimator.emaAlpha) ? Math.max(0.01, Math.min(0.99, estimator.emaAlpha)) : DEFAULT_BREAK_SETTINGS.breakEstimator.emaAlpha
+      },
+      minDeltaKm: Number.isFinite(cfg.minDeltaKm) ? Math.max(0, cfg.minDeltaKm) : DEFAULT_BREAK_SETTINGS.minDeltaKm,
+      minDeltaHr: Number.isFinite(cfg.minDeltaHr) ? Math.max(0, cfg.minDeltaHr) : DEFAULT_BREAK_SETTINGS.minDeltaHr
+    };
+    return normalized;
+  }
+
+  function addDays(date, days) {
+    const base = coerceDate(date);
+    if (!(base && Number.isFinite(days))) {
+      return null;
+    }
+    const clone = new Date(base.getTime());
+    clone.setDate(clone.getDate() + days);
+    return clone;
+  }
+
+  function formatKmValue(value) {
+    if (!Number.isFinite(value) || value <= 0) {
+      return "-";
+    }
+    return Math.round(value).toLocaleString("pt-BR") + " Km";
+  }
+
+  function formatHrValue(value) {
+    if (!Number.isFinite(value) || value <= 0) {
+      return "-";
+    }
+    return value.toFixed(2) + " h";
+  }
+
+  function formatDateValue(date) {
+    if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
+      return "-";
+    }
+    try {
+      return date.toLocaleDateString("pt-BR");
+    } catch (err) {
+      return date.toISOString();
+    }
+  }
+
+  function computeAlertState(ratio) {
+    if (!Number.isFinite(ratio)) {
+      return "None";
+    }
+    if (ratio <= 0.05) {
+      return "Error";
+    }
+    if (ratio <= 0.1) {
+      return "Warning";
+    }
+    return "Success";
   }
 
   function sliceIntervalToRange(start, end, dateFrom, dateTo, now = new Date()) {
@@ -173,6 +314,141 @@
     };
   }
 
+  function createEmptyBreakSummary() {
+    return {
+      kmBreak: null,
+      hrBreak: null,
+      nextBreakKm: null,
+      nextBreakHr: null,
+      kmToBreak: null,
+      hrToBreak: null,
+      kmBreakFmt: "-",
+      hrBreakFmt: "-",
+      nextBreakKmFmt: "-",
+      nextBreakHrFmt: "-",
+      kmToBreakFmt: "-",
+      hrToBreakFmt: "-",
+      kmBreakTooltip: "",
+      hrBreakTooltip: "",
+      kmBreakState: "None",
+      hrBreakState: "None",
+      breakAlertLevel: "none",
+      breakPreventiveRecommended: false,
+      breakPreventiveReason: "",
+      kmToBreakRatio: null,
+      hrToBreakRatio: null,
+      daysToBreakKm: null,
+      daysToBreakHr: null,
+      etaBreakDateKm: null,
+      etaBreakDateHr: null,
+      etaBreakDateKmFmt: "-",
+      etaBreakDateHrFmt: "-"
+    };
+  }
+
+  function computeBreakPrediction(events, context = {}) {
+    const summary = createEmptyBreakSummary();
+    const settings = normalizeReliabilitySettings(context.settings);
+    const ordered = [];
+    (Array.isArray(events) ? events : []).forEach((event) => {
+      if (!event || event.hasStop === false) {
+        return;
+      }
+      const start = coerceDate(event.startDate || event.start || event.dataAbertura);
+      if (start) {
+        ordered.push({ event, start });
+      }
+    });
+    ordered.sort((a, b) => a.start.getTime() - b.start.getTime());
+    if (!ordered.length) {
+      return summary;
+    }
+    const sortedEvents = ordered.map((item) => item.event);
+    const kmDeltas = interFailureDeltas(sortedEvents, (event) => Number(event.kmAtEvent));
+    const hrDeltas = interFailureDeltas(sortedEvents, (event) => Number(event.hrAtEvent));
+    const kmDeltaFiltered = kmDeltas.filter((value) => Number.isFinite(value) && value >= settings.minDeltaKm);
+    const hrDeltaFiltered = hrDeltas.filter((value) => Number.isFinite(value) && value >= settings.minDeltaHr);
+
+    const kmBreak = kmDeltaFiltered.length ? robustInterval(kmDeltaFiltered, settings.breakEstimator) : null;
+    const hrBreak = hrDeltaFiltered.length ? robustInterval(hrDeltaFiltered, settings.breakEstimator) : null;
+    const currentKm = Number.isFinite(context.currentKm) ? context.currentKm : null;
+    const currentHr = Number.isFinite(context.currentHr) ? context.currentHr : null;
+    const nextBreakKm = Number.isFinite(currentKm) && Number.isFinite(kmBreak) ? currentKm + kmBreak : null;
+    const nextBreakHr = Number.isFinite(currentHr) && Number.isFinite(hrBreak) ? currentHr + hrBreak : null;
+    const kmToBreak = Number.isFinite(nextBreakKm) && Number.isFinite(currentKm) ? Math.max(0, nextBreakKm - currentKm) : null;
+    const hrToBreak = Number.isFinite(nextBreakHr) && Number.isFinite(currentHr) ? Math.max(0, nextBreakHr - currentHr) : null;
+    const kmToBreakRatio = Number.isFinite(kmBreak) && kmBreak > 0 && Number.isFinite(kmToBreak) ? kmToBreak / kmBreak : null;
+    const hrToBreakRatio = Number.isFinite(hrBreak) && hrBreak > 0 && Number.isFinite(hrToBreak) ? hrToBreak / hrBreak : null;
+    const kmState = computeAlertState(kmToBreakRatio);
+    const hrState = computeAlertState(hrToBreakRatio);
+    const alertStates = [kmState, hrState];
+    const breakAlertLevel = alertStates.includes("Error")
+      ? "error"
+      : (alertStates.includes("Warning") ? "warning" : (alertStates.includes("Success") ? "success" : "none"));
+    const preventiveRecommended = kmState === "Error" || hrState === "Error";
+    let preventiveReason = "";
+    if (preventiveRecommended) {
+      if (kmState === "Error" && hrState === "Error") {
+        preventiveReason = "km_hr";
+      } else if (kmState === "Error") {
+        preventiveReason = "km";
+      } else {
+        preventiveReason = "hr";
+      }
+    }
+
+    const avgKmPerDay = Number.isFinite(context.avgKmPerDay) && context.avgKmPerDay > 0 ? context.avgKmPerDay : null;
+    const avgHrPerDay = Number.isFinite(context.avgHrPerDay) && context.avgHrPerDay > 0 ? context.avgHrPerDay : null;
+    const daysToBreakKm = (Number.isFinite(kmToBreak) && kmToBreak > 0 && avgKmPerDay) ? kmToBreak / avgKmPerDay : null;
+    const daysToBreakHr = (Number.isFinite(hrToBreak) && hrToBreak > 0 && avgHrPerDay) ? hrToBreak / avgHrPerDay : null;
+    const referenceDate = coerceDate(context.dateRef) || new Date();
+    const etaBreakDateKm = Number.isFinite(daysToBreakKm) ? addDays(referenceDate, Math.ceil(daysToBreakKm)) : null;
+    const etaBreakDateHr = Number.isFinite(daysToBreakHr) ? addDays(referenceDate, Math.ceil(daysToBreakHr)) : null;
+
+    const kmBreakFmt = formatKmValue(kmBreak);
+    const hrBreakFmt = formatHrValue(hrBreak);
+    const nextBreakKmFmt = formatKmValue(nextBreakKm);
+    const nextBreakHrFmt = formatHrValue(nextBreakHr);
+    const kmToBreakFmt = formatKmValue(kmToBreak);
+    const hrToBreakFmt = formatHrValue(hrToBreak);
+    const kmTooltip = (nextBreakKmFmt !== "-" && kmToBreakFmt !== "-")
+      ? `Proxima quebra estimada em ${nextBreakKmFmt} (faltam ${kmToBreakFmt})`
+      : "";
+    const hrTooltip = (nextBreakHrFmt !== "-" && hrToBreakFmt !== "-")
+      ? `Proxima quebra estimada em ${nextBreakHrFmt} (faltam ${hrToBreakFmt})`
+      : "";
+
+    return Object.assign(summary, {
+      kmBreak,
+      hrBreak,
+      nextBreakKm,
+      nextBreakHr,
+      kmToBreak,
+      hrToBreak,
+      kmBreakFmt,
+      hrBreakFmt,
+      nextBreakKmFmt,
+      nextBreakHrFmt,
+      kmToBreakFmt,
+      hrToBreakFmt,
+      kmBreakTooltip: kmTooltip,
+      hrBreakTooltip: hrTooltip,
+      kmBreakState: kmState,
+      hrBreakState: hrState,
+      breakAlertLevel,
+      breakPreventiveRecommended: preventiveRecommended,
+      breakPreventiveReason: preventiveReason,
+      kmToBreakRatio,
+      hrToBreakRatio,
+      daysToBreakKm,
+      daysToBreakHr,
+      etaBreakDateKm,
+      etaBreakDateHr,
+      etaBreakDateKmFmt: formatDateValue(etaBreakDateKm),
+      etaBreakDateHrFmt: formatDateValue(etaBreakDateHr)
+    });
+  }
+
   function formatHours(value) {
     const safe = Number.isFinite(value) ? Math.max(0, value) : 0;
     return HOURS_FMT.format(safe) + " h";
@@ -192,13 +468,31 @@
       dateTo: options.dateTo,
       now: options.now
     });
+    let statsEntry = null;
+    const vehicleId = options.vehicleId;
+    if (vehicleId) {
+      const statsSource = options.vehicleStats;
+      if (statsSource instanceof Map) {
+        statsEntry = statsSource.get(vehicleId) || null;
+      } else if (statsSource && typeof statsSource === "object") {
+        statsEntry = statsSource[vehicleId] || null;
+      }
+    }
+    const breakPrediction = computeBreakPrediction(osList, {
+      currentKm: statsEntry && Number.isFinite(statsEntry.currentKm) ? statsEntry.currentKm : null,
+      currentHr: statsEntry && Number.isFinite(statsEntry.currentHr) ? statsEntry.currentHr : null,
+      avgKmPerDay: statsEntry && Number.isFinite(statsEntry.avgKmPerDay) ? statsEntry.avgKmPerDay : null,
+      avgHrPerDay: statsEntry && Number.isFinite(statsEntry.avgHrPerDay) ? statsEntry.avgHrPerDay : null,
+      dateRef: options.dateTo || options.now,
+      settings: options.settings
+    });
     const availability = Number.isFinite(metrics.availability)
       ? Math.max(0, Math.min(1, metrics.availability))
       : 1;
     const pctDisp = availability * 100;
     const pctIndisp = (1 - availability) * 100;
 
-    return Object.assign({}, metrics, {
+    return Object.assign({}, metrics, breakPrediction, {
       availability,
       pctDisp,
       pctIndisp,
@@ -218,10 +512,19 @@
     const to = coerceDate(options.dateTo);
     const now = (options.now instanceof Date && !Number.isNaN(options.now.getTime())) ? options.now : new Date();
     const output = {};
+    const statsSource = options.vehicleStats || source.__vehicleStats || null;
+    const reliabilitySettings = options.settings || null;
 
     const ensureVehicle = (vehicleId) => {
       const osList = source.get(vehicleId) || [];
-      const summary = buildEntry(osList, { dateFrom: from, dateTo: to, now });
+      const summary = buildEntry(osList, {
+        dateFrom: from,
+        dateTo: to,
+        now,
+        vehicleId,
+        vehicleStats: statsSource,
+        settings: reliabilitySettings
+      });
       if (includeOsList) {
         summary.osList = osList;
       }
@@ -251,6 +554,12 @@
   return {
     coerceDate,
     normalizeVehicleIds,
+    percentile,
+    ema,
+    positiveFinite,
+    interFailureDeltas,
+    robustInterval,
+    normalizeReliabilitySettings,
     sliceIntervalToRange,
     mergeOverlaps,
     sumIntervalsHours,
@@ -258,6 +567,7 @@
     calcMTBF,
     hoursBetween,
     computeReliabilityMetrics,
+     computeBreakPrediction,
     buildUnifiedReliabilityByVehicleFromMap,
     buildUnifiedReliabilityByVehicle
   };

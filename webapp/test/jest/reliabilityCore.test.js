@@ -2,6 +2,12 @@ const fs = require("fs");
 const path = require("path");
 const ReliabilityCore = require("../../services/ReliabilityCore.js");
 
+const DEFAULT_RELIABILITY_SETTINGS = {
+  breakEstimator: { mode: "percentile", p: 0.8, emaAlpha: 0.3 },
+  minDeltaKm: 1,
+  minDeltaHr: 0.01
+};
+
 function createOs(start, end, hasStop = true) {
   return {
     start,
@@ -10,6 +16,116 @@ function createOs(start, end, hasStop = true) {
     endDate: end,
     hasStop
   };
+}
+
+function loadTelemetryFixture(vehicleId) {
+  const filePath = path.join(__dirname, "../../model/localdata/abastecimento/2025/10/abastecimentos.json");
+  const raw = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+  const list = raw?.abastecimentosPorVeiculo?.[vehicleId] || [];
+  return list
+    .map((entry) => {
+      const date = entry.data ? String(entry.data) : null;
+      const time = entry.hora ? String(entry.hora) : "00:00:00";
+      const dateTime = date ? new Date(`${date}T${time || "00:00:00"}`) : null;
+      return {
+        dateTime,
+        km: Number(entry.km || 0),
+        hr: Number(entry.hr || 0)
+      };
+    })
+    .filter((item) => item.dateTime instanceof Date && !Number.isNaN(item.dateTime.getTime()))
+    .sort((a, b) => a.dateTime.getTime() - b.dateTime.getTime());
+}
+
+function findNearestTelemetryEntry(entries, date) {
+  if (!Array.isArray(entries) || !entries.length || !(date instanceof Date) || Number.isNaN(date)) {
+    return null;
+  }
+  const target = date.getTime();
+  let bestBefore = null;
+  let bestAfter = null;
+  entries.forEach((entry) => {
+    const dt = entry.dateTime;
+    if (!(dt instanceof Date) || Number.isNaN(dt.getTime())) {
+      return;
+    }
+    const ts = dt.getTime();
+    if (ts <= target) {
+      if (!bestBefore || ts > bestBefore.dateTime.getTime()) {
+        bestBefore = entry;
+      }
+    } else if (!bestAfter || ts < bestAfter.dateTime.getTime()) {
+      bestAfter = entry;
+    }
+  });
+  return bestBefore || bestAfter || null;
+}
+
+function computeAvgPerDay(entries, field, refDate, windowDays = 30) {
+  if (!Array.isArray(entries) || entries.length < 2) {
+    return null;
+  }
+  const ref = (refDate instanceof Date && !Number.isNaN(refDate)) ? refDate : new Date();
+  const refTime = ref.getTime();
+  const windowStart = refTime - (Math.max(1, windowDays) * 24 * 60 * 60 * 1000);
+  const filtered = entries.filter((entry) => {
+    const dt = entry.dateTime;
+    if (!(dt instanceof Date) || Number.isNaN(dt.getTime())) {
+      return false;
+    }
+    const ts = dt.getTime();
+    if (ts > refTime || ts < windowStart) {
+      return false;
+    }
+    return Number.isFinite(entry[field]);
+  });
+  if (filtered.length < 2) {
+    return null;
+  }
+  const first = filtered[0];
+  const last = filtered[filtered.length - 1];
+  const delta = Number(last[field]) - Number(first[field]);
+  if (!(delta > 0)) {
+    return null;
+  }
+  const elapsedMs = last.dateTime.getTime() - first.dateTime.getTime();
+  if (!(elapsedMs > 0)) {
+    return null;
+  }
+  const elapsedDays = elapsedMs / (24 * 60 * 60 * 1000);
+  if (!(elapsedDays > 0)) {
+    return null;
+  }
+  return delta / elapsedDays;
+}
+
+function buildVehicleStatsForTest(entries, dateTo) {
+  const validEntries = (entries || []).filter((entry) => entry.dateTime instanceof Date && !Number.isNaN(entry.dateTime.getTime()));
+  const latest = validEntries.filter((entry) => !dateTo || (entry.dateTime.getTime() <= dateTo.getTime())).pop();
+  return {
+    currentKm: latest && Number.isFinite(latest.km) ? latest.km : null,
+    currentHr: latest && Number.isFinite(latest.hr) ? latest.hr : null,
+    avgKmPerDay: computeAvgPerDay(entries, "km", dateTo),
+    avgHrPerDay: computeAvgPerDay(entries, "hr", dateTo)
+  };
+}
+
+function attachTelemetryToEvents(osList, telemetryEntries) {
+  return (osList || []).map((os) => {
+    if (Number.isFinite(os.kmAtEvent) && Number.isFinite(os.hrAtEvent)) {
+      return os;
+    }
+    const snapshot = (os && os.startDate instanceof Date) ? findNearestTelemetryEntry(telemetryEntries, os.startDate) : null;
+    if (snapshot) {
+      if (!Number.isFinite(os.kmAtEvent)) {
+        os.kmAtEvent = Number.isFinite(snapshot.km) ? snapshot.km : null;
+      }
+      if (!Number.isFinite(os.hrAtEvent)) {
+        os.hrAtEvent = Number.isFinite(snapshot.hr) ? snapshot.hr : null;
+      }
+    }
+    return os;
+  });
 }
 
 describe("sliceIntervalToRange", () => {
@@ -138,6 +254,79 @@ describe("computeReliabilityMetrics", () => {
   });
 });
 
+describe("estimator helpers", () => {
+  it("computes percentile P80 correctly", () => {
+    const result = ReliabilityCore.percentile([10, 100, 200, 400], 0.8);
+    expect(result).toBeCloseTo(280);
+  });
+
+  it("computes EMA with custom alpha", () => {
+    const result = ReliabilityCore.ema([10, 20, 50], 0.5);
+    expect(result).toBeCloseTo(32.5);
+  });
+
+  it("derives inter-failure deltas from ordered events", () => {
+    const events = [
+      { kmAtEvent: 1000 },
+      { kmAtEvent: 1600 },
+      { kmAtEvent: 2200 },
+      { kmAtEvent: 2100 }
+    ];
+    const deltas = ReliabilityCore.interFailureDeltas(events, (ev) => ev.kmAtEvent);
+    expect(deltas).toEqual([600, 600]);
+  });
+
+  it("selects EMA when configured in robustInterval", () => {
+    const deltas = [100, 120, 180, 260];
+    const value = ReliabilityCore.robustInterval(deltas, { mode: "ema", emaAlpha: 0.4 });
+    expect(value).toBeCloseTo(186.08);
+  });
+});
+
+describe("computeBreakPrediction", () => {
+  const baseEvents = [
+    { startDate: new Date("2025-01-05T00:00:00Z"), kmAtEvent: 1000, hrAtEvent: 10, hasStop: true },
+    { startDate: new Date("2025-02-04T00:00:00Z"), kmAtEvent: 2000, hrAtEvent: 40, hasStop: true },
+    { startDate: new Date("2025-03-10T00:00:00Z"), kmAtEvent: 3300, hrAtEvent: 90, hasStop: true },
+    { startDate: new Date("2025-04-15T00:00:00Z"), kmAtEvent: 4800, hrAtEvent: 150, hasStop: true }
+  ];
+
+  it("returns percentile-based break intervals and states", () => {
+    const result = ReliabilityCore.computeBreakPrediction(baseEvents, {
+      currentKm: 6000,
+      currentHr: 220,
+      avgKmPerDay: 250,
+      avgHrPerDay: 6,
+      settings: {
+        breakEstimator: { mode: "percentile", p: 0.8 },
+        minDeltaKm: 50,
+        minDeltaHr: 5
+      }
+    });
+    expect(result.kmBreak).toBeCloseTo(1420, 0);
+    expect(result.hrBreak).toBeCloseTo(56, 0);
+    expect(result.kmBreakState).toBe("Success");
+    expect(result.hrBreakState).toBe("Success");
+    expect(result.nextBreakKm).toBeCloseTo(7420, 0);
+    expect(result.kmBreakTooltip).toContain("Proxima quebra estimada");
+    expect(result.breakPreventiveRecommended).toBe(false);
+  });
+
+  it("supports EMA estimator mode", () => {
+    const result = ReliabilityCore.computeBreakPrediction(baseEvents, {
+      currentKm: 4800,
+      currentHr: 150,
+      settings: {
+        breakEstimator: { mode: "ema", emaAlpha: 0.5 },
+        minDeltaKm: 10,
+        minDeltaHr: 1
+      }
+    });
+    expect(result.kmBreak).toBeCloseTo(1325);
+    expect(result.hrBreak).toBeCloseTo(50);
+  });
+});
+
 function normalizeFixtureEntry(entry) {
   const dataInicio = entry.DataAbertura || "";
   const dataFim = entry.DataFechamento || "";
@@ -168,7 +357,24 @@ function loadFixtureVehicle(vehicleId, dateFrom, dateTo) {
 
 function roundSummary(summary) {
   const clone = JSON.parse(JSON.stringify(summary));
-  ["availability", "mtbf", "mttr", "operationalHours", "downtimeTotal", "totalRangeHours"].forEach((key) => {
+  [
+    "availability",
+    "mtbf",
+    "mttr",
+    "operationalHours",
+    "downtimeTotal",
+    "totalRangeHours",
+    "kmBreak",
+    "hrBreak",
+    "nextBreakKm",
+    "nextBreakHr",
+    "kmToBreak",
+    "hrToBreak",
+    "kmToBreakRatio",
+    "hrToBreakRatio",
+    "daysToBreakKm",
+    "daysToBreakHr"
+  ].forEach((key) => {
     if (typeof clone[key] === "number") {
       clone[key] = Number(clone[key].toFixed(6));
     }
@@ -188,14 +394,25 @@ describe("buildUnifiedReliabilityByVehicle snapshot", () => {
     const dateFrom = new Date("2025-10-01T00:00:00Z");
     const dateTo = new Date("2025-10-31T23:59:59Z");
     const osList = loadFixtureVehicle(vehicleId, dateFrom, dateTo);
-    const osMap = new Map([[vehicleId, osList]]);
+    const telemetryEntries = loadTelemetryFixture(vehicleId);
+    const enrichedList = attachTelemetryToEvents(osList, telemetryEntries);
+    const vehicleStats = {};
+    vehicleStats[vehicleId] = buildVehicleStatsForTest(telemetryEntries, dateTo);
+    const osMap = new Map([[vehicleId, enrichedList]]);
     const summaryMap = ReliabilityCore.buildUnifiedReliabilityByVehicleFromMap(osMap, {
       vehicles: [vehicleId],
       dateFrom,
-      dateTo
+      dateTo,
+      vehicleStats,
+      settings: DEFAULT_RELIABILITY_SETTINGS
     });
     const summary = summaryMap[vehicleId];
     expect(summary).toBeDefined();
+    expect(summary.kmBreak).toBeGreaterThan(0);
+    if (Number.isFinite(summary.hrBreak)) {
+      expect(summary.hrBreak).toBeGreaterThanOrEqual(0);
+    }
+    expect(typeof summary.kmToBreakFmt).toBe("string");
     expect(roundSummary(summary)).toMatchSnapshot();
   });
 });
