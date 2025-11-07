@@ -267,7 +267,7 @@
             <Label text="(HR) Quebra"/>
             <table:template>
               <ObjectStatus
-                text="{parts: ['vm>combustivelLitrosAgg', 'vm>falhas'],
+                text="{parts: ['vm>hrRodadosAgg', 'vm>falhas'],
                 formatter: '.formatter.fmtHrQuebra'}"/>
             </table:template>
           </table:Column>
