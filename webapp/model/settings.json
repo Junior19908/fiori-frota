@@ -1,26 +1,13 @@
 {
   "showAllOS": false,
   "osTypes": [
-    "ZF02",
-    "ZF1",
-    "ZF2",
-    "ZF3"
+    "ZF02"
   ],
   "autoLoadMain": false,
   "autoLoadIntervalSec": 30,
-  "mainDatePref": "yesterday",
+  "mainDatePref": "today",
   "saveLocal": true,
-  "theme": "sap_horizon_dark",
+  "theme": "sap_horizon",
   "avatarSrc": "",
-  "avatarInitials": "CJ",
-  "reliability": {
-    "unifiedPipeline": true,
-    "breakEstimator": {
-      "mode": "percentile",
-      "p": 0.8,
-      "emaAlpha": 0.3
-    },
-    "minDeltaKm": 1,
-    "minDeltaHr": 0.01
-  }
+  "avatarInitials": "CJ"
 }

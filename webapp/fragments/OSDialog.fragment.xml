@@ -102,12 +102,12 @@
               </table:template>
             </table:Column>
 			
-			      <!--<table:Column width="10rem" sortProperty="downtime" hAlign="Center">
+			<!--<table:Column width="10rem" sortProperty="downtime" hAlign="Center">
               <Label text="Hr Paradas" textAlign="Center" width="100%"/>
               <table:template>
                 <Text text="{ path:'osDlg>downtime', formatter: '.formatter.formatacaoHorasNovo' }"/>
               </table:template>
-            </table:Column>-->
+            </table:Column>
 
             <table:Column width="9rem" hAlign="End">
               <Label text="Inatividade" textAlign="Center" width="100%"/>
@@ -131,7 +131,7 @@
                 <Text text="{osDlg>tipoManual}"/>
               </table:template>
             </table:Column>
-          </table:columns>
+          </table:columns>-->
         </table:Table>
 
         <Toolbar class="sapUiTinyMarginTop">
