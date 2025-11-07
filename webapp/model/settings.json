@@ -14,6 +14,13 @@
   "avatarSrc": "",
   "avatarInitials": "CJ",
   "reliability": {
-    "unifiedPipeline": true
+    "unifiedPipeline": true,
+    "breakEstimator": {
+      "mode": "percentile",
+      "p": 0.8,
+      "emaAlpha": 0.3
+    },
+    "minDeltaKm": 1,
+    "minDeltaHr": 0.01
   }
 }
