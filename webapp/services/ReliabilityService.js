@@ -13,6 +13,9 @@ sap.ui.define([
 
   const NUM_FMT = new Intl.NumberFormat("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const PCT_FMT = new Intl.NumberFormat("pt-BR", { style: "percent", minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const KM_FIELD_HINTS = ["KM", "km", "Km", "Hodometro", "hodometro", "HodometroInicial", "hodometroInicial", "hodometroInicio"];
+  const HR_FIELD_HINTS = ["HR", "hr", "Hr", "Horimetro", "horimetro", "HorimetroInicial", "horimetroInicial", "horimetroInicio"];
+  const TELEMETRY_USAGE_WINDOW_DAYS = 30;
 
   let _telemetryPromise = null;
   const _osMonthCache = new Map();
@@ -57,6 +60,48 @@ sap.ui.define([
       return payload.ordens;
     }
     return [];
+  }
+
+  function _toNumber(value) {
+    if (typeof value === "number") {
+      return Number.isFinite(value) ? value : null;
+    }
+    if (typeof value === "string") {
+      const normalized = value.replace(/\s+/g, "").replace(",", ".");
+      const num = Number(normalized);
+      return Number.isFinite(num) ? num : null;
+    }
+    return null;
+  }
+
+  function _extractMeasurementFromRaw(entry, hints, keyword) {
+    if (!entry || typeof entry !== "object") {
+      return null;
+    }
+    for (let i = 0; i < hints.length; i++) {
+      const key = hints[i];
+      if (Object.prototype.hasOwnProperty.call(entry, key)) {
+        const num = _toNumber(entry[key]);
+        if (Number.isFinite(num)) {
+          return num;
+        }
+      }
+    }
+    const target = String(keyword || "").toLowerCase();
+    if (!target) {
+      return null;
+    }
+    const keys = Object.keys(entry);
+    for (let j = 0; j < keys.length; j++) {
+      const prop = keys[j];
+      if (prop && prop.toLowerCase().includes(target)) {
+        const num = _toNumber(entry[prop]);
+        if (Number.isFinite(num)) {
+          return num;
+        }
+      }
+    }
+    return null;
   }
 
   function _normalizeTipoFilter(tiposOS) {
@@ -126,6 +171,8 @@ sap.ui.define([
     const categoria = String(entry.Categoria || entry.categoria || entry.TipoOS || entry.tipoOS || entry.Tipo || entry.tipo || "").trim().toUpperCase();
     const descricao = String(entry.Descricao || entry.descricao || entry.Titulo || entry.titulo || "").trim();
     const hasStop = _resolveHasStop(entry);
+    const kmAtEvent = _extractMeasurementFromRaw(entry, KM_FIELD_HINTS, "km");
+    const hrAtEvent = _extractMeasurementFromRaw(entry, HR_FIELD_HINTS, "hr");
     return {
       id: numero || `${vehicleId}-${start.getTime()}`,
       numero,
@@ -142,6 +189,8 @@ sap.ui.define([
       startDate: start,
       endDate: end,
       hasStop,
+      kmAtEvent: Number.isFinite(kmAtEvent) ? kmAtEvent : null,
+      hrAtEvent: Number.isFinite(hrAtEvent) ? hrAtEvent : null,
       status: entry.Status || entry.status || "",
       prioridade: entry.Prioridade || entry.prioridade || "",
       tipoManual: entry.TipoManual || entry.tipoManual || "",
@@ -393,6 +442,143 @@ sap.ui.define([
     return Number(hrAtual || 0) + media;
   }
 
+  function _findNearestTelemetry(telemetryList, targetDate) {
+    if (!Array.isArray(telemetryList) || !telemetryList.length) {
+      return null;
+    }
+    const target = coerceDate(targetDate);
+    if (!target) {
+      return telemetryList[telemetryList.length - 1] || null;
+    }
+    const targetTime = target.getTime();
+    let bestBefore = null;
+    let bestAfter = null;
+    telemetryList.forEach((entry) => {
+      const dt = entry && entry.dateTime;
+      if (!(dt instanceof Date) || Number.isNaN(dt.getTime())) {
+        return;
+      }
+      const time = dt.getTime();
+      if (time <= targetTime) {
+        if (!bestBefore || time > bestBefore.dateTime.getTime()) {
+          bestBefore = entry;
+        }
+      } else if (!bestAfter || time < bestAfter.dateTime.getTime()) {
+        bestAfter = entry;
+      }
+    });
+    return bestBefore || bestAfter || null;
+  }
+
+  function _latestTelemetryBefore(telemetryList, limitDate) {
+    if (!Array.isArray(telemetryList) || !telemetryList.length) {
+      return null;
+    }
+    const limit = coerceDate(limitDate);
+    const limitTime = limit ? limit.getTime() : Number.POSITIVE_INFINITY;
+    let best = null;
+    telemetryList.forEach((entry) => {
+      const dt = entry && entry.dateTime;
+      if (!(dt instanceof Date) || Number.isNaN(dt.getTime())) {
+        return;
+      }
+      const time = dt.getTime();
+      if (time <= limitTime) {
+        if (!best || time > best.dateTime.getTime()) {
+          best = entry;
+        }
+      }
+    });
+    return best || telemetryList[telemetryList.length - 1] || null;
+  }
+
+  function _computeAvgPerDay(telemetryList, field, refDate, windowDays = TELEMETRY_USAGE_WINDOW_DAYS) {
+    if (!Array.isArray(telemetryList) || telemetryList.length < 2) {
+      return null;
+    }
+    const reference = coerceDate(refDate) || new Date();
+    const refTime = reference.getTime();
+    const spanMs = Math.max(1, Number(windowDays) || TELEMETRY_USAGE_WINDOW_DAYS) * 24 * 60 * 60 * 1000;
+    const windowStart = refTime - spanMs;
+    const filtered = telemetryList.filter((entry) => {
+      const dt = entry && entry.dateTime;
+      if (!(dt instanceof Date) || Number.isNaN(dt.getTime())) {
+        return false;
+      }
+      const time = dt.getTime();
+      if (time > refTime || time < windowStart) {
+        return false;
+      }
+      const val = Number(entry && entry[field]);
+      return Number.isFinite(val);
+    });
+    if (filtered.length < 2) {
+      return null;
+    }
+    const first = filtered[0];
+    const last = filtered[filtered.length - 1];
+    const delta = Number(last[field]) - Number(first[field]);
+    if (!(delta > 0)) {
+      return null;
+    }
+    const elapsedMs = last.dateTime.getTime() - first.dateTime.getTime();
+    if (!(elapsedMs > 0)) {
+      return null;
+    }
+    const elapsedDays = elapsedMs / (24 * 60 * 60 * 1000);
+    if (!(elapsedDays > 0)) {
+      return null;
+    }
+    return delta / elapsedDays;
+  }
+
+  function _buildVehicleStatsEntry(telemetryList, dateTo) {
+    const latest = _latestTelemetryBefore(telemetryList, dateTo);
+    return {
+      currentKm: latest && Number.isFinite(latest.km) ? latest.km : null,
+      currentHr: latest && Number.isFinite(latest.hr) ? latest.hr : null,
+      lastTelemetryDate: latest && latest.dateTime instanceof Date ? latest.dateTime : null,
+      avgKmPerDay: _computeAvgPerDay(telemetryList, "km", dateTo),
+      avgHrPerDay: _computeAvgPerDay(telemetryList, "hr", dateTo)
+    };
+  }
+
+  function _attachTelemetryToOsMap(osMap, telemetryMap, options = {}) {
+    const stats = {};
+    if (!(osMap instanceof Map)) {
+      return { vehicleStats: stats };
+    }
+    osMap.forEach((list, vehicleId) => {
+      const telemList = telemetryMap && telemetryMap.get ? (telemetryMap.get(vehicleId) || []) : [];
+      stats[vehicleId] = _buildVehicleStatsEntry(telemList, options.dateTo);
+      (Array.isArray(list) ? list : []).forEach((os) => {
+        if (!os) {
+          return;
+        }
+        const kmFromOs = Number.isFinite(os.kmAtEvent) ? os.kmAtEvent : _extractMeasurementFromRaw(os.raw, KM_FIELD_HINTS, "km");
+        const hrFromOs = Number.isFinite(os.hrAtEvent) ? os.hrAtEvent : _extractMeasurementFromRaw(os.raw, HR_FIELD_HINTS, "hr");
+        os.kmAtEvent = Number.isFinite(kmFromOs) ? kmFromOs : null;
+        os.hrAtEvent = Number.isFinite(hrFromOs) ? hrFromOs : null;
+        if (!Number.isFinite(os.kmAtEvent) || !Number.isFinite(os.hrAtEvent)) {
+          const snapshot = _findNearestTelemetry(telemList, os.startDate || os.start);
+          if (!Number.isFinite(os.kmAtEvent) && snapshot && Number.isFinite(snapshot.km)) {
+            os.kmAtEvent = snapshot.km;
+          }
+          if (!Number.isFinite(os.hrAtEvent) && snapshot && Number.isFinite(snapshot.hr)) {
+            os.hrAtEvent = snapshot.hr;
+          }
+        }
+      });
+    });
+    Object.defineProperty(osMap, "__vehicleStats", {
+      value: stats,
+      enumerable: false,
+      configurable: true,
+      writable: true
+    });
+    return { vehicleStats: stats };
+  }
+
   function _findSnapshot(telemetryList, targetDate) {
     if (!(targetDate instanceof Date) || Number.isNaN(targetDate.getTime())) {
       return null;
@@ -468,12 +654,26 @@ sap.ui.define([
       });
     });
 
+    try {
+      const telemetryMap = await loadTelemetry();
+      _attachTelemetryToOsMap(result, telemetryMap, { dateTo });
+    } catch (err) {
+      try { console.warn("[ReliabilityService] Falha ao anexar telemetria nas OS", err); } catch (_) {}
+    }
+
     return result;
   }
 
-  function buildUnifiedReliabilityByVehicle(options) {
-    return buildUnifiedReliabilityByVehicleCore(options, {
-      osProvider: fetchOsUnifiedByVehiclesAndRange
+  function buildUnifiedReliabilityByVehicle(options = {}) {
+    const execOptions = Object.assign({}, options);
+    return buildUnifiedReliabilityByVehicleCore(execOptions, {
+      osProvider: async (opts) => {
+        const osMap = await fetchOsUnifiedByVehiclesAndRange(opts);
+        if (!opts.vehicleStats && osMap && osMap.__vehicleStats) {
+          opts.vehicleStats = osMap.__vehicleStats;
+        }
+        return osMap;
+      }
     });
   }
 
@@ -509,6 +709,15 @@ sap.ui.define([
     ]).then((resolved) => {
       const telemetryMap = resolved[0];
       const osMap = resolved[1] || new Map();
+      let vehicleStatsMap = osMap.__vehicleStats || null;
+      if (!vehicleStatsMap) {
+        try {
+          vehicleStatsMap = _attachTelemetryToOsMap(osMap, telemetryMap, { dateTo: range && range.to }).vehicleStats;
+        } catch (err) {
+          vehicleStatsMap = {};
+          try { console.warn("[ReliabilityService] Falha ao anexar telemetria para mergeDataPorVeiculo", err); } catch (_) {}
+        }
+      }
       const vehicleTelemetry = telemetryMap.get(vehicleId) || [];
 
       const telemetryInRange = (range.from instanceof Date || range.to instanceof Date)
@@ -525,8 +734,8 @@ sap.ui.define([
       const tableRows = osList.map((os) => {
         const downtime = calcDowntimeHoras(os, range);
         const snapshot = _findSnapshot(vehicleTelemetry, os.startDate);
-        const kmEvento = snapshot ? snapshot.km : NaN;
-        const hrEvento = snapshot ? snapshot.hr : NaN;
+        const kmEvento = Number.isFinite(os.kmAtEvent) ? os.kmAtEvent : (snapshot ? snapshot.km : NaN);
+        const hrEvento = Number.isFinite(os.hrAtEvent) ? os.hrAtEvent : (snapshot ? snapshot.hr : NaN);
         return {
           numero: os.numero,
           descricao: os.descricao,
@@ -547,7 +756,9 @@ sap.ui.define([
       const reliabilityByVehicle = buildUnifiedReliabilityByVehicleFromMap(osMap, {
         vehicles: vehicleId ? [vehicleId] : [],
         dateFrom: range.from,
-        dateTo: range.to
+        dateTo: range.to,
+        vehicleStats: vehicleStatsMap || {},
+        settings: opts && opts.settings ? opts.settings : null
       });
       const summary = vehicleId ? (reliabilityByVehicle[vehicleId] || null) : null;
 
@@ -621,6 +832,23 @@ sap.ui.define([
           proximaQuebraKmFmt: proximaQuebraKm ? NUM_FMT.format(proximaQuebraKm) + " km" : "-",
           proximaQuebraHr,
           proximaQuebraHrFmt: proximaQuebraHr ? NUM_FMT.format(proximaQuebraHr) + " h" : "-",
+          kmBreak: summary ? summary.kmBreak : null,
+          kmBreakFmt: summary ? summary.kmBreakFmt : "-",
+          hrBreak: summary ? summary.hrBreak : null,
+          hrBreakFmt: summary ? summary.hrBreakFmt : "-",
+          nextBreakKm: summary ? summary.nextBreakKm : null,
+          nextBreakKmFmt: summary ? summary.nextBreakKmFmt : "-",
+          nextBreakHr: summary ? summary.nextBreakHr : null,
+          nextBreakHrFmt: summary ? summary.nextBreakHrFmt : "-",
+          kmToBreak: summary ? summary.kmToBreak : null,
+          kmToBreakFmt: summary ? summary.kmToBreakFmt : "-",
+          hrToBreak: summary ? summary.hrToBreak : null,
+          hrToBreakFmt: summary ? summary.hrToBreakFmt : "-",
+          kmBreakTooltip: summary ? summary.kmBreakTooltip : "",
+          hrBreakTooltip: summary ? summary.hrBreakTooltip : "",
+          breakAlertLevel: summary ? summary.breakAlertLevel : "none",
+          breakPreventiveRecommended: summary ? summary.breakPreventiveRecommended : false,
+          breakPreventiveReason: summary ? summary.breakPreventiveReason : "",
           kmAtual,
           hrAtual
         },
