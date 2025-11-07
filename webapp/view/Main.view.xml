@@ -82,7 +82,7 @@
           id="tbl"
           selectionMode="None"
           visibleRowCountMode="Auto"
-          minAutoRowCount="8"
+          minAutoRowCount="5"
           alternateRowColors="true"
           enableColumnReordering="true"
           fixedColumnCount="4"
@@ -92,10 +92,17 @@
 
         <table:columns>
 
-          <table:Column sortProperty="equnr" width="5rem">
+          <table:Column sortProperty="equnr" width="7rem">
             <Label text="Veiculo"/>
             <table:template>
-              <Text text="{vm>equnr}"/>
+              <HBox alignItems="Center" justifyContent="Start" renderType="Bare">
+                <Text text="{vm>equnr}"/>
+                <ObjectStatus
+                  visible="{= ${vm>breakPreventiveRecommended} ? true : false }"
+                  text="PREVENTIVA RECOMENDADA"
+                  state="Error"
+                  class="sapUiTinyMarginBegin"/>
+              </HBox>
             </table:template>
           </table:Column>
 
@@ -198,13 +205,6 @@
             </table:template>
           </table:Column>
 
-          <table:Column width="6rem" hAlign="End">
-            <Label text="Hr Paradas (Teste)"/>
-            <table:template>
-              <Text text="{vm>horasParadasFmt}"/>
-            </table:template>
-          </table:Column>
-
           <table:Column sortProperty="pctDisp" width="16rem" hAlign="Center">
             <Label
               text="Disponibilidade"
@@ -223,6 +223,13 @@
                   ],
                   formatter: '.formatter.fmtDisponibilidadeTooltip'
                 }"/>
+            </table:template>
+          </table:Column>
+
+          <table:Column width="6rem" hAlign="End">
+            <Label text="Hr Paradas (Teste)"/>
+            <table:template>
+              <Text text="{vm>horasParadasFmt}"/>
             </table:template>
           </table:Column>
 
@@ -247,17 +254,23 @@
             </table:template>
           </table:Column>
 
-          <table:Column width="6rem" hAlign="End">
-            <Label text="KM (Teste)"/>
+          <table:Column width="8rem" hAlign="End">
+            <Label text="(KM) Quebra"/>
             <table:template>
-              <Text text="000.000 Km"/>
+              <ObjectStatus
+                text="{vm>kmToBreakFmt}"
+                state="{vm>kmBreakState}"
+                tooltip="{vm>kmBreakTooltip}"/>
             </table:template>
           </table:Column>
 
-          <table:Column width="6rem" hAlign="End">
-            <Label text="HR (Teste)"/>
+          <table:Column width="8rem" hAlign="End">
+            <Label text="(HR) Quebra"/>
             <table:template>
-              <Text text="00:00:00 hr"/>
+              <ObjectStatus
+                text="{vm>hrToBreakFmt}"
+                state="{vm>hrBreakState}"
+                tooltip="{vm>hrBreakTooltip}"/>
             </table:template>
           </table:Column>
 
