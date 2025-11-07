@@ -342,6 +342,7 @@ sap.ui.define([
         const range = this._currentRangeArray();
         const rangeObj = this._currentRangeObj();
         const osFilterPrefs = this._getOsFilterPrefs();
+        const reliabilitySettings = this._getReliabilitySettingsPayload();
         const useUnifiedReliability = this._isUnifiedReliabilityEnabled();
         const metrics = {
           kmRodados: Number(ctxObj?.kmRodadosAgg || 0),
@@ -371,7 +372,8 @@ sap.ui.define([
             const summaryMap = ReliabilityService.buildUnifiedReliabilityByVehicleFromMap(unifiedOsMap, {
               vehicles: [equnr],
               dateFrom: rangeObj.from,
-              dateTo: rangeObj.to
+              dateTo: rangeObj.to,
+              settings: reliabilitySettings
             }) || {};
             const summary = summaryMap[equnr];
             if (summary) {
@@ -387,7 +389,8 @@ sap.ui.define([
               vehicleId: equnr,
               range: rangeObj,
               showAllOS: osFilterPrefs.showAllOS,
-              allowedOsTypes: osFilterPrefs.allowedOsTypes
+              allowedOsTypes: osFilterPrefs.allowedOsTypes,
+              settings: reliabilitySettings
             });
             if (rel && rel.metrics) {
               reliabilityMetrics = Object.assign({}, rel.metrics);
@@ -856,6 +859,24 @@ sap.ui.define([
       return { showAllOS, allowedOsTypes };
     },
 
+    _getReliabilitySettingsPayload: function () {
+      try {
+        const component = this.getOwnerComponent && this.getOwnerComponent();
+        const settingsModel = component && component.getModel && component.getModel("settings");
+        if (!settingsModel || typeof settingsModel.getProperty !== "function") {
+          return {};
+        }
+        const cfg = settingsModel.getProperty("/reliability") || {};
+        const clone = Object.assign({}, cfg);
+        if (cfg.breakEstimator && typeof cfg.breakEstimator === "object") {
+          clone.breakEstimator = Object.assign({}, cfg.breakEstimator);
+        }
+        return clone;
+      } catch (err) {
+        return {};
+      }
+    },
+
     _isUnifiedReliabilityEnabled: function () {
       try {
         const component = this.getOwnerComponent && this.getOwnerComponent();
@@ -882,6 +903,7 @@ sap.ui.define([
       const to   = (rangeObj && rangeObj.to   instanceof Date) ? rangeObj.to   : null;
       const rangePayload = { from, to };
       const osFilterPrefs = this._getOsFilterPrefs();
+      const reliabilitySettings = this._getReliabilitySettingsPayload();
 
       const tasks = vehicles.map(async (vehicle) => {
         const vehId = String(vehicle.equnr || vehicle.veiculo || vehicle.id || "").trim();
@@ -905,6 +927,21 @@ sap.ui.define([
           vehicle.proximaQuebraHrFmt = vehicle.proximaQuebraHrFmt || "-";
           vehicle.downtimeTotalFmt = vehicle.downtimeTotalFmt || "0h00";
           vehicle.osCountRange = 0;
+          vehicle.kmBreak = null;
+          vehicle.kmBreakFmt = "-";
+          vehicle.hrBreak = null;
+          vehicle.hrBreakFmt = "-";
+          vehicle.kmToBreak = null;
+          vehicle.kmToBreakFmt = "-";
+          vehicle.hrToBreak = null;
+          vehicle.hrToBreakFmt = "-";
+          vehicle.kmBreakTooltip = "";
+          vehicle.hrBreakTooltip = "";
+          vehicle.kmBreakState = "None";
+          vehicle.hrBreakState = "None";
+          vehicle.breakAlertLevel = "none";
+          vehicle.breakPreventiveRecommended = false;
+          vehicle.breakPreventiveReason = "";
           return;
         }
         try {
@@ -912,7 +949,8 @@ sap.ui.define([
             vehicleId: vehId,
             range: rangePayload,
             showAllOS: osFilterPrefs.showAllOS,
-            allowedOsTypes: osFilterPrefs.allowedOsTypes
+            allowedOsTypes: osFilterPrefs.allowedOsTypes,
+            settings: reliabilitySettings
           });
           const metrics = (rel && rel.metrics) ? Object.assign({}, rel.metrics) : null;
           const osEvents = (rel && Array.isArray(rel.osEventos)) ? rel.osEventos : [];
@@ -939,6 +977,21 @@ sap.ui.define([
             vehicle.proximaQuebraKmFmt = metrics.proximaQuebraKmFmt || "-";
             vehicle.proximaQuebraHr = metrics.proximaQuebraHr || 0;
             vehicle.proximaQuebraHrFmt = metrics.proximaQuebraHrFmt || "-";
+            vehicle.kmBreak = metrics.kmBreak || null;
+            vehicle.kmBreakFmt = metrics.kmBreakFmt || "-";
+            vehicle.hrBreak = metrics.hrBreak || null;
+            vehicle.hrBreakFmt = metrics.hrBreakFmt || "-";
+            vehicle.kmToBreak = metrics.kmToBreak || null;
+            vehicle.kmToBreakFmt = metrics.kmToBreakFmt || "-";
+            vehicle.hrToBreak = metrics.hrToBreak || null;
+            vehicle.hrToBreakFmt = metrics.hrToBreakFmt || "-";
+            vehicle.kmBreakTooltip = metrics.kmBreakTooltip || "";
+            vehicle.hrBreakTooltip = metrics.hrBreakTooltip || "";
+            vehicle.kmBreakState = metrics.kmBreakState || "None";
+            vehicle.hrBreakState = metrics.hrBreakState || "None";
+            vehicle.breakAlertLevel = metrics.breakAlertLevel || "none";
+            vehicle.breakPreventiveRecommended = !!metrics.breakPreventiveRecommended;
+            vehicle.breakPreventiveReason = metrics.breakPreventiveReason || "";
             vehicle.downtimeTotalFmt = metrics.downtimeFmt || metrics.downtimeTotalFmt || "0h00";
             vehicle.osCountRange = osEventsCount;
           } else {
@@ -953,6 +1006,15 @@ sap.ui.define([
             vehicle.proximaQuebraHr = 0; vehicle.proximaQuebraHrFmt = "-";
             vehicle.downtimeTotalFmt = "0h00";
             vehicle.osCountRange = 0;
+            vehicle.kmBreak = null; vehicle.kmBreakFmt = "-";
+            vehicle.hrBreak = null; vehicle.hrBreakFmt = "-";
+            vehicle.kmToBreak = null; vehicle.kmToBreakFmt = "-";
+            vehicle.hrToBreak = null; vehicle.hrToBreakFmt = "-";
+            vehicle.kmBreakTooltip = ""; vehicle.hrBreakTooltip = "";
+            vehicle.kmBreakState = "None"; vehicle.hrBreakState = "None";
+            vehicle.breakAlertLevel = "none";
+            vehicle.breakPreventiveRecommended = false;
+            vehicle.breakPreventiveReason = "";
           }
         } catch (err) {
           try { console.warn('[Main._updateReliabilityForVehicles] Falha ao calcular para ' + vehId, err); } catch (_) {}
@@ -967,6 +1029,15 @@ sap.ui.define([
           vehicle.proximaQuebraHr = 0; vehicle.proximaQuebraHrFmt = "-";
           vehicle.downtimeTotalFmt = "0h00";
           vehicle.osCountRange = 0;
+          vehicle.kmBreak = null; vehicle.kmBreakFmt = "-";
+          vehicle.hrBreak = null; vehicle.hrBreakFmt = "-";
+          vehicle.kmToBreak = null; vehicle.kmToBreakFmt = "-";
+          vehicle.hrToBreak = null; vehicle.hrToBreakFmt = "-";
+          vehicle.kmBreakTooltip = ""; vehicle.hrBreakTooltip = "";
+          vehicle.kmBreakState = "None"; vehicle.hrBreakState = "None";
+          vehicle.breakAlertLevel = "none";
+          vehicle.breakPreventiveRecommended = false;
+          vehicle.breakPreventiveReason = "";
         }
       });
 

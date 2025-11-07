@@ -41,6 +41,33 @@ sap.ui.define([
     try { const m = Math.max(0, Math.round((Number(hours) || 0) * 60)); const h = Math.floor(m/60), mm = m%60; return h + 'h' + String(mm).padStart(2,'0'); } catch(_) { return '0h00'; }
   }
 
+  function _sumDowntimeHours(list) {
+    try {
+      if (!Array.isArray(list) || !list.length) { return 0; }
+      return list.reduce(function (total, item) {
+        const val = Number(item && item.downtime);
+        return total + (isFinite(val) ? val : 0);
+      }, 0);
+    } catch (_) {
+      return 0;
+    }
+  }
+
+  function _updateTotals(model, list) {
+    if (!model || typeof model.setProperty !== 'function') { return; }
+    const arr = Array.isArray(list) ? list : [];
+    const totalHours = _sumDowntimeHours(arr);
+    try { model.setProperty('/total', arr.length); } catch (_) {}
+    try { model.setProperty('/totalHoras', totalHours); } catch (_) {}
+    try { model.setProperty('/totalHorasFmt', _formatDowntime(totalHours)); } catch (_) {}
+  }
+
+  function _refreshTotalsFromModel(model) {
+    if (!model || typeof model.getProperty !== 'function') { return; }
+    const list = model.getProperty('/os');
+    _updateTotals(model, Array.isArray(list) ? list : []);
+  }
+
   function _calcProgress(hours) {
     try {
       const totalHours = Number(hours) || 0;
@@ -68,6 +95,23 @@ sap.ui.define([
       return flag !== false;
     } catch (err) {
       return true;
+    }
+  }
+
+  function _getReliabilitySettings(view) {
+    try {
+      const settings = view && view.getModel && view.getModel("settings");
+      if (!settings || typeof settings.getProperty !== "function") {
+        return {};
+      }
+      const cfg = settings.getProperty("/reliability") || {};
+      const clone = Object.assign({}, cfg);
+      if (cfg.breakEstimator && typeof cfg.breakEstimator === "object") {
+        clone.breakEstimator = Object.assign({}, cfg.breakEstimator);
+      }
+      return clone;
+    } catch (err) {
+      return {};
     }
   }
 
@@ -162,6 +206,8 @@ sap.ui.define([
       os: [],
       _base: [],
       total: 0,
+      totalHoras: 0,
+      totalHorasFmt: '0h00',
       metrics: {
         falhas: 0,
         downtimeFmt: '-',
@@ -251,13 +297,13 @@ sap.ui.define([
         const base = Array.isArray(data._base) ? data._base : (data.os || []);
         if (!q) {
           dlgModel.setProperty('/os', base);
-          dlgModel.setProperty('/total', base.length);
+          _updateTotals(dlgModel, base);
           try { const mx0 = base.reduce((m,o)=>Math.max(m, Number(o.downtime)||0), 0); dlgModel.setProperty('/__stats', { max: mx0 }); } catch(_){}
           return;
         }
         const filtered = base.filter((it)=>{ const s1=(it.veiculo||'').toLowerCase(); const s2=(it.ordem||'').toLowerCase(); const s3=(it.titulo||'').toLowerCase(); return s1.includes(q)||s2.includes(q)||s3.includes(q); });
         dlgModel.setProperty('/os', filtered);
-        dlgModel.setProperty('/total', filtered.length);
+        _updateTotals(dlgModel, filtered);
         try { const mx = filtered.reduce((m,o)=>Math.max(m, Number(o.downtime)||0), 0); dlgModel.setProperty('/__stats', { max: mx }); } catch(_){}
       },
 
@@ -293,7 +339,11 @@ sap.ui.define([
           const nowIso = new Date().toISOString(); const nowYmd = nowIso.substring(0,10);
           const fb = await (function(){ MessageToast.show("Indispon+¡vel em modo local."); })();
           const updates = sel.map(async (o)=>{ if(!o._id) return {ok:false}; const dref = fb.doc(fb.db,'ordensServico', o._id); try { await fb.updateDoc(dref, { DataFechamento: nowYmd }); o.fim = _toYmd(nowYmd); const A = o._abertura ? new Date(o._abertura).toISOString() : null; const dt = (A ? ((new Date(nowIso).getTime() - new Date(A).getTime())/36e5) : 0); o.downtime = dt; o.downtimeFmt = _formatDowntime(dt); o.parada = (dt>0); const pr = _calcProgress(dt); o.progressPct = pr.pct; o.progressText = pr.text; o.progressState = pr.state; return {ok:true}; } catch(e){ return {ok:false, reason:e && (e.code||e.message)} } });
-          const results = await Promise.all(updates); const ok = results.filter(r=>r.ok).length; dlgModel.refresh(true); MessageToast.show(ok + ' OS conclu+¡da(s).');
+          const results = await Promise.all(updates);
+          const ok = results.filter(r=>r.ok).length;
+          dlgModel.refresh(true);
+          _refreshTotalsFromModel(dlgModel);
+          MessageToast.show(ok + ' OS conclu\u00edda(s).');
         } catch(e){ console.error('[OSDialog.onCloseSelectedOS]', e); MessageBox.error('Falha ao concluir OS selecionadas.'); }
       },
 
@@ -325,6 +375,7 @@ sap.ui.define([
       const start = Array.isArray(range) ? range[0] : (range?.from || null);
       const end   = Array.isArray(range) ? range[1] : (range?.to   || null);
       const useUnifiedReliability = _isUnifiedReliabilityEnabled(view);
+      const reliabilitySettings = _getReliabilitySettings(view);
       let list = [];
       let unifiedOsMap = null;
       const providedOsMap = payload && payload.osData && payload.osData.map;
@@ -408,7 +459,7 @@ sap.ui.define([
       st.dlgModel.setProperty('/titulo', title);
       st.dlgModel.setProperty('/os', filtered);
       st.dlgModel.setProperty('/_base', filtered.slice());
-      st.dlgModel.setProperty('/total', filtered.length);
+      _updateTotals(st.dlgModel, filtered);
       try {
         const mx = filtered.length ? filtered.reduce((m,o)=>Math.max(m, Number(o.downtime)||0), 0) : 0;
         st.dlgModel.setProperty('/__stats', { max: mx });
@@ -424,7 +475,8 @@ sap.ui.define([
           const summaryMap = ReliabilityService.buildUnifiedReliabilityByVehicleFromMap(unifiedOsMap, {
             vehicles: [veh],
             dateFrom: start instanceof Date ? start : null,
-            dateTo: end instanceof Date ? end : null
+            dateTo: end instanceof Date ? end : null,
+            settings: reliabilitySettings
           }) || {};
           unifiedSummary = summaryMap[veh] || null;
         } catch (err) {
@@ -442,7 +494,8 @@ sap.ui.define([
             range: relRange,
             showAllOS: osFilter.showAll,
             allowedOsTypes: osFilter.allowed,
-            osList: (useUnifiedReliability && unifiedOsMap) ? (unifiedOsMap.get(veh) || []) : null
+            osList: (useUnifiedReliability && unifiedOsMap) ? (unifiedOsMap.get(veh) || []) : null,
+            settings: reliabilitySettings
           });
           if (rel && rel.metrics) {
             Object.assign(mergedPayload, rel.metrics);
@@ -475,9 +528,11 @@ sap.ui.define([
       if (!osFilter.showAll && osFilter.allowedSet.size){
         const arr = st.dlgModel.getProperty('/_base') || [];
         const filteredArr = arr.filter((o)=> !o.categoria || osFilter.allowedSet.has(String(o.categoria||'').toUpperCase()));
-        st.dlgModel.setProperty('/_base', filteredArr.slice());
-        st.dlgModel.setProperty('/os', filteredArr.slice());
-        st.dlgModel.setProperty('/total', filteredArr.length);
+        const baseCopy = filteredArr.slice();
+        const osCopy = filteredArr.slice();
+        st.dlgModel.setProperty('/_base', baseCopy);
+        st.dlgModel.setProperty('/os', osCopy);
+        _updateTotals(st.dlgModel, osCopy);
         try {
           const mxLive = filteredArr.length ? filteredArr.reduce((m,o)=>Math.max(m, Number(o.downtime)||0), 0) : 0;
           st.dlgModel.setProperty('/__stats', { max: mxLive });

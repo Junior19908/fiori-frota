@@ -26,6 +26,23 @@ sap.ui.define([
     }
   }
 
+  function getReliabilitySettings(oView) {
+    try {
+      const settingsModel = oView && oView.getModel && oView.getModel("settings");
+      if (!settingsModel || typeof settingsModel.getProperty !== "function") {
+        return {};
+      }
+      const cfg = settingsModel.getProperty("/reliability") || {};
+      const clone = Object.assign({}, cfg);
+      if (cfg.breakEstimator && typeof cfg.breakEstimator === "object") {
+        clone.breakEstimator = Object.assign({}, cfg.breakEstimator);
+      }
+      return clone;
+    } catch (err) {
+      return {};
+    }
+  }
+
   function warnMixedSource(vehicleId) {
     const key = String(vehicleId || "").trim();
     if (!key || MIXED_SOURCE_WARNED.has(key)) {
@@ -358,6 +375,7 @@ sap.ui.define([
     if (!vm) return;
 
     const osFilter = normaliseOsFilter(oView, filterOptions);
+    const reliabilitySettings = getReliabilitySettings(oView);
 
     const rObj   = _toRangeObj(range);
     const start  = rObj ? rObj.from : null;
@@ -388,7 +406,8 @@ sap.ui.define([
           dateFrom: start,
           dateTo: end,
           tiposOS: allowedTipos,
-          includeOsList: false
+          includeOsList: false,
+          settings: reliabilitySettings
         });
       } catch (err) {
         try { console.warn("[Aggregation] buildUnifiedReliabilityByVehicle falhou", err && (err.code || err.message || err)); } catch (_) {}
@@ -572,6 +591,26 @@ sap.ui.define([
       v.uptimeHorasRange      = windowMs ? Number(Math.max(0, uptimeHours).toFixed(2)) : 0;
       v.downtimeEventosRange  = downtimeCount;
 
+      v.kmBreak = null;
+      v.kmBreakFmt = "-";
+      v.hrBreak = null;
+      v.hrBreakFmt = "-";
+      v.nextBreakKm = null;
+      v.nextBreakKmFmt = "-";
+      v.nextBreakHr = null;
+      v.nextBreakHrFmt = "-";
+      v.kmToBreak = null;
+      v.kmToBreakFmt = "-";
+      v.hrToBreak = null;
+      v.hrToBreakFmt = "-";
+      v.kmBreakTooltip = "";
+      v.hrBreakTooltip = "";
+      v.kmBreakState = "None";
+      v.hrBreakState = "None";
+      v.breakAlertLevel = "none";
+      v.breakPreventiveRecommended = false;
+      v.breakPreventiveReason = "";
+
       const relSummary = useUnifiedReliability ? (reliabilityByVehicle[String(key)] || null) : null;
 
       if (relSummary) {
@@ -599,6 +638,25 @@ sap.ui.define([
         v.mtbfFmt = relSummary.mtbfFmt || "-";
         v.mttr = relSummary.mttr || 0;
         v.mttrFmt = relSummary.mttrFmt || "-";
+        v.kmBreak = relSummary.kmBreak || null;
+        v.kmBreakFmt = relSummary.kmBreakFmt || "-";
+        v.hrBreak = relSummary.hrBreak || null;
+        v.hrBreakFmt = relSummary.hrBreakFmt || "-";
+        v.nextBreakKm = relSummary.nextBreakKm || null;
+        v.nextBreakKmFmt = relSummary.nextBreakKmFmt || "-";
+        v.nextBreakHr = relSummary.nextBreakHr || null;
+        v.nextBreakHrFmt = relSummary.nextBreakHrFmt || "-";
+        v.kmToBreak = relSummary.kmToBreak || null;
+        v.kmToBreakFmt = relSummary.kmToBreakFmt || "-";
+        v.hrToBreak = relSummary.hrToBreak || null;
+        v.hrToBreakFmt = relSummary.hrToBreakFmt || "-";
+        v.kmBreakTooltip = relSummary.kmBreakTooltip || "";
+        v.hrBreakTooltip = relSummary.hrBreakTooltip || "";
+        v.kmBreakState = relSummary.kmBreakState || "None";
+        v.hrBreakState = relSummary.hrBreakState || "None";
+        v.breakAlertLevel = relSummary.breakAlertLevel || "none";
+        v.breakPreventiveRecommended = !!relSummary.breakPreventiveRecommended;
+        v.breakPreventiveReason = relSummary.breakPreventiveReason || "";
       } else if (!useUnifiedReliability) {
         try {
           const keyOs  = key;
