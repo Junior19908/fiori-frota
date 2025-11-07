@@ -66,7 +66,7 @@
               </table:template>
             </table:Column>
 			
-			<table:Column width="6rem" sortProperty="tipoLabel" filterProperty="tipoLabel" hAlign="Center">
+			      <table:Column width="6rem" sortProperty="tipoLabel" filterProperty="tipoLabel" hAlign="Center">
               <Label text="Tipo OS" textAlign="Center" width="100%"/>
               <table:template>
                 <ObjectStatus text="{osDlg>tipoLabel}"
@@ -102,45 +102,17 @@
               </table:template>
             </table:Column>
 			
-			            <table:Column width="10rem" sortProperty="downtime" hAlign="Center">
+			      <!--<table:Column width="10rem" sortProperty="downtime" hAlign="Center">
               <Label text="Hr Paradas" textAlign="Center" width="100%"/>
               <table:template>
                 <Text text="{ path:'osDlg>downtime', formatter: '.formatter.formatacaoHorasNovo' }"/>
               </table:template>
-            </table:Column>
+            </table:Column>-->
 
             <table:Column width="9rem" hAlign="End">
               <Label text="Inatividade" textAlign="Center" width="100%"/>
               <table:template>
                 <Text text="{osDlg>downtimeFmt}"/>
-              </table:template>
-            </table:Column>
-
-            <table:Column width="10rem" hAlign="Center">
-              <Label text="MTBF" textAlign="Center" width="100%"/>
-              <table:template>
-                <Text text="{osDlg>/metrics/mtbfFmt}"/>
-              </table:template>
-            </table:Column>
-
-            <table:Column width="10rem" hAlign="Center">
-              <Label text="MTTR" textAlign="Center" width="100%"/>
-              <table:template>
-                <Text text="{osDlg>/metrics/mttrFmt}"/>
-              </table:template>
-            </table:Column>
-
-            <table:Column width="10rem" hAlign="Center">
-              <Label text="KM Quebra" textAlign="Center" width="100%"/>
-              <table:template>
-                <Text text="{osDlg>/metrics/kmPerFailureFmt}"/>
-              </table:template>
-            </table:Column>
-
-            <table:Column width="10rem" hAlign="Center">
-              <Label text="Hr Quebra" textAlign="Center" width="100%"/>
-              <table:template>
-                <Text text="{osDlg>/metrics/hrPerFailureFmt}"/>
               </table:template>
             </table:Column>
 
@@ -166,6 +138,9 @@
           <ToolbarSpacer/>
           <ObjectStatus text="Total OS:"/>
           <ObjectNumber number="{osDlg>/total}"/>
+          <ToolbarSeparator/>
+          <ObjectStatus text="Total horas:"/>
+          <ObjectNumber number="{osDlg>/totalHorasFmt}"/>
         </Toolbar>
 
         <Text text="Sem OS para o filtro"
