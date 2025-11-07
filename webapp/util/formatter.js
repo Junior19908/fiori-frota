@@ -257,7 +257,15 @@ sap.ui.define([], function () {
     fmtLitros: function (v) {
       return `${fmtNumber(v, 2, 2)} L`;
     },
-	
+	fmtKmQuebra: function (kmQ, flQ){
+		var kmQuebraValor = (Number(kmQ || 0) / Number(flQ || 0));
+		return `${fmtNumber(kmQuebraValor, 2, 2)}`;
+	},
+	fmtHrQuebra: function (hrQ, flQ){
+		var hrQuebraValor = (Number(hrQ || 0) / Number(flQ || 0));
+		
+		return `${fmtNumber(hrQuebraValor, 2, 2)}`;
+	},
 	fmtHorasParadas: function (dtIni, hrIni, dtFim, hrFim){
 		
 		return `${fmtNumber(Math.max(hrIni, 0), 0, 2) - fmtNumber(Math.max(hrFim, 0), 0, 2)} Hr`;

@@ -258,9 +258,8 @@
             <Label text="(KM) Quebra"/>
             <table:template>
               <ObjectStatus
-                text="{vm>kmToBreakFmt}"
-                state="{vm>kmBreakState}"
-                tooltip="{vm>kmBreakTooltip}"/>
+				text="{parts: ['vm>kmRodadosAgg', 'vm>falhas'],
+                formatter: '.formatter.fmtKmQuebra'}"/>
             </table:template>
           </table:Column>
 
@@ -268,9 +267,8 @@
             <Label text="(HR) Quebra"/>
             <table:template>
               <ObjectStatus
-                text="{vm>hrToBreakFmt}"
-                state="{vm>hrBreakState}"
-                tooltip="{vm>hrBreakTooltip}"/>
+                text="{parts: ['vm>combustivelLitrosAgg', 'vm>falhas'],
+                formatter: '.formatter.fmtHrQuebra'}"/>
             </table:template>
           </table:Column>
 

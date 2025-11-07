@@ -50,14 +50,7 @@
                 <Button icon="sap-icon://inspect" type="Transparent" tooltip="Detalhes"
                         press=".onShowOSDetails"/>
               </table:template>
-            </table:Column>
-
-            <table:Column width="6rem" sortProperty="veiculo" filterProperty="veiculo" hAlign="Begin">
-              <Label text="Veiculo" textAlign="Center" width="100%"/>
-              <table:template>
-                <Text text="{osDlg>veiculo}" tooltip="{osDlg>veiculo}"/>
-              </table:template>
-            </table:Column>
+            </table:Column>	
 
             <table:Column width="6rem" sortProperty="ordem" filterProperty="ordem" hAlign="End">
               <Label text="Ordem" textAlign="Center" width="100%"/>
@@ -102,13 +95,6 @@
               </table:template>
             </table:Column>
 			
-			<!--<table:Column width="10rem" sortProperty="downtime" hAlign="Center">
-              <Label text="Hr Paradas" textAlign="Center" width="100%"/>
-              <table:template>
-                <Text text="{ path:'osDlg>downtime', formatter: '.formatter.formatacaoHorasNovo' }"/>
-              </table:template>
-            </table:Column>
-
             <table:Column width="9rem" hAlign="End">
               <Label text="Inatividade" textAlign="Center" width="100%"/>
               <table:template>
@@ -119,19 +105,12 @@
             <table:Column width="8rem" hAlign="Center">
               <Label text="Parada" textAlign="Center" width="100%"/>
               <table:template>
-                <ObjectStatus text="{= ${osDlg>parada} ? 'Sim' : 'Nao' }"
+                <ObjectStatus text="{= ${osDlg>parada} ? 'Sim' : 'Não' }"
                               state="{= ${osDlg>parada} ? 'Error' : 'Success' }"/>
               </table:template>
             </table:Column>
 
-
-            <table:Column width="10rem" sortProperty="tipoManual" filterProperty="tipoManual" hAlign="Center">
-              <Label text="Tipo (manual)" textAlign="Center" width="100%"/>
-              <table:template>
-                <Text text="{osDlg>tipoManual}"/>
-              </table:template>
-            </table:Column>
-          </table:columns>-->
+          </table:columns>
         </table:Table>
 
         <Toolbar class="sapUiTinyMarginTop">
