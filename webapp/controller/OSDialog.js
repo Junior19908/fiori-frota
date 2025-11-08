@@ -132,9 +132,9 @@ sap.ui.define([
   function _typeLabel(code) {
     try {
       const c = String(code || '').toUpperCase();
-      if (c === 'ZF01') return 'Projeto / Melhoria / Reforma';
-      if (c === 'ZF02') return 'Corretiva';
-      if (c === 'ZF03') return 'Preventiva Basica/Mecanica';
+      if (c === 'ZF01') return 'Projeto / Melhoria / Reforma - ZF01';
+      if (c === 'ZF02') return 'Corretiva - ZF02';
+      if (c === 'ZF03') return 'Preventiva Basica/Mecanica - ZF03';
       return c || '';
     } catch (_) { return String(code||''); }
   }
@@ -166,7 +166,7 @@ sap.ui.define([
         downtimeFmt: _formatDowntime(Number(downtime) || 0),
         tipoManual: String(o.TipoManual || o.tipoManual || ""),
         categoria: categoria,
-        tipoLabel: (categoria === 'ZF03' ? 'Preventiva Basica/Mecanica' : _typeLabel(categoria)),
+        tipoLabel: (categoria === 'ZF03' ? 'Preventiva Basica/Mecanica - ZF03' : _typeLabel(categoria)),
         progressPct: progress.pct,
         progressText: progress.text,
         progressState: progress.state
@@ -281,7 +281,7 @@ sap.ui.define([
           const dlg = new sap.m.Dialog({ title: title, contentWidth: '32rem', horizontalScrolling: true });
           function row(label, value){ return new sap.m.HBox({ alignItems:'Center', items:[ new sap.m.Label({ text: label, width: '11rem', design:'Bold' }), new sap.m.Text({ text: String(value==null?'':value) }) ] }); }
           const vb = new sap.m.VBox({ width:'100%', items:[
-            row('Ve+¡culo', o.veiculo||''), row('Ordem', o.ordem||''), row('T+¡tulo', o.titulo||''), row('Tipo OS', o.tipoLabel||''), row('Tipo (manual)', o.tipoManual||''), row('In+¡cio', (o.inicio||'') + (o.horaInicio?(' '+o.horaInicio):'')), row('Fim', (o.fim||'') + (o.horaFim?(' '+o.horaFim):'')), row('Parada', o.parada?'Sim':'N+úo'), row('Inatividade', o.downtimeFmt||'')
+            row('Ve+¡culo', o.veiculo||''), row('Ordem', o.ordem||''), row('TÍtulo', o.titulo||''), row('Tipo OS', o.tipoLabel||''), row('Tipo (manual)', o.tipoManual||''), row('In+¡cio', (o.inicio||'') + (o.horaInicio?(' '+o.horaInicio):'')), row('Fim', (o.fim||'') + (o.horaFim?(' '+o.horaFim):'')), row('Parada', o.parada?'Sim':'N+úo'), row('Inatividade', o.downtimeFmt||'')
           ]});
           dlg.addContent(vb);
           dlg.addButton(new sap.m.Button({ text:'Fechar', type:'Transparent', press: function(){ dlg.close(); } }));
