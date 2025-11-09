@@ -8,13 +8,15 @@ const DEFAULT_RELIABILITY_SETTINGS = {
   minDeltaHr: 0.01
 };
 
-function createOs(start, end, hasStop = true) {
+function createOs(start, end, hasStop = true, tipo = "ZF02") {
   return {
     start,
     startDate: start,
     end,
     endDate: end,
-    hasStop
+    hasStop,
+    tipo,
+    categoria: tipo
   };
 }
 
@@ -181,6 +183,35 @@ describe("sumIntervalsHours", () => {
   });
 });
 
+describe("sumHoursByTypes", () => {
+  const { sumHoursByTypes, durationHours, getTypeCode } = ReliabilityCore;
+
+  it("detects type codes from various fields", () => {
+    expect(getTypeCode({ tipo: "zf01" })).toBe("ZF01");
+    expect(getTypeCode({ type: "Os ZF03 Preventiva" })).toBe("ZF03");
+    expect(getTypeCode({})).toBe("");
+  });
+
+  it("computes duration for open OS using provided now", () => {
+    const now = new Date("2025-10-10T12:00:00Z");
+    const os = { startAt: "2025-10-10T10:00:00Z" };
+    expect(durationHours(os, now)).toBeCloseTo(2);
+  });
+
+  it("sums unique OS for multiple types", () => {
+    const now = new Date("2025-10-10T12:00:00Z");
+    const osList = [
+      { id: "A", tipo: "ZF01", startAt: "2025-10-09T10:00:00Z", endAt: "2025-10-09T12:00:00Z" }, // 2h
+      { id: "B", tipo: "ZF03", startAt: "2025-10-09T12:00:00Z", endAt: "2025-10-09T13:30:00Z" }, // 1.5h
+      { id: "C", tipo: "ZF02", startAt: "2025-10-09T14:00:00Z", endAt: "2025-10-09T16:00:00Z" }, // ignored
+      { id: "B", tipo: "ZF03", startAt: "2025-10-09T15:00:00Z", endAt: "2025-10-09T16:00:00Z" }, // duplicate id ignored
+      { id: "D", tipo: "ZF01", startAt: "2025-10-10T08:00:00Z" } // open, 4h to now
+    ];
+    const total = sumHoursByTypes(osList, ["ZF01", "ZF03"], { now });
+    expect(total).toBeCloseTo(7.5); // 2 + 1.5 + 4
+  });
+});
+
 describe("computeReliabilityMetrics", () => {
   const { computeReliabilityMetrics } = ReliabilityCore;
   const range = {
@@ -197,6 +228,8 @@ describe("computeReliabilityMetrics", () => {
     expect(result.availability).toBe(1);
     expect(result.falhas).toBe(0);
     expect(result.downtimeTotal).toBe(0);
+    expect(result.horasZF02).toBe(0);
+    expect(result.horasZF03).toBe(0);
   });
 
   it("counts downtime for OS entirely inside the window", () => {
@@ -232,7 +265,7 @@ describe("computeReliabilityMetrics", () => {
       dateFrom: range.dateFrom,
       dateTo: range.dateTo
     });
-    expect(result.downtimeTotal).toBeCloseTo(8); // 0-8h merged
+    expect(result.downtimeTotal).toBeCloseTo(11); // soma dos dois eventos ZF02
     expect(result.falhas).toBe(2);
   });
 
@@ -251,6 +284,55 @@ describe("computeReliabilityMetrics", () => {
     expect(result.mttr).toBeCloseTo((4 + 2 + 1) / 3);
     const totalHours = (range.dateTo.getTime() - range.dateFrom.getTime()) / 36e5;
     expect(result.mtbf).toBeCloseTo((totalHours - (4 + 2 + 1)) / 3);
+  });
+
+  it("ignores ZF03 downtime when computing MTBF/MTTR", () => {
+    const start = new Date("2025-10-12T00:00:00Z");
+    const end = new Date("2025-10-12T06:00:00Z");
+    const result = computeReliabilityMetrics({
+      osList: [createOs(start, end, true, "ZF03")],
+      dateFrom: range.dateFrom,
+      dateTo: range.dateTo
+    });
+    expect(result.downtimeTotal).toBe(0);
+    expect(result.horasZF02).toBe(0);
+    expect(result.horasZF03).toBeCloseTo(6);
+    expect(result.falhas).toBe(0);
+  });
+
+  it("tracks horasZF01/ZF02/ZF03 separately", () => {
+    const osList = [
+      createOs(new Date("2025-10-18T00:00:00Z"), new Date("2025-10-18T04:00:00Z"), true, "ZF02"),
+      createOs(new Date("2025-10-19T00:00:00Z"), new Date("2025-10-19T02:00:00Z"), true, "ZF03"),
+      createOs(new Date("2025-10-21T00:00:00Z"), new Date("2025-10-21T01:00:00Z"), true, "ZF01")
+    ];
+    const result = computeReliabilityMetrics({
+      osList,
+      dateFrom: range.dateFrom,
+      dateTo: range.dateTo
+    });
+    expect(result.horasZF01).toBeCloseTo(1);
+    expect(result.horasZF02).toBeCloseTo(4);
+    expect(result.horasZF03).toBeCloseTo(2);
+    expect(result.horasZF01_ZF03).toBeCloseTo(3);
+    expect(result.falhas).toBe(1);
+  });
+
+  it("counts open ZF02 OS using the provided now reference", () => {
+    const openStart = new Date("2025-10-21T00:00:00Z");
+    const os = createOs(openStart, null, true, "ZF02");
+    os.end = null;
+    os.endDate = null;
+    const now = new Date("2025-10-22T00:00:00Z");
+    const result = computeReliabilityMetrics({
+      osList: [os],
+      dateFrom: range.dateFrom,
+      dateTo: range.dateTo,
+      now
+    });
+    expect(result.falhas).toBe(1);
+    expect(result.qtdAbertasZF02).toBe(1);
+    expect(result.downtimeTotal).toBeCloseTo(24);
   });
 });
 

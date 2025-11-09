@@ -24,6 +24,12 @@ sap.ui.define([
     sliceIntervalToRange,
     mergeOverlaps,
     sumIntervalsHours,
+    sumHorasByType,
+    sumHoursByTypes,
+    isOrderOpen,
+    isZF02,
+    isZF03,
+    nowLocal,
     computeReliabilityMetrics,
     buildUnifiedReliabilityByVehicle: buildUnifiedReliabilityByVehicleCore,
     buildUnifiedReliabilityByVehicleFromMap,
@@ -415,6 +421,25 @@ sap.ui.define([
     return (Number(downtimeTotal) || 0) / falhas;
   }
 
+  function countOpenByType(osList, typeCode) {
+    const target = String(typeCode || "").trim().toUpperCase();
+    if (!target) {
+      return 0;
+    }
+    return (Array.isArray(osList) ? osList : []).reduce((acc, os) => {
+      if (!os || !isOrderOpen(os)) {
+        return acc;
+      }
+      if (target === "ZF02" && isZF02(os)) {
+        return acc + 1;
+      }
+      if (target === "ZF03" && isZF03(os)) {
+        return acc + 1;
+      }
+      return acc;
+    }, 0);
+  }
+
   function calcDisponibilidade(mtbf, mttr) {
     const a = Number(mtbf) || 0;
     const b = Number(mttr) || 0;
@@ -610,7 +635,7 @@ sap.ui.define([
       return result;
     }
     const months = _enumerateMonths(dateFrom, dateTo);
-    const now = new Date();
+    const now = nowLocal();
 
     const monthEntries = await Promise.all(months.map(({ year, month }) => _loadOsMonth(year, month)));
     monthEntries.forEach((entries) => {
@@ -762,8 +787,20 @@ sap.ui.define([
       });
       const summary = vehicleId ? (reliabilityByVehicle[vehicleId] || null) : null;
 
+      const sumOptions = {
+        dateFrom: range.from,
+        dateTo: range.to,
+        now: nowLocal()
+      };
+      const horasZF02 = summary ? (Number(summary.horasZF02) || 0) : sumHorasByType(osList, "ZF02", sumOptions);
+      const horasZF01_ZF03 = summary && Number.isFinite(summary.horasZF01_ZF03)
+        ? Number(summary.horasZF01_ZF03)
+        : sumHoursByTypes(osList, ["ZF01", "ZF03"], { now: sumOptions.now });
+      const qtdAbertasZF02 = summary ? (Number(summary.qtdAbertasZF02) || 0) : countOpenByType(osList, "ZF02");
+      const qtdAbertasZF03 = summary ? (Number(summary.qtdAbertasZF03) || 0) : countOpenByType(osList, "ZF03");
+
       const falhas = summary ? summary.falhas : tableRows.filter((row) => row.downtimeHoras > 0).length;
-      const downtimeTotal = summary ? summary.downtimeTotal : tableRows.reduce((acc, row) => acc + (Number(row.downtimeHoras) || 0), 0);
+      const downtimeTotal = summary ? summary.downtimeTotal : horasZF02;
 
       let rangeStart = range && range.from instanceof Date ? range.from : null;
       let rangeEnd = range && range.to instanceof Date ? range.to : null;
@@ -850,7 +887,12 @@ sap.ui.define([
           breakPreventiveRecommended: summary ? summary.breakPreventiveRecommended : false,
           breakPreventiveReason: summary ? summary.breakPreventiveReason : "",
           kmAtual,
-          hrAtual
+          hrAtual,
+          horasZF01_ZF03,
+          horasZF02,
+          horasZF02Fmt: summary ? summary.horasZF02Fmt : `${NUM_FMT.format(Math.max(0, horasZF02 || 0))} h`,
+          qtdAbertasZF02,
+          qtdAbertasZF03
         },
         intervals: {
           km: intervalsKm,

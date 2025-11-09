@@ -16,6 +16,60 @@
     minDeltaKm: 1,
     minDeltaHr: 0.01
   };
+  const DEFAULT_TIMEZONE = "America/Maceio";
+
+  function toTimeZoneDate(value, timeZone = DEFAULT_TIMEZONE) {
+    const date = coerceDate(value);
+    if (!date) {
+      return null;
+    }
+    if (typeof Intl !== "object" || typeof Intl.DateTimeFormat !== "function") {
+      return new Date(date.getTime());
+    }
+    try {
+      const formatter = new Intl.DateTimeFormat("en-CA", {
+        timeZone,
+        hour12: false,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      });
+      const parts = formatter.formatToParts(date);
+      const tokens = {};
+      parts.forEach((part) => {
+        if (part.type === "literal") {
+          return;
+        }
+        tokens[part.type] = part.value;
+      });
+      const iso = `${tokens.year || "1970"}-${tokens.month || "01"}-${tokens.day || "01"}T${tokens.hour || "00"}:${tokens.minute || "00"}:${tokens.second || "00"}`;
+      const zoned = new Date(iso);
+      return Number.isNaN(zoned.getTime()) ? new Date(date.getTime()) : zoned;
+    } catch (err) {
+      return new Date(date.getTime());
+    }
+  }
+
+  function nowLocal(timeZone = DEFAULT_TIMEZONE) {
+    return toTimeZoneDate(new Date(), timeZone);
+  }
+
+  function hoursDiff(start, end, options = {}) {
+    const tz = options.timeZone || DEFAULT_TIMEZONE;
+    const startDate = toTimeZoneDate(start, tz);
+    const endDate = toTimeZoneDate(end, tz);
+    if (!(startDate && endDate)) {
+      return 0;
+    }
+    const delta = endDate.getTime() - startDate.getTime();
+    if (!Number.isFinite(delta) || delta <= 0) {
+      return 0;
+    }
+    return delta / 36e5;
+  }
 
   function coerceDate(value) {
     if (value instanceof Date && !Number.isNaN(value.getTime())) {
@@ -30,6 +84,66 @@
       return Number.isNaN(d.getTime()) ? null : d;
     }
     return null;
+  }
+
+  function getTypeCode(os) {
+    if (!os || typeof os !== "object") {
+      return "";
+    }
+    const candidates = [
+      os.type,
+      os.Type,
+      os.tipo,
+      os.Tipo,
+      os.tipoOs,
+      os.tipoOS,
+      os.TipoOS,
+      os.tipoOS,
+      os.tipo_orden,
+      os.class,
+      os.category,
+      os.categoria,
+      os.Categoria
+    ];
+    for (let i = 0; i < candidates.length; i++) {
+      const value = candidates[i];
+      if (value == null) {
+        continue;
+      }
+      const raw = String(value).toUpperCase().trim();
+      if (!raw) {
+        continue;
+      }
+      const match = raw.match(/ZF0[123]/);
+      if (match) {
+        return match[0];
+      }
+    }
+    return "";
+  }
+
+  function getOsType(os) {
+    return getTypeCode(os);
+  }
+
+  function isOrderOpen(os) {
+    const endDate = coerceDate(os && (os.endDate || os.end || os.finishedAt));
+    if (endDate && !Number.isNaN(endDate.getTime())) {
+      return false;
+    }
+    const status = String(os && os.status || "").trim().toUpperCase();
+    if (!status) {
+      return true;
+    }
+    return !["ENCERRADA", "ENCERRADO", "FECHADA", "FECHADO", "CONCLUIDA", "CONCLUÍDA", "FINALIZADA", "FINALIZADO"].includes(status);
+  }
+
+  function isZF02(os) {
+    return getOsType(os) === "ZF02";
+  }
+
+  function isZF03(os) {
+    return getOsType(os) === "ZF03";
   }
 
   function normalizeVehicleIds(list) {
@@ -85,6 +199,90 @@
     return (Array.isArray(arr) ? arr : [])
       .map((value) => Number(value))
       .filter((value) => Number.isFinite(value) && value > 0);
+  }
+
+  function resolveStartDate(os) {
+    return coerceDate(
+      (os && (
+        os.startAt || os.start_date || os.startDate || os.start || os.dataAbertura || os.DataAbertura || os.inicio
+      )) || null
+    );
+  }
+
+  function resolveEndDate(os) {
+    return coerceDate(
+      (os && (
+        os.endAt || os.end_date || os.endDate || os.end || os.dataFechamento || os.DataFechamento || os.fim || os.dataFim
+      )) || null
+    );
+  }
+
+  function durationHours(os, now = nowLocal()) {
+    const start = resolveStartDate(os);
+    if (!(start instanceof Date) || Number.isNaN(start.getTime())) {
+      return 0;
+    }
+    let end = resolveEndDate(os);
+    if (!(end instanceof Date) || Number.isNaN(end.getTime())) {
+      const fallback = coerceDate(now) || nowLocal();
+      end = fallback instanceof Date ? fallback : new Date();
+    }
+    const ms = Math.max(0, end.getTime() - start.getTime());
+    return ms / 36e5;
+  }
+
+  function sumHoursByTypes(osList, types = [], options = {}) {
+    const typeSet = new Set(
+      (Array.isArray(types) ? types : [])
+        .map((code) => String(code || "").toUpperCase().trim())
+        .filter((code) => /ZF0[123]/.test(code))
+    );
+    if (!typeSet.size) {
+      return 0;
+    }
+    const nowRef = coerceDate(options.now) || nowLocal(options.timeZone || DEFAULT_TIMEZONE);
+    const seen = new Set();
+    let total = 0;
+    (Array.isArray(osList) ? osList : []).forEach((os) => {
+      if (!os) {
+        return;
+      }
+      let unique = os.id || os.ID || os.ordem || os.Ordem || os.numero || os.Numero || os.NumeroOS || os.order || null;
+      if (!unique) {
+        try {
+          unique = JSON.stringify(os);
+        } catch (_) {
+          unique = null;
+        }
+      }
+      const id = unique ? String(unique).trim() : "";
+      if (id && seen.has(id)) {
+        return;
+      }
+      if (id) {
+        seen.add(id);
+      }
+      const type = getTypeCode(os);
+      if (!typeSet.has(type)) {
+        return;
+      }
+      const baseDuration = Number(os.duracaoHoras);
+      const hours = Number.isFinite(baseDuration) && baseDuration >= 0
+        ? baseDuration
+        : durationHours(os, nowRef);
+      if (Number.isFinite(hours) && hours > 0) {
+        total += hours;
+      }
+    });
+    return total;
+  }
+
+  function sumHorasByType(osList, typeCode, options = {}) {
+    const targetType = String(typeCode || "").trim().toUpperCase();
+    if (!targetType) {
+      return 0;
+    }
+    return sumHoursByTypes(osList, [targetType], options);
   }
 
   function interFailureDeltas(events, accessor) {
@@ -182,7 +380,7 @@
     return "Success";
   }
 
-  function sliceIntervalToRange(start, end, dateFrom, dateTo, now = new Date()) {
+  function sliceIntervalToRange(start, end, dateFrom, dateTo, now = nowLocal()) {
     const rangeStart = coerceDate(dateFrom);
     const rangeEnd = coerceDate(dateTo);
     if (!(rangeStart && rangeEnd) || rangeEnd.getTime() <= rangeStart.getTime()) {
@@ -264,9 +462,10 @@
     return (to.getTime() - from.getTime()) / 36e5;
   }
 
-  function computeReliabilityMetrics({ osList, dateFrom, dateTo, now = new Date() } = {}) {
+  function computeReliabilityMetrics({ osList, dateFrom, dateTo, now = nowLocal() } = {}) {
     const from = coerceDate(dateFrom);
     const to = coerceDate(dateTo);
+    const nowRef = coerceDate(now) || nowLocal();
     if (!(from && to) || to.getTime() <= from.getTime()) {
       const zeroHours = hoursBetween(from, to);
       return {
@@ -276,41 +475,75 @@
         operationalHours: zeroHours,
         availability: 1,
         mttr: 0,
-        mtbf: 0
+        mtbf: 0,
+        horasZF02: 0,
+        horasZF03: 0,
+        qtdAbertasZF02: 0,
+        qtdAbertasZF03: 0
       };
     }
 
-    const intervals = [];
-    let falhas = 0;
+    let falhasZF02 = 0;
+    let horasZF01 = 0;
+    let horasZF02 = 0;
+    let horasZF03 = 0;
+    let qtdAbertasZF02 = 0;
+    let qtdAbertasZF03 = 0;
+    const tz = DEFAULT_TIMEZONE;
+
     (Array.isArray(osList) ? osList : []).forEach((os) => {
       if (!os || os.hasStop === false) {
         return;
       }
       const start = os.start || os.startDate || os.startedAt;
       const end = os.end || os.endDate || os.finishedAt;
-      const clamped = sliceIntervalToRange(start, end, from, to, now);
-      if (clamped) {
-        intervals.push(clamped);
-        falhas += 1;
+      const clamped = sliceIntervalToRange(start, end, from, to, nowRef);
+      if (!clamped) {
+        return;
+      }
+      const durationHours = hoursDiff(clamped[0], clamped[1], { timeZone: tz });
+      if (!(durationHours > 0)) {
+        return;
+      }
+      const type = getOsType(os);
+      if (type === "ZF02") {
+        falhasZF02 += 1;
+        horasZF02 += durationHours;
+        if (isOrderOpen(os)) {
+          qtdAbertasZF02 += 1;
+        }
+      } else if (type === "ZF01") {
+        horasZF01 += durationHours;
+      } else if (type === "ZF03") {
+        horasZF03 += durationHours;
+        if (isOrderOpen(os)) {
+          qtdAbertasZF03 += 1;
+        }
       }
     });
 
-    const merged = mergeOverlaps(intervals);
-    const downtimeTotal = sumIntervalsHours(merged);
     const totalRangeHours = hoursBetween(from, to);
+    const downtimeTotal = Math.max(0, horasZF02);
+    const horasZF01_ZF03 = Math.max(0, horasZF01) + Math.max(0, horasZF03);
     const operationalHours = Math.max(0, Math.min(totalRangeHours, totalRangeHours - downtimeTotal));
-    const availability = totalRangeHours > 0 ? (operationalHours / totalRangeHours) : 1;
-    const mttr = calcMTTR(downtimeTotal, falhas);
-    const mtbf = calcMTBF(operationalHours, falhas);
+    const availability = totalRangeHours > 0 ? Math.max(0, Math.min(1, operationalHours / totalRangeHours)) : 1;
+    const mttr = calcMTTR(downtimeTotal, falhasZF02);
+    const mtbf = calcMTBF(operationalHours, falhasZF02);
 
     return {
-      falhas,
+      falhas: falhasZF02,
       downtimeTotal,
       totalRangeHours,
       operationalHours,
       availability,
       mttr,
-      mtbf
+      mtbf,
+      horasZF01: Math.max(0, horasZF01),
+      horasZF02: downtimeTotal,
+      horasZF03: Math.max(0, horasZF03),
+      horasZF01_ZF03,
+      qtdAbertasZF02,
+      qtdAbertasZF03
     };
   }
 
@@ -500,7 +733,17 @@
       horasParadasFmt: formatHours(metrics.downtimeTotal),
       mttrFmt: formatHours(metrics.mttr),
       mtbfFmt: formatHours(metrics.mtbf),
-      downtimeFmt: formatHours(metrics.downtimeTotal)
+      downtimeFmt: formatHours(metrics.downtimeTotal),
+      horasZF01: Number.isFinite(metrics.horasZF01) ? metrics.horasZF01 : 0,
+      horasZF03: Number.isFinite(metrics.horasZF03) ? metrics.horasZF03 : 0,
+      horasZF01_ZF03: Number.isFinite(metrics.horasZF01_ZF03) ? metrics.horasZF01_ZF03 : (Number(metrics.horasZF01) || 0) + (Number(metrics.horasZF03) || 0),
+      horasZF01_ZF03Fmt: formatHours(Number.isFinite(metrics.horasZF01_ZF03) ? metrics.horasZF01_ZF03 : ((Number(metrics.horasZF01) || 0) + (Number(metrics.horasZF03) || 0))),
+      horasZF01Fmt: formatHours(metrics.horasZF01),
+      horasZF02: Number.isFinite(metrics.horasZF02) ? metrics.horasZF02 : metrics.downtimeTotal,
+      horasZF02Fmt: formatHours(Number.isFinite(metrics.horasZF02) ? metrics.horasZF02 : metrics.downtimeTotal),
+      horasZF03Fmt: formatHours(metrics.horasZF03),
+      qtdAbertasZF02: metrics.qtdAbertasZF02 || 0,
+      qtdAbertasZF03: metrics.qtdAbertasZF03 || 0
     });
   }
 
@@ -553,10 +796,20 @@
 
   return {
     coerceDate,
+    getTypeCode,
+    nowLocal,
+    hoursDiff,
+    getOsType,
+    durationHours,
+    isOrderOpen,
+    isZF02,
+    isZF03,
     normalizeVehicleIds,
     percentile,
     ema,
     positiveFinite,
+    sumHorasByType,
+    sumHoursByTypes,
     interFailureDeltas,
     robustInterval,
     normalizeReliabilitySettings,
@@ -567,7 +820,7 @@
     calcMTBF,
     hoursBetween,
     computeReliabilityMetrics,
-     computeBreakPrediction,
+    computeBreakPrediction,
     buildUnifiedReliabilityByVehicleFromMap,
     buildUnifiedReliabilityByVehicle
   };

@@ -305,6 +305,46 @@ sap.ui.define([], function () {
 	formatacaoHorasNovo: function(indispValor){
 		return `${fmtNumber(Math.max(indispValor, 0), 0, 2)}`;
 	},
+    toHoursFmt: function (valor) {
+      return formatHoursValue(Number(valor));
+    },
+    toDurationFmt: function (valor) {
+      const totalMin = Math.max(0, Math.round((Number(valor) || 0) * 60));
+      const horas = Math.floor(totalMin / 60);
+      const minutos = totalMin % 60;
+      return `${horas}h${String(minutos).padStart(2, "0")}`;
+    },
+    nullOrDash: function (valor, fallback) {
+      if (valor === null || valor === undefined) {
+        return fallback || "—";
+      }
+      if (typeof valor === "number" && !isFinite(valor)) {
+        return fallback || "—";
+      }
+      if (valor === "") {
+        return fallback || "—";
+      }
+      return valor;
+    },
+    concatLabelValue: function (label, value) {
+      const safeLabel = label || "";
+      let safeValue = value;
+      if (typeof safeValue === "number") {
+        safeValue = formatHoursValue(safeValue);
+      }
+      if (!safeValue) {
+        safeValue = "—";
+      }
+      return `${safeLabel}: ${safeValue}`;
+    },
+    legendOpenCounts: function (label, zf02, zf03) {
+      const safeLabel = label || "";
+      const count02 = Number(zf02);
+      const count03 = Number(zf03);
+      const txt02 = Number.isFinite(count02) ? count02 : 0;
+      const txt03 = Number.isFinite(count03) ? count03 : 0;
+      return `${safeLabel}: ${txt02} ZF02, ${txt03} ZF03`;
+    },
     stateDisponibilidade: function(pctDisp){
       const d = Number(pctDisp) || 0;
       if (d >= 90) return "Success";
@@ -314,3 +354,10 @@ sap.ui.define([], function () {
   };
 });
 
+  function formatHoursValue(num) {
+    if (!Number.isFinite(num)) {
+      return "0,00 h";
+    }
+    const fixed = Math.max(0, num).toFixed(2);
+    return `${fixed.replace(".", ",")} h`;
+  }

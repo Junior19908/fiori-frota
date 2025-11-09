@@ -227,9 +227,16 @@
           </table:Column>
 
           <table:Column width="6rem" hAlign="End">
-            <Label text="Hr Paradas (Teste)"/>
+            <Label text="Hr Paradas" tooltip="{i18n>tooltip.horasZF02}"/>
             <table:template>
-              <Text text="{vm>horasParadasFmt}"/>
+              <Text text="{vm>horasParadasFmt}" tooltip="{i18n>tooltip.horasZF02}"/>
+            </table:template>
+          </table:Column>
+
+          <table:Column width="8rem" hAlign="End">
+            <Label text="{i18n>col.horasZF01_ZF03}" tooltip="{i18n>tooltip.horasZF01_ZF03}"/>
+            <table:template>
+              <Text text="{ path: 'vm>horasZF01_ZF03', formatter: '.formatter.toHoursFmt' }" tooltip="{i18n>tooltip.horasZF01_ZF03}"/>
             </table:template>
           </table:Column>
 
@@ -241,16 +248,16 @@
           </table:Column>
 
           <table:Column width="6rem" hAlign="End">
-            <Label text="MTBF"/>
+            <Label text="MTBF" tooltip="{i18n>tooltip.mtbf}"/>
             <table:template>
-              <Text text="{vm>mtbfFmt}"/>
+              <Text text="{vm>mtbfFmt}" tooltip="{i18n>tooltip.mtbf}"/>
             </table:template>
           </table:Column>
 
           <table:Column width="6rem" hAlign="End">
-            <Label text="MTTR"/>
+            <Label text="MTTR" tooltip="{i18n>tooltip.mttr}"/>
             <table:template>
-              <Text text="{vm>mttrFmt}"/>
+              <Text text="{vm>mttrFmt}" tooltip="{i18n>tooltip.mttr}"/>
             </table:template>
           </table:Column>
 

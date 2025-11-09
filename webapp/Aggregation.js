@@ -1,8 +1,11 @@
 sap.ui.define([
   "com/skysinc/frota/frota/util/FilterUtil",
-  "com/skysinc/frota/frota/services/ReliabilityService"
-], function (FilterUtil, ReliabilityService) {
+  "com/skysinc/frota/frota/services/ReliabilityService",
+  "com/skysinc/frota/frota/services/ReliabilityCore"
+], function (FilterUtil, ReliabilityService, ReliabilityCore) {
   "use strict";
+
+  const { sumHoursByTypes, nowLocal } = ReliabilityCore;
 
   const MS_PER_DAY  = 24 * 60 * 60 * 1000;
   const MS_PER_HOUR = 60 * 60 * 1000;
@@ -633,6 +636,11 @@ sap.ui.define([
         v.osCountRange = relSummary.falhas || 0;
         v.falhas = relSummary.falhas || 0;
         v.horasParadasFmt = relSummary.horasParadasFmt || (downtimeHours.toFixed(2) + " h");
+        v.horasZF02 = Number(relSummary.horasZF02 || relSummary.downtimeTotal || 0);
+        v.horasZF02Fmt = relSummary.horasZF02Fmt || v.horasParadasFmt;
+        v.horasZF01_ZF03 = Number(relSummary.horasZF01_ZF03 || 0);
+        v.qtdAbertasZF02 = relSummary.qtdAbertasZF02 || 0;
+        v.qtdAbertasZF03 = relSummary.qtdAbertasZF03 || 0;
         v.disponibilidadeFmt = relSummary.disponibilidadeFmt || "";
         v.mtbf = relSummary.mtbf || 0;
         v.mtbfFmt = relSummary.mtbfFmt || "-";
@@ -664,6 +672,7 @@ sap.ui.define([
           const osList = (!osFilter.showAllOS && osFilter.allowedSet.size)
             ? osRawList.filter((item) => osMatchesFilter(item, osFilter))
             : osRawList;
+          const horasZF01ZF03 = sumHoursByTypes(osList, ["ZF01", "ZF03"], { now: nowLocal() });
           const resultDisp = calcDisponibilidade(osList, { from: start, to: end });
           const tempoTotalH = resultDisp.tempoTotalH;
           const indispH = resultDisp.indispH;
@@ -688,6 +697,11 @@ sap.ui.define([
           const dispTxt = pctDisp.toFixed(1).replace(".", ",");
           const indispTxt = pctIndisp.toFixed(1).replace(".", ",");
           v.horasParadasFmt        = `${horasIndispTxt} h`;
+          v.horasZF02 = horasIndisp;
+          v.horasZF02Fmt = v.horasParadasFmt;
+          v.horasZF01_ZF03 = Number(Math.max(0, horasZF01ZF03));
+          v.qtdAbertasZF02 = 0;
+          v.qtdAbertasZF03 = 0;
           v.disponibilidadeFmt     = `${dispTxt}% disponível | ${indispTxt}% indisponível`;
           v.mtbfFmt = v.mtbfFmt || "-";
           v.mttrFmt = v.mttrFmt || "-";
@@ -718,6 +732,11 @@ sap.ui.define([
         v.osCountRange = 0;
         v.falhas = 0;
         v.horasParadasFmt = "0,00 h";
+        v.horasZF02 = 0;
+        v.horasZF02Fmt = "0,00 h";
+        v.horasZF01_ZF03 = 0;
+        v.qtdAbertasZF02 = 0;
+        v.qtdAbertasZF03 = 0;
         v.disponibilidadeFmt = "100,0% disponível | 0,0% indisponível";
       }
     });

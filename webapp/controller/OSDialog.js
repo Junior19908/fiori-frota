@@ -4,8 +4,9 @@ sap.ui.define([
   "sap/m/MessageToast",
   "sap/m/MessageBox",
   "com/skysinc/frota/frota/util/formatter",
-  "com/skysinc/frota/frota/services/ReliabilityService"
-], function (JSONModel, Fragment, MessageToast, MessageBox, formatter, ReliabilityService) {
+  "com/skysinc/frota/frota/services/ReliabilityService",
+  "com/skysinc/frota/frota/services/ReliabilityCore"
+], function (JSONModel, Fragment, MessageToast, MessageBox, formatter, ReliabilityService, ReliabilityCore) {
   "use strict";
 
   const _byViewId = new Map();
@@ -140,14 +141,29 @@ sap.ui.define([
   }
 
   function _mapToView(list) {
+    const now = ReliabilityCore && typeof ReliabilityCore.nowLocal === "function"
+      ? ReliabilityCore.nowLocal()
+      : new Date();
     return (list || []).map(function (o) {
       const dataInicio = o.DataAbertura || o.dataAbertura;
       const dataFim = o.DataFechamento || o.dataFechamento;
       const horaInicio = o.HoraInicio || o.horaInicio;
       const horaFim = o.HoraFim || o.horaFim;
       const ab = _combineDateTime(dataInicio, horaInicio, true) || (dataInicio ? new Date(dataInicio) : null);
-      const fe = _combineDateTime(dataFim, horaFim, false) || (dataFim ? new Date(dataFim) : null);
-      const downtime = (ab && fe && fe.getTime() > ab.getTime()) ? ((fe.getTime() - ab.getTime())/36e5) : 0;
+      const originalEnd = _combineDateTime(dataFim, horaFim, false) || (dataFim ? new Date(dataFim) : null);
+      const hasRealEnd = originalEnd instanceof Date && !Number.isNaN(originalEnd);
+      let effectiveEnd = null;
+      if (ab) {
+        if (originalEnd && originalEnd.getTime() >= ab.getTime()) {
+          effectiveEnd = originalEnd;
+        } else if (!originalEnd) {
+          effectiveEnd = now;
+        }
+      }
+      if (effectiveEnd && ab && effectiveEnd.getTime() < ab.getTime()) {
+        effectiveEnd = ab;
+      }
+      const downtime = (ab && effectiveEnd) ? ((effectiveEnd.getTime() - ab.getTime()) / 36e5) : 0;
       const categoria = String(o.Categoria || o.categoria || '').toUpperCase();
       const progress = _calcProgress(downtime);
       return {
@@ -160,8 +176,8 @@ sap.ui.define([
         horaInicio: String(horaInicio || ''),
         horaFim: String(horaFim || ''),
         _abertura: ab || (dataInicio || null),
-        _fechamento: fe || (dataFim || null),
-        parada: downtime > 0,
+        _fechamento: effectiveEnd || (dataFim || null),
+        parada: hasRealEnd,
         downtime: downtime,
         downtimeFmt: _formatDowntime(Number(downtime) || 0),
         tipoManual: String(o.TipoManual || o.tipoManual || ""),
@@ -227,7 +243,16 @@ sap.ui.define([
         proximaQuebraKm: 0,
         proximaQuebraKmFmt: '-',
         proximaQuebraHr: 0,
-        proximaQuebraHrFmt: '-'
+        proximaQuebraHrFmt: '-',
+        horasZF02: 0,
+        horasZF02Fmt: '0,00 h',
+        horasZF01_ZF03: 0,
+        horasZF01: 0,
+        horasZF01Fmt: '0,00 h',
+        horasZF03: 0,
+        horasZF03Fmt: '0,00 h',
+        qtdAbertasZF02: 0,
+        qtdAbertasZF03: 0
       }
     });
     let dialogRef = null;

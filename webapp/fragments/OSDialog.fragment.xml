@@ -122,6 +122,46 @@
           <ObjectNumber number="{osDlg>/totalHorasFmt}"/>
         </Toolbar>
 
+        <VBox class="sapUiTinyMarginTop sapUiTinyMarginBottom" renderType="Bare">
+          <Toolbar design="Transparent">
+            <ObjectStatus text="{i18n>legend.zf02}" state="Error"/>
+            <ToolbarSpacer/>
+            <ObjectStatus text="{i18n>legend.zf01zf03}" state="Success"/>
+          </Toolbar>
+          <Toolbar design="Transparent" class="sapUiTinyMarginTop">
+            <ObjectStatus
+              text="{
+                parts: [
+                  { path: 'i18n>legend.summary.zf02' },
+                  { path: 'osDlg>/metrics/horasZF02Fmt' }
+                ],
+                formatter: '.formatter.concatLabelValue'
+              }"
+              state="Error"/>
+            <ToolbarSpacer/>
+            <ObjectStatus
+              text="{
+                parts: [
+                  { path: 'i18n>legend.summary.zf01zf03' },
+                  { path: 'osDlg>/metrics/horasZF01_ZF03' }
+                ],
+                formatter: '.formatter.concatLabelValue'
+              }"
+              state="Success"/>
+            <ToolbarSpacer/>
+            <ObjectStatus
+              text="{
+                parts: [
+                  { path: 'i18n>legend.summary.open' },
+                  { path: 'osDlg>/metrics/qtdAbertasZF02' },
+                  { path: 'osDlg>/metrics/qtdAbertasZF03' }
+                ],
+                formatter: '.formatter.legendOpenCounts'
+              }"
+              state="Information"/>
+          </Toolbar>
+        </VBox>
+
         <Text text="Sem OS para o filtro"
               visible="{= ${osDlg>/os}.length === 0 }"/>
       </VBox>
