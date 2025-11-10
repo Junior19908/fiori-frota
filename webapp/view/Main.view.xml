@@ -233,13 +233,6 @@
             </table:template>
           </table:Column>
 
-          <table:Column width="8rem" hAlign="End">
-            <Label text="{i18n>col.horasZF01_ZF03}" tooltip="{i18n>tooltip.horasZF01_ZF03}"/>
-            <table:template>
-              <Text text="{ path: 'vm>horasZF01_ZF03', formatter: '.formatter.toHoursFmt' }" tooltip="{i18n>tooltip.horasZF01_ZF03}"/>
-            </table:template>
-          </table:Column>
-
           <table:Column width="6rem" hAlign="End">
             <Label text="Numero de paradas"/>
             <table:template>

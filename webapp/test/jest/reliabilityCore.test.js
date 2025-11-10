@@ -334,6 +334,32 @@ describe("computeReliabilityMetrics", () => {
     expect(result.qtdAbertasZF02).toBe(1);
     expect(result.downtimeTotal).toBeCloseTo(24);
   });
+
+  it("counts downtime for ZF02 even when parada is false", () => {
+    const start = new Date("2025-10-18T00:00:00Z");
+    const end = new Date("2025-10-18T08:00:00Z");
+    const result = computeReliabilityMetrics({
+      osList: [createOs(start, end, false, "ZF02")],
+      dateFrom: range.dateFrom,
+      dateTo: range.dateTo
+    });
+    expect(result.downtimeTotal).toBeCloseTo(8);
+    expect(result.horasZF02).toBeCloseTo(8);
+    expect(result.falhas).toBe(1);
+  });
+
+  it("still ignores non-ZF02 downtime when parada is false", () => {
+    const start = new Date("2025-10-19T00:00:00Z");
+    const end = new Date("2025-10-19T06:00:00Z");
+    const result = computeReliabilityMetrics({
+      osList: [createOs(start, end, false, "ZF01")],
+      dateFrom: range.dateFrom,
+      dateTo: range.dateTo
+    });
+    expect(result.downtimeTotal).toBe(0);
+    expect(result.horasZF01).toBe(0);
+    expect(result.falhas).toBe(0);
+  });
 });
 
 describe("estimator helpers", () => {
@@ -406,6 +432,28 @@ describe("computeBreakPrediction", () => {
     });
     expect(result.kmBreak).toBeCloseTo(1325);
     expect(result.hrBreak).toBeCloseTo(50);
+  });
+
+  it("includes ZF02 events even when parada is false", () => {
+    const events = [
+      Object.assign(createOs(new Date("2025-01-01T00:00:00Z"), new Date("2025-01-01T02:00:00Z"), false, "ZF02"), {
+        kmAtEvent: 1000,
+        hrAtEvent: 10
+      }),
+      Object.assign(createOs(new Date("2025-01-05T00:00:00Z"), new Date("2025-01-05T03:00:00Z"), false, "ZF02"), {
+        kmAtEvent: 1200,
+        hrAtEvent: 20
+      })
+    ];
+    const result = ReliabilityCore.computeBreakPrediction(events, {
+      settings: {
+        breakEstimator: { mode: "percentile", p: 0.5 },
+        minDeltaKm: 1,
+        minDeltaHr: 0.1
+      }
+    });
+    expect(result.kmBreak).toBeCloseTo(200);
+    expect(result.hrBreak).toBeCloseTo(10);
   });
 });
 

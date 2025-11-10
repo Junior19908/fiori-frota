@@ -146,6 +146,16 @@
     return getOsType(os) === "ZF03";
   }
 
+  function shouldSkipDueToStopFlag(os) {
+    if (!os) {
+      return true;
+    }
+    if (os.hasStop === false && !isZF02(os)) {
+      return true;
+    }
+    return false;
+  }
+
   function normalizeVehicleIds(list) {
     if (!Array.isArray(list)) {
       return [];
@@ -491,10 +501,10 @@
     let qtdAbertasZF03 = 0;
     const tz = DEFAULT_TIMEZONE;
 
-    (Array.isArray(osList) ? osList : []).forEach((os) => {
-      if (!os || os.hasStop === false) {
-        return;
-      }
+      (Array.isArray(osList) ? osList : []).forEach((os) => {
+        if (shouldSkipDueToStopFlag(os)) {
+          return;
+        }
       const start = os.start || os.startDate || os.startedAt;
       const end = os.end || os.endDate || os.finishedAt;
       const clamped = sliceIntervalToRange(start, end, from, to, nowRef);
@@ -583,10 +593,10 @@
     const summary = createEmptyBreakSummary();
     const settings = normalizeReliabilitySettings(context.settings);
     const ordered = [];
-    (Array.isArray(events) ? events : []).forEach((event) => {
-      if (!event || event.hasStop === false) {
-        return;
-      }
+      (Array.isArray(events) ? events : []).forEach((event) => {
+        if (shouldSkipDueToStopFlag(event)) {
+          return;
+        }
       const start = coerceDate(event.startDate || event.start || event.dataAbertura);
       if (start) {
         ordered.push({ event, start });
@@ -820,7 +830,7 @@
     calcMTBF,
     hoursBetween,
     computeReliabilityMetrics,
-    computeBreakPrediction,
+      computeBreakPrediction,
     buildUnifiedReliabilityByVehicleFromMap,
     buildUnifiedReliabilityByVehicle
   };
