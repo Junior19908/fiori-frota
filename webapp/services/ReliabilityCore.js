@@ -1,13 +1,18 @@
 (function (root, factory) {
   if (typeof sap !== "undefined" && sap.ui && sap.ui.define) {
-    sap.ui.define([], factory);
+    sap.ui.define(["com/skysinc/frota/frota/util/timeOverlap"], factory);
   } else if (typeof module === "object" && module.exports) {
-    module.exports = factory();
+    module.exports = factory(require("../util/timeOverlap"));
   } else {
-    root.ReliabilityCore = factory();
+    root.ReliabilityCore = factory(root.timeOverlap);
   }
-})(typeof self !== "undefined" ? self : this, function () {
+})(typeof self !== "undefined" ? self : this, function (timeOverlap) {
   "use strict";
+
+  const timeOverlapUtil = timeOverlap || {};
+  const overlapMinutesFn = typeof timeOverlapUtil.overlapMinutes === "function" ? timeOverlapUtil.overlapMinutes : null;
+  const parseTzFn = typeof timeOverlapUtil.parseTz === "function" ? timeOverlapUtil.parseTz : null;
+  const dayjsFilterLib = timeOverlapUtil.dayjs || null;
 
   const HOURS_FMT = new Intl.NumberFormat("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const PCT_FMT = new Intl.NumberFormat("pt-BR", { style: "percent", minimumFractionDigits: 1, maximumFractionDigits: 1 });
@@ -17,6 +22,17 @@
     minDeltaHr: 0.01
   };
   const DEFAULT_TIMEZONE = "America/Maceio";
+
+  function toOverlapDayjs(date) {
+    if (!dayjsFilterLib || !(date instanceof Date) || Number.isNaN(date.getTime())) {
+      return null;
+    }
+    const inst = dayjsFilterLib(date);
+    if (!inst || typeof inst.isValid !== "function" || !inst.isValid()) {
+      return null;
+    }
+    return typeof inst.tz === "function" ? inst.tz(DEFAULT_TIMEZONE) : inst;
+  }
 
   function toTimeZoneDate(value, timeZone = DEFAULT_TIMEZONE) {
     const date = coerceDate(value);
@@ -80,6 +96,15 @@
       return Number.isNaN(d.getTime()) ? null : d;
     }
     if (typeof value === "string" && value) {
+      if (parseTzFn && typeof parseTzFn === "function") {
+        const parsed = parseTzFn(value);
+        if (parsed && typeof parsed.toDate === "function") {
+          const parsedDate = parsed.toDate();
+          if (parsedDate instanceof Date && !Number.isNaN(parsedDate.getTime())) {
+            return parsedDate;
+          }
+        }
+      }
       const d = new Date(value);
       return Number.isNaN(d.getTime()) ? null : d;
     }
@@ -476,6 +501,10 @@
     const from = coerceDate(dateFrom);
     const to = coerceDate(dateTo);
     const nowRef = coerceDate(now) || nowLocal();
+    const fromDayjs = toOverlapDayjs(from);
+    const toDayjs = toOverlapDayjs(to);
+    const nowDayjs = toOverlapDayjs(nowRef);
+    const useOverlapMinutes = Boolean(fromDayjs && toDayjs && overlapMinutesFn);
     if (!(from && to) || to.getTime() <= from.getTime()) {
       const zeroHours = hoursBetween(from, to);
       return {
@@ -507,13 +536,22 @@
         }
       const start = os.start || os.startDate || os.startedAt;
       const end = os.end || os.endDate || os.finishedAt;
-      const clamped = sliceIntervalToRange(start, end, from, to, nowRef);
-      if (!clamped) {
-        return;
-      }
-      const durationHours = hoursDiff(clamped[0], clamped[1], { timeZone: tz });
-      if (!(durationHours > 0)) {
-        return;
+      let durationHours = 0;
+      if (useOverlapMinutes) {
+        const minutes = overlapMinutesFn(start, end, fromDayjs, toDayjs, nowDayjs || toDayjs);
+        if (!(minutes > 0)) {
+          return;
+        }
+        durationHours = minutes / 60;
+      } else {
+        const clamped = sliceIntervalToRange(start, end, from, to, nowRef);
+        if (!clamped) {
+          return;
+        }
+        durationHours = hoursDiff(clamped[0], clamped[1], { timeZone: tz });
+        if (!(durationHours > 0)) {
+          return;
+        }
       }
       const type = getOsType(os);
       if (type === "ZF02") {

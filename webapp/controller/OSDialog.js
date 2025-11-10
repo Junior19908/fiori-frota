@@ -5,11 +5,16 @@ sap.ui.define([
   "sap/m/MessageBox",
   "com/skysinc/frota/frota/util/formatter",
   "com/skysinc/frota/frota/services/ReliabilityService",
-  "com/skysinc/frota/frota/services/ReliabilityCore"
-], function (JSONModel, Fragment, MessageToast, MessageBox, formatter, ReliabilityService, ReliabilityCore) {
+  "com/skysinc/frota/frota/services/ReliabilityCore",
+  "com/skysinc/frota/frota/util/timeOverlap"
+], function (JSONModel, Fragment, MessageToast, MessageBox, formatter, ReliabilityService, ReliabilityCore, timeOverlap) {
   "use strict";
 
   const _byViewId = new Map();
+  const timeOverlapUtil = timeOverlap || {};
+  const overlapMinutesFn = typeof timeOverlapUtil.overlapMinutes === "function" ? timeOverlapUtil.overlapMinutes : null;
+  const formatHmFn = typeof timeOverlapUtil.formatHm === "function" ? timeOverlapUtil.formatHm : null;
+  const coerceDayjsFn = typeof timeOverlapUtil.coerceDayjs === "function" ? timeOverlapUtil.coerceDayjs : null;
 
   function _toYmd(val){
     try {
@@ -39,28 +44,55 @@ sap.ui.define([
   }
 
   function _formatDowntime(hours) {
-    try { const m = Math.max(0, Math.round((Number(hours) || 0) * 60)); const h = Math.floor(m/60), mm = m%60; return h + 'h' + String(mm).padStart(2,'0'); } catch(_) { return '0h00'; }
-  }
-
-  function _sumDowntimeHours(list) {
     try {
-      if (!Array.isArray(list) || !list.length) { return 0; }
-      return list.reduce(function (total, item) {
-        const val = Number(item && item.downtime);
-        return total + (isFinite(val) ? val : 0);
-      }, 0);
-    } catch (_) {
-      return 0;
-    }
+      const m = Math.max(0, Math.round((Number(hours) || 0) * 60));
+      if (formatHmFn) {
+        return formatHmFn(m);
+      }
+      const h = Math.floor(m / 60);
+      const mm = m % 60;
+      return h + "h" + String(mm).padStart(2, "0");
+    } catch(_) { return '0h00'; }
   }
 
   function _updateTotals(model, list) {
     if (!model || typeof model.setProperty !== 'function') { return; }
     const arr = Array.isArray(list) ? list : [];
-    const totalHours = _sumDowntimeHours(arr);
+    const totals = arr.reduce((acc, item) => {
+      const minutes = Number(item && item._overlapMinutes);
+      const safeMinutes = Number.isFinite(minutes) ? Math.max(0, minutes) : 0;
+      if (safeMinutes > 0) {
+        acc.totalMinutes += safeMinutes;
+        acc.considered += 1;
+        if (item._countsToDowntime) {
+          acc.zf02Minutes += safeMinutes;
+          if (!item.parada) {
+            acc.openZF02 += 1;
+          }
+        }
+        if (item._countsToProjects) {
+          acc.projectsMinutes += safeMinutes;
+          if (!item.parada && String(item.categoria || '').toUpperCase() === 'ZF03') {
+            acc.openZF03 += 1;
+          }
+        }
+      }
+      return acc;
+    }, { totalMinutes: 0, zf02Minutes: 0, projectsMinutes: 0, openZF02: 0, openZF03: 0, considered: 0 });
+    const totalHours = totals.totalMinutes / 60;
+    const totalFmt = formatHmFn ? formatHmFn(Math.round(totals.totalMinutes)) : _formatDowntime(totalHours);
     try { model.setProperty('/total', arr.length); } catch (_) {}
     try { model.setProperty('/totalHoras', totalHours); } catch (_) {}
-    try { model.setProperty('/totalHorasFmt', _formatDowntime(totalHours)); } catch (_) {}
+    try { model.setProperty('/totalHorasFmt', totalFmt); } catch (_) {}
+    const zf02Fmt = formatHmFn ? formatHmFn(Math.round(totals.zf02Minutes)) : _formatDowntime(totals.zf02Minutes / 60);
+    const projFmt = formatHmFn ? formatHmFn(Math.round(totals.projectsMinutes)) : _formatDowntime(totals.projectsMinutes / 60);
+    try { model.setProperty('/metrics/horasZF02', totals.zf02Minutes / 60); } catch (_) {}
+    try { model.setProperty('/metrics/horasZF02Fmt', zf02Fmt); } catch (_) {}
+    try { model.setProperty('/metrics/horasZF01_ZF03', totals.projectsMinutes / 60); } catch (_) {}
+    try { model.setProperty('/metrics/horasZF01_ZF03Fmt', projFmt); } catch (_) {}
+    try { model.setProperty('/metrics/qtdAbertasZF02', totals.openZF02); } catch (_) {}
+    try { model.setProperty('/metrics/qtdAbertasZF03', totals.openZF03); } catch (_) {}
+    try { model.setProperty('/metrics/osConsideradas', totals.considered); } catch (_) {}
   }
 
   function _refreshTotalsFromModel(model) {
@@ -140,10 +172,12 @@ sap.ui.define([
     } catch (_) { return String(code||''); }
   }
 
-  function _mapToView(list) {
-    const now = ReliabilityCore && typeof ReliabilityCore.nowLocal === "function"
+  function _mapToView(list, options = {}) {
+    const now = options.now || (ReliabilityCore && typeof ReliabilityCore.nowLocal === "function"
       ? ReliabilityCore.nowLocal()
-      : new Date();
+      : new Date());
+    const filterStart = options.filterStart || null;
+    const filterEnd = options.filterEnd || null;
     return (list || []).map(function (o) {
       const dataInicio = o.DataAbertura || o.dataAbertura;
       const dataFim = o.DataFechamento || o.dataFechamento;
@@ -164,6 +198,9 @@ sap.ui.define([
         effectiveEnd = ab;
       }
       const downtime = (ab && effectiveEnd) ? ((effectiveEnd.getTime() - ab.getTime()) / 36e5) : 0;
+      const overlapMinutesVal = (overlapMinutesFn && filterStart && filterEnd && ab)
+        ? overlapMinutesFn(ab, effectiveEnd, filterStart, filterEnd, now)
+        : Math.max(0, Math.round((Number(downtime) || 0) * 60));
       const categoria = String(o.Categoria || o.categoria || '').toUpperCase();
       const progress = _calcProgress(downtime);
       return {
@@ -178,10 +215,15 @@ sap.ui.define([
         _abertura: ab || (dataInicio || null),
         _fechamento: effectiveEnd || (dataFim || null),
         parada: hasRealEnd,
+        _isOpen: !hasRealEnd,
         downtime: downtime,
         downtimeFmt: _formatDowntime(Number(downtime) || 0),
-        tipoManual: String(o.TipoManual || o.tipoManual || ""),
+        _overlapMinutes: overlapMinutesVal,
+        _overlapFmt: formatHmFn ? formatHmFn(Math.round(overlapMinutesVal)) : _formatDowntime(overlapMinutesVal / 60),
+        _countsToDowntime: categoria === "ZF02",
+        _countsToProjects: categoria === "ZF01" || categoria === "ZF03",
         categoria: categoria,
+        tipoManual: String(o.TipoManual || o.tipoManual || ""),
         tipoLabel: (categoria === 'ZF03' ? 'Preventiva Basica/Mecanica - ZF03' : _typeLabel(categoria)),
         progressPct: progress.pct,
         progressText: progress.text,
@@ -212,6 +254,27 @@ sap.ui.define([
         .filter(Boolean)
     );
     return { showAll, allowed, allowedSet };
+  }
+
+  function _resolveFilterBounds(view, range) {
+    try {
+      const localModel = view && view.getModel && view.getModel("local");
+      if (localModel && typeof localModel.getProperty === "function") {
+        const localStart = localModel.getProperty("/filter/fStart");
+        const localEnd = localModel.getProperty("/filter/fEnd");
+        if (localStart && localEnd) {
+          return { start: localStart, end: localEnd };
+        }
+      }
+    } catch (_) {
+      // ignore issues resolving local model
+    }
+    const from = (range && range.from instanceof Date) ? range.from : (Array.isArray(range) ? range[0] : null);
+    const to = (range && range.to instanceof Date) ? range.to : (Array.isArray(range) ? range[1] : null);
+    return {
+      start: coerceDayjsFn ? coerceDayjsFn(from) : null,
+      end: coerceDayjsFn ? coerceDayjsFn(to) : null
+    };
   }
 
   function _ensure(view) {
@@ -322,14 +385,14 @@ sap.ui.define([
         const base = Array.isArray(data._base) ? data._base : (data.os || []);
         if (!q) {
           dlgModel.setProperty('/os', base);
-          _updateTotals(dlgModel, base);
-          try { const mx0 = base.reduce((m,o)=>Math.max(m, Number(o.downtime)||0), 0); dlgModel.setProperty('/__stats', { max: mx0 }); } catch(_){}
-          return;
-        }
+        _updateTotals(dlgModel, base);
+        try { const mx0 = base.reduce((m,o)=>Math.max(m, (Number(o._overlapMinutes)||0)/60), 0); dlgModel.setProperty('/__stats', { max: mx0 }); } catch(_){}
+        return;
+      }
         const filtered = base.filter((it)=>{ const s1=(it.veiculo||'').toLowerCase(); const s2=(it.ordem||'').toLowerCase(); const s3=(it.titulo||'').toLowerCase(); return s1.includes(q)||s2.includes(q)||s3.includes(q); });
         dlgModel.setProperty('/os', filtered);
         _updateTotals(dlgModel, filtered);
-        try { const mx = filtered.reduce((m,o)=>Math.max(m, Number(o.downtime)||0), 0); dlgModel.setProperty('/__stats', { max: mx }); } catch(_){}
+        try { const mx = filtered.reduce((m,o)=>Math.max(m, (Number(o._overlapMinutes)||0)/60), 0); dlgModel.setProperty('/__stats', { max: mx }); } catch(_){}
       },
 
       onExportOS: function () {
@@ -341,7 +404,7 @@ sap.ui.define([
           'In+¡cio': o.inicio || '',
           Fim: o.fim || '',
           Parada: o.parada ? 'Sim' : 'N+úo',
-          'Inatividade (h)': String(o.downtimeFmt || ''),
+          'Inatividade (filtro)': String(o._overlapFmt || o.downtimeFmt || ''),
           'Progresso': o.progressText || '',
           'Tipo (manual)': o.tipoManual || '',
           'Hora In+¡cio': o.horaInicio || '',
@@ -401,6 +464,7 @@ sap.ui.define([
       const end   = Array.isArray(range) ? range[1] : (range?.to   || null);
       const useUnifiedReliability = _isUnifiedReliabilityEnabled(view);
       const reliabilitySettings = _getReliabilitySettings(view);
+      const osFilter = _resolveOsFilter(view);
       let list = [];
       let unifiedOsMap = null;
       const providedOsMap = payload && payload.osData && payload.osData.map;
@@ -458,15 +522,21 @@ sap.ui.define([
         } catch(_) { list = []; }
       }
 
-      const mapped = _mapToView(list);
+      const filterBounds = _resolveFilterBounds(view, { from: start, to: end });
+      const mapped = _mapToView(list, {
+        filterStart: filterBounds.start,
+        filterEnd: filterBounds.end
+      });
       const meta = { equnr: veh, start, end };
       const payloadMetrics = payload?.metrics || {};
-      const osFilter = _resolveOsFilter(view);
       let filtered = mapped;
       if (start instanceof Date && end instanceof Date) {
         const startMs = start.getTime();
         const endMs = end.getTime();
         const withinRange = function (item) {
+          if (Number(item && item._overlapMinutes) > 0) {
+            return true;
+          }
           const beginMs = (item && item._abertura instanceof Date) ? item._abertura.getTime() : (item && item.inicio ? new Date(item.inicio + 'T00:00:00').getTime() : NaN);
           let finishMs = (item && item._fechamento instanceof Date) ? item._fechamento.getTime() : (item && item.fim ? new Date(item.fim + 'T23:59:59').getTime() : NaN);
           if (Number.isNaN(beginMs)) { return false; }
@@ -474,6 +544,8 @@ sap.ui.define([
           return beginMs <= endMs && finishMs >= startMs;
         };
         filtered = filtered.filter(withinRange);
+      } else if (filterBounds.start && filterBounds.end) {
+        filtered = filtered.filter((item) => Number(item && item._overlapMinutes) > 0);
       }
       if (!osFilter.showAll && osFilter.allowedSet.size) {
         filtered = filtered.filter((o)=> !o.categoria || osFilter.allowedSet.has(String(o.categoria||'').toUpperCase()));
@@ -486,7 +558,7 @@ sap.ui.define([
       st.dlgModel.setProperty('/_base', filtered.slice());
       _updateTotals(st.dlgModel, filtered);
       try {
-        const mx = filtered.length ? filtered.reduce((m,o)=>Math.max(m, Number(o.downtime)||0), 0) : 0;
+        const mx = filtered.length ? filtered.reduce((m,o)=>Math.max(m, (Number(o._overlapMinutes)||0) / 60), 0) : 0;
         st.dlgModel.setProperty('/__stats', { max: mx });
       } catch(_) {
         st.dlgModel.setProperty('/__stats', { max: 0 });
@@ -559,7 +631,7 @@ sap.ui.define([
         st.dlgModel.setProperty('/os', osCopy);
         _updateTotals(st.dlgModel, osCopy);
         try {
-          const mxLive = filteredArr.length ? filteredArr.reduce((m,o)=>Math.max(m, Number(o.downtime)||0), 0) : 0;
+          const mxLive = filteredArr.length ? filteredArr.reduce((m,o)=>Math.max(m, (Number(o._overlapMinutes)||0)/60), 0) : 0;
           st.dlgModel.setProperty('/__stats', { max: mxLive });
         } catch(_) {
           st.dlgModel.setProperty('/__stats', { max: 0 });
@@ -571,10 +643,3 @@ sap.ui.define([
   }
   return { open };
 });
-
-
-
-
-
-
-

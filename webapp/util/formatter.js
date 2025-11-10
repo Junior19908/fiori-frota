@@ -337,13 +337,15 @@ sap.ui.define([], function () {
       }
       return `${safeLabel}: ${safeValue}`;
     },
-    legendOpenCounts: function (label, zf02, zf03) {
+    legendOpenCounts: function (label, zf02, zf03, total) {
       const safeLabel = label || "";
       const count02 = Number(zf02);
       const count03 = Number(zf03);
+      const considered = Number(total);
       const txt02 = Number.isFinite(count02) ? count02 : 0;
       const txt03 = Number.isFinite(count03) ? count03 : 0;
-      return `${safeLabel}: ${txt02} ZF02, ${txt03} ZF03`;
+      const txtTotal = Number.isFinite(considered) ? considered : 0;
+      return `${safeLabel}: ${txtTotal} consideradas | ${txt02} ZF02 abertas | ${txt03} ZF03 abertas`;
     },
     stateDisponibilidade: function(pctDisp){
       const d = Number(pctDisp) || 0;

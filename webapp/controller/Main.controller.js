@@ -20,11 +20,12 @@ sap.ui.define([
   "com/skysinc/frota/frota/util/Storage",
   "com/skysinc/frota/frota/util/KpiUpdater",
   "com/skysinc/frota/frota/util/NotificationService",
-  "com/skysinc/frota/frota/model/NotificationModel"
+  "com/skysinc/frota/frota/model/NotificationModel",
+  "com/skysinc/frota/frota/util/timeOverlap"
 ], function (
   Controller, JSONModel, Filter, FilterOperator, Fragment, MessageToast, MessageBox,
   formatter, FilterUtil, MaterialsService, FuelService, KpiService, ODataMovtos, VehiclesService, Aggregation, ReliabilityService,
-  FilterState, FilterBuilder, Storage, KpiUpdater, NotificationService, NotificationModel
+  FilterState, FilterBuilder, Storage, KpiUpdater, NotificationService, NotificationModel, timeOverlap
 ) {
   "use strict";
 
@@ -42,6 +43,10 @@ sap.ui.define([
     return `${y}-${m}-${day}T${hh}:${mm}:${ss}`;
   }
 
+  const TimeOverlapUtil = timeOverlap || {};
+  const dayjsFilter = TimeOverlapUtil.dayjs || null;
+  const FILTER_TZ = TimeOverlapUtil.TZ || "America/Maceio";
+
   function debounce(fn, delay) {
     let handle;
     return function () {
@@ -52,6 +57,21 @@ sap.ui.define([
         fn.apply(ctx, args);
       }, delay);
     };
+  }
+
+  function isValidDate(value) {
+    return value instanceof Date && !Number.isNaN(value.getTime());
+  }
+
+  function toFilterDayjs(date) {
+    if (!dayjsFilter || !isValidDate(date)) {
+      return null;
+    }
+    const inst = dayjsFilter(date);
+    if (!inst || typeof inst.isValid !== "function" || !inst.isValid()) {
+      return null;
+    }
+    return typeof inst.tz === "function" ? inst.tz(FILTER_TZ) : inst;
   }
 
   function createSummarySkeleton() {
@@ -141,6 +161,10 @@ sap.ui.define([
         }), "vm");
       }
 
+      if (!this.getView().getModel("local")) {
+        this.getView().setModel(new JSONModel({ filter: { fStart: null, fEnd: null } }), "local");
+      }
+
       this.oKpi = new JSONModel({
         totalLitrosFmt: "0,00",
         gastoCombustivelFmt: "R$ 0,00",
@@ -180,6 +204,7 @@ sap.ui.define([
       this._applyHashToState();
       this._ensureDefaultDateRange();
       this._applyStateToControls();
+      this._updateFilterWindowModel(this._currentRangeArray());
       Storage.save(this._oFilterModel.getData());
 
       try {
@@ -257,6 +282,7 @@ sap.ui.define([
       model.setProperty("/selection/dateFrom", dateFrom || null);
       model.setProperty("/selection/dateTo", dateTo || null);
 
+      this._updateFilterWindowModel(this._currentRangeArray());
       Storage.save(model.getData());
       this._updateHashFromState();
       this._applyFiltersDebounced();
@@ -267,6 +293,7 @@ sap.ui.define([
         this._isSummaryReady = false;
         await this._reloadDistinctOnly();
         const range = this._currentRangeArray();
+        this._updateFilterWindowModel(range);
         if (Array.isArray(range)) {
           try {
             const comp = this.getOwnerComponent && this.getOwnerComponent();
@@ -1327,6 +1354,26 @@ sap.ui.define([
       }
     },
 
+    _updateFilterWindowModel: function (rangeArray) {
+      const view = this.getView && this.getView();
+      if (!view) {
+        return;
+      }
+      const localModel = view.getModel && view.getModel("local");
+      if (!localModel) {
+        return;
+      }
+      if (!Array.isArray(rangeArray) || rangeArray.length < 2) {
+        localModel.setProperty("/filter/fStart", null);
+        localModel.setProperty("/filter/fEnd", null);
+        return;
+      }
+      const startDayjs = toFilterDayjs(rangeArray[0]);
+      const endDayjs = toFilterDayjs(rangeArray[1]);
+      localModel.setProperty("/filter/fStart", startDayjs || null);
+      localModel.setProperty("/filter/fEnd", endDayjs || null);
+    },
+
     _currentRangeArray: function () {
       if (!this._oFilterModel) {
         return null;
@@ -1372,14 +1419,6 @@ sap.ui.define([
     }
   });
 });
-
-
-
-
-
-
-
-
 
 
 

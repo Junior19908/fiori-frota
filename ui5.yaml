@@ -16,6 +16,8 @@ framework:
 
 server:
   customMiddleware:
+    - name: ui5-tooling-modules-middleware
+      afterMiddleware: compression
     - name: fiori-tools-proxy
       afterMiddleware: compression
       configuration:
@@ -60,6 +62,10 @@ server:
       afterMiddleware: fiori-tools-preview
       configuration:
         endpoint: /local/mysql-ping
+builder:
+  customTasks:
+    - name: ui5-tooling-modules-task
+      afterTask: replaceVersion
 ---
 specVersion: "3.1"
 kind: extension
@@ -87,6 +93,5 @@ metadata:
   name: mysql-ping
 middleware:
   path: middleware/mysqlPing.js
-
 
 

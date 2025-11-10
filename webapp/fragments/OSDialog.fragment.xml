@@ -98,7 +98,7 @@
             <table:Column width="9rem" hAlign="End">
               <Label text="Inatividade" textAlign="Center" width="100%"/>
               <table:template>
-                <Text text="{osDlg>downtimeFmt}"/>
+                <Text text="{osDlg>_overlapFmt}"/>
               </table:template>
             </table:Column>
 
@@ -143,7 +143,7 @@
               text="{
                 parts: [
                   { path: 'i18n>legend.summary.zf01zf03' },
-                  { path: 'osDlg>/metrics/horasZF01_ZF03' }
+                  { path: 'osDlg>/metrics/horasZF01_ZF03Fmt' }
                 ],
                 formatter: '.formatter.concatLabelValue'
               }"
@@ -154,7 +154,8 @@
                 parts: [
                   { path: 'i18n>legend.summary.open' },
                   { path: 'osDlg>/metrics/qtdAbertasZF02' },
-                  { path: 'osDlg>/metrics/qtdAbertasZF03' }
+                  { path: 'osDlg>/metrics/qtdAbertasZF03' },
+                  { path: 'osDlg>/metrics/osConsideradas' }
                 ],
                 formatter: '.formatter.legendOpenCounts'
               }"

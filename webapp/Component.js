@@ -1,9 +1,32 @@
 sap.ui.define([
   "sap/ui/core/UIComponent",
   "sap/ui/model/json/JSONModel",
-  "sap/base/Log"
-], function (UIComponent, JSONModel, Log) {
+  "sap/base/Log",
+  "dayjs",
+  "dayjs/plugin/customParseFormat",
+  "dayjs/plugin/utc",
+  "dayjs/plugin/timezone"
+], function (UIComponent, JSONModel, Log, dayjsLib, customParse, utc, timezone) {
   "use strict";
+
+  const dayjs = dayjsLib && dayjsLib.default ? dayjsLib.default : dayjsLib;
+  const customParsePlugin = customParse && customParse.default ? customParse.default : customParse;
+  const utcPlugin = utc && utc.default ? utc.default : utc;
+  const timezonePlugin = timezone && timezone.default ? timezone.default : timezone;
+  if (dayjs && typeof dayjs.extend === "function") {
+    if (customParsePlugin) {
+      dayjs.extend(customParsePlugin);
+    }
+    if (utcPlugin) {
+      dayjs.extend(utcPlugin);
+    }
+    if (timezonePlugin) {
+      dayjs.extend(timezonePlugin);
+    }
+    if (dayjs.tz && typeof dayjs.tz.setDefault === "function") {
+      dayjs.tz.setDefault("America/Maceio");
+    }
+  }
 
   // === CONFIGURAÇÕES ===
   const PATH_BASE   = "com/skysinc/frota/frota/model/localdata/abastecimento"; // leitura local apenas (sem Firestore)
@@ -340,7 +363,6 @@ sap.ui.define([
 
   return Component;
 });
-
 
 
 

@@ -1,7 +1,8 @@
 sap.ui.define([
   "sap/ui/thirdparty/jquery",
-  "com/skysinc/frota/frota/services/ReliabilityCore"
-], function (jQuery, ReliabilityCore) {
+  "com/skysinc/frota/frota/services/ReliabilityCore",
+  "com/skysinc/frota/frota/util/timeOverlap"
+], function (jQuery, ReliabilityCore, timeOverlap) {
   "use strict";
 
   const MODULE_PREFIX = "com/skysinc/frota/frota";
@@ -16,6 +17,10 @@ sap.ui.define([
   const KM_FIELD_HINTS = ["KM", "km", "Km", "Hodometro", "hodometro", "HodometroInicial", "hodometroInicial", "hodometroInicio"];
   const HR_FIELD_HINTS = ["HR", "hr", "Hr", "Horimetro", "horimetro", "HorimetroInicial", "horimetroInicial", "horimetroInicio"];
   const TELEMETRY_USAGE_WINDOW_DAYS = 30;
+  const timeOverlapUtil = timeOverlap || {};
+  const overlapMinutes = typeof timeOverlapUtil.overlapMinutes === "function" ? timeOverlapUtil.overlapMinutes : null;
+  const formatHm = typeof timeOverlapUtil.formatHm === "function" ? timeOverlapUtil.formatHm : null;
+  const coerceDayjs = typeof timeOverlapUtil.coerceDayjs === "function" ? timeOverlapUtil.coerceDayjs : null;
 
   let _telemetryPromise = null;
   const _osMonthCache = new Map();
@@ -367,6 +372,17 @@ sap.ui.define([
     const rangeTo = (range && range.to instanceof Date) ? range.to : (Array.isArray(range) ? range[1] : null);
     if (!(rangeFrom instanceof Date && rangeTo instanceof Date)) {
       return 0;
+    }
+    if (overlapMinutes && coerceDayjs) {
+      const filterStart = coerceDayjs(rangeFrom);
+      const filterEnd = coerceDayjs(rangeTo);
+      if (filterStart && filterEnd) {
+        const minutes = overlapMinutes(os.startDate || os.start, os.endDate || os.end, filterStart, filterEnd);
+        if (minutes > 0) {
+          return minutes / 60;
+        }
+        return 0;
+      }
     }
     const clamped = sliceIntervalToRange(os.startDate || os.start, os.endDate || os.end, rangeFrom, rangeTo);
     if (!clamped) {
