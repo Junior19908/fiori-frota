@@ -1,3 +1,12 @@
+sap.ui.loader.config({
+  paths: {
+    dayjs: "com/skysinc/frota/frota/thirdparty/dayjs/dayjs.min",
+    "dayjs/plugin/customParseFormat": "com/skysinc/frota/frota/thirdparty/dayjs/plugin/customParseFormat",
+    "dayjs/plugin/utc": "com/skysinc/frota/frota/thirdparty/dayjs/plugin/utc",
+    "dayjs/plugin/timezone": "com/skysinc/frota/frota/thirdparty/dayjs/plugin/timezone"
+  }
+});
+
 sap.ui.define([
   "sap/ui/core/UIComponent",
   "sap/ui/model/json/JSONModel",
@@ -363,7 +372,6 @@ sap.ui.define([
 
   return Component;
 });
-
 
 
 
