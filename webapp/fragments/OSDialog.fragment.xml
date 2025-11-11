@@ -119,8 +119,7 @@
           <ObjectNumber number="{osDlg>/total}"/>
           <ToolbarSeparator/>
           <ObjectStatus text="Total horas:"/>
-          <ObjectNumber number="{osDlg>horasParadasFmt}"/>
-          <!--<ObjectNumber number="{osDlg>/totalHorasFmt}"/>-->
+          <ObjectNumber number="{osDlg>/totalHorasFmt}"/>
         </Toolbar>
 
         <Text text="Sem OS para o filtro"

@@ -294,6 +294,7 @@ sap.ui.define([
         falhas: 0,
         downtimeFmt: '-',
         downtimeTotalFmt: '0,00 Hr',
+        horasParadasFmt: '0,00 h',
         mtbf: 0,
         mtbfFmt: '-',
         mttr: 0,
@@ -560,6 +561,14 @@ sap.ui.define([
       st.dlgModel.setProperty('/os', filtered);
       st.dlgModel.setProperty('/_base', filtered.slice());
       _updateTotals(st.dlgModel, filtered);
+      if (payloadMetrics && typeof payloadMetrics === 'object') {
+        if (payloadMetrics.horasParadasFmt) {
+          st.dlgModel.setProperty('/totalHorasFmt', payloadMetrics.horasParadasFmt);
+        }
+        if (Number.isFinite(payloadMetrics.totalHorasIndisponiveis)) {
+          st.dlgModel.setProperty('/totalHoras', Number(payloadMetrics.totalHorasIndisponiveis));
+        }
+      }
       try {
         const mx = filtered.length ? filtered.reduce((m,o)=>Math.max(m, (Number(o._overlapMinutes)||0) / 60), 0) : 0;
         st.dlgModel.setProperty('/__stats', { max: mx });
