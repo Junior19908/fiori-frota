@@ -1,10 +1,10 @@
 (function (root, factory) {
   if (typeof sap !== "undefined" && sap.ui && sap.ui.define) {
     sap.ui.define([
-      "dayjs",
-      "dayjs/plugin/customParseFormat",
-      "dayjs/plugin/utc",
-      "dayjs/plugin/timezone"
+      "com/skysinc/frota/frota/thirdparty/dayjs/dayjs.min",
+      "com/skysinc/frota/frota/thirdparty/dayjs/plugin/customParseFormat",
+      "com/skysinc/frota/frota/thirdparty/dayjs/plugin/utc",
+      "com/skysinc/frota/frota/thirdparty/dayjs/plugin/timezone"
     ], function (dayjsLib, customParse, utc, timezone) {
       return factory(dayjsLib, customParse, utc, timezone);
     });
