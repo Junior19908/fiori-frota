@@ -1,5 +1,5 @@
 {
-  "showAllOS": false,
+  "showAllOS": true,
   "osTypes": [
     "ZF02"
   ],

@@ -89,7 +89,7 @@
 
     const totalFmt = formatHmFn ? formatHmFn(Math.round(totals.totalMinutes)) : _formatDowntime(totalHours);
     try { model.setProperty('/total', arr.length); } catch (_) {}
-    try { model.setProperty('/totalHoras', totalHours); } catch (_) {}
+    try { model.setProperty('/totalHoras', `${totalHours.toFixed(2).replace('.',',')} h`); } catch (_) {}
     try { model.setProperty('/totalHorasFmt', totalFmt); } catch (_) {}
     const zf02Fmt = formatHmFn ? formatHmFn(Math.round(totals.zf02Minutes)) : _formatDowntime(totals.zf02Minutes / 60);
     const projFmt = formatHmFn ? formatHmFn(Math.round(totals.projectsMinutes)) : _formatDowntime(totals.projectsMinutes / 60);
