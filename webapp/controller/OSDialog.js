@@ -1,4 +1,4 @@
-sap.ui.define([
+﻿sap.ui.define([
   "sap/ui/model/json/JSONModel",
   "sap/ui/core/Fragment",
   "sap/m/MessageToast",
@@ -79,10 +79,7 @@ sap.ui.define([
       }
       return acc;
     }, { totalMinutes: 0, zf02Minutes: 0, projectsMinutes: 0, openZF02: 0, openZF03: 0, considered: 0 });
-	
-	//Cálculo de Minutos/Horas
-    //const totalHours = totals.totalMinutes / 60;
-	
+    const totalHours = totals.totalMinutes / 60;
     const totalFmt = formatHmFn ? formatHmFn(Math.round(totals.totalMinutes)) : _formatDowntime(totalHours);
     try { model.setProperty('/total', arr.length); } catch (_) {}
     try { model.setProperty('/totalHoras', totalHours); } catch (_) {}
@@ -360,7 +357,7 @@ sap.ui.define([
         try { const t=String(tipoLabel||'').toLowerCase(); const base='osBarFill'; if(t.indexOf('corretiva')>=0) return base+' osBarFillCorretiva'; if(t.indexOf('preventiva')>=0) return base+' osBarFillPreventiva'; if(t.indexOf('projeto')>=0||t.indexOf('melhoria')>=0||t.indexOf('reforma')>=0) return base+' osBarFillProjeto'; return base; } catch(_) { return 'osBarFill'; }
       },
       fmtBarTooltip: function (inicio, horaIni, fim, horaFim, durFmt) {
-        try { const i = (inicio||'') + (horaIni?(' '+horaIni):''); const f=(fim||'') + (horaFim?(' '+horaFim):''); const d = durFmt||''; return 'In+¡cio: '+i+'\nFim: '+f+'\nDura+º+úo: '+d; } catch(_) { return ''; }
+        try { const i = (inicio||'') + (horaIni?(' '+horaIni):''); const f=(fim||'') + (horaFim?(' '+horaFim):''); const d = durFmt||''; return 'In+Â¡cio: '+i+'\nFim: '+f+'\nDura+Âº+Ãºo: '+d; } catch(_) { return ''; }
       },
 
       onShowOSDetails: function (oEvent) {
@@ -373,7 +370,7 @@ sap.ui.define([
           const dlg = new sap.m.Dialog({ title: title, contentWidth: '32rem', horizontalScrolling: true });
           function row(label, value){ return new sap.m.HBox({ alignItems:'Center', items:[ new sap.m.Label({ text: label, width: '11rem', design:'Bold' }), new sap.m.Text({ text: String(value==null?'':value) }) ] }); }
           const vb = new sap.m.VBox({ width:'100%', items:[
-            row('Ve+¡culo', o.veiculo||''), row('Ordem', o.ordem||''), row('TÍtulo', o.titulo||''), row('Tipo OS', o.tipoLabel||''), row('Tipo (manual)', o.tipoManual||''), row('In+¡cio', (o.inicio||'') + (o.horaInicio?(' '+o.horaInicio):'')), row('Fim', (o.fim||'') + (o.horaFim?(' '+o.horaFim):'')), row('Parada', o.parada?'Sim':'N+úo'), row('Inatividade', o.downtimeFmt||'')
+            row('Ve+Â¡culo', o.veiculo||''), row('Ordem', o.ordem||''), row('TÃtulo', o.titulo||''), row('Tipo OS', o.tipoLabel||''), row('Tipo (manual)', o.tipoManual||''), row('In+Â¡cio', (o.inicio||'') + (o.horaInicio?(' '+o.horaInicio):'')), row('Fim', (o.fim||'') + (o.horaFim?(' '+o.horaFim):'')), row('Parada', o.parada?'Sim':'N+Ãºo'), row('Inatividade', o.downtimeFmt||'')
           ]});
           dlg.addContent(vb);
           dlg.addButton(new sap.m.Button({ text:'Fechar', type:'Transparent', press: function(){ dlg.close(); } }));
@@ -402,23 +399,23 @@ sap.ui.define([
       onExportOS: function () {
         const data = dlgModel.getData() || {};
         const rows = (data.os || []).map((o)=>({
-          'Ve+¡culo': o.veiculo || '',
+          'Ve+Â¡culo': o.veiculo || '',
           Ordem: o.ordem || '',
-          'T+¡tulo': o.titulo || '',
-          'In+¡cio': o.inicio || '',
+          'T+Â¡tulo': o.titulo || '',
+          'In+Â¡cio': o.inicio || '',
           Fim: o.fim || '',
-          Parada: o.parada ? 'Sim' : 'N+úo',
+          Parada: o.parada ? 'Sim' : 'N+Ãºo',
           'Inatividade (filtro)': String(o._overlapFmt || o.downtimeFmt || ''),
           'Progresso': o.progressText || '',
           'Tipo (manual)': o.tipoManual || '',
-          'Hora In+¡cio': o.horaInicio || '',
+          'Hora In+Â¡cio': o.horaInicio || '',
           'Hora Fim': o.horaFim || '',
           'Tipo OS': o.tipoLabel || ''
         }));
         if (!rows.length) { MessageToast.show('Sem OS no filtro atual.'); return; }
         const headers = Object.keys(rows[0]); const esc=(v)=>{ if(v==null) return ''; if(typeof v==='number') return v.toString(); let s=String(v); if(/[;"\n\r]/.test(s)) s='"'+s.replace(/"/g,'""')+'"'; return s; };
         const lines=[headers.join(';')]; rows.forEach(r=>lines.push(headers.map(h=>esc(r[h])).join(';'))); const csv='\uFEFF'+lines.join('\n');
-        try{ const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='os_lista.csv'; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(()=>URL.revokeObjectURL(url),1000); MessageToast.show('CSV gerado com sucesso.'); }catch(e){ console.error('[OSDialog.onExportOS]',e); MessageBox.error('N+úo foi poss+¡vel gerar o CSV.'); }
+        try{ const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='os_lista.csv'; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(()=>URL.revokeObjectURL(url),1000); MessageToast.show('CSV gerado com sucesso.'); }catch(e){ console.error('[OSDialog.onExportOS]',e); MessageBox.error('N+Ãºo foi poss+Â¡vel gerar o CSV.'); }
       },
 
       onCloseSelectedOS: async function () {
@@ -427,9 +424,9 @@ sap.ui.define([
           const idxs = tbl?.getSelectedIndices?.() || [];
           if (!idxs.length) { MessageToast.show('Selecione ao menos uma OS.'); return; }
           const data = dlgModel.getData() || {}; const list = data.os || []; const sel = idxs.map(i=>list[i]).filter(Boolean);
-          if (!sel.length) { MessageToast.show('Sele+º+úo vazia.'); return; }
+          if (!sel.length) { MessageToast.show('Sele+Âº+Ãºo vazia.'); return; }
           const nowIso = new Date().toISOString(); const nowYmd = nowIso.substring(0,10);
-          const fb = await (function(){ MessageToast.show("Indispon+¡vel em modo local."); })();
+          const fb = await (function(){ MessageToast.show("Indispon+Â¡vel em modo local."); })();
           const updates = sel.map(async (o)=>{ if(!o._id) return {ok:false}; const dref = fb.doc(fb.db,'ordensServico', o._id); try { await fb.updateDoc(dref, { DataFechamento: nowYmd }); o.fim = _toYmd(nowYmd); const A = o._abertura ? new Date(o._abertura).toISOString() : null; const dt = (A ? ((new Date(nowIso).getTime() - new Date(A).getTime())/36e5) : 0); o.downtime = dt; o.downtimeFmt = _formatDowntime(dt); o.parada = (dt>0); const pr = _calcProgress(dt); o.progressPct = pr.pct; o.progressText = pr.text; o.progressState = pr.state; return {ok:true}; } catch(e){ return {ok:false, reason:e && (e.code||e.message)} } });
           const results = await Promise.all(updates);
           const ok = results.filter(r=>r.ok).length;
@@ -448,7 +445,7 @@ sap.ui.define([
         dlg.addButton(new sap.m.Button({ text:'Cancelar', press: ()=> dlg.close() }));
         dlg.addButton(new sap.m.Button({ text:'Aplicar', type:'Emphasized', press: async ()=>{
           const val = (inp.getValue()||'').trim(); if(!val){ MessageToast.show('Informe um tipo.'); return; }
-          try { const data = dlgModel.getData()||{}; const list = data.os||[]; const sel = idxs.map(i=>list[i]).filter(Boolean); const fb = await (function(){ MessageToast.show("Indispon+¡vel em modo local."); })(); const updates = sel.map(async (o)=>{ if(!o._id) return {ok:false}; const dref = fb.doc(fb.db,'ordensServico', o._id); try { await fb.updateDoc(dref, { TipoManual: val }); o.tipoManual = val; return {ok:true}; } catch(e){ return {ok:false, reason:e && (e.code||e.message)} } }); const res = await Promise.all(updates); const ok = res.filter(r=>r.ok).length; dlgModel.refresh(true); MessageToast.show(ok + ' OS atualizada(s).'); } catch(e){ console.error('[OSDialog.onSetTypeSelectedOS]', e); MessageBox.error('Falha ao atualizar tipo.'); } finally { dlg.close(); }
+          try { const data = dlgModel.getData()||{}; const list = data.os||[]; const sel = idxs.map(i=>list[i]).filter(Boolean); const fb = await (function(){ MessageToast.show("Indispon+Â¡vel em modo local."); })(); const updates = sel.map(async (o)=>{ if(!o._id) return {ok:false}; const dref = fb.doc(fb.db,'ordensServico', o._id); try { await fb.updateDoc(dref, { TipoManual: val }); o.tipoManual = val; return {ok:true}; } catch(e){ return {ok:false, reason:e && (e.code||e.message)} } }); const res = await Promise.all(updates); const ok = res.filter(r=>r.ok).length; dlgModel.refresh(true); MessageToast.show(ok + ' OS atualizada(s).'); } catch(e){ console.error('[OSDialog.onSetTypeSelectedOS]', e); MessageBox.error('Falha ao atualizar tipo.'); } finally { dlg.close(); }
         }}));
         dlg.attachAfterClose(()=> dlg.destroy()); view.addDependent(dlg); dlg.open();
       }
@@ -555,20 +552,12 @@ sap.ui.define([
         filtered = filtered.filter((o)=> !o.categoria || osFilter.allowedSet.has(String(o.categoria||'').toUpperCase()));
       }
 
-      const title = payload?.titulo || ('Ordens de Servi+ºo' + (veh ? (' - ' + veh) : ''));
+      const title = payload?.titulo || ('Ordens de Servi+Âºo' + (veh ? (' - ' + veh) : ''));
       st.dlgModel.setProperty('/__meta', meta);
       st.dlgModel.setProperty('/titulo', title);
       st.dlgModel.setProperty('/os', filtered);
       st.dlgModel.setProperty('/_base', filtered.slice());
       _updateTotals(st.dlgModel, filtered);
-      if (payloadMetrics && typeof payloadMetrics === 'object') {
-        if (payloadMetrics.horasParadasFmt) {
-          st.dlgModel.setProperty('/totalHorasFmt', payloadMetrics.horasParadasFmt);
-        }
-        if (Number.isFinite(payloadMetrics.totalHorasIndisponiveis)) {
-          st.dlgModel.setProperty('/totalHoras', Number(payloadMetrics.totalHorasIndisponiveis));
-        }
-      }
       try {
         const mx = filtered.length ? filtered.reduce((m,o)=>Math.max(m, (Number(o._overlapMinutes)||0) / 60), 0) : 0;
         st.dlgModel.setProperty('/__stats', { max: mx });
@@ -589,7 +578,7 @@ sap.ui.define([
           }) || {};
           unifiedSummary = summaryMap[veh] || null;
         } catch (err) {
-          try { console.warn('[OSDialog.open] Falha ao sintetizar métricas unificadas', err); } catch (_) {}
+          try { console.warn('[OSDialog.open] Falha ao sintetizar mÃ©tricas unificadas', err); } catch (_) {}
         }
       }
       try {
@@ -655,3 +644,7 @@ sap.ui.define([
   }
   return { open };
 });
+
+
+
+
