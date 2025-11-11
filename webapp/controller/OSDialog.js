@@ -81,7 +81,7 @@ sap.ui.define([
     }, { totalMinutes: 0, zf02Minutes: 0, projectsMinutes: 0, openZF02: 0, openZF03: 0, considered: 0 });
 	
 	//Cálculo de Minutos/Horas
-    const totalHours = totals.totalMinutes / 10;
+    //const totalHours = totals.totalMinutes / 60;
 	
     const totalFmt = formatHmFn ? formatHmFn(Math.round(totals.totalMinutes)) : _formatDowntime(totalHours);
     try { model.setProperty('/total', arr.length); } catch (_) {}
