@@ -80,6 +80,13 @@
       return acc;
     }, { totalMinutes: 0, zf02Minutes: 0, projectsMinutes: 0, openZF02: 0, openZF03: 0, considered: 0 });
     const totalHours = totals.totalMinutes / 60;
+
+    //Configuração de cálculo decimal
+    const totalHoursDecimal = (Math.round(totalHours * 100) / 100).toFixed(2);
+    const totalHorasDecimalFmt = `${totalHoursDecimal.replace('.',',')} h`;
+    model.setProperty('/totalHorasDecimalFmt', totalHorasDecimalFmt);
+    
+
     const totalFmt = formatHmFn ? formatHmFn(Math.round(totals.totalMinutes)) : _formatDowntime(totalHours);
     try { model.setProperty('/total', arr.length); } catch (_) {}
     try { model.setProperty('/totalHoras', totalHours); } catch (_) {}
