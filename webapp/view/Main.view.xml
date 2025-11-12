@@ -226,35 +226,35 @@
             </table:template>
           </table:Column>
 
-          <table:Column width="6rem" hAlign="End">
+          <table:Column sortProperty="horasParadasFmt" width="6rem" hAlign="End">
             <Label text="Hr Paradas" tooltip="{i18n>tooltip.horasZF02}"/>
             <table:template>
               <Text text="{vm>horasParadasFmt}" tooltip="{i18n>tooltip.horasZF02}"/>
             </table:template>
           </table:Column>
 
-          <table:Column width="6rem" hAlign="End">
+          <table:Column sortProperty="falhas" width="6rem" hAlign="End">
             <Label text="Numero de paradas"/>
             <table:template>
               <Text text="{vm>falhas}"/>
             </table:template>
           </table:Column>
 
-          <table:Column width="6rem" hAlign="End">
+          <table:Column sortProperty="mtbfFmt" width="6rem" hAlign="End">
             <Label text="MTBF" tooltip="{i18n>tooltip.mtbf}"/>
             <table:template>
               <Text text="{vm>mtbfFmt}" tooltip="{i18n>tooltip.mtbf}"/>
             </table:template>
           </table:Column>
 
-          <table:Column width="6rem" hAlign="End">
+          <table:Column sortProperty="mttrFmt" width="6rem" hAlign="End">
             <Label text="MTTR" tooltip="{i18n>tooltip.mttr}"/>
             <table:template>
               <Text text="{vm>mttrFmt}" tooltip="{i18n>tooltip.mttr}"/>
             </table:template>
           </table:Column>
 
-          <table:Column width="8rem" hAlign="End">
+          <table:Column sortProperty="fmtKmQuebra" width="8rem" hAlign="End">
             <Label text="(KM) Quebra"/>
             <table:template>
               <ObjectStatus
@@ -263,7 +263,7 @@
             </table:template>
           </table:Column>
 
-          <table:Column width="8rem" hAlign="End">
+          <table:Column sortProperty="fmtHrQuebra" width="8rem" hAlign="End">
             <Label text="(HR) Quebra"/>
             <table:template>
               <ObjectStatus
