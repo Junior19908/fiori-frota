@@ -3,8 +3,8 @@ sap.ui.define([
   "sap/ui/model/json/JSONModel",
   "sap/m/MessageToast",
   "sap/ui/core/BusyIndicator",
-  "sap/m/MessageBox"
-], function (Controller, JSONModel, MessageToast, BusyIndicator, MessageBox) {
+  "com/skysinc/frota/frota/util/SheetJsLoader"
+], function (Controller, JSONModel, MessageToast, BusyIndicator, SheetJsLoader) {
   "use strict";
 
   function _fmtYmd(val) {
@@ -99,6 +99,72 @@ sap.ui.define([
       } catch (e) { MessageToast.show("Falha ao exportar CSV."); }
     },
 
+    onExportOpen: function () {
+      var filters = this._getFilters();
+      var hasStart = filters.start instanceof Date;
+      var hasEnd = filters.end instanceof Date;
+      if (!hasStart || !hasEnd) {
+        MessageToast.show("Informe um período válido e carregue os dados antes de exportar.");
+        return;
+      }
+      var data = this.getView().getModel("os").getData() || {};
+      var items = Array.isArray(data.items) ? data.items : [];
+      if (!items.length) {
+        MessageToast.show("Nenhuma OS carregada para exportação.");
+        return;
+      }
+      var openItems = items.filter(function (o) {
+        return !(o.DataFechamento && String(o.DataFechamento).trim());
+      });
+      if (!openItems.length) {
+        MessageToast.show("Não há ordens em aberto no período selecionado.");
+        return;
+      }
+      var headers = ["Equipamento", "OS", "Titulo", "Status", "DataAbertura", "HoraInicio", "DataFechamento", "HoraFim", "Observacoes", "CentroDeCusto"];
+      var that = this;
+      var rows = openItems.map(function (o) {
+        var status = String(o.Status || "").trim();
+        if (!status) {
+          status = o.DataFechamento ? "FECHADA" : "ABERTA";
+        }
+        return {
+          Equipamento: o.Equipamento || "",
+          OS: o.NumeroOS || "",
+          Titulo: o.Descricao || "",
+          Status: status,
+          DataAbertura: that.fmtYmd(o.DataAbertura) || "",
+          HoraInicio: o.HoraInicio || "",
+          DataFechamento: that.fmtYmd(o.DataFechamento) || "",
+          HoraFim: o.HoraFim || "",
+          Observacoes: o.Observacoes || "",
+          CentroDeCusto: o.CentroDeCusto || ""
+        };
+      });
+      SheetJsLoader.load().then(function (XLSX) {
+        var aoa = [headers];
+        rows.forEach(function (row) {
+          aoa.push(headers.map(function (key) { return row[key] || ""; }));
+        });
+        var ws = XLSX.utils.aoa_to_sheet(aoa);
+        var wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "OS_abertas");
+        var buffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+        var blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+        var url = URL.createObjectURL(blob);
+        var anchor = document.createElement("a");
+        anchor.href = url;
+        var fileName = "os-abertas-" + that.fmtYmd(filters.start) + "-" + that.fmtYmd(filters.end) + ".xlsx";
+        anchor.download = fileName;
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+        MessageToast.show(openItems.length + " OS abertas exportadas.");
+      }).catch(function (err) {
+        console.error(err);
+        MessageToast.show("Falha ao gerar planilha de OS em aberto.");
+      });
+    },
     onNextPage: function(){ /* sem paginação em modo local */ },
     onPrevPage: function(){ /* sem paginação em modo local */ },
 

@@ -20,6 +20,7 @@
         <ToolbarSpacer/>
         <Button id="btnDeleteFilter" text="Excluir por filtro" type="Reject" press="onDeleteFilteredConfirm"/>
         <ToolbarSeparator/>
+        <Button id="btnExportOpen" text="Exportar OS em aberto" type="Accept" press="onExportOpen"/>
         <Button id="btnExportPage" text="Exportar página" type="Transparent" press="onExportPage"/>
       </Toolbar>
       <Toolbar design="Auto">
@@ -62,4 +63,3 @@
   </Page>
   
 </mvc:View>
-

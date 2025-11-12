@@ -4,8 +4,9 @@ sap.ui.define([
   "sap/ui/core/BusyIndicator",
   "sap/m/ColumnListItem",
   "sap/m/Text",
-  "sap/ui/model/json/JSONModel"
-], function (Controller, MessageToast, BusyIndicator, ColumnListItem, MText, JSONModel) {
+  "sap/ui/model/json/JSONModel",
+  "com/skysinc/frota/frota/util/SheetJsLoader"
+], function (Controller, MessageToast, BusyIndicator, ColumnListItem, MText, JSONModel, SheetJsLoader) {
   "use strict";
 
   function normalizeHeader(s) {
@@ -195,53 +196,6 @@ sap.ui.define([
       try { this.getOwnerComponent().getRouter().navTo("settings"); } catch (e) {}
     },
 
-    _ensureXLSX: function () {
-      // Tenta em ordem: AMD ('xlsx'), ESM dinÃ¢mico, global window.XLSX via includeScript
-      return new Promise(function (resolve, reject) {
-        function shape(mod) {
-          if (!mod) return null;
-          // Suporte a namespace ESM e global
-          var candidate = mod.default && (mod.default.read || mod.default.utils) ? mod.default : mod;
-          if (candidate && (typeof candidate.read === 'function') && candidate.utils) return candidate;
-          return null;
-        }
-
-        try {
-          // 1) AMD: alguns builds do xlsx registram-se como mÃ³dulo 'xlsx'
-          if (sap && sap.ui && sap.ui.require) {
-            sap.ui.require(["xlsx"], function (amdMod) {
-              var s = shape(amdMod);
-              if (s) return resolve(s);
-              // continua fallback se formato inesperado
-              next();
-            }, function(){ next(); });
-            return;
-          }
-        } catch (_) {}
-
-        next();
-
-        function next() {
-          // 2) ESM dinÃ¢mico oficial (SheetJS)
-          import("https://cdn.sheetjs.com/xlsx-0.20.2/package/xlsx.mjs").then(function (esm) {
-            var s = shape(esm);
-            if (s) return resolve(s);
-            fallbackGlobal();
-          }).catch(function(){ fallbackGlobal(); });
-        }
-
-        function fallbackGlobal() {
-          // 3) Global via includeScript (versÃ£o alinhada)
-          if (window.XLSX && typeof window.XLSX.read === 'function') return resolve(window.XLSX);
-          var url = "https://cdn.sheetjs.com/xlsx-0.20.2/package/xlsx.full.min.js";
-          jQuery.sap.includeScript(url, "sheetjs-xlsx", function () {
-            if (window.XLSX && typeof window.XLSX.read === 'function') resolve(window.XLSX);
-            else reject(new Error("Falha ao carregar XLSX"));
-          }, function (e) { reject(e || new Error("Falha ao carregar XLSX")); });
-        }
-      });
-    },
-
     onExcelSelected: function (oEvent) {
       var files = oEvent.getParameter("files");
       var file = files && files[0];
@@ -249,7 +203,7 @@ sap.ui.define([
       if (!/\.xlsx$/i.test(file.name)) { MessageToast.show("Apenas arquivos .xlsx sÃ£o permitidos."); return; }
       var that = this;
       BusyIndicator.show(0);
-      this._ensureXLSX().then(function (XLSX) {
+      SheetJsLoader.load().then(function (XLSX) {
         var reader = new FileReader();
         reader.onload = function (e) {
           try {
@@ -329,6 +283,54 @@ sap.ui.define([
       });
       var txt = this.byId("txSummary");
       if (txt) txt.setText("Linhas prontas: " + rows.length + ". Exibindo primeiras " + Math.min(rows.length, 50) + ".");
+    },
+
+    _postRowsToBackend: function (rows, replace) {
+      return new Promise(function (resolve, reject) {
+        jQuery.ajax({
+          url: "/local/os/updates",
+          method: "POST",
+          dataType: "json",
+          contentType: "application/json; charset=utf-8",
+          data: JSON.stringify({ rows: rows, replace: !!replace })
+        }).done(function (data) {
+          resolve(data);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+          var message = errorThrown || (jqXHR && jqXHR.statusText) || textStatus || "falha";
+          reject(new Error(message));
+        });
+      });
+    },
+
+    _submitUpdates: function (replace) {
+      var rows = this._rows || [];
+      if (!rows.length) {
+        MessageToast.show("Carregue um Excel primeiro.");
+        return;
+      }
+      var that = this;
+      BusyIndicator.show(0);
+      this._openProgress(rows.length);
+      this._postRowsToBackend(rows, replace).then(function (result) {
+        var stats = result && result.stats ? result.stats : {};
+        that._updateProgress({
+          current: rows.length,
+          created: stats.created || 0,
+          updated: stats.updated || 0,
+          skipped: stats.ignored || 0
+        });
+        var message = "Envio concluído: " +
+          "Novas: " + (stats.created || 0) + ", " +
+          "Atualizadas: " + (stats.updated || 0) + ", " +
+          "Ignoradas: " + (stats.ignored || 0) + ".";
+        MessageToast.show(message);
+      }).catch(function (err) {
+        console.error(err);
+        MessageToast.show("Falha ao enviar atualização: " + (err && err.message ? err.message : "erro desconhecido"));
+      }).finally(function () {
+        BusyIndicator.hide();
+        that._finishProgress();
+      });
     },
 
     /* onDownloadJson removed per request */
@@ -443,85 +445,10 @@ sap.ui.define([
       });
     }*/
     onProcess: function () {
-      var that = this;
-      var rows = this._rows || [];
-      if (!rows.length) { MessageToast.show("Carregue um Excel primeiro."); return; }
-      BusyIndicator.hide();
-      this._openProgress(rows.length);
-      // Usa serviÃ§o Firebase jÃ¡ existente no app
-      (function(){ try{ var json = JSON.stringify(rows, null, 2); var blob = new Blob([json], {type:"application/json"}); var url = URL.createObjectURL(blob); var a=document.createElement("a"); a.href=url; a.download="os-import.json"; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(function(){ URL.revokeObjectURL(url); }, 500); MessageToast.show("JSON de OS gerado."); } catch(e){ MessageToast.show("Falha ao gerar JSON de OS."); } finally { that._finishProgress(); } })();
-/*          var docId = await sha1Hex(keyBase);
-            try {
-              var dref = f.doc(f.db, "ordensServico", docId);
-              var exists = false;
-              var existingData = null;
-              try {
-                var snap = await f.getDoc(dref);
-                exists = !!(snap && (snap.exists ? snap.exists() : (snap.exists === true)));
-                existingData = snap && (snap.data ? snap.data() : (snap.get ? snap.get() : null));
-              } catch (_) { exists = false; existingData = null; }
-              var incomingHasClose = !!(o && o.DataFechamento);
-              var existingHasClose = !!(existingData && existingData.DataFechamento);
-              if (exists && existingHasClose && !incomingHasClose) {
-                ignorados++;
-              } else {
-                await f.setDoc(dref, o, { merge: true });
-                if (exists) atualizados++; else gravados++;
-              }
-            } catch (e) {
-              // eslint-disable-next-line no-console
-              console.warn("Falha ao gravar doc", docId, e && (e.code || e.message || e));
-            }
-            that._updateProgress({ current: i + 1, created: gravados, updated: atualizados, skipped: ignorados });
-          }
-          that._finishProgress();
-          MessageToast.show("ImportaÃ§Ã£o concluÃ­da. Lidas: " + total + ", Gravadas: " + gravados + ", Atualizadas: " + atualizados + ".");
-        }).catch(function (e) {
-          that._finishProgress();
-          // eslint-disable-next-line no-console
-          console.error(e);
-          MessageToast.show("Firebase indisponÃ­vel ou nÃ£o configurado.");
-        });
-      });
-*/
-    }
-    ,
+      this._submitUpdates(false);
+    },
     onReplaceProcess: function () {
-      var that = this;
-      var rows = this._rows || [];
-      if (!rows.length) { MessageToast.show("Carregue um Excel primeiro."); return; }
-      BusyIndicator.hide();
-      this._openProgress(rows.length);
-      (function(){ try{ var json = JSON.stringify(rows, null, 2); var blob = new Blob([json], {type:"application/json"}); var url = URL.createObjectURL(blob); var a=document.createElement("a"); a.href=url; a.download="os-import.json"; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(function(){ URL.revokeObjectURL(url); }, 500); MessageToast.show("JSON de OS gerado."); } catch(e){ MessageToast.show("Falha ao gerar JSON de OS."); } finally { that._finishProgress(); } })();
-/*          var docId = await sha1Hex(keyBase);
-            try {
-              var dref = f.doc(f.db, "ordensServico", docId);
-              var existed = false;
-              try {
-                var snap = await f.getDoc(dref);
-                existed = !!(snap && (snap.exists ? snap.exists() : (snap.exists === true)));
-              } catch (_) { existed = false; }
-              try { if (f.deleteDoc) { await f.deleteDoc(dref); } } catch (_) {}
-              await f.setDoc(dref, o); // sobrescreve por completo
-              if (existed) substituidos++; else gravados++;
-            } catch (e) {
-              // eslint-disable-next-line no-console
-              console.warn("Falha ao substituir doc", docId, e && (e.code || e.message || e));
-            }
-            that._updateProgress({ current: i + 1, created: gravados, updated: substituidos, skipped: 0 });
-          }
-          that._finishProgress();
-          MessageToast.show("ImportaÃ§Ã£o concluÃ­da (substituiÃ§Ã£o). Lidas: " + total + ", Novas: " + gravados + ", SubstituÃ­das: " + substituidos + ".");
-        }).catch(function (e) {
-          that._finishProgress();
-          // eslint-disable-next-line no-console
-          console.error(e);
-          MessageToast.show("Firebase indisponÃ­vel ou nÃ£o configurado.");
-        });
-      });
-*/
+      this._submitUpdates(true);
     }
   });
 });
-
-
