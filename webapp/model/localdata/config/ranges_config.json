@@ -98,12 +98,17 @@
         "max": 54.19
       },
       "deltaKm": {
-        "min": 65,
-        "max": 447
+        "min": 1,
+        "max": 700
       },
       "deltaHr": {
         "min": null,
         "max": null
+      },
+      "_meta": {
+        "source": "FuelDialog",
+        "savedAt": "2025-11-13T18:01:20.022Z",
+        "reason": "manual"
       }
     },
     {

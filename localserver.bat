@@ -8,6 +8,18 @@ echo ==========================================
 echo [1/4] Atualizando repositório...
 echo ==========================================
 where git >nul 2>&1 || (echo [ERRO] Git nao encontrado no PATH.& goto :END)
+set "GIT_USER_NAME="
+set "GIT_USER_EMAIL="
+for /f "usebackq delims=" %%N in (`git config --get user.name 2^>nul`) do set "GIT_USER_NAME=%%N"
+for /f "usebackq delims=" %%E in (`git config --get user.email 2^>nul`) do set "GIT_USER_EMAIL=%%E"
+if not defined GIT_USER_NAME (
+  echo [ERRO] Nenhum usuario Git configurado.& echo  Configure com: git config --global user.name "Seu Nome" [&& git config --global user.email "seu@email.com"].
+  goto :END
+)
+if not defined GIT_USER_EMAIL (
+  echo [ERRO] Nenhum email Git configurado.& echo  Configure com: git config --global user.email "seu@email.com".
+  goto :END
+)
 git pull --rebase
 
 REM ==========================================
@@ -25,10 +37,9 @@ if defined CHANGES (
   REM Evita commits vazios
   git add .
   git commit -m "Atualizacao automatica: sincronizacao local"
-  git push origin main
 
   echo.
-  echo [OK] Alteracoes enviadas com sucesso.
+  echo [OK] Alteracoes preparadas localmente.
 ) else (
   echo.
   echo Nenhuma alteracao local detectada.

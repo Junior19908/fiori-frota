@@ -12,3 +12,8 @@ archive.zip
 webapp/manifest.json
 webapp/services/settings/firebaseConfig.js
 webapp/model/settings.json
+webapp/model/localdata/*
+!webapp/model/localdata/abastecimento/
+!webapp/model/localdata/abastecimento/**
+!webapp/model/localdata/os/
+!webapp/model/localdata/os/**
