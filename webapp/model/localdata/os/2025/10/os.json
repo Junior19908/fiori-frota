@@ -16545,9 +16545,9 @@
     "Equipamento": "20022249",
     "Descricao": "P. Manut 264Hs Valtra-BH180 (2249-SG)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "10:52",
-    "HoraFim": "",
+    "HoraFim": "12:00:00",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4861659",
@@ -16555,7 +16555,7 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "P. Manut 264Hs Valtra-BH180 (2249-SG)",
-    "importedAt": "2025-11-11T18:58:36.600Z"
+    "importedAt": "2025-11-14T11:36:28.806613Z"
   },
   {
     "NumeroOS": "4861660",
@@ -28394,9 +28394,9 @@
     "Equipamento": "20020247",
     "Descricao": "P. Manut 264 Hs Bell SC 800 (247-SG)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "08:44",
-    "HoraFim": "",
+    "HoraFim": "10:00:00",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4863039",
@@ -28404,7 +28404,7 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "P. Manut 264 Hs Bell SC 800 (247-SG)",
-    "importedAt": "2025-11-11T18:58:36.603Z"
+    "importedAt": "2025-11-14T11:36:57.335884Z"
   },
   {
     "NumeroOS": "4863044",
@@ -70707,9 +70707,9 @@
     "Equipamento": "20020288",
     "Descricao": "P. Manut 288Hs C.Val.1280-4 (288-SG)",
     "DataAbertura": "2025-11-11",
-    "DataFechamento": "",
+    "DataFechamento": "06.11.2025",
     "HoraInicio": "15:16",
-    "HoraFim": "",
+    "HoraFim": "10:00:00",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4867449",
@@ -70717,7 +70717,7 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "P. Manut 288Hs C.Val.1280-4 (288-SG)",
-    "importedAt": "2025-11-11T18:58:36.613Z"
+    "importedAt": "2025-11-14T11:40:01.817735Z"
   },
   {
     "NumeroOS": "4867450",
@@ -77065,9 +77065,9 @@
     "Equipamento": "20020262",
     "Descricao": "P. Manut 288Hs Bell SC 800 (262-SG)",
     "DataAbertura": "2025-11-11",
-    "DataFechamento": "",
+    "DataFechamento": "12.11.2025",
     "HoraInicio": "15:21",
-    "HoraFim": "",
+    "HoraFim": "12:00:00",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4868147",
@@ -77075,7 +77075,7 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "P. Manut 288Hs Bell SC 800 (262-SG)",
-    "importedAt": "2025-11-11T18:58:36.614Z"
+    "importedAt": "2025-11-14T11:40:45.381186Z"
   },
   {
     "NumeroOS": "4868148",
@@ -107631,9 +107631,9 @@
     "Equipamento": "20020284",
     "Descricao": "CONSERTO: TROCAR EMBUXAMENTO DO MANCAL /",
     "DataAbertura": "2025-10-27",
-    "DataFechamento": "",
+    "DataFechamento": "27.10.2025",
     "HoraInicio": "05:01",
-    "HoraFim": "",
+    "HoraFim": "06:10:00",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4871286",
@@ -107641,7 +107641,7 @@
     "Categoria": "ZF02",
     "CustoTotal": 0,
     "Observacoes": "CONSERTO: TROCAR EMBUXAMENTO DO MANCAL /",
-    "importedAt": "2025-11-11T18:58:36.624Z"
+    "importedAt": "2025-11-14T11:43:01.561528Z"
   },
   {
     "NumeroOS": "4871290",
@@ -109739,9 +109739,9 @@
     "Equipamento": "20040572",
     "Descricao": "CONSERTO: CONSERTAR INSTALAÇÃO / MARCO",
     "DataAbertura": "2025-10-27",
-    "DataFechamento": "",
+    "DataFechamento": "27.10.2025",
     "HoraInicio": "19:32",
-    "HoraFim": "",
+    "HoraFim": "20:00:00",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4871617",
@@ -109749,7 +109749,7 @@
     "Categoria": "ZF02",
     "CustoTotal": 0,
     "Observacoes": "CONSERTO: CONSERTAR INSTALAÇÃO / MARCO",
-    "importedAt": "2025-11-11T18:58:36.624Z"
+    "importedAt": "2025-11-14T11:43:26.491276Z"
   },
   {
     "NumeroOS": "4871618",
@@ -117644,9 +117644,9 @@
     "Equipamento": "20020257",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:12",
-    "HoraFim": "",
+    "HoraFim": "15:15:23",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874704",
@@ -117654,16 +117654,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:44:36.630320Z"
   },
   {
     "NumeroOS": "4874706",
     "Equipamento": "20022247",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:14",
-    "HoraFim": "",
+    "HoraFim": "15:20:35",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874706",
@@ -117671,16 +117671,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:44:37.849546Z"
   },
   {
     "NumeroOS": "4874707",
     "Equipamento": "20020295",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:16",
-    "HoraFim": "",
+    "HoraFim": "15:20:35",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874707",
@@ -117688,16 +117688,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:44:39.101857Z"
   },
   {
     "NumeroOS": "4874709",
     "Equipamento": "20022292",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:16",
-    "HoraFim": "",
+    "HoraFim": "15:20:35",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874709",
@@ -117705,16 +117705,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:44:40.304646Z"
   },
   {
     "NumeroOS": "4874710",
     "Equipamento": "20020288",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:17",
-    "HoraFim": "",
+    "HoraFim": "15:20:35",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874710",
@@ -117722,16 +117722,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:44:41.525414Z"
   },
   {
     "NumeroOS": "4874711",
     "Equipamento": "20020292",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:17",
-    "HoraFim": "",
+    "HoraFim": "15:20:35",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874711",
@@ -117739,16 +117739,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:44:42.756258Z"
   },
   {
     "NumeroOS": "4874712",
     "Equipamento": "20020248",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:18",
-    "HoraFim": "",
+    "HoraFim": "15:20:35",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874712",
@@ -117756,16 +117756,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:44:44.005513Z"
   },
   {
     "NumeroOS": "4874713",
     "Equipamento": "20020256",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:18",
-    "HoraFim": "",
+    "HoraFim": "15:20:35",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874713",
@@ -117773,16 +117773,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:44:45.223756Z"
   },
   {
     "NumeroOS": "4874714",
     "Equipamento": "20020291",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:19",
-    "HoraFim": "",
+    "HoraFim": "15:20:35",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874714",
@@ -117790,16 +117790,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:44:46.458774Z"
   },
   {
     "NumeroOS": "4874715",
     "Equipamento": "20022244",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:19",
-    "HoraFim": "",
+    "HoraFim": "15:30:56",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874715",
@@ -117807,16 +117807,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:44:47.674865Z"
   },
   {
     "NumeroOS": "4874716",
     "Equipamento": "20020264",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:20",
-    "HoraFim": "",
+    "HoraFim": "15:30:56",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874716",
@@ -117824,16 +117824,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:44:48.907344Z"
   },
   {
     "NumeroOS": "4874717",
     "Equipamento": "20020249",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:20",
-    "HoraFim": "",
+    "HoraFim": "15:30:56",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874717",
@@ -117841,16 +117841,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:44:50.183890Z"
   },
   {
     "NumeroOS": "4874718",
     "Equipamento": "20022299",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:21",
-    "HoraFim": "",
+    "HoraFim": "15:30:56",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874718",
@@ -117858,16 +117858,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:44:51.461436Z"
   },
   {
     "NumeroOS": "4874719",
     "Equipamento": "20020298",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:22",
-    "HoraFim": "",
+    "HoraFim": "15:30:56",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874719",
@@ -117875,16 +117875,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:44:52.795124Z"
   },
   {
     "NumeroOS": "4874720",
     "Equipamento": "20020255",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:22",
-    "HoraFim": "",
+    "HoraFim": "15:30:56",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874720",
@@ -117892,16 +117892,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:44:54.076642Z"
   },
   {
     "NumeroOS": "4874721",
     "Equipamento": "20020259",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:22",
-    "HoraFim": "",
+    "HoraFim": "15:30:56",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874721",
@@ -117909,16 +117909,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:44:55.329515Z"
   },
   {
     "NumeroOS": "4874722",
     "Equipamento": "20020902",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:23",
-    "HoraFim": "",
+    "HoraFim": "15:30:56",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874722",
@@ -117926,16 +117926,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:44:56.710884Z"
   },
   {
     "NumeroOS": "4874723",
     "Equipamento": "20020901",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:25",
-    "HoraFim": "",
+    "HoraFim": "15:30:56",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874723",
@@ -117943,16 +117943,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:44:58.112378Z"
   },
   {
     "NumeroOS": "4874732",
     "Equipamento": "20010154",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:30",
-    "HoraFim": "",
+    "HoraFim": "15:40:51",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874732",
@@ -117960,16 +117960,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:44:59.482874Z"
   },
   {
     "NumeroOS": "4874733",
     "Equipamento": "20022258",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:31",
-    "HoraFim": "",
+    "HoraFim": "15:40:51",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874733",
@@ -117977,16 +117977,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:00.772815Z"
   },
   {
     "NumeroOS": "4874734",
     "Equipamento": "20010103",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:31",
-    "HoraFim": "",
+    "HoraFim": "15:40:51",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874734",
@@ -117994,16 +117994,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:02.192013Z"
   },
   {
     "NumeroOS": "4874735",
     "Equipamento": "20011153",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:32",
-    "HoraFim": "",
+    "HoraFim": "15:40:51",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874735",
@@ -118011,16 +118011,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:03.473109Z"
   },
   {
     "NumeroOS": "4874736",
     "Equipamento": "20020405",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:32",
-    "HoraFim": "",
+    "HoraFim": "15:40:51",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874736",
@@ -118028,16 +118028,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:04.737524Z"
   },
   {
     "NumeroOS": "4874737",
     "Equipamento": "20010131",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:33",
-    "HoraFim": "",
+    "HoraFim": "15:40:51",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874737",
@@ -118045,16 +118045,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:06.004376Z"
   },
   {
     "NumeroOS": "4874738",
     "Equipamento": "20022294",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:33",
-    "HoraFim": "",
+    "HoraFim": "15:40:51",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874738",
@@ -118062,16 +118062,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:07.302187Z"
   },
   {
     "NumeroOS": "4874739",
     "Equipamento": "20010191",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:34",
-    "HoraFim": "",
+    "HoraFim": "15:40:51",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874739",
@@ -118079,16 +118079,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:08.583063Z"
   },
   {
     "NumeroOS": "4874750",
     "Equipamento": "20022262",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:39",
-    "HoraFim": "",
+    "HoraFim": "15:40:51",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874750",
@@ -118096,16 +118096,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:09.842320Z"
   },
   {
     "NumeroOS": "4874752",
     "Equipamento": "20020293",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:39",
-    "HoraFim": "",
+    "HoraFim": "15:40:51",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874752",
@@ -118113,16 +118113,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:11.126605Z"
   },
   {
     "NumeroOS": "4874753",
     "Equipamento": "20022249",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:40",
-    "HoraFim": "",
+    "HoraFim": "15:50:34",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874753",
@@ -118130,16 +118130,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:12.437294Z"
   },
   {
     "NumeroOS": "4874754",
     "Equipamento": "20010121",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:42",
-    "HoraFim": "",
+    "HoraFim": "15:50:34",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874754",
@@ -118147,16 +118147,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:13.767738Z"
   },
   {
     "NumeroOS": "4874755",
     "Equipamento": "20010178",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:43",
-    "HoraFim": "",
+    "HoraFim": "15:50:34",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874755",
@@ -118164,16 +118164,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:15.090995Z"
   },
   {
     "NumeroOS": "4874756",
     "Equipamento": "20011129",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:46",
-    "HoraFim": "",
+    "HoraFim": "15:50:34",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874756",
@@ -118181,16 +118181,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:16.430015Z"
   },
   {
     "NumeroOS": "4874758",
     "Equipamento": "20010063",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:48",
-    "HoraFim": "",
+    "HoraFim": "15:50:34",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874758",
@@ -118198,16 +118198,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:17.724354Z"
   },
   {
     "NumeroOS": "4874760",
     "Equipamento": "20010048",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:49",
-    "HoraFim": "",
+    "HoraFim": "15:50:34",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874760",
@@ -118215,16 +118215,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:19.017004Z"
   },
   {
     "NumeroOS": "4874761",
     "Equipamento": "20040841",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:50",
-    "HoraFim": "",
+    "HoraFim": "16:00:25",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874761",
@@ -118232,16 +118232,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:20.326107Z"
   },
   {
     "NumeroOS": "4874762",
     "Equipamento": "20040844",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:50",
-    "HoraFim": "",
+    "HoraFim": "16:00:25",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874762",
@@ -118249,16 +118249,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:21.696650Z"
   },
   {
     "NumeroOS": "4874764",
     "Equipamento": "20011130",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:51",
-    "HoraFim": "",
+    "HoraFim": "16:00:25",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874764",
@@ -118266,16 +118266,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:22.975835Z"
   },
   {
     "NumeroOS": "4874765",
     "Equipamento": "20010067",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:52",
-    "HoraFim": "",
+    "HoraFim": "16:00:25",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874765",
@@ -118283,16 +118283,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:24.330056Z"
   },
   {
     "NumeroOS": "4874768",
     "Equipamento": "20011102",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:53",
-    "HoraFim": "",
+    "HoraFim": "16:00:25",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874768",
@@ -118300,16 +118300,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:25.672229Z"
   },
   {
     "NumeroOS": "4874772",
     "Equipamento": "20010138",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "14:56",
-    "HoraFim": "",
+    "HoraFim": "16:00:25",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874772",
@@ -118317,16 +118317,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:26.971458Z"
   },
   {
     "NumeroOS": "4874773",
     "Equipamento": "20010118",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "15:01",
-    "HoraFim": "",
+    "HoraFim": "16:00:25",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874773",
@@ -118334,16 +118334,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:28.206495Z"
   },
   {
     "NumeroOS": "4874774",
     "Equipamento": "20011109",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "15:02",
-    "HoraFim": "",
+    "HoraFim": "16:00:25",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874774",
@@ -118351,16 +118351,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:29.424636Z"
   },
   {
     "NumeroOS": "4874775",
     "Equipamento": "20010060",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "15:02",
-    "HoraFim": "",
+    "HoraFim": "16:00:25",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874775",
@@ -118368,16 +118368,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:30.733625Z"
   },
   {
     "NumeroOS": "4874776",
     "Equipamento": "20011101",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "15:03",
-    "HoraFim": "",
+    "HoraFim": "16:00:25",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874776",
@@ -118385,16 +118385,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:32.057207Z"
   },
   {
     "NumeroOS": "4874777",
     "Equipamento": "20040840",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "15:03",
-    "HoraFim": "",
+    "HoraFim": "16:00:25",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874777",
@@ -118402,16 +118402,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:33.410686Z"
   },
   {
     "NumeroOS": "4874778",
     "Equipamento": "20022284",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "15:04",
-    "HoraFim": "",
+    "HoraFim": "16:00:25",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874778",
@@ -118419,16 +118419,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:34.763706Z"
   },
   {
     "NumeroOS": "4874779",
     "Equipamento": "20020903",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "15:04",
-    "HoraFim": "",
+    "HoraFim": "16:00:25",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874779",
@@ -118436,16 +118436,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:36.056029Z"
   },
   {
     "NumeroOS": "4874780",
     "Equipamento": "20010064",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "15:05",
-    "HoraFim": "",
+    "HoraFim": "16:00:25",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874780",
@@ -118453,16 +118453,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:37.380028Z"
   },
   {
     "NumeroOS": "4874781",
     "Equipamento": "20010177",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "15:06",
-    "HoraFim": "",
+    "HoraFim": "16:00:25",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874781",
@@ -118470,16 +118470,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:38.750591Z"
   },
   {
     "NumeroOS": "4874782",
     "Equipamento": "20010182",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "15:06",
-    "HoraFim": "",
+    "HoraFim": "16:00:25",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874782",
@@ -118487,16 +118487,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:40.072699Z"
   },
   {
     "NumeroOS": "4874784",
     "Equipamento": "20011124",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "15:07",
-    "HoraFim": "",
+    "HoraFim": "16:00:25",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874784",
@@ -118504,16 +118504,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:41.426815Z"
   },
   {
     "NumeroOS": "4874785",
     "Equipamento": "20011196",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "15:07",
-    "HoraFim": "",
+    "HoraFim": "16:00:25",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874785",
@@ -118521,16 +118521,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:42.860841Z"
   },
   {
     "NumeroOS": "4874786",
     "Equipamento": "20010101",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "15:08",
-    "HoraFim": "",
+    "HoraFim": "16:15:35",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874786",
@@ -118538,16 +118538,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:44.167503Z"
   },
   {
     "NumeroOS": "4874787",
     "Equipamento": "20010120",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "15:08",
-    "HoraFim": "",
+    "HoraFim": "16:15:35",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874787",
@@ -118555,16 +118555,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:45.443291Z"
   },
   {
     "NumeroOS": "4874788",
     "Equipamento": "20010156",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "15:09",
-    "HoraFim": "",
+    "HoraFim": "16:15:35",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874788",
@@ -118572,16 +118572,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:46.752823Z"
   },
   {
     "NumeroOS": "4874789",
     "Equipamento": "20010190",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "15:09",
-    "HoraFim": "",
+    "HoraFim": "16:15:35",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874789",
@@ -118589,16 +118589,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:48.044712Z"
   },
   {
     "NumeroOS": "4874790",
     "Equipamento": "20010193",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "15:10",
-    "HoraFim": "",
+    "HoraFim": "16:15:35",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874790",
@@ -118606,16 +118606,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:49.383477Z"
   },
   {
     "NumeroOS": "4874791",
     "Equipamento": "20010117",
     "Descricao": "LUBRIFICAÇÃO (GRAXA)",
     "DataAbertura": "2025-11-05",
-    "DataFechamento": "",
+    "DataFechamento": "05.11.2025",
     "HoraInicio": "15:10",
-    "HoraFim": "",
+    "HoraFim": "16:15:35",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4874791",
@@ -118623,16 +118623,16 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "LUBRIFICAÇÃO (GRAXA)",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:50.817442Z"
   },
   {
     "NumeroOS": "4875575",
     "Equipamento": "20020256",
     "Descricao": "REMONTAR ÓLEO HID E LUB.",
     "DataAbertura": "2025-11-07",
-    "DataFechamento": "",
+    "DataFechamento": "07.11.2025",
     "HoraInicio": "16:26",
-    "HoraFim": "",
+    "HoraFim": "16:50:23",
     "Status": "",
     "Prioridade": "",
     "CentroDeCusto": "4875575",
@@ -118640,7 +118640,7 @@
     "Categoria": "ZF03",
     "CustoTotal": 0,
     "Observacoes": "REMONTAR ÓLEO HID E LUB.",
-    "importedAt": "2025-11-11T18:58:36.626Z"
+    "importedAt": "2025-11-14T11:45:52.140041Z"
   },
   {
     "NumeroOS": "4875757",

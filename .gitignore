@@ -7,6 +7,8 @@ mta_archives
 mta-*
 resources
 localserver.bat
+*.local.bat
+*.dev.bat
 archive.zip
 .*_mta_build_tmp
 webapp/manifest.json
