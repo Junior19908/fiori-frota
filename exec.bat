@@ -6,7 +6,7 @@ REM Vai para a pasta do script (raiz do projeto)
 cd /d "%~dp0"
 
 echo ==========================================
-echo [1/4] Atualizando repositório...
+echo [1/3] Atualizando repositório...
 echo ==========================================
 where git >nul 2>&1 || (
   echo [ERRO] Git nao encontrado no PATH.
@@ -48,44 +48,7 @@ if errorlevel 1 (
 )
 
 REM ==========================================
-REM [2/4] Detectar e enviar alteracoes locais
-REM ==========================================
-set "CHANGES="
-
-for /f "delims=" %%i in ('git status --porcelain') do set "CHANGES=1"
-
-if defined CHANGES (
-  echo.
-  echo ==========================================
-  echo  Detectadas alteracoes locais!
-  echo  Enviando para o repositorio remoto...
-  echo ==========================================
-
-  REM Respeita o .gitignore (veiculos.json e afins permanecem locais)
-  git add .
-
-  REM Evita commit vazio (se add nao marcou nada, commit falha e tratamos abaixo)
-  set "COMMIT_MSG=Atualizacao automatica: sincronizacao local"
-  git commit -m "%COMMIT_MSG%"
-  if errorlevel 1 (
-    echo [INFO] Nenhuma alteracao rastreada para commitar.
-  ) else (
-    echo [OK] Commit criado: "%COMMIT_MSG%"
-    echo Fazendo git push...
-    git push
-    if errorlevel 1 (
-      echo [ERRO] Falha ao enviar para o remoto (git push).
-    ) else (
-      echo [OK] Alteracoes enviadas ao repositorio remoto.
-    )
-  )
-) else (
-  echo.
-  echo Nenhuma alteracao local detectada.
-)
-
-REM ==========================================
-REM [3/4] Instalar dependencias se necessario
+REM [2/3] Instalar dependencias se necessario
 REM ==========================================
 set NEED_INSTALL=0
 if not exist "node_modules\" set NEED_INSTALL=1
@@ -103,7 +66,7 @@ if "%NEED_INSTALL%"=="1" (
 )
 
 REM ==========================================
-REM [4/4] Iniciar aplicacao
+REM [3/3] Iniciar aplicacao
 REM ==========================================
 echo.
 echo ==========================================
